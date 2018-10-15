@@ -1,4 +1,4 @@
-package main.Controller.MemberController;
+package hi.im.jenga.Board.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
