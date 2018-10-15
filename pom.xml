@@ -85,6 +85,20 @@
     <version>11.2.0.3</version>
   </dependency>
 
+    <!-- MongoDB -->
+    <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-mongodb</artifactId>
+      <version>2.0.10.RELEASE</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver -->
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongodb-driver</artifactId>
+      <version>3.8.1</version>
+    </dependency>
 
   <dependency>
     <groupId>org.bgee.log4jdbc-log4j2</groupId>

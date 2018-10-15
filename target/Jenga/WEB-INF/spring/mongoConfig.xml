@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd">
+
+
+
+	<mongo:mongo-client id="admin" host="127.0.0.1" port="27017">
+
+		<mongo:client-options
+				connect-timeout="1000"
+				connections-per-host="8"
+				threads-allowed-to-block-for-connection-multiplier="4"
+				max-wait-time="1500"
+				socket-keep-alive="true"
+				socket-timeout="1500"
+
+		/>
+
+	</mongo:mongo-client>
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="admin"/>
+		<constructor-arg name="databaseName" value="local"/>
+	</bean>
+
+
+
+
+
+
+</beans>
