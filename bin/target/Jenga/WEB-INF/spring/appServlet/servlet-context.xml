@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- 스프링 초기버전에는 이렇게 컨트롤러 다 적고, DAO , Service다 일일이 적어서 인스턴스를 메모리에 올리는 작업을 함  지금은 밑 방법처럼 자동검색으로 함 -->
+	<!-- <beans:bean id="workController" class="good.boy.jun.controller.WorkController">
+	</beans:bean> -->
+
+	<!-- 스프링 빈을 태그로 등록하지 않고 자동으로 검색 (auto scan) -->
+	<!-- 스프링에서 관리하는 bean의 기본 디렉토리 -->
+	<context:component-scan base-package="main" />
+	
+	<!-- aop의 설정으로 Proxy 객체를 자동으로 생성 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+</beans:beans>

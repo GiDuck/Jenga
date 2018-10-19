@@ -61,12 +61,27 @@ public class MemberController {
     AES256Cipher aes256Cipher;
 
 
+
     @RequestMapping(value = "/")
     public String hi(){
 
-        return "home";
+        return "main/main";
     }
-    
+
+    @RequestMapping(value = "/join")
+    public String join(){
+
+        return "member/join";
+    }
+
+    @RequestMapping(value = "/setMemInfo")
+    public String setMemberInfoPage(){
+
+        return "member/setMemInfo";
+    }
+
+
+
     @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
     public String login(HttpSession session, Model model) {
       
