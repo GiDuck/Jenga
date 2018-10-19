@@ -1,52 +1,50 @@
 package hi.im.jenga.member.util.login;
 
-import java.io.IOException;
-import java.util.UUID;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
-
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.UUID;
 
 public class FacebookLoginUtil implements LoginUtil{
-    /* ÀÎÁõ */
+    /* ì¸ì¦ */
     @Value("#{data['facebook.client_id']}")
     private  String CLIENT_ID;
     @Value("#{data['facebook.client_secret']}")
     private  String CLIENT_SECRET;
     @Value("#{data['naver.redirect_uri']}")
     private  String REDIRECT_URI;
-    private final static String SESSION_STATE = "connected";
+    private final static String SESSION_STATE = "state_facebook";
     private final static String PROFILE_API_URL ="https://graph.facebook.com/v3.1/me?fields=id,email,name";
-    
-    public String getAuthorizationUrl(HttpSession session) {
-        /* ¼¼¼Ç À¯È¿¼º °ËÁõÀ» À§ÇÏ¿© ³­¼ö¸¦ »ı¼º */
-        String state = generateRandomString();
-        /* »ı¼ºÇÑ ³­¼ö °ªÀ» session¿¡ ÀúÀå */
-        setSession(session,state);        
 
-        /* Scribe¿¡¼­ Á¦°øÇÏ´Â ÀÎÁõ URL »ı¼º ±â´ÉÀ» ÀÌ¿ëÇÏ¿© ³×¾Æ·Î ÀÎÁõ URL »ı¼º */
-        OAuth20Service oauthService = new ServiceBuilder()                                                   
+    public String getAuthorizationUrl(HttpSession session) {
+        /* ì„¸ì…˜ ìœ íš¨ì„± ê²€ì¦ì„ ìœ„í•˜ì—¬ ë‚œìˆ˜ë¥¼ ìƒì„± */
+        String state = generateRandomString();
+        /* ìƒì„±í•œ ë‚œìˆ˜ ê°’ì„ sessionì— ì €ì¥ */
+        setSession(session,state);
+
+        /* Scribeì—ì„œ ì œê³µí•˜ëŠ” ì¸ì¦ URL ìƒì„± ê¸°ëŠ¥ì„ ì´ìš©í•˜ì—¬ ë„¤ì•„ë¡œ ì¸ì¦ URL ìƒì„± */
+        OAuth20Service oauthService = new ServiceBuilder()
                 .apiKey(CLIENT_ID)
                 .apiSecret(CLIENT_SECRET)
                 .callback(REDIRECT_URI)
                 .scope("public_profile")
-                .state(state) //¾Õ¼­ »ı¼ºÇÑ ³­¼ö°ªÀ» ÀÎÁõ URL»ı¼º½Ã »ç¿ëÇÔ
+                .state(state) //ì•ì„œ ìƒì„±í•œ ë‚œìˆ˜ê°’ì„ ì¸ì¦ URLìƒì„±ì‹œ ì‚¬ìš©í•¨
                 .build(FacebookLoginApi.instance());
 
         return oauthService.getAuthorizationUrl();
     }
-    
+
     public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException{
 
-        /* CallbackÀ¸·Î Àü´Ş¹ŞÀº ¼¼¼±°ËÁõ¿ë ³­¼ö°ª°ú ¼¼¼Ç¿¡ ÀúÀåµÇ¾îÀÖ´Â °ªÀÌ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎ */
+        /* Callbackìœ¼ë¡œ ì „ë‹¬ë°›ì€ ì„¸ì„ ê²€ì¦ìš© ë‚œìˆ˜ê°’ê³¼ ì„¸ì…˜ì— ì €ì¥ë˜ì–´ìˆëŠ” ê°’ì´ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸ */
         String sessionState = getSession(session);
         if(StringUtils.pathEquals(sessionState, state)){
 
@@ -58,42 +56,42 @@ public class FacebookLoginUtil implements LoginUtil{
                     .state(state)
                     .build(FacebookLoginApi.instance());
 
-            /* Scribe¿¡¼­ Á¦°øÇÏ´Â AccessToken È¹µæ ±â´ÉÀ¸·Î ³×¾Æ·Î Access TokenÀ» È¹µæ */
+            /* Scribeì—ì„œ ì œê³µí•˜ëŠ” AccessToken íšë“ ê¸°ëŠ¥ìœ¼ë¡œ ë„¤ì•„ë¡œ Access Tokenì„ íšë“ */
             OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
             System.out.println(accessToken);
             return accessToken;
         }
         return null;
     }
-    /* ¼¼¼Ç À¯È¿¼º °ËÁõÀ» À§ÇÑ ³­¼ö »ı¼º±â */
+    /* ì„¸ì…˜ ìœ íš¨ì„± ê²€ì¦ì„ ìœ„í•œ ë‚œìˆ˜ ìƒì„±ê¸° */
     public String generateRandomString() {
         return UUID.randomUUID().toString();
     }
 
-    /* http session¿¡ µ¥ÀÌÅÍ ÀúÀå */
+    /* http sessionì— ë°ì´í„° ì €ì¥ */
     private void setSession(HttpSession session,String state){
-        session.setAttribute(SESSION_STATE, state);     
+        session.setAttribute(SESSION_STATE, state);
     }
 
-    /* http session¿¡¼­ µ¥ÀÌÅÍ °¡Á®¿À±â */ 
+    /* http sessionì—ì„œ ë°ì´í„° ê°€ì ¸ì˜¤ê¸° */
     private String getSession(HttpSession session){
         return (String) session.getAttribute(SESSION_STATE);
     }
-    
-     //Access TokenÀ» ÀÌ¿ëÇÏ¿© ³×ÀÌ¹ö »ç¿ëÀÚ ÇÁ·ÎÇÊ API¸¦ È£Ãâ 
+
+    //Access Tokenì„ ì´ìš©í•˜ì—¬ ë„¤ì´ë²„ ì‚¬ìš©ì í”„ë¡œí•„ APIë¥¼ í˜¸ì¶œ
     public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException{
-System.out.println(REDIRECT_URI);
+        System.out.println(REDIRECT_URI);
         OAuth20Service oauthService =new ServiceBuilder()
                 .apiKey(CLIENT_ID)
                 .scope("public_profile")
                 .apiSecret(CLIENT_SECRET)
                 .callback(REDIRECT_URI).build(FacebookLoginApi.instance());
 
-            OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
+        OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
         oauthService.signRequest(oauthToken, request);
         Response response = request.send();
         return response.getBody();
     }
 
-  
+
 }

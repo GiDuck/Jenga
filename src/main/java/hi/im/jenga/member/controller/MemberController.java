@@ -1,19 +1,14 @@
 package hi.im.jenga.member.controller;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.servlet.http.HttpSession;
-
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import hi.im.jenga.member.util.cipher.AES256Cipher;
+import hi.im.jenga.member.util.cipher.SHA256Cipher;
+import hi.im.jenga.member.util.login.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,25 +16,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.github.scribejava.core.model.OAuth2AccessToken;
-
-import hi.im.jenga.member.util.cipher.AES256Cipher;
-import hi.im.jenga.member.util.cipher.SHA256Cipher;
-import hi.im.jenga.member.util.login.FacebookLoginUtil;
-import hi.im.jenga.member.util.login.GoogleLoginUtil;
-import hi.im.jenga.member.util.login.LoginUtil;
-import hi.im.jenga.member.util.login.NaverLoginUtil;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @Controller
 public class MemberController {
     
-    
+    public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     @Autowired
     private NaverLoginUtil naverLoginUtil;
     @Autowired
     private GoogleLoginUtil googleLoginUtil;
     @Autowired
     private FacebookLoginUtil facebookLoginUtil;
+    @Autowired
+    private KakaoLoginUtil kakaoLoginUtil;
+
   
     private String apiResult = null;
    
@@ -73,20 +72,19 @@ public class MemberController {
       
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
-        System.out.println("³×ÀÌ¹ö¼¼¼Ç"+session);
+        logger.info("session"+session);
         util = facebookLoginUtil;
         String FacebookAuthUrl = util.getAuthorizationUrl(session);
-        System.out.println("ÆäºÏ¼¼¼Ç"+session);
+
         util = googleLoginUtil;
         String GoogleAuthUrl = util.getAuthorizationUrl(session);
-        System.out.println("±¸±Û¼¼¼Ç"+session);
+
+        util = kakaoLoginUtil;
+        String KakaoAuthUrl = util.getAuthorizationUrl(session);
+        model.addAttribute("k", KakaoAuthUrl);
         model.addAttribute("n", naverAuthUrl);
         model.addAttribute("f",FacebookAuthUrl);
         model.addAttribute("g",GoogleAuthUrl);
-        System.out.println(naverAuthUrl);
-        System.out.println(FacebookAuthUrl);
-        System.out.println(GoogleAuthUrl);
-        
         return "login";
     }
     
@@ -96,7 +94,7 @@ public class MemberController {
         LoginUtil util = naverLoginUtil;
         oauthToken = util.getAccessToken(session, code, state);
         System.out.println(oauthToken);
-        //·Î±×ÀÎ »ç¿ëÀÚ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.
+        //ë¡œê·¸ì¸ ì‚¬ìš©ì ì •ë³´ë¥¼ ì½ì–´ì˜¨ë‹¤.
         apiResult = util.getUserProfile(oauthToken);
       
             model.addAttribute("result", apiResult);
@@ -106,6 +104,7 @@ public class MemberController {
             JSONObject json = (JSONObject) jsonParser.parse(apiResult);
             JSONObject json2 = (JSONObject) json.get("response");
             String email = (String) json2.get("email");
+
             System.out.println(json2);
             System.out.println(json2.get("email"));
             System.out.println(email);
@@ -116,14 +115,14 @@ public class MemberController {
     
   /*  @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
     public String login(HttpSession session, Model model) {
-         ³×ÀÌ¹ö¾ÆÀÌµğ·Î ÀÎÁõ URLÀ» »ı¼ºÇÏ±â À§ÇÏ¿© naverLoginBOÅ¬·¡½ºÀÇ getAuthorizationUrl¸Ş¼Òµå È£Ãâ 
+         ë„¤ì´ë²„ì•„ì´ë””ë¡œ ì¸ì¦ URLì„ ìƒì„±í•˜ê¸° ìœ„í•˜ì—¬ naverLoginBOí´ë˜ìŠ¤ì˜ getAuthorizationUrlë©”ì†Œë“œ í˜¸ì¶œ 
         String naverAuthUrl = naverLoginUtil.getAuthorizationUrl(session);
-        System.out.println("³×ÀÌ¹ö:" + naverAuthUrl);
+        System.out.println("ë„¤ì´ë²„:" + naverAuthUrl);
         
-        //³×ÀÌ¹ö 
+        //ë„¤ì´ë²„ 
         model.addAttribute("url", naverAuthUrl);
 
-         »ı¼ºÇÑ ÀÎÁõ URLÀ» View·Î Àü´Ş 
+         ìƒì„±í•œ ì¸ì¦ URLì„ Viewë¡œ ì „ë‹¬ 
         return "login";
     }
     
@@ -131,7 +130,7 @@ public class MemberController {
     public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException{
         OAuth2AccessToken oauthToken;
         oauthToken = naverLoginUtil.getAccessToken(session, code, state);
-        //·Î±×ÀÎ »ç¿ëÀÚ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.
+        //ë¡œê·¸ì¸ ì‚¬ìš©ì ì •ë³´ë¥¼ ì½ì–´ì˜¨ë‹¤.
         apiResult = naverLoginUtil.getUserProfile(oauthToken);
         System.out.println(naverLoginUtil.getUserProfile(oauthToken).toString());
         model.addAttribute("result", apiResult);
@@ -142,14 +141,14 @@ public class MemberController {
     
     @RequestMapping(value = "/googlelogin",  method = { RequestMethod.GET, RequestMethod.POST })
     public String googlelogin(HttpSession session, Model model) {
-         ³×ÀÌ¹ö¾ÆÀÌµğ·Î ÀÎÁõ URLÀ» »ı¼ºÇÏ±â À§ÇÏ¿© naverLoginBOÅ¬·¡½ºÀÇ getAuthorizationUrl¸Ş¼Òµå È£Ãâ 
+         ë„¤ì´ë²„ì•„ì´ë””ë¡œ ì¸ì¦ URLì„ ìƒì„±í•˜ê¸° ìœ„í•˜ì—¬ naverLoginBOí´ë˜ìŠ¤ì˜ getAuthorizationUrlë©”ì†Œë“œ í˜¸ì¶œ 
         String googleAuthUrl = googleLoginUtil.getAuthorizationUrl(session);
-        System.out.println("±¸±Û:" + googleAuthUrl);
+        System.out.println("êµ¬ê¸€:" + googleAuthUrl);
         
-        //³×ÀÌ¹ö 
+        //ë„¤ì´ë²„ 
         model.addAttribute("url", googleAuthUrl);
 
-         »ı¼ºÇÑ ÀÎÁõ URLÀ» View·Î Àü´Ş 
+         ìƒì„±í•œ ì¸ì¦ URLì„ Viewë¡œ ì „ë‹¬ 
       
         return "googlelogin";
     }
@@ -157,12 +156,12 @@ public class MemberController {
     
     @RequestMapping(value = "/googlecallback",  method = { RequestMethod.GET, RequestMethod.POST }) 
     public String googlecallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException{
-        System.out.println("±¸±ÛÄİ¹é");
+        System.out.println("êµ¬ê¸€ì½œë°±");
         OAuth2AccessToken oauthToken;
         oauthToken = googleLoginUtil.getAccessToken(session, code, state);
-        System.out.println("ÅäÅ«¹Ş");
+        System.out.println("í† í°ë°›");
         apiResult = googleLoginUtil.getUserProfile(oauthToken);
-        System.out.println("°á°ú¹Ş");
+        System.out.println("ê²°ê³¼ë°›");
         System.out.println(googleLoginUtil.getUserProfile(oauthToken).toString());
         model.addAttribute("result", apiResult);
         System.out.println("result"+apiResult);
@@ -172,26 +171,26 @@ public class MemberController {
     
     @RequestMapping(value = "/facebooklogin",  method = { RequestMethod.GET, RequestMethod.POST })
     public String facebooklogin(HttpSession session, Model model) {
-         ³×ÀÌ¹ö¾ÆÀÌµğ·Î ÀÎÁõ URLÀ» »ı¼ºÇÏ±â À§ÇÏ¿© naverLoginBOÅ¬·¡½ºÀÇ getAuthorizationUrl¸Ş¼Òµå È£Ãâ 
+         ë„¤ì´ë²„ì•„ì´ë””ë¡œ ì¸ì¦ URLì„ ìƒì„±í•˜ê¸° ìœ„í•˜ì—¬ naverLoginBOí´ë˜ìŠ¤ì˜ getAuthorizationUrlë©”ì†Œë“œ í˜¸ì¶œ 
         String facebookAuthUrl = facebookLoginUtil.getAuthorizationUrl(session);
-        System.out.println("ÆäÀÌ½ººÏ:" + facebookAuthUrl);
+        System.out.println("í˜ì´ìŠ¤ë¶:" + facebookAuthUrl);
         
-        //³×ÀÌ¹ö 
+        //ë„¤ì´ë²„ 
         model.addAttribute("url", facebookAuthUrl);
 
-         »ı¼ºÇÑ ÀÎÁõ URLÀ» View·Î Àü´Ş 
+         ìƒì„±í•œ ì¸ì¦ URLì„ Viewë¡œ ì „ë‹¬ 
       
         return "facebooklogin";
     }
     
     @RequestMapping(value = "/facebookcallback",  method = { RequestMethod.GET, RequestMethod.POST }) 
     public String facebookcallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException{
-        System.out.println("ÆäºÏÄİ¹é");
+        System.out.println("í˜ë¶ì½œë°±");
         OAuth2AccessToken oauthToken;
         oauthToken = facebookLoginUtil.getAccessToken(session, code, state);
-        System.out.println("ÅäÅ«¹Ş");
+        System.out.println("í† í°ë°›");
         apiResult = facebookLoginUtil.getUserProfile(oauthToken);
-        System.out.println("°á°ú¹Ş");
+        System.out.println("ê²°ê³¼ë°›");
         System.out.println(facebookLoginUtil.getUserProfile(oauthToken).toString());
         model.addAttribute("result", apiResult);
         System.out.println("result"+apiResult);
