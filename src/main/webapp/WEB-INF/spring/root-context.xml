@@ -5,11 +5,15 @@
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+		
+		<util:properties id="data" location="file:D:\/data/tests.properties" />
 
 	<!-- DataSource는 JDBC의 커넥션을 처리하는 기능을 가지고 있기 때문에 데이터베이스와 연동 작업에 반드시 필요하다. -->
 	<!-- oracle -->
@@ -36,4 +40,6 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	<!-- mybatis mapper interface bean을 자동으로 검색 -->
+	
 </beans>
+
