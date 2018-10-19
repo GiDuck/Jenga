@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<!-- typeAliases 밑에 선언하니까 configuration에 빨간줄떠서 올리니까 빨간줄없어짐 -->
+<!-- <catcheEnabled>   
+	default값은 true이다. 위와 같이 false 설정을 하면 모든 mapper xml의 cache 선언이 무효화가 됨 -->
+
+	<!-- 오라클 NULL 값 처리 -->
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	
+  <typeAliases>
+    <package name="main"/>
+  </typeAliases>
+
+
+</configuration>
+

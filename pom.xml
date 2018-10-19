@@ -18,6 +18,7 @@
         <org.springframework-version>4.3.18.RELEASE</org.springframework-version>
         <org.aspectj-version>1.8.10</org.aspectj-version>
         <org.slf4j-version>1.7.25</org.slf4j-version>
+        <org.apache.tiles-version>3.0.8</org.apache.tiles-version>
     </properties>
     <repositories>
         <repository>
@@ -252,6 +253,20 @@
             <groupId>org.springframework</groupId>
             <artifactId>springloaded</artifactId>
             <version>1.2.8.RELEASE</version>
+        </dependency>
+
+        <!-- Tiles 관련 설정 -->
+        <!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-core -->
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-core</artifactId>
+            <version>${org.apache.tiles-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-jsp</artifactId>
+            <version>${org.apache.tiles-version}</version>
         </dependency>
 
     </dependencies>

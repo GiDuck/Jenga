@@ -6,28 +6,464 @@
     </artifacts-to-build>
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" line="72" mnemonic="9" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" line="87" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a027c18-0239-4724-a851-f239f8600247" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.settings/org.eclipse.m2e.core.prefs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/.project" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/.settings/org.eclipse.core.resources.prefs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/.settings/org.eclipse.m2e.core.prefs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/java/hi/im/jenga/Board/Controller/MemberController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/resources/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/resources/mappers/yujun/yujunMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/resources/mybatis-config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/views/error/error400.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/views/error/error403.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/views/error/error404.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/views/error/error500.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/views/home.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/classes/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/classes/mappers/yujun/yujunMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/classes/mybatis-config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/aspectjrt-1.8.10.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/aspectjweaver-1.8.10.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/jackson-core-asl-1.9.13.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/jackson-mapper-asl-1.9.13.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/javax.inject-1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/jcl-over-slf4j-1.7.25.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/jstl-1.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/log4j-1.2.17.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/log4jdbc-log4j2-jdbc4-1.16.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/logback-classic-1.2.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/logback-core-1.2.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/mybatis-3.2.8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/mybatis-spring-1.2.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/ojdbc6-11.2.0.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/slf4j-api-1.7.25.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-aop-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-beans-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-context-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-core-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-expression-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-jdbc-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-test-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-tx-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-web-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/lib/spring-webmvc-4.3.18.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/spring/root-context.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/views/error/error400.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/views/error/error403.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/views/error/error404.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/views/error/error500.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/views/home.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/Jenga/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/classes/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/classes/mappers/yujun/yujunMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/classes/mybatis-config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/footer.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/header.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssFiles.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/jsFiles.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/tiles.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/join.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/modal.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/setMemInfo.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/css/bootstrap.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/css/paper-kit.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/css/paper-kit.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/css/paper-kit.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/demo/demo.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/demo/vertical-nav.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/fonts/nucleo-icons.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/fonts/nucleo-icons.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/fonts/nucleo-icons.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/fonts/nucleo-icons.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/apple-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/balmain-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/balmain-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/balmain-3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/banks.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/bg_wall.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/billboard.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/bling.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/boots.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/built_on_glass.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/chet_faker_1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/chet_faker_2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/cover.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/creative-tim-white-slim2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/basic_elements.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/cards.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/harvard.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/info_areas.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/javascript.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/microsoft.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/notif.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/page_areas.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/stanford.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/demo/vodafone.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/drake.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_8.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_campaign_1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_campaign_2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_campaign_3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ecommerce/balmain_runway.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/ayo-ogunseinde-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/ayo-ogunseinde-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/clem-onojeghuo-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/clem-onojeghuo-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/clem-onojeghuo-3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/clem-onojeghuo-4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/erik-lucatero-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/erik-lucatero-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/joe-gardner-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/joe-gardner-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/kaci-baum-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/faces/kaci-baum-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/farid-askerov.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/favicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/flume.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/bottega.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/bracelet.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/gucci-sun.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/outfit-burberry.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/outfit-gucci.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/outfit-maison-margiela.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/outfit-paul-smith.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/outfit-saint-laurent.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/paul-smith.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/persol.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/gallery/ressence.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/guy-2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/image_placeholder.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/jacket-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/jacket-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/jacket-3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/jacket-4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/khaled.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/khaled_tweet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/korea/display_xml/display1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/korea/display_xml/display2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/korea/display_xml/dp2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/korea/knock.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/korea/mask.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/korea/mask_white.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/korea/snow_korea.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/mask.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/new_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/photo_swipe/default-skin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/photo_swipe/default-skin.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/photo_swipe/preloader.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/placeholder.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/MacBook-components.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/coloured-card-with-btn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/coloured-card.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/contact-us.PNGg.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/404.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/404.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/422.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/422.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/500.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/500.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/about-us.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/add-product.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/blog-post.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/blog-posts.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/contact-us.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/discover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/ecommerce.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/landing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/login-page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/more-brown.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/more.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/product.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/register.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/search.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/settings.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/examples/twitter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/f_1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/features-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/features-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/info-areas.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/ipad-content-2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/ipad-content.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/ipad-left-img.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/ipad-photo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/ipad-right-img.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/laptop-basic-components.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/laptop-basic.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/laptop-components.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/little-blog-card.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/navbar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/page-areas.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/pin-btn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/responsive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/bg-pricing-card.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/blog-bg-cards.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/blogpost-2-cards.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/blogpost-cards.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/coloured-picind-card.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/header-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/header-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/header-3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/header-4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/our-products.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/projects-cards.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/team-3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/team-cards-social.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/team-member-card.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/testimonials-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/screenshots/white-pricing-card.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/share-btn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/social-row.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/t_3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/table.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/team-card.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/blog-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/blog-card.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/capture.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/card-bg-pricing.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/facebook-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/fb-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/pricing-card-icon.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/pricing-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/pricing-card.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/purple-card.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/social-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/team-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/testimonal-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/testimonial-coloured-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/presentation-page/try/twitter-card.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/ricky_ross.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/rihanna.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/rihanna_cover.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/rihanna_tweet.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/ana-bernardo.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/anders-jilden.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/angelo-pantazis.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/ben-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/bruno-abatti.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/chris-karidisz.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/clark-street-mercantile.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/damir-bosnjak.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/daniel-olahh.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/daniel-olahs.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/david-marcu.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/fabio-mangione.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/federico-beccari.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/fog-low.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/forest-bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/galen-crout.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/gerrit-vermeulen.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/gukhwa-jang.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/gukhwa-jangs.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/ilya-yakover.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/ipad.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/iphone.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/jan-sendereks.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/jeff-sheldon.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/jeremy-yap.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/john-towner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/joshua-earles.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/joshua-earlesz.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/joshua-earlez.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/joshua-stannard.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/leonard-cotte.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/luke-chesser.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/markus-spiske-187777.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/martin-knize.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/miguel-perales.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/mika-matin.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/neill-kumar.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/noah-rosenfield.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/opt_gsdk_new_thumbnail.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/opt_lbd_pro_new_thumbnail.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/opt_pk_thumbnail.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/patrick-tomasso.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/pavel-kosov.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/pedro-lastra.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/pk-pro-cover.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/por7o.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/rawpixel-com-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/rawpixel-com.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/rawpixel-comm.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/rawpixel-coms.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/rodrigo-ardilha.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/roger-keller.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/sebastien-gabrieles.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/soroush-karimi.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/stephanie-krist.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/takahiro-sakamoto.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/the-how-photographer.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/uriel-soberanes.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/val-vesa.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/vincent-versluis.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/zachary-staines.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/tables/agenda.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/tables/evernote.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/tables/stylus.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/tim_vector.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/video-placeholder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/core/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/core/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/core/popper.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/paper-kit.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/paper-kit.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/paper-kit.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/bootstrap-datetimepicker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/bootstrap-selectpicker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/bootstrap-switch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/bootstrap-tagsinput.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/jasny-bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/moment.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/nouislider.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/photo_swipe/init-gallery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/photo_swipe/photoswipe-ui-default.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/photo_swipe/photoswipe.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/presentation-page/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/plugins/presentation-page/rellax.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_alerts.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_animate.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_animated-buttons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_badges.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_bootstrap-switch.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_buttons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_cards.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_carousel.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_checkbox-radio.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_collapse.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_dropdown-extend.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_dropdown.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_examples.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_footers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_headers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_images.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_info-areas.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_inputs.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_media.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_misc-extended.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_misc.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_modal.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_navbar-extend.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_navbars.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_nucleo-icons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_nucleo-outline.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_pagination.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_preloaders.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_progress-bars.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_responsive.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_sections-extend.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_sections.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_sidebar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_sliders.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_social-buttons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_switch.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_tables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_tabs-navs.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_tags.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_tooltips-and-popovers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_typography.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-background.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-blog.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-contact.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-extend.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-fashion.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-form-horizontal.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-image.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-no-shadow.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-plain.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-pricing.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-product.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-profile.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-raised.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-register.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-signup.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/cards/_card-testimonials.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_alerts.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_buttons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_inputs.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_labels.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_navbars.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_popovers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_social-buttons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_tabs.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_tags.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_transparency.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/mixins/_vendor-prefixes.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-bootstrap-select.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-bootstrap-switch.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-datepicker.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-datetimepicker.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-fileupload.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-isometricGrids.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-nouislider.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-perfect-scrollbar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/_plugin-tagsinput.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/photo-swipe/_default-skin.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/photo-swipe/_gallery.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/photo-swipe/_main-settings.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/plugins/photo-swipe/_main.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/sections/_blogs.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/sections/_contact-us.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/sections/_features.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/sections/_headers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/sections/_pricing.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/sections/_projects.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/sections/_teams.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/scss/paper-kit/sections/_testimonials.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/video/fireworks.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/.classpath" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" afterPath="$PROJECT_DIR$/.project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/.jsdtscope" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/.jsdtscope" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.component" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.component" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.project.facet.core.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.project.facet.core.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.validation.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.wst.validation.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Jenga.iml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Jenga.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/Controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/Controller/MemberController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/FacebookLoginUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/FacebookLoginUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/GoogleLoginUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/GoogleLoginUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/NaverLoginUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/NaverLoginUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config/tests.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config/tests.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/controller/MemberController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/FacebookLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/FacebookLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/GoogleLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/GoogleLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/NaverLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/NaverLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/controller/MemberController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/FacebookLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/FacebookLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/GoogleLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/GoogleLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/NaverLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/NaverLoginUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/Board/Controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/Board/Controller/MemberController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -115,36 +551,39 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="429" />
+          <entry key="java" value="436" />
           <entry key="jsp" value="7" />
           <entry key="properties" value="52" />
-          <entry key="xml" value="28" />
+          <entry key="xml" value="46" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="429" />
+          <entry key="JAVA" value="436" />
           <entry key="JSP" value="7" />
           <entry key="Properties" value="52" />
-          <entry key="XML" value="28" />
+          <entry key="XML" value="46" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="1" />
-          <entry key="java" value="16" />
-          <entry key="jsp" value="1" />
+          <entry key="classpath" value="1" />
+          <entry key="java" value="18" />
+          <entry key="jsp" value="5" />
+          <entry key="project" value="1" />
           <entry key="properties" value="2" />
-          <entry key="xml" value="4" />
+          <entry key="xml" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
-          <entry key="JAVA" value="16" />
-          <entry key="JSP" value="1" />
+          <entry key="Eclipse" value="2" />
+          <entry key="JAVA" value="18" />
+          <entry key="JSP" value="5" />
           <entry key="Properties" value="2" />
-          <entry key="XML" value="4" />
+          <entry key="XML" value="8" />
         </counts>
       </usages-collector>
     </session>
@@ -154,126 +593,71 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="40" column="90" lean-forward="true" selection-start-line="40" selection-start-column="90" selection-end-line="40" selection-end-column="90" />
+            <state relative-caret-position="555">
+              <caret line="37" column="24" lean-forward="true" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="415">
-              <caret line="86" column="46" selection-start-line="86" selection-start-column="46" selection-end-line="86" selection-end-column="46" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="100" lean-forward="true" selection-start-line="20" selection-start-column="100" selection-end-line="20" selection-end-column="100" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/GoogleLoginUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="24" column="61" selection-start-line="24" selection-start-column="61" selection-end-line="24" selection-end-column="61" />
-              <folding>
-                <element signature="e#2779#2780#0" expanded="true" />
-                <element signature="e#2830#2831#0" expanded="true" />
-                <element signature="e#2925#2926#0" expanded="true" />
-                <element signature="e#2988#2989#0" expanded="true" />
-                <element signature="e#3076#3077#0" expanded="true" />
-                <element signature="e#3143#3144#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/NaverLoginApi.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="47" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="47" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/tiles.xml">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/FacebookLoginUtil.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="47" lean-forward="true" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
+            <state relative-caret-position="191">
+              <caret line="85" column="59" lean-forward="true" selection-start-line="85" selection-start-column="59" selection-end-line="85" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2655#2656#0" expanded="true" />
-                <element signature="e#2706#2707#0" expanded="true" />
-                <element signature="e#2801#2802#0" expanded="true" />
-                <element signature="e#2859#2860#0" expanded="true" />
-                <element signature="e#2946#2947#0" expanded="true" />
-                <element signature="e#3013#3014#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/KakaoLoginApi.java">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="674">
+              <caret line="148" column="53" lean-forward="true" selection-start-line="148" selection-start-column="53" selection-end-line="148" selection-end-column="53" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/KakaoLoginUtil.java">
+        <entry file="file://$PROJECT_DIR$/.project">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2">
-              <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2706#2707#0" expanded="true" />
-                <element signature="e#2765#2766#0" expanded="true" />
-                <element signature="e#2868#2869#0" expanded="true" />
-                <element signature="e#2939#2940#0" expanded="true" />
-                <element signature="e#3035#3036#0" expanded="true" />
-                <element signature="e#3110#3111#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="548">
+              <caret line="48" column="21" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/config/tests.properties">
+        <entry file="file://$PROJECT_DIR$/.classpath">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="48" lean-forward="true" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
+            <state relative-caret-position="300">
+              <caret line="20" column="20" lean-forward="true" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/NaverLoginUtil.java">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/aesresult.jsp">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/aestest.jsp">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="23" column="64" selection-start-line="23" selection-start-column="64" selection-end-line="23" selection-end-column="64" />
-              <folding>
-                <element signature="e#2993#2994#0" expanded="true" />
-                <element signature="e#3052#3053#0" expanded="true" />
-                <element signature="e#3155#3156#0" expanded="true" />
-                <element signature="e#3226#3227#0" expanded="true" />
-                <element signature="e#3322#3323#0" expanded="true" />
-                <element signature="e#3397#3398#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="435">
+              <caret line="29" column="9" lean-forward="true" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -309,16 +693,18 @@
         <option value="$PROJECT_DIR$/src/main/java/main/Controller/MemberController/MemberController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" />
         <option value="$PROJECT_DIR$/src/main/resources/logback.xml" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/KakaoLoginApi.java" />
         <option value="$PROJECT_DIR$/src/main/resources/config/tests.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/KakaoLoginUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/GoogleLoginUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/NaverLoginUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/FacebookLoginUtil.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/.project" />
+        <option value="$PROJECT_DIR$/.classpath" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" />
       </list>
     </option>
   </component>
@@ -383,6 +769,11 @@
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
               <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -405,6 +796,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="jenga" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="board" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -474,6 +874,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -502,7 +910,36 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="tiles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="error" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -518,7 +955,7 @@
     <property name="SearchEverywhereHistoryKey" value="tomcat&#9;RUN_CONFIGURATION&#9;Tomcat8&#10;key&#9;ACTION&#9;ChangeKeymap&#10;keymap&#9;ACTION&#9;ChangeKeymap" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539938658184" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539943055528" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -641,7 +1078,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14639000" />
+    <option name="totallyTimeSpent" value="15629000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -656,7 +1093,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16577825" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16577825" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -666,7 +1103,7 @@
       <window_info id="UI Designer" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32790446" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32790446" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -675,7 +1112,7 @@
       <window_info anchor="bottom" id="Application Servers" order="8" weight="0.32790446" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.34744844" />
       <window_info anchor="bottom" id="Spring" order="10" weight="0.32899022" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32899022" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32899022" />
       <window_info anchor="bottom" id="CheckStyle" order="12" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
       <window_info anchor="bottom" id="Java Enterprise" order="14" weight="0.32899022" />
@@ -715,13 +1152,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/error/error400.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="16" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/error/error404.jsp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -787,13 +1217,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="131" column="52" lean-forward="true" selection-start-line="131" selection-start-column="52" selection-end-line="131" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/LoginUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -808,34 +1231,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="86" column="46" selection-start-line="86" selection-start-column="46" selection-end-line="86" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
-          <caret line="20" column="100" lean-forward="true" selection-start-line="20" selection-start-column="100" selection-end-line="20" selection-end-column="100" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="40" column="90" lean-forward="true" selection-start-line="40" selection-start-column="90" selection-end-line="40" selection-end-column="90" />
+          <caret line="20" column="100" selection-start-line="20" selection-start-column="100" selection-end-line="20" selection-end-column="100" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/config/tests.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="21" column="48" lean-forward="true" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
+          <caret line="21" column="48" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -850,22 +1256,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/KakaoLoginUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2">
-          <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2706#2707#0" expanded="true" />
-            <element signature="e#2765#2766#0" expanded="true" />
-            <element signature="e#2868#2869#0" expanded="true" />
-            <element signature="e#2939#2940#0" expanded="true" />
-            <element signature="e#3035#3036#0" expanded="true" />
-            <element signature="e#3110#3111#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -902,7 +1292,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/FacebookLoginUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
-          <caret line="19" column="47" lean-forward="true" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
+          <caret line="19" column="47" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2655#2656#0" expanded="true" />
@@ -911,6 +1301,104 @@
             <element signature="e#2859#2860#0" expanded="true" />
             <element signature="e#2946#2947#0" expanded="true" />
             <element signature="e#3013#3014#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/cipher/AES256Cipher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1478">
+          <caret line="72" column="62" lean-forward="true" selection-start-line="72" selection-start-column="62" selection-end-line="72" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="631">
+          <caret line="1000" column="39" lean-forward="true" selection-start-line="1000" selection-start-column="39" selection-end-line="1000" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/KakaoLoginUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2">
+          <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2706#2707#0" expanded="true" />
+            <element signature="e#2765#2766#0" expanded="true" />
+            <element signature="e#2868#2869#0" expanded="true" />
+            <element signature="e#2939#2940#0" expanded="true" />
+            <element signature="e#3035#3036#0" expanded="true" />
+            <element signature="e#3110#3111#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="674">
+          <caret line="148" column="53" lean-forward="true" selection-start-line="148" selection-start-column="53" selection-end-line="148" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.project">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="48" column="21" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/error/error400.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="16" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.classpath">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="20" lean-forward="true" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/aesresult.jsp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/aestest.jsp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="9" lean-forward="true" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/tiles.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="37" column="24" lean-forward="true" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/MemberController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="85" column="59" lean-forward="true" selection-start-line="85" selection-start-column="59" selection-end-line="85" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
