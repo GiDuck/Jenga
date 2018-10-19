@@ -3,6 +3,7 @@
   <component name="Encoding" native2AsciiForPropertiesFiles="true">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/cipher/AES256Cipher.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/FacebookLoginUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/GoogleLoginUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/NaverLoginUtil.java" charset="UTF-8" />

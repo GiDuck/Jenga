@@ -1,23 +1,17 @@
 package hi.im.jenga.member.util.cipher;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import  javax.annotation.PostConstruct;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.inject.Singleton;
-
+import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
+import javax.annotation.PostConstruct;
+import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import javax.inject.Singleton;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 
 @SuppressWarnings("restriction")
@@ -51,7 +45,7 @@ public class AES256Cipher {
     } 
     */
      
-     //µ∆˙∆Æª˝º∫¿⁄
+     //ÎîîÌè¥Ìä∏ÏÉùÏÑ±Ïûê
     public AES256Cipher() {
     }
     
@@ -60,7 +54,7 @@ public class AES256Cipher {
         IV = secretKey.substring(0,16);
     }
     
-    //æœ»£»≠
+    //ÏïîÌò∏Ìôî
     public  String AES_Encode(String str) throws java.io.UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException{
         byte[] keyData = secretKey.getBytes();
     
@@ -75,7 +69,7 @@ public class AES256Cipher {
     return enStr;
     }
     
-    //∫π»£»≠
+    //Î≥µÌò∏Ìôî
     public  String AES_Decode(String str) throws java.io.UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException{
      byte[] keyData = secretKey.getBytes();
      SecretKey secureKey = new SecretKeySpec(keyData, "AES");
