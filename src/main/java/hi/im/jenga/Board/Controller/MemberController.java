@@ -2,14 +2,28 @@ package hi.im.jenga.Board.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MemberController {
 
-    @RequestMapping(value = "")
+    @RequestMapping(value = "/")
     public String hi(){
 
-        return "home";
+        return "main/main";
     }
+    
+    @RequestMapping(value = "/join")
+    public String join(){
+
+        return "member/join";
+    }   
+    
+    @RequestMapping(value = "/setMemInfo")
+    public String setMemberInfoPage(){ 	
+    	
+        return "member/setMemInfo";
+    } 
+    
+    
+    
 }
