@@ -45,7 +45,7 @@ public class AES256Cipher {
     } 
     */
      
-     //����Ʈ������
+     //디폴트생성자
     public AES256Cipher() {
     }
     
@@ -54,7 +54,7 @@ public class AES256Cipher {
         IV = secretKey.substring(0,16);
     }
     
-    //��ȣȭ
+    //암호화
     public  String AES_Encode(String str) throws java.io.UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException{
         byte[] keyData = secretKey.getBytes();
     
@@ -69,7 +69,7 @@ public class AES256Cipher {
     return enStr;
     }
     
-    //��ȣȭ
+    //복호화
     public  String AES_Decode(String str) throws java.io.UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException{
      byte[] keyData = secretKey.getBytes();
      SecretKey secureKey = new SecretKeySpec(keyData, "AES");
