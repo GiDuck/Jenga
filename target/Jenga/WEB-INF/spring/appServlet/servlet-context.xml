@@ -28,6 +28,23 @@
 	<!-- <beans:bean id="workController" class="good.boy.jun.controller.WorkController">
 	</beans:bean> -->
 
+	<!-- naver -->
+	<beans:bean id="NaverLoginUtil" class="hi.im.jenga.member.util.login.NaverLoginUtil"/>
+
+    <!-- google -->
+	<beans:bean id="GoogleLoginUtil" class="hi.im.jenga.member.util.login.GoogleLoginUtil"/>
+	
+	<!-- facebook -->
+	<beans:bean id="FacebookLoginUtil" class="hi.im.jenga.member.util.login.FacebookLoginUtil"/>
+
+	<!-- kakao -->
+	<beans:bean id="KakaoLoginUtil" class="hi.im.jenga.member.util.login.KakaoLoginUtil"/>
+	
+	<!-- <beans:bean id="AES256Cipher" class="hi.im.jenga.member.util.AES256Cipher"/> -->
+	
+	
+	
+
 	<!-- 스프링 빈을 태그로 등록하지 않고 자동으로 검색 (auto scan) -->
 	<!-- 스프링에서 관리하는 bean의 기본 디렉토리 -->
 	<context:component-scan base-package="hi.im.jenga" />

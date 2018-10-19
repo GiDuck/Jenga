@@ -1,8 +1,12 @@
 package hi.im.jenga.member.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import hi.im.jenga.member.service.MongoService;
-import hi.im.jenga.util.KakaoLoginUtil;
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import hi.im.jenga.member.util.cipher.AES256Cipher;
+import hi.im.jenga.member.util.cipher.SHA256Cipher;
+import hi.im.jenga.member.util.login.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,73 +16,218 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @Controller
 public class MemberController {
-
-    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
+    
+    public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     @Autowired
-    private MongoService mongoService;
+    private NaverLoginUtil naverLoginUtil;
+    @Autowired
+    private GoogleLoginUtil googleLoginUtil;
+    @Autowired
+    private FacebookLoginUtil facebookLoginUtil;
     @Autowired
     private KakaoLoginUtil kakaoLoginUtil;
 
-    @RequestMapping(value = "")
+  
+    private String apiResult = null;
+   
+    
+  /*@Autowired
+    private void setNaverLoginUtil(NaverLoginUtil naverLoginUtil) {
+        this.naverLoginUtil = naverLoginUtil;
+    }
+    @Autowired
+    private void setGoogleLoginUtil(GoogleLoginUtil googleLoginUtil) {
+        this.googleLoginUtil = googleLoginUtil;
+    }
+    @Autowired
+    private void setFacebookLoginUtil(FacebookLoginUtil facebookLoginUtil) {
+        this.facebookLoginUtil = facebookLoginUtil;
+    }*/
+    
+    
+    @Autowired
+    AES256Cipher aes256Cipher;
+
+
+    @RequestMapping(value = "/")
     public String hi(){
-        //mongoService.getAnyway();
+
         return "home";
     }
+    
+    @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String login(HttpSession session, Model model) {
+      
+        LoginUtil util = naverLoginUtil;
+        String naverAuthUrl = util.getAuthorizationUrl(session);
+        logger.info("session"+session);
+        util = facebookLoginUtil;
+        String FacebookAuthUrl = util.getAuthorizationUrl(session);
 
-    @RequestMapping(value="login")
-    public String login(Model model){
+        util = googleLoginUtil;
+        String GoogleAuthUrl = util.getAuthorizationUrl(session);
 
-        String KAKAO_JS_KEY = kakaoLoginUtil.getKakaoJsKey();
-        String KAKAO_REST_KEY = kakaoLoginUtil.getKakaoRestKey();
-        model.addAttribute("KakaoJsKey",KAKAO_JS_KEY);
-        model.addAttribute("KakaoRestKey",KAKAO_REST_KEY);
+        util = kakaoLoginUtil;
+        String KakaoAuthUrl = util.getAuthorizationUrl(session);
+        model.addAttribute("k", KakaoAuthUrl);
+        model.addAttribute("n", naverAuthUrl);
+        model.addAttribute("f",FacebookAuthUrl);
+        model.addAttribute("g",GoogleAuthUrl);
         return "login";
     }
+    
+    @RequestMapping(value = "/callback",  method = { RequestMethod.GET, RequestMethod.POST }) 
+    public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+        OAuth2AccessToken oauthToken;
+        LoginUtil util = naverLoginUtil;
+        oauthToken = util.getAccessToken(session, code, state);
+        System.out.println(oauthToken);
+        //로그인 사용자 정보를 읽어온다.
+        apiResult = util.getUserProfile(oauthToken);
+      
+            model.addAttribute("result", apiResult);
+            
+            
+            JSONParser jsonParser = new JSONParser();
+            JSONObject json = (JSONObject) jsonParser.parse(apiResult);
+            JSONObject json2 = (JSONObject) json.get("response");
+            String email = (String) json2.get("email");
 
-    @RequestMapping(value ="oauth", produces = "application/json", method = {RequestMethod.GET, RequestMethod.POST})
-    public String oauth(@RequestParam("code") String code , HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
-        logger.info(": : : code는 "+code.toString());
-        logger.info(code.toString());
-
-        JsonNode token = KakaoLoginUtil.getAccessToken(code);
-
-        JsonNode profile = KakaoLoginUtil.getKakaoUserInfo(token.path("access_token").toString());
-        logger.info(": : : profile은 "+profile.toString());
-        logger.info(profile.toString());
-        //KakaoDTO dto = KakaoLogin.changeData(profile);
-        //dto.setUser_snsId("k"+dto.getUser_snsId());
-
-        System.out.println(session);
-        //session.setAttribute("login", dto);
-        //System.out.println(dto.toString());
-
-        //dto = service.kakaoLogin(dto);
-        return "login/kakaoLogin";
+            System.out.println(json2);
+            System.out.println(json2.get("email"));
+            System.out.println(email);
+  
+        return "callback";
     }
+    
+    
+  /*  @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String login(HttpSession session, Model model) {
+         네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 
+        String naverAuthUrl = naverLoginUtil.getAuthorizationUrl(session);
+        System.out.println("네이버:" + naverAuthUrl);
+        
+        //네이버 
+        model.addAttribute("url", naverAuthUrl);
 
+         생성한 인증 URL을 View로 전달 
+        return "login";
+    }
+    
+    @RequestMapping(value = "/callback",  method = { RequestMethod.GET, RequestMethod.POST }) 
+    public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException{
+        OAuth2AccessToken oauthToken;
+        oauthToken = naverLoginUtil.getAccessToken(session, code, state);
+        //로그인 사용자 정보를 읽어온다.
+        apiResult = naverLoginUtil.getUserProfile(oauthToken);
+        System.out.println(naverLoginUtil.getUserProfile(oauthToken).toString());
+        model.addAttribute("result", apiResult);
+        System.out.println("result"+apiResult);
 
-    /*@RequestMapping(value = "login/kakaologin" , produces = "application/json", method = {RequestMethod.GET, RequestMethod.POST})
-    public String kakaoLogin(@RequestParam("code") String code , HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+        return "callback";
+    }
+    
+    @RequestMapping(value = "/googlelogin",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String googlelogin(HttpSession session, Model model) {
+         네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 
+        String googleAuthUrl = googleLoginUtil.getAuthorizationUrl(session);
+        System.out.println("구글:" + googleAuthUrl);
+        
+        //네이버 
+        model.addAttribute("url", googleAuthUrl);
 
-        JsonNode token = KakaoLogin.getAccessToken(code);
+         생성한 인증 URL을 View로 전달 
+      
+        return "googlelogin";
+    }
+    
+    
+    @RequestMapping(value = "/googlecallback",  method = { RequestMethod.GET, RequestMethod.POST }) 
+    public String googlecallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException{
+        System.out.println("구글콜백");
+        OAuth2AccessToken oauthToken;
+        oauthToken = googleLoginUtil.getAccessToken(session, code, state);
+        System.out.println("토큰받");
+        apiResult = googleLoginUtil.getUserProfile(oauthToken);
+        System.out.println("결과받");
+        System.out.println(googleLoginUtil.getUserProfile(oauthToken).toString());
+        model.addAttribute("result", apiResult);
+        System.out.println("result"+apiResult);
 
-        JsonNode profile = KakaoLogin.getKakaoUserInfo(token.path("access_token").toString());
-        System.out.println(profile);
-        //KakaoDTO dto = KakaoLogin.changeData(profile);
-        //dto.setUser_snsId("k"+dto.getUser_snsId());
+        return "googlecallback";
+    }
+    
+    @RequestMapping(value = "/facebooklogin",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String facebooklogin(HttpSession session, Model model) {
+         네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 
+        String facebookAuthUrl = facebookLoginUtil.getAuthorizationUrl(session);
+        System.out.println("페이스북:" + facebookAuthUrl);
+        
+        //네이버 
+        model.addAttribute("url", facebookAuthUrl);
 
-        System.out.println(session);
-        //session.setAttribute("login", dto);
-        //System.out.println(dto.toString());
+         생성한 인증 URL을 View로 전달 
+      
+        return "facebooklogin";
+    }
+    
+    @RequestMapping(value = "/facebookcallback",  method = { RequestMethod.GET, RequestMethod.POST }) 
+    public String facebookcallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException{
+        System.out.println("페북콜백");
+        OAuth2AccessToken oauthToken;
+        oauthToken = facebookLoginUtil.getAccessToken(session, code, state);
+        System.out.println("토큰받");
+        apiResult = facebookLoginUtil.getUserProfile(oauthToken);
+        System.out.println("결과받");
+        System.out.println(facebookLoginUtil.getUserProfile(oauthToken).toString());
+        model.addAttribute("result", apiResult);
+        System.out.println("result"+apiResult);
 
-        //dto = service.kakaoLogin(dto);
-        return "login/kakaoLogin";
+        return "facebookcallback";
     }*/
+    
+    @RequestMapping(value = "/aestest")
+    public String aesteset(Model model) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+       
+        return "aestest";
+    }
+    
+    @RequestMapping(value = "/aesres")
+    public String aesres(Model model, String test) throws Exception {
+        
+        
+        
+        SHA256Cipher sha = SHA256Cipher.getInstance();
+        String shas = sha.getEncSHA256(test);
+        
+        String res=aes256Cipher.AES_Encode(test);
+        String deco = aes256Cipher.AES_Decode(res);
+        model.addAttribute("sha",shas);
+        model.addAttribute("res", res);
+        model.addAttribute("dec", deco);
+        return "aesresult";
+    }
+    
+    public String joinmember() {
+        
+        
+        
+        return "";
+    }
+    
+
+    
+   
 }
