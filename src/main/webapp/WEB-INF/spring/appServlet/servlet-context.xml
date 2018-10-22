@@ -42,6 +42,7 @@
 	</beans:bean>
 	
 	
+	
 	<!-- 스프링 초기버전에는 이렇게 컨트롤러 다 적고, DAO , Service다 일일이 적어서 인스턴스를 메모리에 올리는 작업을 함  지금은 밑 방법처럼 자동검색으로 함 -->
 	<!-- <beans:bean id="workController" class="good.boy.jun.controller.WorkController">
 	</beans:bean> -->

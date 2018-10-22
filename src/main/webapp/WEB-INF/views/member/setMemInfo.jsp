@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <jsp:include page="./c_components.jsp"/>
 
     
       <div class="wrapper">
@@ -32,50 +34,42 @@
           <div class="col-md-6 ml-auto mr-auto">
             <form class="settings-form">
               <div class="row">
-                <div class="col-12">
+                <div class="col-md-6 col-12">
                   <div class="form-group">
                     <label>NickName</label>
-                    <input type="text" class="form-control border-input" placeholder="낙네임 ">
+                    <input type="text" class="form-control border-input" placeholder="NickName">
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-12">
                   <div class="form-group">
-                    <label>Last Email</label>
-                    <input type="text" class="form-control border-input" placeholder="Last Name">
+                    <label>Email</label>
+                    <input type="email" class="form-control border-input" placeholder="Email">
                   </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label>Job Title</label>
-                <input type="text" class="form-control border-input" placeholder="Job Title">
-              </div>
-              <div class="form-group">
-                <label>Description</label>
-                <textarea class="form-control textarea-limited" placeholder="This is a textarea limited to 150 characters." rows="3" maxlength="150"></textarea>
-                <h5>
-                  <small>
-                    <span id="textarea-limited-message" class="pull-right">150 characters left</span>
-                  </small>
-                </h5>
-              </div>
-              <label>Notifications</label>
+           
+           	<div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의 취향을 선택해 주세요!</h3></div>
+           
+           
+	           <div id="selectFavorField" class="row text-center" style="margin : 0"></div>
+	              
+              <div class="col-12 mr-auto ml-auto" style="margin-top : 20px">
+              <label style="font-weight : bold">Notifications</label>
               <ul class="notifications">
                 <li class="notification-item">
-                  Updates regarding platform changes
+                  	푸쉬 알림을 통해서 나에게 맞는 정보를 받아볼래요?
                   <input type="checkbox" data-toggle="switch" checked="" data-on-color="info" data-off-color="info">
                   <span class="toggle"></span>
                 </li>
                 <li class="notification-item">
-                  Updates regarding product changes
+                   	팔로워가 새로운 글을 올리면 알려줄까요?
                   <input type="checkbox" data-toggle="switch" checked="" data-on-color="info" data-off-color="info">
                   <span class="toggle"></span>
                 </li>
-                <li class="notification-item">
-                  Weekly newsletter
-                  <input type="checkbox" data-toggle="switch" checked="" data-on-color="info" data-off-color="info">
-                  <span class="toggle"></span>
-                </li>
+               
               </ul>
+              
+              </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-wd btn-info btn-round">Save</button>
               </div>
@@ -88,12 +82,78 @@
   
   <script>
   
-  $(document).ready(_ => {
+  $(document).ready( _ => {
+	  setNavType("blue");
+	  initFavorForm();
 	  
 	  
 	  
   });
   
-  setNavType("blue");
+  
+  let initFavorForm = _ => {
+	  
+	  $.ajax({
+		  
+		  
+		  "type" : "get",
+		  "url" : "/getCategory",
+		  "data" : null,
+		  "success" : (response) => {
+			  
+			  let $selectFavorField =  $("#selectFavorField");
+			  let index;
+			  for(let i=0; i<response.length; ++i){
+
+				  index = response[i];
+
+				  console.log(response);
+				  let $cardItem = $("#cardItem").clone();
+				  $cardItem.css('display', 'block');
+				  $cardItem.find(".card").css("background-image", "url('"+ index.image +"')" );
+				  $cardItem.find("h3").html(index.name);
+				  
+				  $cardItem.on('click', (e) => {
+					 
+					  e.preventDefault();
+					  
+					  let opacity = $cardItem.find(".card").css('opacity');
+					  
+					  console.log('opacity ... ' + opacity);
+					  
+					  if(opacity == 1){
+						  
+					  $cardItem.find(".card").css('opacity', '0.2');
+
+					  }else{
+					  
+						  $cardItem.find(".card").css('opacity', '1');
+					  }
+
+					  
+				  });
+				  
+				  $selectFavorField.append($cardItem);
+				  
+				  
+			  }
+			  
+		  },
+		  
+		  "error" : function(xhs, request, error){
+			  
+			  
+				console.log("error code.. " + request.status + " message : " + request.responseText + "error : " + error );
+			  
+		  }
+		  
+		  
+	  });
+	  
+	  
+  }
+  
+  
+  
   
   </script>

@@ -36,4 +36,6 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	<!-- mybatis mapper interface bean을 자동으로 검색 -->
+	
+	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 </beans>

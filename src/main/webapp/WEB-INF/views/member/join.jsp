@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <jsp:include page="./modal.jsp"></jsp:include>    
+ <jsp:include page="./c_modal.jsp"></jsp:include>    
+ <jsp:include page="./c_buttons.jsp"></jsp:include>    
     
     
     <style>
@@ -57,20 +58,18 @@
                 <input type="email" class="form-control no-border" placeholder="Email" style="color : black;">
                 <label>Password</label>
                 <input type="password" class="form-control no-border" placeholder="Password" style="color : black;">
-                <button class="btn btn-danger btn-block btn-round">Register</button>
+                <button class="btn btn-danger btn-block btn-round">Login</button>
               </form>
               
-			<div class="col-12 text-center">
-			<div id="fbBtn" class="btn btn-just-icon btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i></div>
-			<div id="googleBtn" class="btn btn-just-icon btn-google"><i class="fa fa-google" aria-hidden="true"></i></div>
-			<div id="kakaoBtn" class="btn btn-just-icon btn-twitter"><i class="fa fa-twitter" aria-hidden="true"></i></div>
-			<div id="naverBtn" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></div>          
-            </div>
+			<div id="join_socialBtn" class="col-12 text-center"></div>
+			
             
               <div class="row text-center" style="margin-top:15px; padding : 12px;">
                 <div id="findPWBtn" class="col-12" style="margin-bottom : 10px;" data-toggle="modal" data-target="#findPwModal"><a href="#"><span class="findSomeText">비밀번호를 잃어버렸나요?</span></a></div>
                 <div id="recoverAuthBtn" class="col-12" data-toggle="modal" data-target="#recoverAuthModal"><a href="#"><span class="findSomeText">복구할 계정이 있나요?</span></a></div>             
               </div>
+              
+              
 
           </div>
           </div>
@@ -83,31 +82,43 @@
 
 $(document).ready( _ => {
 	
-	$("#fbBtn").on('click', _ => {
+	let $btn_comp = $("#btn_components").clone();
+
+	$("#join_socialBtn").html($btn_comp.css({ 'display' : 'inline'}));
+	
+
+	
+	$btn_comp.find("#emailBtn").on('click', _ => {
+		
+		$("#joinEmailModal").modal('show');
+	
+	});
+	
+	
+	$btn_comp.find("#fbBtn").on('click', _ => {
 		
 		alert('fbBtn!');
 	
 	});
 	
-	$("#googleBtn").on('click', _ => {
+	$btn_comp.find("#googleBtn").on('click', _ => {
 		alert('google!');
 
 	
 	});
 	
-	$("#kakaoBtn").on('click', _ => {
+	$btn_comp.find("#kakaoBtn").on('click', _ => {
 		alert('kakao!');
 
 	
 	});
 	
-	$("#naverBtn").on('click', _ => {
+	$btn_comp.find("#naverBtn").on('click', _ => {
 		alert('naver!');
 
 	
 	});
 	
-
 
 
 	
