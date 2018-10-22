@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-    
+
       <div class="wrapper">
-   
+
     <div class="profile-content section">
       <div class="container">
         <div class="row">
@@ -25,9 +25,9 @@
             </div>
           </div>
         </div>
-        
+
         <br> <br>
-        
+
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
             <form class="settings-form">
@@ -85,15 +85,15 @@
       </div>
     </div>
   </div>
-  
+
   <script>
-  
+
   $(document).ready(_ => {
-	  
-	  
-	  
+
+
+
   });
-  
+
   setNavType("blue");
-  
+
   </script>

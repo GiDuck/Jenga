@@ -1,6 +1,8 @@
 package hi.im.jenga.member.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import hi.im.jenga.member.dto.MemberDTO;
+import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import hi.im.jenga.member.util.login.*;
@@ -38,24 +40,14 @@ public class MemberController {
     private FacebookLoginUtil facebookLoginUtil;
     @Autowired
     private KakaoLoginUtil kakaoLoginUtil;
+    @Autowired
+    private MemberService memberService;
+
 
   
     private String apiResult = null;
    
-    
-  /*@Autowired
-    private void setNaverLoginUtil(NaverLoginUtil naverLoginUtil) {
-        this.naverLoginUtil = naverLoginUtil;
-    }
-    @Autowired
-    private void setGoogleLoginUtil(GoogleLoginUtil googleLoginUtil) {
-        this.googleLoginUtil = googleLoginUtil;
-    }
-    @Autowired
-    private void setFacebookLoginUtil(FacebookLoginUtil facebookLoginUtil) {
-        this.facebookLoginUtil = facebookLoginUtil;
-    }*/
-    
+
     
     @Autowired
     AES256Cipher aes256Cipher;
@@ -74,8 +66,17 @@ public class MemberController {
         return "member/join";
     }
 
-    @RequestMapping(value = "/setMemInfo")
-    public String setMemberInfoPage(){
+    // 임시 추가정보 페이지 (GET)
+    @RequestMapping(value = "/addInfo", method = RequestMethod.GET)
+    public String addMemberInfoGET(Model model){
+
+        return "member/setMemInfo";
+    }
+
+    // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
+    @RequestMapping(value = "/addInfo", method = RequestMethod.POST)
+    public String addMemberInfoPOST(Model model, MemberDTO memberDTO){
+        //memberService.addMemberInfo(memberDTO);
 
         return "member/setMemInfo";
     }
@@ -96,6 +97,7 @@ public class MemberController {
 
         util = kakaoLoginUtil;
         String KakaoAuthUrl = util.getAuthorizationUrl(session);
+
         model.addAttribute("k", KakaoAuthUrl);
         model.addAttribute("n", naverAuthUrl);
         model.addAttribute("f",FacebookAuthUrl);

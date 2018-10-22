@@ -45,28 +45,6 @@
 		</beans:property>
 	</beans:bean>
 	
-	
-	<!-- 스프링 초기버전에는 이렇게 컨트롤러 다 적고, DAO , Service다 일일이 적어서 인스턴스를 메모리에 올리는 작업을 함  지금은 밑 방법처럼 자동검색으로 함 -->
-	<!-- <beans:bean id="workController" class="good.boy.jun.controller.WorkController">
-	</beans:bean> -->
-
-	<!-- naver -->
-	<beans:bean id="NaverLoginUtil" class="hi.im.jenga.member.util.login.NaverLoginUtil"/>
-
-    <!-- google -->
-	<beans:bean id="GoogleLoginUtil" class="hi.im.jenga.member.util.login.GoogleLoginUtil"/>
-	
-	<!-- facebook -->
-	<beans:bean id="FacebookLoginUtil" class="hi.im.jenga.member.util.login.FacebookLoginUtil"/>
-
-	<!-- kakao -->
-	<beans:bean id="KakaoLoginUtil" class="hi.im.jenga.member.util.login.KakaoLoginUtil"/>
-	
-	<!-- <beans:bean id="AES256Cipher" class="hi.im.jenga.member.util.AES256Cipher"/> -->
-	
-	
-	
-
 	<!-- 스프링 빈을 태그로 등록하지 않고 자동으로 검색 (auto scan) -->
 	<!-- 스프링에서 관리하는 bean의 기본 디렉토리 -->
 	<context:component-scan base-package="hi.im.jenga" />
@@ -74,14 +52,21 @@
 	<!-- aop의 설정으로 Proxy 객체를 자동으로 생성 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
-	<!--<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<beans:property name="systemPropertiesModeName">
-			<beans:value>SYSTEM_PROPERTIES_MODE_OVERRIDE</beans:value>
-		</beans:property>
-		<beans:property name="locations">
-			<beans:value>file:Y:\go\Jenga\kakao.properties</beans:value>
-		</beans:property>
-		<beans:property name="ignoreUnresolvablePlaceholders" value="true"/>
+	<!-- MultipartResolver -->
+	<!-- CommonsMultipartResolver : 스프링 프레임워크에 내장되어 있는 MultipartResolver 이다. -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- maxUploadSize : 한 번에 최대 올릴 수 있는 파일 사이즈 -->
+		<beans:property name="maxUploadSize" value="100000000"/>
+		<!-- maxInMemorySize : 해당 경로에 최대로 저장할 수 있는 파일 사이즈-->
+		<beans:property name="maxInMemorySize" value="100000000"/>
+	</beans:bean>
+
+	<!--&lt;!&ndash; 파일업로드를 위한 디렉토리 설정 &ndash;&gt;
+	&lt;!&ndash; String uploadPath = new String("업로드 경로") &ndash;&gt;
+	<beans:bean id="uploadPath" class="java.lang.String">
+		&lt;!&ndash; 파일업로드 디렉토리&ndash;&gt;
+		<beans:constructor-arg value="해당디렉토리"/>
 	</beans:bean>-->
+
 
 </beans:beans>
