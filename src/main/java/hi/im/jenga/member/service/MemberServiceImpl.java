@@ -13,9 +13,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     MemberDAO dao;
 
-    public int addMemberInfo(MemberDTO memberDTO) {
-        return dao.addMemberInfo(memberDTO);
-    }
+    public int addMemberInfo(MemberDTO memberDTO) { return dao.addMemberInfo(memberDTO); }
 
     public void addEMember(EmailMemberDTO emailMemberDTO, String iuid) { dao.addEMember(emailMemberDTO, iuid); }
 

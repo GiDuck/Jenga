@@ -104,7 +104,7 @@ public class MemberController {
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
     public String regMemberInfoPOST(@RequestParam String mem_nick, EmailMemberDTO emailMemberDTO, SocialMemberDTO socialMemberDTO,  @RequestParam("mem_profile") MultipartFile uploadFile,
-                                    MultipartHttpServletRequest request){
+                                    MultipartHttpServletRequest request) throws Exception {
         logger.info(": : : : : /regMemInfo 들어옴");
         MemberDTO memberDTO = new MemberDTO();
 
@@ -123,17 +123,27 @@ public class MemberController {
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
         String uploadPath = utilFile.fileUpload(request, uploadFile);
 
-        logger.info(": : regMemberInfoPOST : : uploadPath : " + uploadPath);                                    // Y:\go\Jenga\profiles\파일명
+        logger.info(": : regMemberInfoPOST : : uploadPath : " + uploadPath);                                   // Y:\go\Jenga\profiles\파일명
 
 
         // 소셜이든 이메일이든 만들어서 uuid 넣어주기
         String iuid = UUID.randomUUID().toString();
-
+/*
         // 2단계에서 입력한 닉네임, 파일경로를 DTO에 삽입 + 생성한 고유아이디 넣기
-
         memberDTO.setMem_iuid(iuid);
         memberDTO.setMem_nick(mem_nick);
         memberDTO.setMem_profile(uploadPath);
+*/
+
+//        AES 암호화(iuid, mem_nick, uploadPath) 후 memberDTO에 넣기
+//        iuid는 밑 Smember테이블 넣을때 써야해서 변수에 넣음
+        String aes_iuid = aes256Cipher.AES_Encode(iuid);
+        memberDTO.setMem_iuid(aes_iuid);
+        logger.info(": : : aes_iuid는 "+aes_iuid);
+
+        memberDTO.setMem_nick(aes256Cipher.AES_Encode(mem_nick));
+        memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadPath));
+
 
 //      해당 경로만 받아 DB에 저장
 //      이메일가입이든, 소셜가입이든 tbl_memInfo에 넣어야함
@@ -145,13 +155,33 @@ public class MemberController {
         if(!(emailMemberDTO.getEm_id().equals(""))){
 //      eMember에 이메일, 비밀번호 넣어야함
             logger.info("이메일 회원가입입니다.");
-            memberService.addEMember(emailMemberDTO, iuid);
+            SHA256Cipher sha = SHA256Cipher.getInstance();
+
+
+            //String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
+            //String sha_pw= sha.getEncSHA256(emailMemberDTO.getEm_pwd()); // error -> regMemberInfoPOST throws Exceptions 추가
+
+            emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
+            emailMemberDTO.setEm_pwd(sha.getEncSHA256(emailMemberDTO.getEm_pwd()));
+
+            logger.info("emailMemberDTO.getEm_id()에서 뽑은 aes_id는 "+emailMemberDTO.getEm_id());
+            logger.info("emailMemberDTO.getEm_pwd()에서 뽑은 sha_pw는 "+emailMemberDTO.getEm_pwd());
+
+            memberService.addEMember(emailMemberDTO, aes_iuid);
+
             return "redirect:/";
         }
 
         logger.info("소셜 "+socialMemberDTO.getSm_type()+" 회원가입입니다.");
         // 아니고 소셜로그인이면 소셜고유아이디, iuid, type
-        memberService.addSMember(socialMemberDTO, iuid);
+
+        socialMemberDTO.setSm_id(aes256Cipher.AES_Encode(socialMemberDTO.getSm_id()));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode(socialMemberDTO.getSm_type()));
+
+        logger.info("암호화 후 id는 "+socialMemberDTO.getSm_id());
+        logger.info("암호화 후 type은 "+socialMemberDTO.getSm_type());
+
+        memberService.addSMember(socialMemberDTO, aes_iuid);
 
         return "redirect:/";
     }
