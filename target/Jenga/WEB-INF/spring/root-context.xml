@@ -14,12 +14,12 @@
 			<!-- 드라이버 클래스 이름이 변경됨 -->
 			<!-- <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property> -->
 			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-			
+
 			<!-- 연결문자열에 log4jdbc가 추가됨 -->
 	<!-- 	<property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl" /> -->
-		 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:호준이꺼"></property>
-			<property name="username" value="호준이꺼" />
-			<property name="password" value="호준이꺼" />
+		 	<property name="url" value="jdbc:oracle:thin:@192.168.0.77:1521:orcl"></property>
+			<property name="username" value="jengamaster" />
+			<property name="password" value="jenga" />
 		</bean>
 
 
@@ -33,5 +33,10 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
+	<!-- mybatis mapper interface bean을 자동으로 검색 -->
+
+	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+	</bean>
+
 </beans>
 

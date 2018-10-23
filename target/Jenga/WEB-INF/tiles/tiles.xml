@@ -23,6 +23,10 @@
 
 		<put-attribute name="jsFiles"
 			value="/WEB-INF/tiles/source/jsFiles.jsp" />
+			
+		<put-attribute name="comJs"
+			value="/WEB-INF/tiles/source/comJs.jsp" />
+			
 	</definition>
 	
 	

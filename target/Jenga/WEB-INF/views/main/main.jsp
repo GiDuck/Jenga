@@ -18,7 +18,7 @@ $(document).ready( _ => {
 	
 	$("#moveBtn").on('click', _ => {
 		
-		location.replace("/join#regForm");
+		location.replace("/login"); //원래 /join#reg 머시기 였음
 		
 	});
 	

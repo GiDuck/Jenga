@@ -20,10 +20,11 @@
 <tiles:insertAttribute name="header"/>
 <tiles:insertAttribute name="content"/>
 <tiles:insertAttribute name="footer"/>
+
 </body>
 
 <tiles:insertAttribute name="jsFiles"/>
-
+<tiles:insertAttribute name="comJs"/>
 
 
 </html>

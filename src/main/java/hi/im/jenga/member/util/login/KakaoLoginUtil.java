@@ -6,6 +6,8 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -25,6 +27,7 @@ public class KakaoLoginUtil implements LoginUtil{
     private final static String SESSION_STATE = "state_kakao";
     /*네이버 프로필 조회*/
     private final static String PROFILE_API_URL ="https://kapi.kakao.com/v2/user/me";
+    private static final Logger logger = LoggerFactory.getLogger(KakaoLoginUtil.class);
 
     public String getAuthorizationUrl(HttpSession session) {
 
@@ -45,11 +48,11 @@ public class KakaoLoginUtil implements LoginUtil{
 
     /* 네이버아이디로 Callback 처리 및  AccessToken 획득 Method */
     public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException{
-        System.out.println("엑세스토큰");
+        logger.info("엑세스토큰");
         /* Callback으로 전달받은 세선검증용 난수값과 세션에 저장되어있는 값이 일치하는지 확인 */
         String sessionState = getSession(session);
-        System.out.println(sessionState);
-        System.out.println(state);
+        logger.info(sessionState);
+        logger.info(state);
         if(StringUtils.pathEquals(sessionState, state)){
 
             OAuth20Service oauthService = new ServiceBuilder()
@@ -60,7 +63,7 @@ public class KakaoLoginUtil implements LoginUtil{
 
             /* Scribe에서 제공하는 AccessToken 획득 기능으로 네아로 Access Token을 획득 */
             OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-            System.out.println("엑세스 토큰"+accessToken.getAccessToken());
+            logger.info("엑세스 토큰"+accessToken.getAccessToken());
             return accessToken;
         }
         return null;
@@ -89,9 +92,9 @@ public class KakaoLoginUtil implements LoginUtil{
                 .callback(REDIRECT_URI).build(KakaoLoginApi.instance());
 
         OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
-        System.out.println("리퀘"+request);
-        System.out.println("오오스토큰"+oauthToken);
-        System.out.println(request);
+        logger.info("리퀘"+request);
+        logger.info("오오스토큰"+oauthToken);
+        logger.info(""+request);
         oauthService.signRequest(oauthToken, request);
         Response response = request.send();
         return response.getBody();
