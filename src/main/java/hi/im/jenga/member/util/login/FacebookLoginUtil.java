@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class FacebookLoginUtil implements LoginUtil{
     /* 인증 */
@@ -19,7 +20,7 @@ public class FacebookLoginUtil implements LoginUtil{
     private  String CLIENT_ID;
     @Value("#{data['facebook.client_secret']}")
     private  String CLIENT_SECRET;
-    @Value("#{data['naver.redirect_uri']}")
+    @Value("#{data['facebook.redirect_uri']}")
     private  String REDIRECT_URI;
     private final static String SESSION_STATE = "state_facebook";
     private final static String PROFILE_API_URL ="https://graph.facebook.com/v3.1/me?fields=id,email,name";
@@ -31,8 +32,7 @@ public class FacebookLoginUtil implements LoginUtil{
         setSession(session,state);
 
         /* Scribe에서 제공하는 인증 URL 생성 기능을 이용하여 네아로 인증 URL 생성 */
-        OAuth20Service oauthService = new ServiceBuilder()
-                .apiKey(CLIENT_ID)
+        OAuth20Service oauthService = new ServiceBuilder(CLIENT_ID)
                 .apiSecret(CLIENT_SECRET)
                 .callback(REDIRECT_URI)
                 .scope("public_profile")
@@ -42,14 +42,16 @@ public class FacebookLoginUtil implements LoginUtil{
         return oauthService.getAuthorizationUrl();
     }
 
-    public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException{
+    public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws  IOException, InterruptedException, ExecutionException {
 
         /* Callback으로 전달받은 세선검증용 난수값과 세션에 저장되어있는 값이 일치하는지 확인 */
+        System.out.println("세션지정");
         String sessionState = getSession(session);
+        System.out.println(sessionState);
+        System.out.println(state);
         if(StringUtils.pathEquals(sessionState, state)){
 
-            OAuth20Service oauthService = new ServiceBuilder()
-                    .apiKey(CLIENT_ID)
+            OAuth20Service oauthService = new ServiceBuilder(CLIENT_ID)
                     .apiSecret(CLIENT_SECRET)
                     .callback(REDIRECT_URI)
                     .scope("public_profile")
@@ -68,6 +70,14 @@ public class FacebookLoginUtil implements LoginUtil{
         return UUID.randomUUID().toString();
     }
 
+    public String getAccessTokens(HttpSession session, String code, String state) {
+        return null;
+    }
+
+    public String getUserProfiles(String oauthToken) {
+        return null;
+    }
+
     /* http session에 데이터 저장 */
     private void setSession(HttpSession session,String state){
         session.setAttribute(SESSION_STATE, state);
@@ -79,17 +89,16 @@ public class FacebookLoginUtil implements LoginUtil{
     }
 
     //Access Token을 이용하여 네이버 사용자 프로필 API를 호출
-    public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException{
+    public String getUserProfile(OAuth2AccessToken oauthToken) throws Exception{
         System.out.println(REDIRECT_URI);
-        OAuth20Service oauthService =new ServiceBuilder()
-                .apiKey(CLIENT_ID)
+        OAuth20Service oauthService =new ServiceBuilder(CLIENT_ID)
                 .scope("public_profile")
                 .apiSecret(CLIENT_SECRET)
                 .callback(REDIRECT_URI).build(FacebookLoginApi.instance());
 
-        OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
+        OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL);
         oauthService.signRequest(oauthToken, request);
-        Response response = request.send();
+        Response response = oauthService.execute(request);
         return response.getBody();
     }
 

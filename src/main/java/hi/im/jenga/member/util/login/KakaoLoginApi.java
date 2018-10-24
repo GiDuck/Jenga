@@ -17,8 +17,8 @@ public class KakaoLoginApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-
-        return "https://kauth.kakao.com/oauth/token";
+        System.out.println("카카오 엑ㅅ세스토큰");
+        return "https://kauth.kakao.com/oauth/token?grant_type=authorization_code";
 
     }
 

@@ -12,6 +12,8 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+
 
 public class NaverLoginUtil implements LoginUtil {
         /* 인증 */
@@ -30,11 +32,10 @@ public class NaverLoginUtil implements LoginUtil {
             /* 세션 유효성 검증을 위하여 난수를 생성 */
             String state = generateRandomString();
             /* 생성한 난수 값을 session에 저장 */
-            setSession(session,state);        
+            setSession(session,state);
 
             /* Scribe에서 제공하는 인증 URL 생성 기능을 이용하여 네아로 인증 URL 생성 */
-            OAuth20Service oauthService = new ServiceBuilder()                                                   
-                    .apiKey(CLIENT_ID)
+            OAuth20Service oauthService = new ServiceBuilder(CLIENT_ID)
                     .apiSecret(CLIENT_SECRET)
                     .callback(REDIRECT_URI)
                     .state(state) //앞서 생성한 난수값을 인증 URL생성시 사용함
@@ -44,16 +45,16 @@ public class NaverLoginUtil implements LoginUtil {
         }
 
         /* 네이버아이디로 Callback 처리 및  AccessToken 획득 Method */
-        public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException{
+        public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException, InterruptedException, ExecutionException {
             System.out.println("엑세스토큰");
             /* Callback으로 전달받은 세선검증용 난수값과 세션에 저장되어있는 값이 일치하는지 확인 */
             String sessionState = getSession(session);
+
             System.out.println(sessionState);
             System.out.println(state);
             if(StringUtils.pathEquals(sessionState, state)){
 
-                OAuth20Service oauthService = new ServiceBuilder()
-                        .apiKey(CLIENT_ID)
+                OAuth20Service oauthService = new ServiceBuilder(CLIENT_ID)
                         .apiSecret(CLIENT_SECRET)
                         .callback(REDIRECT_URI)
                         .state(state)
@@ -72,7 +73,15 @@ public class NaverLoginUtil implements LoginUtil {
             return UUID.randomUUID().toString();
         }
 
-        /* http session에 데이터 저장 */
+    public String getAccessTokens(HttpSession session, String code, String state) {
+        return null;
+    }
+
+    public String getUserProfiles(String oauthToken) {
+        return null;
+    }
+
+    /* http session에 데이터 저장 */
         private void setSession(HttpSession session,String state){
             session.setAttribute(SESSION_STATE, state);     
         }
@@ -82,19 +91,19 @@ public class NaverLoginUtil implements LoginUtil {
             return (String) session.getAttribute(SESSION_STATE);
         }
         /* Access Token을 이용하여 네이버 사용자 프로필 API를 호출 */
-        public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException{
+        public String getUserProfile(OAuth2AccessToken oauthToken) throws Exception{
 
-            OAuth20Service oauthService =new ServiceBuilder()
-                    .apiKey(CLIENT_ID)
+            OAuth20Service oauthService =new ServiceBuilder(CLIENT_ID)
+
                     .apiSecret(CLIENT_SECRET)
                     .callback(REDIRECT_URI).build(NaverLoginApi.instance());
 
-                OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
+                OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL);
                 System.out.println("리퀘"+request);
                 System.out.println("오오스토큰"+oauthToken);
                 System.out.println(request);
             oauthService.signRequest(oauthToken, request);
-            Response response = request.send();
+            Response response = oauthService.execute(request);
             return response.getBody();
         }
 }
