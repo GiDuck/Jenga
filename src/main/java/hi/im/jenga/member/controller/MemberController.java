@@ -6,7 +6,6 @@ import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import hi.im.jenga.member.util.login.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -69,7 +67,27 @@ public class MemberController {
     }
 
     @RequestMapping(value = "/join")
-    public String join(){
+    public String join(HttpSession session, Model model){
+
+        LoginUtil util = naverLoginUtil;
+        String naverAuthUrl = util.getAuthorizationUrl(session);
+        util = facebookLoginUtil;
+        String FacebookAuthUrl = util.getAuthorizationUrl(session);
+
+        util = googleLoginUtil;
+        String GoogleAuthUrl = util.getAuthorizationUrl(session);
+
+        util = kakaoLoginUtil;
+        String KakaoAuthUrl = util.getAuthorizationUrl(session);
+        logger.info("세션",session);
+        logger.info(FacebookAuthUrl);
+        logger.info(KakaoAuthUrl);
+        logger.info(GoogleAuthUrl);
+        logger.info(naverAuthUrl);
+        model.addAttribute("k", KakaoAuthUrl);
+        model.addAttribute("n", naverAuthUrl);
+        model.addAttribute("f",FacebookAuthUrl);
+        model.addAttribute("g",GoogleAuthUrl);
 
         return "member/join";
     }
@@ -82,7 +100,7 @@ public class MemberController {
 
 
 
-    @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
+  /*  @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
     public String login(HttpSession session, Model model) {
       
         LoginUtil util = naverLoginUtil;
@@ -102,9 +120,50 @@ public class MemberController {
         model.addAttribute("g",GoogleAuthUrl);
         return "login";
     }
-    
-    @RequestMapping(value = "/callback",  method = { RequestMethod.GET, RequestMethod.POST }) 
-    public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException{
+    */
+  @RequestMapping(value = "/facebookcallback",  method = { RequestMethod.GET, RequestMethod.POST })
+  public String facebookcallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception{
+      OAuth2AccessToken oauthToken;
+      LoginUtil util = facebookLoginUtil;
+      oauthToken = util.getAccessToken(session, code, state);
+      System.out.println(oauthToken);
+      //로그인 사용자 정보를 읽어온다.
+      apiResult = util.getUserProfile(oauthToken);
+      logger.info(apiResult);
+      model.addAttribute("result", apiResult);
+
+
+      JSONParser jsonParser = new JSONParser();
+      JSONObject json = (JSONObject) jsonParser.parse(apiResult);
+      String email = (String) json.get("email");
+      System.out.println(email);
+
+      return "facebookcallback";
+  }
+
+    @RequestMapping(value = "/oauth",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String kakaocallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
+        String oauthToken;
+        String oauthToken1;
+        LoginUtil util = kakaoLoginUtil;
+
+        oauthToken = util.getAccessTokens(session, code, state);
+        System.out.println(oauthToken);
+        JSONParser jsonParser = new JSONParser();
+        JSONObject json = (JSONObject) jsonParser.parse(oauthToken);
+        logger.info((String)json.get("access_token"));
+        oauthToken1 = ((String)json.get("access_token"));
+        //로그인 사용자 정보를 읽어온다.
+        apiResult = util.getUserProfiles(oauthToken1);
+        logger.info(apiResult);
+
+
+        return "callback";
+    }
+
+
+    @RequestMapping(value = "/callback",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception{
         OAuth2AccessToken oauthToken;
         LoginUtil util = naverLoginUtil;
         oauthToken = util.getAccessToken(session, code, state);

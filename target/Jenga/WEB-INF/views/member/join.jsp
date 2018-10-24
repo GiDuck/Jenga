@@ -64,7 +64,7 @@
 			<div id="fbBtn" class="btn btn-just-icon btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i></div>
 			<div id="googleBtn" class="btn btn-just-icon btn-google"><i class="fa fa-google" aria-hidden="true"></i></div>
 			<div id="kakaoBtn" class="btn btn-just-icon btn-twitter"><i class="fa fa-twitter" aria-hidden="true"></i></div>
-			<div id="naverBtn" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></div>          
+			<div id="naverBtn" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></div>
             </div>
             
               <div class="row text-center" style="margin-top:15px; padding : 12px;">
@@ -84,32 +84,22 @@
 $(document).ready( _ => {
 	
 	$("#fbBtn").on('click', _ => {
-		
-		alert('fbBtn!');
-	
+		location.href="${f}";
 	});
 	
 	$("#googleBtn").on('click', _ => {
-		alert('google!');
 
-	
+        location.href="${g}";
 	});
 	
 	$("#kakaoBtn").on('click', _ => {
-		alert('kakao!');
 
-	
+        location.href="${k}";
 	});
 	
 	$("#naverBtn").on('click', _ => {
-		alert('naver!');
 
-	
+        location.href="${n}";
 	});
-	
-
-
-
-	
 });
 </script>

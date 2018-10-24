@@ -1,15 +1,16 @@
 package hi.im.jenga.member.util.login;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpSession;
-
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
-public interface LoginUtil {
-    public String getAuthorizationUrl(HttpSession session);
-    public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException;
-    public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException;
-    public String generateRandomString();
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
+public interface LoginUtil {
+    String getAuthorizationUrl(HttpSession session);
+    OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws  IOException, InterruptedException, ExecutionException;
+    String getUserProfile(OAuth2AccessToken oauthToken) throws Exception;
+    String generateRandomString();
+    String getAccessTokens(HttpSession session, String code, String state);
+    public String getUserProfiles(String oauthToken);
 }
