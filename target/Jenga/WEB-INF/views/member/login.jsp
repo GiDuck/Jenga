@@ -60,10 +60,7 @@
                 <input type="password" class="form-control no-border" placeholder="Password" style="color : black;">
                 <button class="btn btn-danger btn-block btn-round">Login</button>
               </form>
-              
 			<div id="join_socialBtn" class="col-12 text-center"></div>
-			
-            
               <div class="row text-center" style="margin-top:15px; padding : 12px;">
                 <div id="findPWBtn" class="col-12" style="margin-bottom : 10px;" data-toggle="modal" data-target="#findPwModal"><a href="#"><span class="findSomeText">비밀번호를 잃어버렸나요?</span></a></div>
                 <div id="recoverAuthBtn" class="col-12" data-toggle="modal" data-target="#recoverAuthModal"><a href="#"><span class="findSomeText">복구할 계정이 있나요?</span></a></div>             
@@ -92,25 +89,21 @@ $(document).ready( _ => {
 		
 		$("#joinEmailModal").modal('show');
 
-
 	});
 	
 	
 	$btn_comp.find("#fbBtn").on('click', _ => {
 	    location.href="${f}";
 
-
 	});
 	
 	$btn_comp.find("#googleBtn").on('click', _ => {
         location.href="${g}";
 
-	
-	});
-	
+    });
+
 	$btn_comp.find("#kakaoBtn").on('click', _ => {
         location.href="${k}";
-
 
 	});
 	

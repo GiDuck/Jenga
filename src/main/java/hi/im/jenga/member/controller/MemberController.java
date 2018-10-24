@@ -11,7 +11,6 @@ import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import hi.im.jenga.member.util.login.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 public class MemberController {
@@ -64,9 +64,26 @@ public class MemberController {
         return "main/main";
     }
 
-    @RequestMapping(value = "/login")
-    public String join(){
-        logger.info("여ㅇ기비이이이이");
+
+    @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String login(HttpSession session, Model model) {
+
+        LoginUtil util = naverLoginUtil;
+        String naverAuthUrl = util.getAuthorizationUrl(session);
+        logger.info("session"+session);
+        util = facebookLoginUtil;
+        String FacebookAuthUrl = util.getAuthorizationUrl(session);
+
+        util = googleLoginUtil;
+        String GoogleAuthUrl = util.getAuthorizationUrl(session);
+
+        util = kakaoLoginUtil;
+        String KakaoAuthUrl = util.getAuthorizationUrl(session);
+
+        model.addAttribute("k", KakaoAuthUrl);
+        model.addAttribute("n", naverAuthUrl);
+        model.addAttribute("f",FacebookAuthUrl);
+        model.addAttribute("g",GoogleAuthUrl);
 
         return "member/login";
     }
@@ -97,7 +114,6 @@ public class MemberController {
 
         return "member/setMemInfo"; //추가 정보 페이지로
     }
-
 
     // 추가정보페이지에 있는 submit 버튼
     // iuid, 파읾명 정하기, 등급은 Default
@@ -188,31 +204,45 @@ public class MemberController {
 
 
 
+  @RequestMapping(value = "/facebookcallback",  method = { RequestMethod.GET, RequestMethod.POST })
+  public String facebookcallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception{
+      OAuth2AccessToken oauthToken;
+      LoginUtil util = facebookLoginUtil;
+      oauthToken = util.getAccessToken(session, code, state);
+      System.out.println(oauthToken);
+      //로그인 사용자 정보를 읽어온다.
+      apiResult = util.getUserProfile(oauthToken);
+      logger.info(apiResult);
+      model.addAttribute("result", apiResult);
 
 
-    @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
-    public String login(HttpSession session, Model model) {
-      
-        LoginUtil util = naverLoginUtil;
-        String naverAuthUrl = util.getAuthorizationUrl(session);
-        logger.info("session"+session);
-        util = facebookLoginUtil;
-        String FacebookAuthUrl = util.getAuthorizationUrl(session);
+      JSONParser jsonParser = new JSONParser();
+      JSONObject json = (JSONObject) jsonParser.parse(apiResult);
+      String email = (String) json.get("email");
+      System.out.println(email);
 
-        util = googleLoginUtil;
-        String GoogleAuthUrl = util.getAuthorizationUrl(session);
+      return "facebookcallback";
+  }
 
-        util = kakaoLoginUtil;
-        String KakaoAuthUrl = util.getAuthorizationUrl(session);
+    @RequestMapping(value = "/oauth",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String kakaocallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
+        String oauthToken;
+        String oauthToken1;
+        LoginUtil util = kakaoLoginUtil;
 
-        model.addAttribute("k", KakaoAuthUrl);
-        model.addAttribute("n", naverAuthUrl);
-        model.addAttribute("f",FacebookAuthUrl);
-        model.addAttribute("g",GoogleAuthUrl);
+        oauthToken = util.getAccessTokens(session, code, state);
+        System.out.println(oauthToken);
+        JSONParser jsonParser = new JSONParser();
+        JSONObject json = (JSONObject) jsonParser.parse(oauthToken);
+        logger.info((String)json.get("access_token"));
+        oauthToken1 = ((String)json.get("access_token"));
+        //로그인 사용자 정보를 읽어온다.
+        apiResult = util.getUserProfiles(oauthToken1);
+        logger.info(apiResult);
 
-        return "member/login";
+
+        return "callback";
     }
-
 
     @RequestMapping(value = "/navercallback",  method = { RequestMethod.GET, RequestMethod.POST })
     public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, SocialMemberDTO socialMemberDTO) throws Exception {
@@ -259,6 +289,21 @@ public class MemberController {
 
 
         return "member/setMemInfo";
+    }
+
+    @RequestMapping(value = "/googlecallback",  method = { RequestMethod.GET, RequestMethod.POST })
+    public String googlecallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
+        logger.info("구글콜백");
+        OAuth2AccessToken oauthToken;
+        oauthToken = googleLoginUtil.getAccessToken(session, code, state);
+        logger.info("토큰받");
+        apiResult = googleLoginUtil.getUserProfile(oauthToken);
+        logger.info("결과받");
+        logger.info(googleLoginUtil.getUserProfile(oauthToken).toString());
+        model.addAttribute("result", apiResult);
+        logger.info("result"+apiResult);
+
+        return "googlecallback";
     }
 
     // 취향 선택 IN setMemberInfo
@@ -308,7 +353,7 @@ public class MemberController {
 
     }
     
-    
+
   /*  @RequestMapping(value = "/login",  method = { RequestMethod.GET, RequestMethod.POST })
     public String login(HttpSession session, Model model) {
          네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 
@@ -350,20 +395,7 @@ public class MemberController {
     }
     
     
-    @RequestMapping(value = "/googlecallback",  method = { RequestMethod.GET, RequestMethod.POST }) 
-    public String googlecallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException{
-        logger.info("구글콜백");
-        OAuth2AccessToken oauthToken;
-        oauthToken = googleLoginUtil.getAccessToken(session, code, state);
-        logger.info("토큰받");
-        apiResult = googleLoginUtil.getUserProfile(oauthToken);
-        logger.info("결과받");
-        logger.info(googleLoginUtil.getUserProfile(oauthToken).toString());
-        model.addAttribute("result", apiResult);
-        logger.info("result"+apiResult);
 
-        return "googlecallback";
-    }
     
     @RequestMapping(value = "/facebooklogin",  method = { RequestMethod.GET, RequestMethod.POST })
     public String facebooklogin(HttpSession session, Model model) {

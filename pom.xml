@@ -19,11 +19,17 @@
         <org.slf4j-version>1.7.25</org.slf4j-version>
         <org.apache.tiles-version>3.0.8</org.apache.tiles-version>
         <com.fasterxml.jackson-version>2.9.7</com.fasterxml.jackson-version>
+        <kakaosdk.version>1.25.6</kakaosdk.version>
     </properties>
     <repositories>
         <repository>
             <id>codelds</id>
             <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+        </repository>
+
+        <repository>
+            <id>kakaodev-public</id>
+            <url>http://devrepo.kakao.com:8088/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -130,10 +136,17 @@
 
         <!-- 로그인 -->
         <!-- naver -->
+
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-apis</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-core</artifactId>
-            <version>3.3.0</version>
+            <version>6.0.0</version>
         </dependency>
 
         <!-- Google -->
@@ -155,6 +168,15 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.3</version>
+        </dependency>
+
+        <!--카카오-->
+        <dependency>
+            <groupId>com.kakao.sdk</groupId>
+            <artifactId>usermgmt</artifactId>
+            <version>${kakaosdk.version}</version>
+            <type>aar</type>
+
         </dependency>
 
 
