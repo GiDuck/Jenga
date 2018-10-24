@@ -55,10 +55,10 @@
               <h3 class="card-title" style="color : #ffffff; display : inline; font-weight : bold;">Play with Us!</h3>
               <form class="register-form">
                 <label>Email</label>
-                <input type="email" class="form-control no-border" placeholder="Email" style="color : black;">
+                <input type="email" class="form-control no-border" placeholder="Email" id="em_id" style="color : black;">
                 <label>Password</label>
-                <input type="password" class="form-control no-border" placeholder="Password" style="color : black;">
-                <button class="btn btn-danger btn-block btn-round">Login</button>
+                <input type="password" class="form-control no-border" placeholder="Password" id="em_pwd" style="color : black;">
+                <button class="btn btn-danger btn-block btn-round" id="login-check">Login</button>
               </form>
               
 			<div id="join_socialBtn" class="col-12 text-center"></div>
@@ -79,7 +79,6 @@
     
     
 <script>
-
 $(document).ready( _ => {
 	
 	let $btn_comp = $("#btn_components").clone();

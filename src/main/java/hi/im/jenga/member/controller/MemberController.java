@@ -52,7 +52,6 @@ public class MemberController {
     private String apiResult = null;
    
 
-    
     @Autowired
     AES256Cipher aes256Cipher;
 
@@ -66,20 +65,9 @@ public class MemberController {
 
     @RequestMapping(value = "/login")
     public String join(){
-        logger.info("여ㅇ기비이이이이");
 
         return "member/login";
     }
-/*
-    // 모달에서 이메일, 비밀번호 넘어옴 / 여기서 uuid 만들어야함
-    // 임시 추가정보 페이지 (GET)
-    @RequestMapping(value = "/setMemInfo", method = RequestMethod.GET)
-    public String addMemberInfoGET(Model model){
-//        value="/callback"
-//        소셜로그인 후 uid를 추가정보입력페이지로 넘겨야함
-
-        return "member/setMemInfo";
-    }*/
 
     // 모달에서 이메일, 비밀번호 넘어옴 / 여기서 uuid 만들어야함
     // 임시 추가정보 페이지 (GET)
@@ -213,7 +201,7 @@ public class MemberController {
         return "member/login";
     }
 
-
+    // 네이버 콜백
     @RequestMapping(value = "/navercallback",  method = { RequestMethod.GET, RequestMethod.POST })
     public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, SocialMemberDTO socialMemberDTO) throws IOException, ParseException {
         boolean result = false;
@@ -253,10 +241,9 @@ public class MemberController {
 
 
 
-
-
         return "member/setMemInfo";
     }
+
 
     // 취향 선택 IN setMemberInfo
     @ResponseBody
@@ -419,7 +406,7 @@ public class MemberController {
         
         return "";
     }
-    
+
 
     
    
