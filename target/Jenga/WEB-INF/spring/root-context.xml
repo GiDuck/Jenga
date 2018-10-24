@@ -38,24 +38,5 @@
 	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 	</bean>
 
-	<!-- 메일보내기 -->
-	<bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="587" />
-		<property name="username" value="이메일아이디" />					<!-- 내 아이디 -->
-		<property name="password" value="비밀번호" />						<!-- 내 비밀번호 -->
-
-		<!-- email 요청시는 SMTP -->
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.transport.protocol">smtp</prop>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-				<prop key="mail.debug">true</prop>
-			</props>
-		</property>
-	</bean>
-
-
 </beans>
 

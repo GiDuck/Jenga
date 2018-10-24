@@ -79,6 +79,19 @@
     
     
 <script>
+$(function(){
+    $('#login-check').on('click', function () {
+        if($('#em_id').val() == ""){
+            alert('이메일을 입력해주세요');
+            $('#em_id').focus();
+            return false;
+        }
+
+        /*if($('#em_id').val().length < 4 || )
+    })*/
+})
+
+
 $(document).ready( _ => {
 	
 	let $btn_comp = $("#btn_components").clone();
