@@ -110,7 +110,7 @@ public class MemberController {
 
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : "+ emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
-
+//       이미 암호화 후 받아온 고유아이디, 소셜 타입
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_id : "+ socialMemberDTO.getSm_id());        // 1단계에서 고유아이디
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_type : "+ socialMemberDTO.getSm_type());    // 1단계에서 소셜 타입
 
@@ -175,11 +175,11 @@ public class MemberController {
         logger.info("소셜 "+socialMemberDTO.getSm_type()+" 회원가입입니다.");
         // 아니고 소셜로그인이면 소셜고유아이디, iuid, type
 
-        socialMemberDTO.setSm_id(aes256Cipher.AES_Encode(socialMemberDTO.getSm_id()));
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode(socialMemberDTO.getSm_type()));
+        socialMemberDTO.setSm_id(socialMemberDTO.getSm_id());
+        socialMemberDTO.setSm_type(socialMemberDTO.getSm_type());
 
-        logger.info("암호화 후 id는 "+socialMemberDTO.getSm_id());
-        logger.info("암호화 후 type은 "+socialMemberDTO.getSm_type());
+        logger.info("id는 "+socialMemberDTO.getSm_id());
+        logger.info("type은 "+socialMemberDTO.getSm_type());
 
         memberService.addSMember(socialMemberDTO, aes_iuid);
 
@@ -215,7 +215,7 @@ public class MemberController {
 
 
     @RequestMapping(value = "/navercallback",  method = { RequestMethod.GET, RequestMethod.POST })
-    public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, SocialMemberDTO socialMemberDTO) throws IOException, ParseException {
+    public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, SocialMemberDTO socialMemberDTO) throws Exception {
         boolean result = false;
         OAuth2AccessToken oauthToken;
         LoginUtil util = naverLoginUtil;
@@ -237,13 +237,16 @@ public class MemberController {
         logger.info(": : callback : : json2 : "+json2);
         logger.info(": : callback : : json2.get(\"id\") "+ id);
 
-        socialMemberDTO.setSm_id(id);                   // 네이버 고유아이디
-        socialMemberDTO.setSm_type("naver");              // 소셜 타입 직접 정의
+
+        String aes_id = aes256Cipher.AES_Encode(id);
+
+        socialMemberDTO.setSm_id(aes_id);                   // 네이버 고유아이디를 암호화
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));              // 소셜 타입 직접 정의 "naver"를 암호화
 
         logger.info(socialMemberDTO.getSm_id());
         logger.info(socialMemberDTO.getSm_type());
 
-        result = memberService.isExist(id);
+        result = memberService.isExist(aes_id);
         if(result){
             logger.info("존재하는 네이버 ID 입니다");
             return "redirect:/";
