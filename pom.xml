@@ -170,16 +170,6 @@
             <version>4.5.3</version>
         </dependency>
 
-        <!--카카오-->
-        <dependency>
-            <groupId>com.kakao.sdk</groupId>
-            <artifactId>usermgmt</artifactId>
-            <version>${kakaosdk.version}</version>
-            <type>aar</type>
-
-        </dependency>
-
-
         <!-- AspectJ -->
         <dependency>
             <groupId>org.aspectj</groupId>
