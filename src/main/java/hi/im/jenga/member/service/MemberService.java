@@ -3,6 +3,10 @@ package hi.im.jenga.member.service;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
+import hi.im.jenga.member.dto.AuthMemberDTO;
+
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 
 public interface MemberService {
     int addMemberInfo(MemberDTO memberDTO);
@@ -11,5 +15,15 @@ public interface MemberService {
 
     void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
 
-    boolean isExist(String id);
+    void addAMember(AuthMemberDTO authMemberDTO) throws Exception;
+
+    boolean isSMExist(String aes_sid);
+
+    boolean isEMExist(String aes_eid);
+
+    boolean isAMExist(String aes_eid);
+
+    void findEPwd(String find_pwd) throws Exception;
+
+    void findAPwd(String find_pwd) throws Exception;
 }
