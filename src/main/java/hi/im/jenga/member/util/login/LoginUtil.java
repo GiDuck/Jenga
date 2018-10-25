@@ -12,5 +12,6 @@ public interface LoginUtil {
     String getUserProfile(OAuth2AccessToken oauthToken) throws Exception;
     String generateRandomString();
     String getAccessTokens(HttpSession session, String code, String state);
-    public String getUserProfiles(String oauthToken);
+    String getUserProfiles(String oauthToken);
+    void logOut(String oauthToken);
 }

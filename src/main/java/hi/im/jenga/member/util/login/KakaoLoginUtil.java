@@ -3,7 +3,10 @@ package hi.im.jenga.member.util.login;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,6 +24,7 @@ import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class KakaoLoginUtil implements LoginUtil {
 
     /* 인증 */
@@ -34,6 +38,7 @@ public class KakaoLoginUtil implements LoginUtil {
     private final static String SESSION_STATE = "state_kakao";
     /*네이버 프로필 조회*/
     private final static String PROFILE_API_URL = "https://kapi.kakao.com/v2/user/me";
+    private static final Logger logger = LoggerFactory.getLogger(KakaoLoginUtil.class);
 
     public String getAuthorizationUrl(HttpSession session) {
 
@@ -73,7 +78,7 @@ public class KakaoLoginUtil implements LoginUtil {
 
         try {
             final String params = String.format("grant_type=authorization_code&client_secret=%s&client_id=%s&redirect_uri=%s&code=%s",
-                    CLIENT_SECRET,CLIENT_ID, REDIRECT_URI, code);
+                    CLIENT_SECRET, CLIENT_ID, REDIRECT_URI, code);
 
 
             String sessionState = getSession(session);
@@ -148,7 +153,7 @@ public class KakaoLoginUtil implements LoginUtil {
     }
 
     /* Access Token을 이용하여 네이버 사용자 프로필 API를 호출 */
-    public String getUserProfiles(String oauthToken){
+    public String getUserProfiles(String oauthToken) {
 
         RestTemplate template = new RestTemplate();
         /*template = new RestTemplate();*/
@@ -172,10 +177,36 @@ public class KakaoLoginUtil implements LoginUtil {
         HttpEntity request1 = new HttpEntity(setHeader);
 
 
+        response = template.exchange(requestUri, HttpMethod.POST, request1, String.class);
+        System.out.println(response.getBody());
+        return response.getBody();
+    }
+
+
+    public void logOut(String oauthToken) {
+        RestTemplate template = new RestTemplate();
+        /*template = new RestTemplate();*/
+        StringBuffer baseURL;
+        String requestUri;
+        ResponseEntity<String> response;
+        System.out.println(oauthToken);
+
+        HttpHeaders setHeader = new HttpHeaders();
+
+        setHeader.set("Authorization", "bearer" + " " + oauthToken);
+        setHeader.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        System.out.println("made header token : ... " + setHeader.getAccept());
+        System.out.println("made header token : ... " + setHeader.getContentType());
+        System.out.println("made header token : ... " + setHeader.toString());
+
+        baseURL = new StringBuffer("https://kapi.kakao.com").append("/v1/user/logout");
+        requestUri = baseURL.toString();
+        HttpEntity request1 = new HttpEntity(setHeader);
+
 
         response = template.exchange(requestUri, HttpMethod.POST, request1, String.class);
         System.out.println(response.getBody());
 
-        return response.getBody();
     }
 }

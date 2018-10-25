@@ -7,6 +7,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class FacebookLoginUtil implements LoginUtil{
     /* 인증 */
     @Value("#{data['facebook.client_id']}")
@@ -76,6 +78,10 @@ public class FacebookLoginUtil implements LoginUtil{
 
     public String getUserProfiles(String oauthToken) {
         return null;
+    }
+
+    public void logOut(String oauthToken) {
+
     }
 
     /* http session에 데이터 저장 */

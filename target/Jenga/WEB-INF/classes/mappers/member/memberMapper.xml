@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">		<!-- MyBatis의 경우 작성된 XML Mapper는 상단의 파일에서 사용하는 태그들에 대한 정보가 기록된 DTD를 추가 -->
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="member">
+	<insert id="addMemberInfo">
+	INSERT INTO
+		tbl_memInfo
+		(mem_iuid, mem_nick, mem_profile, mem_joinDate)
+	VALUES (#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate)
+	</insert>
+
+	<insert id="addEMember">
+	INSERT INTO
+		tbl_eMember
+		(em_id, em_ref, em_pwd)
+	VALUES (#{emailMemberDTO.em_id}, #{iuid}, #{emailMemberDTO.em_pwd})
+	</insert>
+
+	<insert id="addSMember">
+	INSERT INTO
+		tbl_sMember
+		(sm_id, sm_ref, sm_type)
+	VALUES (#{socialMemberDTO.sm_id}, #{iuid}, #{socialMemberDTO.sm_type})
+	</insert>
+
+	<select id="isExist" resultType="String">
+	SELECT
+		sm_id
+	FROM
+		tbl_sMember
+	WHERE
+		sm_id = #{id}
+	</select>
+
+	<delete id="delMember">
+
+	</delete>
+
+	<update id="updateMember">
+
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
