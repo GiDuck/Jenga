@@ -104,7 +104,6 @@
             <version>1.1.1</version>
         </dependency>
 
-
         <!-- MyBatis -->
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -118,6 +117,19 @@
             <version>1.2.2</version>
         </dependency>
 
+        <!-- 메일인증을 위해 -->
+        <!-- mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
         <!-- Oracle -->
         <dependency>
             <groupId>com.oracle</groupId>
@@ -126,14 +138,12 @@
         </dependency>
 
         <!-- MongoDB -->
-        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>2.0.10.RELEASE</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
@@ -181,16 +191,6 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.3</version>
         </dependency>
-
-        <!--카카오-->
-        <dependency>
-            <groupId>com.kakao.sdk</groupId>
-            <artifactId>usermgmt</artifactId>
-            <version>${kakaosdk.version}</version>
-            <type>aar</type>
-
-        </dependency>
-
 
         <!-- AspectJ -->
         <dependency>
