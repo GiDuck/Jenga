@@ -1,7 +1,10 @@
 package hi.im.jenga.member.util.cipher;
 
+import org.springframework.stereotype.Component;
+
 import java.security.MessageDigest;
 
+@Component
 public class SHA256Cipher {
     private static volatile SHA256Cipher INSTANCE;
     

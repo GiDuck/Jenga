@@ -17,26 +17,46 @@
 
 			<!-- 연결문자열에 log4jdbc가 추가됨 -->
 	<!-- 	<property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl" /> -->
+
 		 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
 			<property name="username" value="jengamaster" />
 			<property name="password" value="jenga" />
 		</bean>
 
+		<!-- 메일 보내기 (SEND) -->
+		<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+			<property name="host" value="smtp.gmail.com" />
+			<property name="port" value="587" />
+			<property name="username" value="andwithyj@gmail.com" />
+			<property name="password" value="!luv0729yj" />
 
-	<!-- SqlSessionFactory 객체 주입 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
-		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
-	</bean>
-	<!-- SqlSession 객체 주입 -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
-		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
-	</bean>
-	<!-- mybatis mapper interface bean을 자동으로 검색 -->
 
-	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
-	</bean>
+			<!-- email 요청시는 SMTP -->
+			<property name="javaMailProperties">
+				<props>
+					<prop key="mail.transport.protocol">smtp</prop>
+					<prop key="mail.smtp.auth">true</prop>
+					<prop key="mail.smtp.starttls.enable">true</prop>
+					<prop key="mail.debug">true</prop>
+				</props>
+			</property>
+		</bean>
+
+
+		<!-- SqlSessionFactory 객체 주입 -->
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+			<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
+		</bean>
+		<!-- SqlSession 객체 주입 -->
+		<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+			<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+		</bean>
+		<!-- mybatis mapper interface bean을 자동으로 검색 -->
+
+		<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		</bean>
 
 </beans>
 

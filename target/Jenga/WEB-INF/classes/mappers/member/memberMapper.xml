@@ -5,6 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="member">
+
+	<!-- 개인정보 (주) -->
 	<insert id="addMemberInfo">
 	INSERT INTO
 		tbl_memInfo
@@ -12,28 +14,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES (#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate)
 	</insert>
 
+	<!-- 이메일 가입 (부) -->
 	<insert id="addEMember">
 	INSERT INTO
-		tbl_eMember
+		tbl_EMember
 		(em_id, em_ref, em_pwd)
 	VALUES (#{emailMemberDTO.em_id}, #{iuid}, #{emailMemberDTO.em_pwd})
 	</insert>
 
+	<!-- 소셜로그인 가입 (부) -->
 	<insert id="addSMember">
 	INSERT INTO
-		tbl_sMember
+		tbl_SMember
 		(sm_id, sm_ref, sm_type)
 	VALUES (#{socialMemberDTO.sm_id}, #{iuid}, #{socialMemberDTO.sm_type})
 	</insert>
 
-	<select id="isExist" resultType="String">
+	<insert id="addAMember">
+	INSERT INTO
+		tbl_AMember
+		(am_id, am_pwd, am_key)
+	VALUES (#{am_id}, #{am_pwd}, #{am_key})
+	</insert>
+
+	<select id="isSMExist" resultType="String">
 	SELECT
 		sm_id
 	FROM
-		tbl_sMember
+		tbl_SMember
 	WHERE
-		sm_id = #{id}
+		sm_id = #{aes_sid}
 	</select>
+
+	<select id="isEMExist" resultType="String">
+	SELECT
+		em_id
+	FROM
+		tbl_EMember
+	WHERE
+		em_id = #{aes_eid}
+	</select>
+
+	<select id="isAMExist" resultType="String">
+	SELECT
+		am_id
+	FROM
+		tbl_AMember
+	WHERE
+		am_id = #{aes_eid}
+	</select>
+
+	<update id="findEPwd">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{tempPwdKey}
+	WHERE em_id = #{find_pwd}
+	</update>
+
+	<update id="findAPwd" parameterType="HashMap">
+ 	UPDATE
+		tbl_AMember
+	SET
+		am_pwd = #{tempPwdKey}
+	WHERE am_id = <![CDATA[#{find_pwd}]]>
+
+	</update>
 
 	<delete id="delMember">
 
@@ -42,6 +88,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateMember">
 
 	</update>
+
+	<select id="checkid" resultType="String">
+	SELECT
+		EM_ID
+	FROM
+	    tbl_EMember
+	where
+	    EM_ID = #{em_id}
+	</select>
+
+	<select id="checkpass" resultType="String">
+	SELECT
+		*
+	FROM
+	    tbl_EMember
+	WHERE
+	    EM_ID = #{em_id} AND EM_PWD = #{em_pwd}
+	</select>
+
+	<select id="getToken" resultType="String">
+	SELECT
+		  MEM_IUID
+	FROM
+		  tbl_meminfo
+	WHERE
+		  mem_iuid = (SELECT
+		                    EM_REF
+		  			  FROM
+		  			        tbl_EMember
+		  			  where
+		  			        em_id = #{em_id}
+		             )
+
+	</select>
+
+
+	<!--
+	<select id="isExist" resultType="String">
+	SELECT
+		sm_id
+	FROM
+		tbl_sMember
+	WHERE
+		sm_id = #{id}
+	</select>
+-->
+
 </mapper>
 
 
