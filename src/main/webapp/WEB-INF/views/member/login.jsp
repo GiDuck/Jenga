@@ -76,56 +76,70 @@
 </div>
 
 
+<%-- if ($('#em_id').val() == "") {
+alert('이메일을 입력해주세요');
+$('#em_id').focus();
+return false; --%>
 <script>
     $(function () {
         $('#login-check').on('click', function () {
-            if ($('#em_id').val() == "") {
-                alert('이메일을 입력해주세요');
-                $('#em_id').focus();
-                return false;
-            }
-
-            /*if($('#em_id').val().length < 4 || )
-        })*/
-        })
-
-
-        $(document).ready(_ => {
-
-            let $btn_comp = $("#btn_components").clone();
-
-            $("#join_socialBtn").html($btn_comp.css({'display': 'inline'}));
-
-
-            $btn_comp.find("#emailBtn").on('click', _ => {
-
-                $("#joinEmailModal").modal('show');
-
+            $.ajax({
+                url: "/login",
+                type: "post",
+                data: {
+                    "em_id": $("#em_id").val(),
+                    "em_pwd": $("#em_pwd").val()
+                },
+            }).done(function (responseData){
+                $(this).remove();
+                if (responseData.indexOf('success')) {
+                    location.href="/";
+                } else if (responseData.indexOf('notauth')) {
+                    location.href="/auth"; // 이메일를 여기로 받음(조건절에 들어가야하니까)
+                } else if (responseData.indexOf('notexist')) {
+                    alert('존재하지 않는 이메일입니다.');
+                    return false;
+                }
             });
+        });
+    });
 
 
-            $btn_comp.find("#fbBtn").on('click', _ => {
-                location.href = "${f}";
+    $(document).ready(_ => {
 
-            });
+        let $btn_comp = $("#btn_components").clone();
 
-            $btn_comp.find("#googleBtn").on('click', _ => {
-                location.href = "${g}";
-
-            });
-
-            $btn_comp.find("#kakaoBtn").on('click', _ => {
-                location.href = "${k}";
-
-            });
-
-            $btn_comp.find("#naverBtn").on('click', _ => {
-                location.href = "${n}";
+        $("#join_socialBtn").html($btn_comp.css({'display': 'inline'}));
 
 
-            });
+        $btn_comp.find("#emailBtn").on('click', _ => {
+            $(this).remove();
+            $("#joinEmailModal").modal('show');
+
+        });
+
+
+        $btn_comp.find("#fbBtn").on('click', _ => {
+            location.href = "${f}";
+
+        });
+
+        $btn_comp.find("#googleBtn").on('click', _ => {
+            location.href = "${g}";
+
+        });
+
+        $btn_comp.find("#kakaoBtn").on('click', _ => {
+            location.href = "${k}";
+
+        });
+
+        $btn_comp.find("#naverBtn").on('click', _ => {
+            location.href = "${n}";
 
 
         });
+
+
     });
 </script>

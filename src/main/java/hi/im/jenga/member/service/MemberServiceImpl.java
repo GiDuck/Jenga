@@ -15,8 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -63,7 +70,12 @@ public class MemberServiceImpl implements MemberService {
 
     public boolean isSMExist(String aes_sid) { return dao.isSMExist(aes_sid); }
 
-    public boolean isEMExist(String aes_eid) { return dao.isEMExist(aes_eid); }
+    // 암호화해서 넘김
+    public List<EmailMemberDTO> isEMExist(String em_id) throws Exception {
+        String aes_eid = aes256Cipher.AES_Encode(em_id);
+        logger.info("오이잉 service "+aes_eid);
+        return dao.isEMExist(aes_eid);
+    }
 
     public boolean isAMExist(String aes_eid) { return dao.isAMExist(aes_eid); }
 
@@ -111,7 +123,104 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-   /* public void findTPwd(){
+    public void loginEMCheck(EmailMemberDTO emailMemberDTO) throws Exception {
+        //암호화하기 id -> aes, pwd -> sha
+        // emember
+        boolean result;
+        String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
+        String aes_pwd = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
 
-    }*/
+      /*  result = dao.loginEMcheck(emailMemberDTO);
+
+        if(!result){
+            result = dao.loginAMcheck()
+        }*/
+
+    }
+
+    public void join(EmailMemberDTO emailMemberDTO) {
+
+   /*     aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
+        aes256Cipher.AES_Encode(emailMemberDTO.getEm_pwd());
+
+        dao.join(emailMemberDTO);*/
+    }
+
+    // iuid는 DAOImpl에서 넣음
+    public String sendKey(EmailMemberDTO emailMemberDTO, List<EmailMemberDTO> list) throws Exception {
+
+        String key = new TempKey().getKey(10, false);        // 이메일 인증키
+
+        String aes_id = list.get(0).getEm_id();
+        String acheck = list.get(0).getEm_acheck();
+        String emailId = emailMemberDTO.getEm_id();         // 암호화 안한 이메일
+        // 암호화 된 이메일이 존재 하고(null이 아니면) 인증여부가 Y면 바로 리턴
+        if (aes_id != null && acheck.equals("Y")) {
+
+                return "isExist";
+            /*// 인증여부가 N이면 메일전송 / 이메일, 비밀번호하고 인증키 UPDATE 해야함
+            sendTempKey(emailMemberDTO, key);   // 이메일 보낼때는 암호화 안한 이메일과 인증키를 넘김
+
+            emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));        // 암호화 한 후 UPDATE
+            emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));    // 암호화 한 후 UPDATE
+            emailMemberDTO.setEm_akey(key);                                                     // 생성한 인증키를 넣음
+            dao.sendKey(emailMemberDTO, list);                                                  // 이땐 list는 안씀
+            return "sendAuthKey";*/
+        }
+
+        //  인증안했으니 입력한 아이디, 비번, 인증키 UPDATE/ 아이디가 없으니 아이디, 비번, 인증키 INSERT 해야함 / List는 Y/N을 보기위해
+
+        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));        // 암호화 한 후 INSERT / UPDATE
+        emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));    // 암호화 한 후 INSERT / UPDATE
+        emailMemberDTO.setEm_akey(key);                                                     // 생성한 인증키를 넣음
+
+        dao.sendKey(emailMemberDTO, list);
+
+        sendTempKey(emailId, key);                                                   // 이메일 보낼때는 암호화 안한 이메일과 인증키를 넘김
+
+        return "sendAuthKey";
+
+/*
+        MailHandler sendMail = new MailHandler(mailSender);
+        sendMail.setSubject("Jenga 인증 번호 입니다.");
+        sendMail.setText(new StringBuffer().append("<h1>이메일 인증</h1><br><br>").append("키는 ").append("<h2><b>"+key+"</b></h2>").append(" 입니다").toString());
+        sendMail.setFrom("jengamaster@gmail.com","젠가관리자");
+        sendMail.setTo(emailMemberDTO.getEm_id());
+        sendMail.send();
+
+        logger.info("뭡니까대체 "+emailMemberDTO.getEm_id());
+
+//        dao.tempIns(aes_iuid);
+
+//        logger.info("aes_iuid 1 "+aes_iuid);
+
+        // 암호화 후 DB에 넣기
+        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
+        emailMemberDTO.setEm_pwd(aes256Cipher.AES_Encode(emailMemberDTO.getEm_pwd()));
+//        emailMemberDTO.setEm_ref(aes_iuid);
+        emailMemberDTO.setEm_akey(key);
+
+        logger.info("총 뽑기 "+emailMemberDTO.getEm_id()+emailMemberDTO.getEm_pwd()+emailMemberDTO.getEm_ref()+emailMemberDTO.getEm_akey());
+
+//        dao.sendKey(emailMemberDTO);
+
+        logger.info("dao로 슝");*/
+
+        }
+
+    public boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception {
+
+        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
+        return dao.authCheck(emailMemberDTO);
+    }
+
+    //     이메일 인증번호 보내는 메소드
+    private void sendTempKey(String emailId, String key) throws MessagingException, UnsupportedEncodingException {
+        MailHandler sendMail = new MailHandler(mailSender);
+        sendMail.setSubject("Jenga 인증 번호 입니다.");
+        sendMail.setText(new StringBuffer().append("<h1>이메일 인증</h1><br><br>").append("키는 ").append("<h2><b>"+key+"</b></h2>").append(" 입니다").toString());
+        sendMail.setFrom("jengamaster@gmail.com","젠가관리자");
+        sendMail.setTo(emailId);      // 암호화 안한 이메일
+        sendMail.send();
+    }
 }
