@@ -3,11 +3,10 @@
 
 
 <div id="moveBtn" class="btn btn-danger w-100">move to join page..</div>
+    <div id="delBtn" class="btn btn-danger w-100">del member</div>
 
 
 </div>
-
-
 <script>
 
 $(document).ready( _ => {
@@ -24,6 +23,20 @@ $(document).ready( _ => {
 	
 	
 });
+
+$(document).ready( _ => {
+
+
+	setNavType("blue");
+
+
+	$("#delBtn").on('click', _ => {
+
+	    location.href="delMemInfo";
+
+    });
+});
+
 
 
 

@@ -119,8 +119,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE em_id = #{em_id} AND em_akey = #{em_akey}
 	</select>
 
-	<delete id="delMember">
-
+	<!-- 멤버 지움 -->
+	<delete id="delMemInfo">
+	DELETE FROM tbl_MemInfo
+	WHERE mem_iuid = #{aes_iuid}
 	</delete>
 
 	<update id="updateMember">

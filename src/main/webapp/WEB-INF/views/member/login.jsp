@@ -110,6 +110,7 @@ return false; --%>
                             $('#em_id').val("");
                             $('#em_id').focus();
                             return false;
+
                         } else if (responseData.indexOf('pwderror') != -1) {
                             alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
                             $('#em_pwd').val("");

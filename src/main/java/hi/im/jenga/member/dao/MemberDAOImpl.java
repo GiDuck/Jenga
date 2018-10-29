@@ -112,8 +112,16 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     public String findIuid(EmailMemberDTO emailMemberDTO) {
-        logger.info("findIuid IN DaiImpl");
+        logger.info("findIuid IN DaoImpl");
         return sqlSession.selectOne("member.findIuid", emailMemberDTO);
+    }
+
+    public void delMemInfo(String session_mem_iuid) {
+        logger.info("DaoImpl  |  delMemInfo 에 들어옴");
+        sqlSession.delete("member.delMemInfo",session_mem_iuid);
+        logger.info("나가라");
+        logger.info("나가라 했다");
+//        logger.info("n은 "+n);
     }
 
     public void sendKey(EmailMemberDTO emailMemberDTO) throws Exception {
@@ -123,7 +131,9 @@ public class MemberDAOImpl implements MemberDAO{
 
         // INSERT 아예 없을 경우
         if(emailMemberDTO.getEm_acheck() == null){
+            logger.info("null임 if문 들어옴");
             String aes_iuid  = aes256Cipher.AES_Encode(UUID.randomUUID().toString());     // Memberinfo에 넣어줄 iuid. 나머지는 0으로 지정
+            logger.info("aes_iuid는 "+aes_iuid);
             sqlSession.insert("member.tempIns", aes_iuid);                      // 임시로 memInfo 에 iuid, nick, profile, joindate 넣음
             emailMemberDTO.setEm_ref(aes_iuid);                                             // tbl_memInfo 의 iuid(PK)를 ref에 넣어줌
             logger.info(": : : sendKey 2 :");

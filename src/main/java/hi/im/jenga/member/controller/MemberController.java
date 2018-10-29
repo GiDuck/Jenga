@@ -54,7 +54,8 @@ public class MemberController {
 
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
-        logger.info(""+(MemberDTO)session.getAttribute("Member"));
+        logger.info("세션은 "+(MemberDTO)session.getAttribute("Member"));
+//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         return "main/main";
     }
 
@@ -306,6 +307,17 @@ public class MemberController {
 
 
 
+    @RequestMapping(value = "/delMemInfo", method = RequestMethod.GET)
+    public String delMemberInfoGET(HttpSession session) throws Exception {
+        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+        String session_mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+
+        memberService.delMemInfo(session_mem_iuid);
+
+        session.invalidate();
+//        회원정보 삭제 후 보여지는 페이지
+        return "redirect:/";
+    }
 
     /******************************** 소셜별 콜백 매핑 *********************************/
 

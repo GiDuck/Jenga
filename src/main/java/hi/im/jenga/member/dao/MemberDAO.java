@@ -40,4 +40,6 @@ public interface MemberDAO {
     boolean authCheck(EmailMemberDTO emailMemberDTO);
 
     String findIuid(EmailMemberDTO emailMemberDTO);
+
+    void delMemInfo(String aes_iuid);
 }

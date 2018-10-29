@@ -20,6 +20,8 @@
 
 
 		 	<property name="url" value="jdbc:oracle:thin:@172.22.239.79:1521:orcl"></property>
+			<!--<property name="username" value="jengayujun" />
+			<property name="password" value="jenga" />-->
 			<property name="username" value="#{data['oracle.username']}" />
 			<property name="password" value="#{data['oracle.password']}" />
 		</bean>
@@ -28,6 +30,8 @@
 		<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 			<property name="host" value="smtp.gmail.com" />
 			<property name="port" value="587" />
+<!--			<property name="username" value="imjengamaster@gmail.com" />
+			<property name="password" value="jengajenga12" />-->
 			<property name="username" value="#{data['gm.mailid']}" />
 			<property name="password" value="#{data['gm.mailpass']}" />
 

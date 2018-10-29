@@ -197,6 +197,10 @@ public class MemberServiceImpl implements MemberService {
         return dao.findIuid(emailMemberDTO);
     }
 
+    public void delMemInfo(String session_mem_iuid) {
+        dao.delMemInfo(session_mem_iuid);
+    }
+
     //     이메일 인증번호 보내는 메소드
     private void sendTempKey(String emailId, String key) throws MessagingException, UnsupportedEncodingException {
         MailHandler sendMail = new MailHandler(mailSender);
