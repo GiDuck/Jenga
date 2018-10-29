@@ -60,7 +60,7 @@ public class MemberController {
 
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
-        logger.info(""+(MemberDTO)session.getAttribute("Member"));
+
         return "main/main";
     }
 
