@@ -40,15 +40,12 @@ public class MemberDAOImpl implements MemberDAO{
         map.put("memberDTO", memberDTO);
         map.put("uploadPath", uploadPath);*/
 
-        return sqlSession.insert("member.addMemberInfo", memberDTO);
+        return sqlSession.update("member.addMemberInfo", memberDTO);
     }
 
-    public void addEMember(EmailMemberDTO emailMemberDTO, String iuid) {
-        HashMap<String, Object> map = new HashMap();
-        map.put("emailMemberDTO", emailMemberDTO);
-        map.put("iuid", iuid);
+    public void addEMember(String aes_iuid) {
 
-        sqlSession.insert("member.addEMember", map);
+        sqlSession.update("member.addEMember",aes_iuid);
     }
 
     public void addSMember(SocialMemberDTO socialMemberDTO, String iuid) {
@@ -119,12 +116,17 @@ public class MemberDAOImpl implements MemberDAO{
         return result == null? false : true;
     }
 
+    public String findIuid(EmailMemberDTO emailMemberDTO) {
+        logger.info("findIuid IN DaiImpl");
+        return sqlSession.selectOne("member.findIuid", emailMemberDTO);
+    }
+
     public void sendKey(EmailMemberDTO emailMemberDTO) throws Exception {
 
         logger.info(": : : sendKey 1 :");
 //        logger.info(": : : "+list.get(0).getEm_acheck()+"입니다.");
-        // 이메일은 있지만 인증여부가 N일 경우 INSERT
-        if(!emailMemberDTO.getEm_acheck().equals("N")){
+        // INSERT 아예 없을 경우
+        if(emailMemberDTO.getEm_acheck() == null){
             String aes_iuid  = aes256Cipher.AES_Encode(UUID.randomUUID().toString());     // Memberinfo에 넣어줄 iuid. 나머지는 0으로 지정
             sqlSession.insert("member.tempIns", aes_iuid);                      // 임시로 memInfo 에 iuid, nick, profile, joindate 넣음
             emailMemberDTO.setEm_ref(aes_iuid);                                             // tbl_memInfo 의 iuid(PK)를 ref에 넣어줌
@@ -132,6 +134,7 @@ public class MemberDAOImpl implements MemberDAO{
             sqlSession.insert("member.sendKeyInsert", emailMemberDTO);
             return;
         }
+        // 인증여부가 N 일때
         logger.info(": : : sendKey 3 :");
         sqlSession.update("member.sendKeyUpdate", emailMemberDTO);
 

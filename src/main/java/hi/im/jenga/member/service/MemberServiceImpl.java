@@ -42,15 +42,18 @@ public class MemberServiceImpl implements MemberService {
     private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 
 
-    public int addMemberInfo(MemberDTO memberDTO) throws Exception {
-        String iuid = UUID.randomUUID().toString(); // iuid 생성
+    public void addMemberInfo(MemberDTO memberDTO) throws Exception {
+        // String iuid = UUID.randomUUID().toString(); // iuid 생성
+        // 이메일을 이용해서 조건에 넣을 iuid를 찾아야함
         // 암호화 iuid, 닉네임, 파일경로, level
-        aes256Cipher.AES_Encode(iuid);
-        return dao.addMemberInfo(memberDTO);
+        // 암호화된 iuid는 컨트롤러에서 넣음
+        memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick()));
+        memberDTO.setMem_profile(aes256Cipher.AES_Encode(memberDTO.getMem_profile()));
+
+        dao.addMemberInfo(memberDTO);
     }
 
-    public void addEMember(EmailMemberDTO emailMemberDTO, String iuid) {
-        dao.addEMember(emailMemberDTO, iuid);
+    public void addEMember(String aes_iuid) { dao.addEMember(aes_iuid);
     }
 
     public void addSMember(SocialMemberDTO socialMemberDTO, String iuid) {
@@ -226,6 +229,14 @@ public class MemberServiceImpl implements MemberService {
 
         emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
         return dao.authCheck(emailMemberDTO);
+    }
+
+    public String findIuid(EmailMemberDTO emailMemberDTO) throws Exception {
+        logger.info("findIuid IN ServiceImpl");
+        //        이메일을 암호화시켜서 비교하기 위해
+        String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
+        emailMemberDTO.setEm_id(aes_id);
+        return dao.findIuid(emailMemberDTO);
     }
 
     //     이메일 인증번호 보내는 메소드

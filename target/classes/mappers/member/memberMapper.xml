@@ -8,18 +8,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 개인정보 (주) -->
 	<insert id="addMemberInfo">
-	INSERT INTO
+	UPDATE
 		tbl_memInfo
-		(mem_iuid, mem_nick, mem_profile, mem_joinDate)
-	VALUES (#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate)
+	SET
+		mem_nick = #{mem_nick}, mem_profile = #{mem_profile}, mem_joinDate = sysdate
+	WHERE mem_iuid = #{mem_iuid}
 	</insert>
 
 	<!-- 이메일 가입 (부) -->
 	<insert id="addEMember">
-	INSERT INTO
+	UPDATE
 		tbl_EMember
-		(em_id, em_ref, em_pwd)
-	VALUES (#{emailMemberDTO.em_id}, #{iuid}, #{emailMemberDTO.em_pwd})
+	SET
+		em_acheck = 'Y'
+	WHERE em_ref = #{aes_iuid}
 	</insert>
 
 	<!-- 소셜로그인 가입 (부) -->
@@ -120,6 +122,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateMember">
 
 	</update>
+
+	<select id="findIuid" resultType="String">
+	SELECT
+		em_ref
+	FROM
+		tbl_EMember
+	WHERE em_id = #{em_id}
+	</select>
 
 	<!--
 	<select id="isExist" resultType="String">
