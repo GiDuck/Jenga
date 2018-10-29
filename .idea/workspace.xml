@@ -7,27 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="754fd8a1-8606-4904-ac17-d348bf0866a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/controller/MemberController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/dao/MemberDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/dao/MemberDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/dao/MemberDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/dao/MemberDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/service/MemberService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/service/MemberService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/service/MemberServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/service/MemberServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/mappers/member/memberMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/mappers/member/memberMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/controller/MemberController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/dao/MemberDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/dao/MemberDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/dao/MemberDAOImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/service/MemberService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/service/MemberService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/service/MemberServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/service/MemberServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mappers/member/memberMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappers/member/memberMapper.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -61,17 +42,17 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="7162" />
+          <entry key="java" value="7260" />
           <entry key="jsp" value="2807" />
-          <entry key="xml" value="1395" />
+          <entry key="xml" value="1416" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="7162" />
+          <entry key="JAVA" value="7260" />
           <entry key="JSP" value="2807" />
           <entry key="SQL" value="53" />
-          <entry key="XML" value="1342" />
+          <entry key="XML" value="1363" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -108,11 +89,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="267" column="45" selection-start-line="267" selection-start-column="37" selection-end-line="267" selection-end-column="45" />
+            <state relative-caret-position="630">
+              <caret line="92" column="4" selection-start-line="92" selection-start-column="4" selection-end-line="92" selection-end-column="4" />
+              <folding>
+                <element signature="method#loginGET#0;class#MemberController#0" />
+                <element signature="method#loginPOST#0;class#MemberController#0" />
+                <element signature="method#findPwdPOST#0;class#MemberController#0" />
+                <element signature="method#authCheck#0;class#MemberController#0" />
+                <element signature="method#joinPOST#0;class#MemberController#0" />
+                <element signature="method#setMemberInfoPOST#0;class#MemberController#0" />
+                <element signature="method#regMemberInfoPOST#0;class#MemberController#0" />
+                <element signature="method#facebookcallback#0;class#MemberController#0" />
+                <element signature="method#kakaocallback#0;class#MemberController#0" />
+                <element signature="method#callback#0;class#MemberController#0" />
+                <element signature="method#googlecallback#0;class#MemberController#0" />
+                <element signature="method#getCategory#0;class#MemberController#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -129,7 +124,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
+            <state relative-caret-position="-1042">
               <caret line="55" column="69" selection-start-line="55" selection-start-column="69" selection-end-line="55" selection-end-column="69" />
               <folding>
                 <element signature="method#addAMember#0;class#MemberServiceImpl#0" />
@@ -162,11 +157,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+            <state relative-caret-position="-320">
+              <caret line="25" column="30" lean-forward="true" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -177,7 +172,6 @@
     <findStrings>
       <find>findPwModal</find>
       <find>findPwInnerBtn</find>
-      <find>isEMExist</find>
       <find>em_pwd2</find>
       <find>mo_em_id</find>
       <find>send</find>
@@ -191,6 +185,7 @@
       <find>em_id</find>
       <find>em_pwd</find>
       <find>regMemberInfoPOST</find>
+      <find>isEMExist</find>
     </findStrings>
     <replaceStrings>
       <replace>em</replace>
@@ -208,12 +203,12 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/login.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dto/EmailMemberDTO.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" />
       </list>
     </option>
   </component>
@@ -540,12 +535,12 @@
       <workItem from="1540571721801" duration="2834000" />
       <workItem from="1540708591125" duration="7082000" />
       <workItem from="1540715998595" duration="5561000" />
-      <workItem from="1540775398237" duration="5045000" />
+      <workItem from="1540775398237" duration="6622000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70501000" />
+    <option name="totallyTimeSpent" value="72078000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
@@ -570,7 +565,7 @@
       <window_info anchor="bottom" id="Application Servers" order="8" weight="0.216971" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.33834586" />
       <window_info anchor="bottom" id="Spring" order="10" weight="0.32899022" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.21568628" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.21482277" />
       <window_info anchor="bottom" id="CheckStyle" order="12" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
@@ -839,26 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="55" column="69" selection-start-line="55" selection-start-column="69" selection-end-line="55" selection-end-column="69" />
-          <folding>
-            <element signature="method#addAMember#0;class#MemberServiceImpl#0" />
-            <element signature="method#findEPwd#0;class#MemberServiceImpl#0" />
-            <element signature="method#findAPwd#0;class#MemberServiceImpl#0" />
-            <element signature="method#loginEMCheck#0;class#MemberServiceImpl#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -876,17 +851,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="267" column="45" selection-start-line="267" selection-start-column="37" selection-end-line="267" selection-end-column="45" />
+        <state relative-caret-position="105">
+          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1042">
+          <caret line="55" column="69" selection-start-line="55" selection-start-column="69" selection-end-line="55" selection-end-column="69" />
+          <folding>
+            <element signature="method#addAMember#0;class#MemberServiceImpl#0" />
+            <element signature="method#findEPwd#0;class#MemberServiceImpl#0" />
+            <element signature="method#findAPwd#0;class#MemberServiceImpl#0" />
+            <element signature="method#loginEMCheck#0;class#MemberServiceImpl#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+        <state relative-caret-position="-320">
+          <caret line="25" column="30" lean-forward="true" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="92" column="4" selection-start-line="92" selection-start-column="4" selection-end-line="92" selection-end-column="4" />
+          <folding>
+            <element signature="method#loginGET#0;class#MemberController#0" />
+            <element signature="method#loginPOST#0;class#MemberController#0" />
+            <element signature="method#findPwdPOST#0;class#MemberController#0" />
+            <element signature="method#authCheck#0;class#MemberController#0" />
+            <element signature="method#joinPOST#0;class#MemberController#0" />
+            <element signature="method#setMemberInfoPOST#0;class#MemberController#0" />
+            <element signature="method#regMemberInfoPOST#0;class#MemberController#0" />
+            <element signature="method#facebookcallback#0;class#MemberController#0" />
+            <element signature="method#kakaocallback#0;class#MemberController#0" />
+            <element signature="method#callback#0;class#MemberController#0" />
+            <element signature="method#googlecallback#0;class#MemberController#0" />
+            <element signature="method#getCategory#0;class#MemberController#0" />
+          </folding>
         </state>
       </provider>
     </entry>
