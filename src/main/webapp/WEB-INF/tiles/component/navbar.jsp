@@ -70,7 +70,7 @@
             </c:when>
             
             <c:otherwise>
-             <a class="nav-link">Login</a>
+             <a class="nav-link">LOGIN</a>
             
             </c:otherwise>
           </c:choose>
@@ -108,7 +108,7 @@
 		  
 		  let success = function(){
 			  
-			location.replace("/join");			  
+			location.href= "/join";			  
 		  }
 		  
 		  let fail = function(){ 

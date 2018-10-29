@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+    
+<script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>  
+    
 	 <style>
-	 
 	 .modal-open .modal {
 	  display: block;
 	}
@@ -42,7 +44,7 @@
 	
 	<script>
 	
-	//모달 생성 Object
+	//Modal Object
 	function Modal () {
 	
 		this.modal = $("#defaultModal").clone();
@@ -97,7 +99,13 @@
 	
 
 
-	//모달 타입을 결정하는 팩토리 함수
+	//Modal Factory Function
+	//.. You can make a modal to match your purpose simplly.
+	//... Parameter is type (simple, triple), simple is made by two part. header and body.
+	//... triple is made by three part. header and body and footer.
+	//... You can define DOM object and inject that.
+	//... So Modal Factory will be assemble that.
+	
 	function ModalFactory(type, header, body, footer){
 		
 		this.modal = new Modal();
@@ -131,10 +139,10 @@
 
 		}
 	
-	
+	//PW Modal
 	function makePWModal(){
 		
-		let header = $("<h3>").attr("id", "findPwModal").addClass("modal-title text-center").html("비밀번호 찾기").append($("<p>").html("ê°ìì ìë ¥í ì´ë©ì¼ì ìë ¥íì¸ì.."));
+		let header = $("<h3>").attr("id", "findPwModal").addClass("modal-title text-center").html("비밀번호 찾기").append($("<p>").html("가입시 입력한 이메일을 입력하세요.."));
 		
 		let successFunc = function(){
 			
@@ -150,12 +158,13 @@
 				.append($("<input>").attr("type", "email").attr("placeholder", "Email").addClass("form-control"))
 				.append($("<br>"))
 				.append(
-						$("<button>").attr("id", "findPwInnerBtn").addClass("btn btn-block btn-round").html("ë¹ë°ë²í¸ ì°¾ê¸°").on('click', function(){ 
+						$("<button>").attr("id", "findPwInnerBtn").addClass("btn btn-block btn-round").html("Find").on('click', function(){ 
 						
 				 		let email = $(this).parent().find("input[type=email]").val();
 						console.log("찾아온 이메일.." + email);
 				 		
 						//You request by AJAX, than decise by recived token.	
+						
 						let token = false;
 						if(token){
 						makeSimpleNotifyModal('비밀번호 변경', '임시 비밀번호가 이메일로 발송 되었습니다. \n 이메일을 확인 해 주세요', function(){});
@@ -174,30 +183,111 @@
 	}
 	
 	
-	//이메일 회원가입 모달
+	//Email Join Modal
 	function makeJoinEmailModal(){
 	
 		 let header = $("<h3>").addClass("modal-title text-center")
-		 			.append($("<label>").addClass("form-group").html("ì´ë©ì¼ë¡ íìê°ì"));
+		 			.append($("<label>").addClass("form-group").html("이메일로 회원가입"));
 		 
 		 let body = $("<div>").addClass("form-group")
 		 			.append($("<label>").html("Email"))
 		 			.append($("<input>").attr("type", "email").attr("placeholder", "Email").addClass("form-control"))
 		 			.append($("<br>"))
 		 			.append($("<label>").html("PW"))
-		 			.append($("<input>").attr("type", "password").attr("placeholder", "Password").addClass("form-control"))
+		 			.append($("<input>").attr("id", "pwd").attr("type", "password").attr("placeholder", "대문자, 소문자, 숫자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keydown focus', function(e){
+		 				
+		 				
+						let pwd = undefined;
+		 				
+		 				setTimeout(function(){
+		 					
+		 					$pwdCheck = $(e.target).parent().find("#pwdCheck");
+		 					$pwd = $(e.target);
+							
+		 					
+		 					pwd = $(e.target).val();
+		 					console.log(pwd);
+		 					console.log(REGEX_PASSWORD);
+
+		 					console.log(REGEX_PASSWORD.test(pwd));
+		 					if(REGEX_PASSWORD.test(pwd)){
+		 						$pwd.css("background-color", "#BEEFFF");
+
+
+		 						
+		 					}else{
+		 						
+		 						$pwd.css("background-color", "#FFE6E6");
+
+		 						
+		 					}
+		 					
+		 					if($pwdCheck.val() === pwd && (pwd && $(e.target).val())){
+		 						
+		 						$pwdCheck.css("background-color", "#BEEFFF");
+		 					}else{
+		 						
+		 						$pwdCheck.css("background-color", "#FFE6E6");
+
+		 					}
+			 			
+
+		 				}, 500);
+		 				
+		 			}))
 		 			.append($("<br>"))
 		 			.append($("<label>").html("PW CHECK"))
-		 			.append($("<input>").attr("type", "password").attr("placeholder", "Password Check").addClass("form-control"))
+		 			.append($("<input>").attr("id", "pwdCheck").attr("type", "password").attr("placeholder", "Password Check").addClass("form-control").on('keydown focus', function(e){
+		 				let pwd = undefined;
+		 				
+		 				setTimeout(function(){
+		 					
+		 					$pwd = $(e.target).parent().find("#pwd");
+		 					
+		 					if($pwd.val() === $(e.target).val() && ($pwd.val() && $(e.target).val())){
+		 						
+		 						$(e.target).css("background-color", "#BEEFFF");
+		 					}else{
+		 						
+		 						$(e.target).css("background-color", "#FFE6E6");
+
+		 					}
+			 			
+
+		 				}, 500);
+		 				
+		 				
+		 			}))
 		 			.append($("<br>"))
 		 			.append($("<button>").attr("id", "joinEmailBtn").addClass("btn btn-block btn-round").html("Join").on('click', function(e){
 
+		 			
+		 				
+		 				let id = $(this).parent().find("input[type=email]").val();
+		 				let pwd = $(this).parent().find("input[type=email]").val();
+	
+		 					 				
+		 				//Please request on here by AJAX to Server.
+		 				//.. You can receive token that procedure was fine or bad.
+		 				
+		 				let token = true;
+		 				
+		 				if(token){
 		 				makeSimpleNotifyModal('이메일로 회원가입', '인증 번호가 발송되었습니다..',  function(){});
+		 				
+		 				}else{
+		 					
+		 				makeSimpleNotifyModal('이메일로 회원가입', '인증이 실패하였습니다. 이메일이 정확한 지 확인하세요.',  function(){});
+			 					
+		 				}
 		 				e.preventDefault();
 
 					}))
 					.append($("<br>"));
 
+		 
+		 
+		 
 		 return ModalFactory("simple", header, body);
 
 
@@ -213,14 +303,14 @@
 			 
 		 let body = $("<div>").addClass("form-group")
 		 		.append($("<label>").html("ID..."))
-		 		.append($("<input>").attr("type", "text").attr("placeHolder", "Email").addClass("form-control"))
+		 		.append($("<input>").attr("type", "email").attr("placeHolder", "Email").addClass("form-control"))
 		 		.append($("<br>"))
 		 		.append($("<label>").html("PW.."))
 		 		.append($("<input>").attr("type", "password").attr("placeHolder", "Password").addClass("form-control"))
 		 		.append($("<button>").attr("id", "recoverSocialAuthBtn").addClass("btn btn-block btn-round").html("Login").css("margin-top", "40px").on('click', function(e){
 		 			
 		 			let id = $(this).parent().find("input[type=email]").val();
-		 			let pwd = $(this).parent().find("input[type=pwd]").val();
+		 			let pwd = $(this).parent().find("input[type=password]").val();
 		 			console.log("받아온 id " + id + " 받아온 pwd " + pwd);
 		 			e.preventDefault();
 		 			
