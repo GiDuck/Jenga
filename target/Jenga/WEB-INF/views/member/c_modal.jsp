@@ -42,23 +42,29 @@
                 <br>
             </div>
             <%-- 유효성 검사 후 JOIN 버튼 누르면 컨트롤러에서 이메일, 비밀번호 EMEMBER에 넣고 uuid 생성해서 추가정보로 uuid 넘기면됨--%>
-            <%--<form method="POST" action="/setMemInfo">--%>
+            <form method="POST" id="form_setMemInfo" name="form_setMemInfo">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Email</label>
-                    <input type="email" value="" placeholder="Email" class="form-control" id="am_id" name="am_id"/><br>
+                    <input type="email" value="" placeholder="Email" class="form-control" id="em_id" name="em_id"/><br>
                         <label>PW</label>
-                    <input type="password" value="" placeholder="Password" class="form-control" id="am_pwd" name="am_pwd" />
+                    <input type="password" value="" placeholder="Password" class="form-control" id="em_pwd" name="em_pwd" />
                         <br>
                         <label>PW CHECK</label>
-                    <input type="password" value="" placeholder="Password Check" id="am_pwd2" class="form-control" />
+                    <input type="password" value="" placeholder="Password Check" id="em_pwd2" class="form-control" />
+                        <br>
+                        <label>Auth Key</label>
+                    <input type="text" value="" placeholder="Auth Key" id="em_akey" name="em_akey" />
 
                   </div>
+                  <br>
+                    <button id="sendKeyBtn" class="btn btn-block btn-round"> 인증번호 전송</button>
+                  <br>
                   <br>
                     <button id="joinEmailBtn" class="btn btn-block btn-round"> Join</button>
                   <br>
                 </div>
-            <%--</form>--%>
+            </form>
         </div>
     </div>
 </div>
@@ -154,31 +160,25 @@
 
 	
 	
-	var makeSimpleNotifyModal = function(mTitle, mContent, mCloseName, closeParent){
 
-		
-		var simpleNotifyModal= $("#simpleNotifyModal");
-			simpleNotifyModal.find(".modal-title").html(mTitle);
-			simpleNotifyModal.find(".modal-body").html(mContent);
-			simpleNotifyModal.find("#closeBtn").html(mCloseName);
-			simpleNotifyModal.find("#closeBtn").on('click', _ => {
+    var makeSimpleNotifyModal = function(mTitle, mContent, mCloseName, closeParent){
 
-			});
-			
-			
-			simpleNotifyModal.on('hide.bs.modal', _ => {
-				
-				if(closeParent){
-					closeParent.modal('hide');
-					
-				}
-				
-			});
-			
-			simpleNotifyModal.modal({show : true});
+        var simpleNotifyModal= $("#simpleNotifyModal");
+        simpleNotifyModal.find(".modal-title").html(mTitle);
+        simpleNotifyModal.find(".modal-body").html(mContent);
+        simpleNotifyModal.find("#closeBtn").html(mCloseName);
+        simpleNotifyModal.find("#closeBtn").on('click', _ => {
 
-	};
+        });
 
+        simpleNotifyModal.modal({show : true});
+        /*simpleNotifyModal.on('hide.bs.modal', function(e){
+
+            location.href = "/setMemInfo";
+
+        });*/
+
+    };
 	// 비밀번호 찾기
     // 빈칸 유효성검사
 	$("#findPwInnerBtn").on('click', _ => {
@@ -192,48 +192,107 @@
             if(data.indexOf('success') != -1){
                 $("#find_pwd").val("");
                 makeSimpleNotifyModal('이메일 전송 완료', '임시 비밀번호가 이메일로 발송되었습니다. \n 확인 해 주세요.', '닫기', $("#findPwInnerBtn").parents("#findPwModal"));
+                return false;
             }else if(data.indexOf('error') != -1){
                 $("#find_pwd").val("");
                 makeSimpleNotifyModal('이메일 전송 실패', '존재하지 않는 이메일입니다. \n 다시 확인 해 주세요.', '닫기', $("#findPwInnerBtn").parents("#findPwModal"));
+                return false;
             }
         })
 
 	});
 
-	// 이메일 중복확인 후 임시테이블에 데이터 넣음
-    // 빈칸 유효성검사
-	$("#joinEmailBtn").on('click', _ => {
+	// 인증키 메일에 보내기 -> 여기서 유효성검사(빈칸, 비번체크 등)
+
+    // /authCheck에서 이메일 중복검사
+	$("#sendKeyBtn").on('click', _ => {
+        event.preventDefault();
+        alert($("#em_id").val());
+        alert($("#em_pwd").val());
+        console.log("뭐고"+$("#em_id").val());
         $.ajax({
-            url: "/setAMem",
+            url: "/authCheck",
             type: "post",
             data: {
-                "am_id": $("#am_id").val(),
-                "am_pwd": $("#am_pwd").val()
+                "em_id": $("#em_id").val(),
+                "em_pwd": $("#em_pwd").val()
             },
+
         }).done(function (responseData) {
-            $(this).remove();
-            var data = responseData;
-            if (data.indexOf('success') != -1) {
-                makeSimpleNotifyModal('아직 한 단계가 더 남았습니다.', '이메일로 인증번호가 전송되었습니다. \n 확인 해 주세요.', '닫기', $("#joinEmailBtn").parents("#joinEmailModal"));
-                $("#am_id").val("");
-                $("#am_pwd").val("");
-                $("#am_pwd2").val("");
-            } else if (data.indexOf('EMexist') != -1) {
-                makeSimpleNotifyModal('아직 한 단계가 더 남았습니다.', '이미 존재하는 이메일입니다. \n 확인 해 주세요.', '닫기', $("#joinEmailBtn").parents("#joinEmailModal"));
-                $("#am_id").val("");
-                $("#am_pwd").val("");
-                $("#am_pwd2").val("");
-                /*alert('이미 존재하는 이메일입니다.');
-                return false;*/
-            } else if (data.indexOf('AMexist') != -1) {
-                makeSimpleNotifyModal('아직 한 단계가 더 남았습니다.', '인증 대기중인 이메일입니다. \n 이메일을 확인 해 주십시오.', '닫기', $("#joinEmailBtn").parents("#joinEmailModal"));
-                $("#am_id").val("");
-                $("#am_pwd").val("");
-                $("#am_pwd2").val("");
-                /* alert('인증 대기중인 이메일입니다.');
-                return false;*/
+               console.log(responseData);
+
+               // 이메일이 존재하지 않을때 / 이메일 O, 인증여부 Y
+                if(responseData.indexOf('sendAuthKey') != -1){
+                    makeSimpleNotifyModal('아직 한 단계가 더 남았습니다.', '이메일로 인증번호가 전송되었습니다. \n 확인 해 주세요.', '닫기', $("#sendKeyBtn").parents("#joinEmailModal"));
+                    $("#em_id").prop('readonly', true);
+                    $("#em_pwd").prop('readonly', true);
+                    $("#em_pwd2").prop('readonly', true);
+                // 이미 가입한 이메일 일 때
+                }else if(responseData.indexOf('isExist') != -1){
+                    makeSimpleNotifyModal('아직 한 단계가 더 남았습니다.', '이미 존재하는 이메일입니다. \n 다시 확인 해 주세요.', '닫기', $("#sendKeyBtn").parents("#joinEmailModal"));
+                    $("#em_id").val("");
+                    $("#em_pwd").val("");
+                    $("#em_pwd2").val("");
+                }
+            })
+        });
+
+	// 인증번호 전송버튼에서 체크하고 이메일로 보낸 Auth Key를 체크해서 추가입력 페이지로 넘어감
+	$("#joinEmailBtn").on('click', _ => {
+        event.preventDefault();
+	    alert("클릭됐다");
+	    $.ajax({
+            url: "/join",
+            type: "post",
+            data: {
+                "em_id" : $("#em_id").val(),
+                "em_akey": $("#em_akey").val()
+            },
+            success : function(responseData){
+                alert("펑션실행");
+                alert(responseData);
+                if (responseData.indexOf('success') != -1) {
+                    makeSimpleNotifyModal('이메일 인증 완료', '인증이 완료되었습니다.', '닫기', $("#joinEmailBtn").parents("#joinEmailModal"));
+                    /*$("#em_id").val("");
+                    $("#em_pwd").val("");
+                    $("#em_pwd2").val("");
+                    $("#em_akey").val("");*/
+                    $("#simpleNotifyModal").on('hide.bs.modal',function (e) {
+                        let d = document.form_setMemInfo;
+                        d.method = "post"
+                        d.action = "/setMemInfo"
+                        d.submit();
+                        e.stopImmediatePropagation();
+                    });
+
+                } else if (responseData.indexOf('error') != -1) {
+                    alert("에러에러에러")
+                    makeSimpleNotifyModal('아직 한 단계가 더 남았습니다.', '인증번호가 올바르지 않습니다. \n 다시 확인 해 주세요.', '닫기', $("#joinEmailBtn").parents("#joinEmailModal"));
+                    $("#em_akey").val("");
+                }
             }
-        })
+        })/*.done(function (responseData) {
+            alert("펑션실행");
+            alert(responseData);
+            if (responseData.indexOf('success') != -1) {
+                makeSimpleNotifyModal('이메일 인증 완료', '인증이 완료되었습니다.', '닫기', $("#joinEmailBtn").parents("#joinEmailModal"));
+                /!*$("#em_id").val("");
+                $("#em_pwd").val("");
+                $("#em_pwd2").val("");
+                $("#em_akey").val("");*!/
+                $("#joinEmailBtn").on(function () {
+                    alert("버튼 실행")
+                    var d = document.form_setMemInfo;
+                    d.method = "post"
+                    d.action = "/setMemInfo"
+                    d.submit();
+                })
+            } else if (responseData.indexOf('error') != -1) {
+                alert("에러에러에러")
+                makeSimpleNotifyModal('아직 한 단계가 더 남았습니다.', '인증번호가 올바르지 않습니다. \n 다시 확인 해 주세요.', '닫기', $("#joinEmailBtn").parents("#joinEmailModal"));
+                $("#em_akey").val("");
+            }
+        })*/
 
     })
 		// makeSimpleNotifyModal('아직 한 단계가 더 남았습니다.', '이메일로 인증번호가 전송되었습니다. \n 확인 해 주세요.', '닫기', $("#joinEmailBtn").parents("#joinEmailModal"));

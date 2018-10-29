@@ -52,10 +52,11 @@
                         Us!</h3>
                     <form class="register-form" method ="post">
                         <label>Email</label>
-                        <input type="email" class="form-control no-border" placeholder="Email" id="em_id" name="em_id"
+
+                        <input type="email" class="form-control no-border" placeholder="Email" id="login_em_id"
                                style="color : black;">
                         <label>Password</label>
-                        <input type="password" class="form-control no-border" placeholder="Password" id="em_pwd"
+                        <input type="password" class="form-control no-border" placeholder="Password" id="login_em_pwd"
                                style="color : black;">
                         <button class="btn btn-danger btn-block btn-round" id="login-check" >Login</button>
                         <input type="checkbox" id="saveid" name="saveid">아이디 저장
@@ -77,39 +78,43 @@
 </div>
 
 
+<%-- if ($('#em_id').val() == "") {
+alert('이메일을 입력해주세요');
+$('#em_id').focus();
+return false; --%>
 <script>
     $(function () {
         $('#login-check').on('click', function (e) {
             e.preventDefault();
             console.log(e);
-            if ($('#em_id').val() == "") {
+            if ($('#login_em_id').val() == "") {
                 alert('이메일을 입력해주세요');
-                $('#em_id').focus();
+                $('#lgoin_em_id').focus();
                 return false;
-            }else if($('#em_pwd').val() == ""){
+            } else if ($('#login_em_pwd').val() == "") {
                 alert('비밀번호를 입력해주세요');
-                $('#em_pwd').focus();
+                $('#login_em_pwd').focus();
                 return false;
-            }else{
+            } else {
                 $.ajax({
-                    url : "/logincheck",
-                    type : "post",
-                    data : {
-                        "em_id" : $('#em_id').val(),
-                        "em_pwd" : $('#em_pwd').val()
+                    url: "/logincheck",
+                    type: "post",
+                    data: {
+                        "em_id": $('#login_em_id').val(),
+                        "em_pwd": $('#login_em_pwd').val()
                     },
-                    success : function (responseData) {
+                    success: function (responseData) {
 
-                        if(responseData.indexOf('iderror')!= -1){
+                        if (responseData.indexOf('iderror') != -1) {
                             alert("존재하지 않는 아이디 입니다. 다시 확인해 주세요!");
                             $('#em_id').val("");
                             $('#em_id').focus();
                             return false;
-                        }else if(responseData.indexOf('pwderror')!= -1){
+                        } else if (responseData.indexOf('pwderror') != -1) {
                             alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
                             $('#em_pwd').val("");
                             $('#em_pwd').focus();
-                        }else{
+                        } else {
                             location.replace("/");
 
                         }
@@ -119,52 +124,51 @@
 
         });
 
+    });
+
+    $(document).ready(_ => {
+
+        let $btn_comp = $("#btn_components").clone();
+
+        $("#join_socialBtn").html($btn_comp.css({'display': 'inline'}));
 
 
-        $(document).ready(_ => {
+        $btn_comp.find("#emailBtn").on('click', _ => {
+            $(this).remove();
+            $("#joinEmailModal").modal('show');
 
-            let $btn_comp = $("#btn_components").clone();
-
-            $("#join_socialBtn").html($btn_comp.css({'display': 'inline'}));
-
-
-            $btn_comp.find("#emailBtn").on('click', _ => {
-
-                $("#joinEmailModal").modal('show');
-
-            });
+        });
 
 
-            $btn_comp.find("#fbBtn").on('click', _ => {
-                location.href = "${f}";
+        $btn_comp.find("#fbBtn").on('click', _ => {
+            location.href = "${f}";
 
-            });
+        });
 
-            $btn_comp.find("#googleBtn").on('click', _ => {
-                location.href = "${g}";
+        $btn_comp.find("#googleBtn").on('click', _ => {
+            location.href = "${g}";
 
-            });
+        });
 
-            $btn_comp.find("#kakaoBtn").on('click', _ => {
-                location.href = "${k}";
+        $btn_comp.find("#kakaoBtn").on('click', _ => {
+            location.href = "${k}";
 
-            });
+        });
 
-            $btn_comp.find("#naverBtn").on('click', _ => {
-                location.href = "${n}";
-
-
-            });
+        $btn_comp.find("#naverBtn").on('click', _ => {
+            location.href = "${n}";
 
 
         });
+
+
     });
 
 
     $(document).ready(function(){
        let em_id = getCookie("saveid");
-       $("#em_id").val(em_id);
-       if($("#em_id").val() != ""){
+       $("#login_em_id").val(em_id);
+       if($("#login_em_id").val() != ""){
            $("#saveid").attr("checked", true);
        }
 
@@ -177,9 +181,9 @@
            }
        });
 
-       $("#em_id").keyup(function () {
+       $("#login_em_id").keyup(function () {
            if($("#saveid").is(":checked")){
-               let saveid = $("#em_id").val();
+               let saveid = $("#login_em_id").val();
                setCookie("saveid",saveid,7);
            }
        })

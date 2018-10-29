@@ -4,7 +4,6 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
-import hi.im.jenga.member.dto.AuthMemberDTO;
 import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.UtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
@@ -24,6 +23,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
 import java.util.*;
 
 @Controller
@@ -58,7 +60,7 @@ public class MemberController {
 
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
-        logger.info((String)session.getAttribute("access_token"));
+        logger.info((String)session.getAttribute("Member"));
         return "main/main";
     }
 
@@ -69,8 +71,8 @@ public class MemberController {
         String check = memberService.checkEmail(emailMemberDTO);
         logger.info("체크"+check);
         if(check.equals("success")){
-            String access_token = memberService.getToken(emailMemberDTO);
-            session.setAttribute("access_token",access_token);
+            MemberDTO Member = memberService.getMemInfo(emailMemberDTO);
+            session.setAttribute("Member",Member);
         }
 
         response.getWriter().println(check);
@@ -101,74 +103,117 @@ public class MemberController {
         return "member/login";
     }
 
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    public @ResponseBody void loginPOST(EmailMemberDTO emailMemberDTO, HttpSession session, Model model) throws Exception {
+        logger.info(emailMemberDTO.getEm_id());
+        logger.info(emailMemberDTO.getEm_pwd());
+        //memberService.loginEMCheck(emailMemberDTO);
+    }
+
     @RequestMapping(value = "/findPwd", method = RequestMethod.POST)
     public @ResponseBody void findPwdPOST(@RequestParam String find_pwd, HttpServletResponse response) throws Exception{
         String check = "success";
         boolean result;
 //        이메일로 가입한 회원조회
-        result = memberService.isEMExist(aes256Cipher.AES_Encode(find_pwd));
+
+
+        /*result = memberService.isEMExist(aes256Cipher.AES_Encode(find_pwd));
         if(result) {    // 존재하면 해당 (이메일테이블)이메일에 이메일 전송
             memberService.findEPwd(find_pwd);
             response.getWriter().println(check);
             return;
-        }
-        result = memberService.isAMExist(aes256Cipher.AES_Encode(find_pwd));
+        }*/
+
+
+        /*result = memberService.isAMExist(aes256Cipher.AES_Encode(find_pwd));
         if(result) {    // 존재하면 해당 (임시테이블)이메일에 이메일 전송
             memberService.findAPwd(find_pwd);
             response.getWriter().println(check);
             return;
-        }
+        }*/
 
         check="error";
         response.getWriter().println(check);
         return;
     }
 
-    // 이메일로 '임시' 가입하기(이메일, 비밀번호, 인증키 임시테이블에 저장 / mail로 인증키 보내야함)
-    @RequestMapping(value = "/setAMem", method = RequestMethod.POST)
-    public @ResponseBody void setAMemberPOST(@ModelAttribute AuthMemberDTO authMemberDTO, HttpServletResponse response) throws Exception{
-        logger.info(": : : setAMemberPOST 들어옴");
+    // 이메일 가입 / 인증번호 발송 버튼
+    @RequestMapping(value="/authCheck", method = RequestMethod.POST)
+    public void authCheck(@ModelAttribute EmailMemberDTO emailMemberDTO, HttpServletResponse response) throws Exception {
+        String check = "success";
+        String result;
+        logger.info("아이디 받아옴"+emailMemberDTO.getEm_id());
+        result = memberService.isEMExist(emailMemberDTO.getEm_id());
+        System.out.println(result);
+//        이미 완전 가입완료한 이메일 일 경우
+        if(result.equals("Y")){
+            System.out.println("yyyyyyyy");
+            logger.info("이미 존재하는 이메일입니다.");
+            response.getWriter().println("isExist");
+//        가입은 했지만 인증을 안한 이메일
+        }else if(result.equals("N")) {
+            System.out.println("N이다");  // N 이니까 UPDATE를 해야해서 N으로 구분해줌
+            emailMemberDTO.setEm_acheck("N");
+            System.out.println(emailMemberDTO.getEm_id());
+        }
+//        N이거나 null이거나 무조건 들어옴 service에서 구분
+        check = memberService.sendKey(emailMemberDTO);
+
+        logger.info(check);
+        if(check.equals("sendAuthKey")){
+            logger.info("인증키를 보냈습니다.");
+            response.getWriter().println(check);
+        }
+        //
+
+
+        /*logger.info(String.valueOf(result));
+        if(result){
+            check = "error";
+            response.getWriter().println(check);
+            return;
+        }*/
+
+
+
+
+        //memberService.sendKey(emailMemberDTO);
+     /*   logger.info("돌아와서 "+check);
+        response.getWriter().println(check);*/
+    }
+
+    @RequestMapping(value="/join", method = RequestMethod.POST)
+    public @ResponseBody void joinPOST(@ModelAttribute EmailMemberDTO emailMemberDTO, HttpServletResponse response) throws Exception {
         String check = "success";
         boolean result;
 
-        String aes_Eid = aes256Cipher.AES_Encode(authMemberDTO.getAm_id());
+        logger.info(emailMemberDTO.getEm_id());
+        logger.info(emailMemberDTO.getEm_akey());
 
-        logger.info("이메일 "+authMemberDTO.getAm_id());
-        logger.info("암호화한 이메일 "+aes_Eid);
-        // 받은 이메일을 암호화시켜서 비교 / 존재하면 true -> if문 들어감
+        result = memberService.authCheck(emailMemberDTO);
 
-//        임시테이블에 이메일 존재유무
-        result = memberService.isEMExist(aes_Eid);
-        if(result){
-            logger.info("존재하는 이메일입니다.");
-            check = "EMexist";
+        // 이메일 인증 실패시 (잘못된 인증키 입력시)
+        if(!result){
+            check = "error";
             response.getWriter().println(check);
             return;
         }
+        logger.info(check);
+        // 인증여부 Y로 바꿔야함, 테이블에 값 넣어야함
 
-//        임시테이블에 이메일 존재유무
-        result = memberService.isAMExist(aes_Eid);
-        if(result){
-            logger.info("인증 대기중인 이메일입니다.");
-            check = "AMexist";
-            response.getWriter().println(check);
-            return;
-        }
-
-        authMemberDTO.setAm_id(authMemberDTO.getAm_id());
-        authMemberDTO.setAm_pwd(authMemberDTO.getAm_pwd());
-        //메일 인증키 가져오기
-        memberService.addAMember(authMemberDTO);
-
-//        tbl_AMember에 데이터 넣고 인증번호 전송완료
+        /*memberService.join(emailMemberDTO);*/
         response.getWriter().println(check);
 
     }
 
     // 모달에서 이메일, 비밀번호 넘어옴 / 여기서 uuid 만들어야함
     // 임시 추가정보 페이지 (GET)
+
+
     @RequestMapping(value = "/setMemInfo", method = RequestMethod.POST)
-    public String setMemberInfoPOST(@ModelAttribute EmailMemberDTO emailMemberDTO, @ModelAttribute SocialMemberDTO socialMemberDTO, Model model) {
+    public String setMemberInfoPOST(@ModelAttribute EmailMemberDTO emailMemberDTO , @ModelAttribute SocialMemberDTO socialMemberDTO, Model model, HttpServletResponse response) throws IOException {
+        logger.info(": : setMemberInfoPOST : : emailMemberDTO.getEm_id()는 : " +emailMemberDTO.getEm_id());
+        logger.info(": : setMemberInfoPOST : : emailMemberDTO.getEm_pwd()는 : "+ emailMemberDTO.getEm_pwd());
 
 
 //        value="/callback"
@@ -185,11 +230,35 @@ public class MemberController {
                                     MultipartHttpServletRequest request) throws Exception {
         MemberDTO memberDTO = new MemberDTO();
 
+
+        logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
+        logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : "+ emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
+//       이미 암호화 후 받아온 고유아이디, 소셜 타입
+        logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_id : "+ socialMemberDTO.getSm_id());        // 1단계에서 고유아이디
+        logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_type : "+ socialMemberDTO.getSm_type());    // 1단계에서 소셜 타입
+
+        logger.info(": : regMemberInfoPOST : : uploadFile : "+ uploadFile);                                    // 2단계에서 넣은 이미지
+        logger.info(": : regMemberInfoPOST : : mem_nick : "+ mem_nick);                                        // 2단계에서 입력한 닉네임
+
+
 //      UtilFile 객체 생성
         UtilFile utilFile = new UtilFile();
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
         String uploadPath = utilFile.fileUpload(request, uploadFile);
 
+
+
+        /*** 다시
+         *
+         * service에서 암호화, iuid 생성
+         *
+         * ***/
+
+        memberDTO.setMem_profile(uploadPath);
+
+        memberService.addMemberInfo(memberDTO);
+
+        /*** 다시 ***/
 
 
 
@@ -218,10 +287,20 @@ public class MemberController {
 
 
         // if 이메일 회원가입이면
+/*<<<<<<< HEAD
         if (!(emailMemberDTO.getEm_id().equals(""))) {
 //      eMember에 이메일, 비밀번호 넣어야함
 
             SHA256Cipher sha = SHA256Cipher.getInstance();
+=======*/
+        // 인증여부 Y로 바꿔야함
+        // update로 iuid 최신화, 닉네임, 파일경로, level, date)바꿔주기   IN tbl_memInfo
+        // update로 이메일, 비밀번호, 인증여부 'Y' emember  WHERE
+        if(!(emailMemberDTO.getEm_id().equals(""))){
+//      eMember에 이메일, 비밀번호 넣어야함
+            logger.info("이메일 회원가입입니다.");
+           /* SHA256Cipher sha = SHA256Cipher.getInstance();
+>>>>>>> c8adfc83a49fdfebebea2d63ec2f6b19c2051bc5
 
 
             //String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
@@ -232,7 +311,7 @@ public class MemberController {
 
 
 
-            memberService.addEMember(emailMemberDTO, aes_iuid);
+            memberService.addEMember(emailMemberDTO, aes_iuid);*/
 
             return "redirect:/";
         }
@@ -483,40 +562,4 @@ public class MemberController {
 
     public String joinmember() {
 
-
-
-        return "";
-    }
-    */
-
-
-   /* // 메일 인증
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String RegisterPost(MemberVO user, Model model, RedirectAttributes rttr) throws Exception{
-
-        System.out.println("regesterPost 진입 ");
-        service.regist(user);
-        rttr.addFlashAttribute("msg" , "가입시 사용한 이메일로 인증해주세요");
-        return "redirect:/";
-    }
-
-    //이메일 인증 코드 검증
-    @RequestMapping(value = "/emailConfirm", method = RequestMethod.GET)
-    public String emailConfirm(MemberVO user,Model model,RedirectAttributes rttr) throws Exception {
-
-        System.out.println("cont get user"+user);
-        MemberVO vo = new MemberVO();
-        vo=service.userAuth(user);
-        if(vo == null) {
-            rttr.addFlashAttribute("msg" , "비정상적인 접근 입니다. 다시 인증해 주세요");
-            return "redirect:/";
-        }
-        //System.out.println("usercontroller vo =" +vo);
-        model.addAttribute("login",vo);
-        return "/user/emailConfirm";
-    }
-*/
-    
-
-
+       */

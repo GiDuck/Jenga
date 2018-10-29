@@ -4,13 +4,7 @@ import java.util.Random;
 /*
 
     인증키 생성
-=======
-/*
 
-
-        이메일 인증 키 생성을 위해서 사용될
-
->>>>>>> 6489240b256f17e90df99b952791d6cdf93da6b7
 
  */
 public class TempKey {

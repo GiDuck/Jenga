@@ -5,11 +5,18 @@ import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 import hi.im.jenga.member.dto.AuthMemberDTO;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public interface MemberService {
-    int addMemberInfo(MemberDTO memberDTO);
+    int addMemberInfo(MemberDTO memberDTO) throws Exception;
 
     void addEMember(EmailMemberDTO emailMemberDTO, String iuid);
 
@@ -19,7 +26,7 @@ public interface MemberService {
 
     boolean isSMExist(String aes_sid);
 
-    boolean isEMExist(String aes_eid);
+    String isEMExist(String em_id) throws Exception;
 
     boolean isAMExist(String aes_eid);
 
@@ -29,5 +36,14 @@ public interface MemberService {
 
     String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception; //이메일, 패스워드 체크
 
-    String getToken(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
+    MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
+
+    void loginEMCheck(EmailMemberDTO emailMemberDTO) throws Exception;
+
+    void join(EmailMemberDTO emailMemberDTO);
+
+    String sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
+
+    boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception;
+
 }

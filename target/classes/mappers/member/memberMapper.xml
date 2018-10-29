@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="isEMExist" resultType="String">
 	SELECT
-		em_id
+		em_acheck
 	FROM
 		tbl_EMember
 	WHERE
@@ -80,6 +80,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE am_id = <![CDATA[#{find_pwd}]]>
 
 	</update>
+	<insert id="tempIns">
+	INSERT INTO
+		tbl_memInfo
+	(mem_iuid, mem_nick, mem_profile,  mem_joindate)
+	VALUES (#{iuid},'temp', 'temp', sysdate)
+	</insert>
+
+	<!-- 처음 정보들을 INSERT했지만 끄고 다시 들어올때 UPDATE로 -->
+	<update id="sendKeyUpdate">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{em_pwd}, em_akey = #{em_akey}
+	WHERE em_id = #{em_id}
+	</update>
+
+	<!-- 이메일로 회원가입할 때 이메일, 비밀번호, iuid, (이메일로 보내는)인증키, 이메일 인증전이라 'N' 넣음 -->
+	<insert id="sendKeyInsert">
+	INSERT INTO
+		tbl_EMember
+	(em_id, em_pwd, em_ref, em_akey)
+	VALUES (#{em_id}, #{em_pwd}, #{em_ref}, #{em_akey})
+	</insert>
+
+	<!-- 해당 이메일에 보낸 인증키가 일치하는지 확인하는지 -->
+	<select id="authCheck" resultType="String">
+	SELECT
+		em_id
+	FROM
+		tbl_EMember
+	WHERE em_id = #{em_id} AND em_akey = #{em_akey}
+	</select>
 
 	<delete id="delMember">
 
@@ -107,9 +139,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    EM_ID = #{em_id} AND EM_PWD = #{em_pwd}
 	</select>
 
-	<select id="getToken" resultType="String">
+	<select id="getMemInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
 	SELECT
-		  MEM_IUID
+		  *
 	FROM
 		  tbl_meminfo
 	WHERE

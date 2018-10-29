@@ -5,14 +5,26 @@ import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 import hi.im.jenga.member.dto.AuthMemberDTO;
+import hi.im.jenga.member.util.cipher.AES256Cipher;
+import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO{
@@ -20,6 +32,8 @@ public class MemberDAOImpl implements MemberDAO{
     private static final Logger logger = LoggerFactory.getLogger(MemberDAOImpl.class);
     @Autowired
     SqlSession sqlSession;
+    @Autowired
+    AES256Cipher aes256Cipher;
 
     public int addMemberInfo(MemberDTO memberDTO) {
         /*HashMap<String,Object> map = new HashMap();
@@ -50,9 +64,25 @@ public class MemberDAOImpl implements MemberDAO{
         return result == null? false : true;
     }
 
-    public boolean isEMExist(String aes_eid) {
+    public String isEMExist(String aes_eid) throws Exception {
+    logger.info("오이잉 daoimpl "+aes_eid);
+//        logger.info("11111 "+aes_eid);
+//        aes_eid = "WrfT15MiBQqfHDhHLR5AcA==";
+//        String aes_decode = aes256Cipher.AES_Decode(aes_eid);
+//        logger.info("232323     "+aes_decode);
+//        String result = sqlSession.selectList("member.isEMExist", aes_eid);
+//        logger.info("2222 "+result);
         String result = sqlSession.selectOne("member.isEMExist", aes_eid);
-        return result == null? false : true;
+        /*if(result != null){
+            if(result.equals("Y")){
+
+            }else if(result.equals("N")){
+
+            }
+
+        }else if(result == null)*/
+        logger.info("빠져나와라 "+result);
+        return result != null ? (result == "Y" ? "Y" : "N") : "notexist";
     }
 
     public boolean isAMExist(String aes_eid) {
@@ -71,20 +101,41 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     public void findAPwd(String find_pwd, String tempPwdKey) {
-        logger.info(": : : findAPwd 들어옴 ");
-        logger.info(": : :" + find_pwd);
-        logger.info(": : :" + tempPwdKey);
-
-//        String s = "KpDuk+2/4UWsdYMDzk4v7uLU03pdQ68xhEVF2DnV/rs=";
         HashMap<String, String> map = new HashMap();
         map.put("find_pwd", find_pwd);
         map.put("tempPwdKey", tempPwdKey);
-        System.out.println(map.get("find_pwd"));
-        System.out.println(map.get("tempPwdKey"));
 
         sqlSession.update("member.findAPwd",map);
 
-        logger.info(": : : findAPwd 나감 ");
+    }
+
+    public void tempIns(String iuid) {
+
+        sqlSession.insert("member.tempIns", iuid);
+    }
+
+    public boolean authCheck(EmailMemberDTO emailMemberDTO) {
+        String result = sqlSession.selectOne("member.authCheck", emailMemberDTO);
+        return result == null? false : true;
+    }
+
+    public void sendKey(EmailMemberDTO emailMemberDTO) throws Exception {
+
+        logger.info(": : : sendKey 1 :");
+//        logger.info(": : : "+list.get(0).getEm_acheck()+"입니다.");
+        // 이메일은 있지만 인증여부가 N일 경우 INSERT
+        if(emailMemberDTO.getEm_acheck()!=null && !emailMemberDTO.getEm_acheck().equals("N")){
+            String aes_iuid  = aes256Cipher.AES_Encode(UUID.randomUUID().toString());     // Memberinfo에 넣어줄 iuid. 나머지는 0으로 지정
+            sqlSession.insert("member.tempIns", aes_iuid);                      // 임시로 memInfo 에 iuid, nick, profile, joindate 넣음
+            emailMemberDTO.setEm_ref(aes_iuid);                                             // tbl_memInfo 의 iuid(PK)를 ref에 넣어줌
+            logger.info(": : : sendKey 2 :");
+            sqlSession.insert("member.sendKeyInsert", emailMemberDTO);
+            return;
+        }
+        logger.info(": : : sendKey 3 :");
+        sqlSession.update("member.sendKeyUpdate", emailMemberDTO);
+
+        logger.info(": : : sendKey 4 :");
     }
 
     public String checkEmail(EmailMemberDTO emailMemberDTO) {
@@ -98,11 +149,14 @@ public class MemberDAOImpl implements MemberDAO{
         return checkpwd;
     }
 
-    public String getToken(EmailMemberDTO emailMemberDTO) {
-        return sqlSession.selectOne("member.getToken",emailMemberDTO);
+    public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
+        return sqlSession.selectOne("member.getMemInfo",emailMemberDTO);
     }
 
     public void addAMember(AuthMemberDTO authMemberDTO) {
+        logger.info("인증멤버"+authMemberDTO.getAm_id());
+        logger.info("인증멤버"+authMemberDTO.getAm_pwd());
+        logger.info("인증멤버"+authMemberDTO.getAm_key());
         sqlSession.insert("member.addAMember", authMemberDTO);
     }
 }

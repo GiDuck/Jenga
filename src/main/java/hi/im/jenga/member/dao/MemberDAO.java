@@ -5,6 +5,15 @@ import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 import hi.im.jenga.member.dto.AuthMemberDTO;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 public interface MemberDAO {
     int addMemberInfo(MemberDTO memberDTO);
 
@@ -16,7 +25,7 @@ public interface MemberDAO {
 
     boolean isSMExist(String aes_sid);
 
-    boolean isEMExist(String aes_eid);
+    String isEMExist(String aes_eid) throws Exception;
 
     boolean isAMExist(String aes_eid);
 
@@ -24,9 +33,17 @@ public interface MemberDAO {
 
     void findAPwd(String find_pwd, String tempPwdKey);
 
+
     String checkEmail(EmailMemberDTO emailMemberDTO);
 
     String checkPwd(EmailMemberDTO emailMemberDTO);
 
-    String getToken(EmailMemberDTO emailMemberDTO);
+    MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO);
+
+    void sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
+
+    void tempIns(String iuid);
+
+    boolean authCheck(EmailMemberDTO emailMemberDTO);
+
 }
