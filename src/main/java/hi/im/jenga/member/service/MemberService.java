@@ -16,9 +16,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface MemberService {
-    int addMemberInfo(MemberDTO memberDTO) throws Exception;
+    void addMemberInfo(MemberDTO memberDTO) throws Exception;
 
-    void addEMember(EmailMemberDTO emailMemberDTO, String iuid);
+    void addEMember(String aes_iuid);
 
     void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
 
@@ -45,5 +45,7 @@ public interface MemberService {
     String sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
 
     boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception;
+
+    String findIuid(EmailMemberDTO emailMemberDTO) throws Exception;
 
 }

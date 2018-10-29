@@ -17,7 +17,7 @@ import java.util.List;
 public interface MemberDAO {
     int addMemberInfo(MemberDTO memberDTO);
 
-    void addEMember(EmailMemberDTO emailMemberDTO, String iuid);
+    void addEMember(String aes_iuid);
 
     void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
 
@@ -46,4 +46,5 @@ public interface MemberDAO {
 
     boolean authCheck(EmailMemberDTO emailMemberDTO);
 
+    String findIuid(EmailMemberDTO emailMemberDTO);
 }

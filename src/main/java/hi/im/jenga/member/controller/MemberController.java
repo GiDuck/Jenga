@@ -60,7 +60,7 @@ public class MemberController {
 
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
-        logger.info((String)session.getAttribute("Member"));
+        logger.info(""+(MemberDTO)session.getAttribute("Member"));
         return "main/main";
     }
 
@@ -247,72 +247,36 @@ public class MemberController {
         String uploadPath = utilFile.fileUpload(request, uploadFile);
 
 
-
         /*** 다시
          *
          * service에서 암호화, iuid 생성
          *
          * ***/
 
+//        이메일을 이용해서 임시로 넣음 iuid를 찾아야함
+
+        String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (ref)를 가져옴
+
+        logger.info("aes_iuid는 "+aes_iuid);
+
         memberDTO.setMem_profile(uploadPath);
-
-        memberService.addMemberInfo(memberDTO);
-
-        /*** 다시 ***/
-
-
-
-        // 소셜이든 이메일이든 만들어서 uuid 넣어주기
-
-        String iuid = util.getIuid();
-/*
-        // 2단계에서 입력한 닉네임, 파일경로를 DTO에 삽입 + 생성한 고유아이디 넣기
-
-*/
-
-//        AES 암호화(iuid, mem_nick, uploadPath) 후 memberDTO에 넣기
-//        iuid는 밑 Smember테이블 넣을때 써야해서 변수에 넣음
-        String aes_iuid = aes256Cipher.AES_Encode(iuid);
+        memberDTO.setMem_nick(mem_nick);
         memberDTO.setMem_iuid(aes_iuid);
 
-
-        memberDTO.setMem_nick(aes256Cipher.AES_Encode(mem_nick));
-        memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadPath));
-
-
-//      해당 경로만 받아 DB에 저장
-//      이메일가입이든, 소셜가입이든 tbl_memInfo에 넣어야함
-//      memInfo에 iuid, nick, profile, level, joinData 넣어야함
         memberService.addMemberInfo(memberDTO);
 
 
+        /*** 다시 ***/
         // if 이메일 회원가입이면
-/*<<<<<<< HEAD
-        if (!(emailMemberDTO.getEm_id().equals(""))) {
-//      eMember에 이메일, 비밀번호 넣어야함
-
-            SHA256Cipher sha = SHA256Cipher.getInstance();
-=======*/
         // 인증여부 Y로 바꿔야함
-        // update로 iuid 최신화, 닉네임, 파일경로, level, date)바꿔주기   IN tbl_memInfo
+        // update로 iuid, 닉네임, 파일경로, level, date)바꿔주기   IN tbl_memInfo
         // update로 이메일, 비밀번호, 인증여부 'Y' emember  WHERE
+
         if(!(emailMemberDTO.getEm_id().equals(""))){
 //      eMember에 이메일, 비밀번호 넣어야함
             logger.info("이메일 회원가입입니다.");
-           /* SHA256Cipher sha = SHA256Cipher.getInstance();
->>>>>>> c8adfc83a49fdfebebea2d63ec2f6b19c2051bc5
-
-
-            //String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
-            //String sha_pw= sha.getEncSHA256(emailMemberDTO.getEm_pwd()); // error -> regMemberInfoPOST throws Exceptions 추가
-
-            emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
-            emailMemberDTO.setEm_pwd(sha.getEncSHA256(emailMemberDTO.getEm_pwd()));
-
-
-
-            memberService.addEMember(emailMemberDTO, aes_iuid);*/
-
+//            이메일, 비밀번호는 이미 넣었으니까 인증여부를 'Y' 로 바꾸고 WHERE 이메일
+            memberService.addEMember(aes_iuid);
             return "redirect:/";
         }
 
