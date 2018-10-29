@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <jsp:include page="./c_modal.jsp"></jsp:include>    
- <jsp:include page="./c_buttons.jsp"></jsp:include>    
+  <jsp:include page="./mem_components.jsp"/>
     
     
     <style>
     
 	video 
 	{
-	    width: 100%;
-	    height: 100%;
-	    max-height: 100%;
+	 width: 100%;
+	 height: 100%;
+	 max-height: 100%;
 	    
 	}
 	
@@ -58,19 +57,13 @@
                 <input type="email" class="form-control no-border" placeholder="Email" style="color : black;">
                 <label>Password</label>
                 <input type="password" class="form-control no-border" placeholder="Password" style="color : black;">
-                <button class="btn btn-danger btn-block btn-round">Login</button>
+                <button id="btnLogin" class="btn btn-danger btn-block btn-round">Login</button>
               </form>
               
-			<div id="join_socialBtn" class="col-12 text-center"></div>
-			
-            
-              <div class="row text-center" style="margin-top:15px; padding : 12px;">
-                <div id="findPWBtn" class="col-12" style="margin-bottom : 10px;" data-toggle="modal" data-target="#findPwModal"><a href="#"><span class="findSomeText">비밀번호를 잃어버렸나요?</span></a></div>
-                <div id="recoverAuthBtn" class="col-12" data-toggle="modal" data-target="#recoverAuthModal"><a href="#"><span class="findSomeText">복구할 계정이 있나요?</span></a></div>             
+			<div id="join_socialBtn" class="row text-center" style="padding : 10px">
+                <div id="findPWBtn" class="col-12" style="padding : 10px"><span class="findSomeText">비밀번호를 잃어버렸나요?</span></div>
+                <div id="recoverAuthBtn" class="col-12" style="padding : 10px"><span class="findSomeText">복구할 계정이 있나요?</span></div>             
               </div>
-              
-              
-
           </div>
           </div>
         </div>
@@ -80,46 +73,78 @@
     
 <script>
 
-$(document).ready( _ => {
+$(document).ready(function() {
 	
+	//소셜 로그인 버튼창 초기화
 	let $btn_comp = $("#btn_components").clone();
-
-	$("#join_socialBtn").html($btn_comp.css({ 'display' : 'inline'}));
+	$btn_comp.css({ 'display' : 'block'});
+	$btn_comp.addClass("col-12");
+	$("#join_socialBtn").append($btn_comp);
 	
 
-	
-	$btn_comp.find("#emailBtn").on('click', _ => {
+	//이메일 버튼 클릭시 Action
+	$btn_comp.find("#emailBtn").on('click', function(e){
 		
-		$("#joinEmailModal").modal('show');
-	
+		makeJoinEmailModal();
+		e.preventDefault();
 	});
 	
 	
-	$btn_comp.find("#fbBtn").on('click', _ => {
+	//페이스북 버튼 클릭시 Action
+	$btn_comp.find("#fbBtn").on('click', function(){
 		
 		alert('fbBtn!');
 	
 	});
 	
-	$btn_comp.find("#googleBtn").on('click', _ => {
+	//구글 버튼 클릭시 Action
+	$btn_comp.find("#googleBtn").on('click', function(){
 		alert('google!');
 
 	
 	});
 	
-	$btn_comp.find("#kakaoBtn").on('click', _ => {
+	//카카오 버튼 클릭시 Action
+	$btn_comp.find("#kakaoBtn").on('click', function(){
 		alert('kakao!');
 
 	
 	});
 	
-	$btn_comp.find("#naverBtn").on('click', _ => {
+	//네이버 버튼 클릭시 Action
+	$btn_comp.find("#naverBtn").on('click', function(){
 		alert('naver!');
 
 	
 	});
 	
+	//로그인 버튼 클릭시 Action
+	$btn_comp.find("#btnLogin").on('click', function(){
+		
+		let inputEmail = $btn_comp.find("input[type:email]").html();
+		let inputPw = $btn_comp.find("input[type:password]").html();
+				
+		
+	});
+	
+	//비밀번호 찾기 버튼 클릭시 Action
+	$("#findPWBtn").on('click', function(e){
+		
+		//모달 초기화 및 이벤트 캡쳐링 방지
+		makePWModal();
+		e.preventDefault();
+	
+	});
+	
+	
+	//복구용 계정으로 로그인 클릭시 Action
+	$("#recoverAuthBtn").on('click', function(e){
 
+		makeRecoverModal();
+		e.preventDefault();
+
+	
+	});
 
 	
 });

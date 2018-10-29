@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -26,10 +28,40 @@ public class MemberController {
     }   
     
     @RequestMapping(value = "/setMemInfo")
-    public String setMemberInfoPage(){ 	
+    public String setMemberInfoPage(Model model){
+    
     	
         return "member/setMemInfo";
     } 
+    
+    
+    
+    @RequestMapping(value = "/modMemInfo")
+    public String modMemberInfoPage(Model model){
+    	
+    	model.addAttribute("user_nick", "김기덕");
+    	model.addAttribute("user_email", "gdtbgl93@gmail.com");
+    	String[] favors = {"영화", "IT"};
+    	model.addAttribute("user_favor", favors);
+    	
+    	
+        return "member/modMemInfo";
+    } 
+    
+    
+    
+    @RequestMapping(value = "/updateMemInfo", method=RequestMethod.POST)
+    public String updateMemberInfoAction(@RequestParam("favor") String[] favor){
+    	
+    	for(String str : favor)
+    	System.out.println(str);
+
+    
+    	
+    	
+        return "member/modMemInfo";
+    } 
+    
     
 	@ResponseBody
 	@RequestMapping(value = "/getCategory", method = RequestMethod.GET)
