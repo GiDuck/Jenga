@@ -128,30 +128,26 @@ public class MemberController {
     @RequestMapping(value="/authCheck", method = RequestMethod.POST)
     public void authCheck(@ModelAttribute EmailMemberDTO emailMemberDTO, HttpServletResponse response) throws Exception {
         String check = "success";
-        boolean result;
+        String result;
         logger.info(emailMemberDTO.getEm_id());
-        List<EmailMemberDTO> list = memberService.isEMExist(emailMemberDTO.getEm_id());
-
-        if(list.get(0).getEm_id() == null){
-            logger.info("정보가 없네요");
-            return;
+        result = memberService.isEMExist(emailMemberDTO.getEm_id());
+        System.out.println(result);
+//        이미 완전 가입완료한 이메일 일 경우
+        if(result.equals("Y")){
+            System.out.println("yyyyyyyy");
+            logger.info("이미 존재하는 이메일입니다.");
+            response.getWriter().println("isExist");
+//        가입은 했지만 인증을 안한 이메일
+        }else if(result.equals("N")) {
+            System.out.println("N이다");  // N 이니까 UPDATE를 해야해서 N으로 구분해줌
+            emailMemberDTO.setEm_acheck("N");
+            System.out.println(emailMemberDTO.getEm_id());
         }
-
-        logger.info(""+list.get(0).getEm_id());         // 암호화 된 아이디
-        logger.info(""+list.get(0).getEm_acheck());     // 인증여부
-
-        String aes_id = list.get(0).getEm_id();
-        String acheck = list.get(0).getEm_acheck();
-
-        // emailMemberDTO는 메일 X, X 일때 쓰려고 보냄
-        // list는 메일이 O 일때 쓰려고
-        check = memberService.sendKey(emailMemberDTO, list);
+//        N이거나 null이거나 무조건 들어옴 service에서 구분
+        check = memberService.sendKey(emailMemberDTO);
 
         logger.info(check);
-        if(check.equals("isExist")){
-            logger.info("이미 존재하는 이메일입니다.");
-            response.getWriter().println(check);
-        }else if(check.equals("sendAuthKey")){
+        if(check.equals("sendAuthKey")){
             logger.info("인증키를 보냈습니다.");
             response.getWriter().println(check);
         }
@@ -202,7 +198,6 @@ public class MemberController {
 
     @RequestMapping(value = "/setMemInfo", method = RequestMethod.POST)
     public String setMemberInfoPOST(@ModelAttribute EmailMemberDTO emailMemberDTO , @ModelAttribute SocialMemberDTO socialMemberDTO, Model model, HttpServletResponse response) throws IOException {
-
         logger.info(": : setMemberInfoPOST : : emailMemberDTO.getEm_id()는 : " +emailMemberDTO.getEm_id());
         logger.info(": : setMemberInfoPOST : : emailMemberDTO.getEm_pwd()는 : "+ emailMemberDTO.getEm_pwd());
 
@@ -230,7 +225,6 @@ public class MemberController {
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_id : "+ socialMemberDTO.getSm_id());        // 1단계에서 고유아이디
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_type : "+ socialMemberDTO.getSm_type());    // 1단계에서 소셜 타입
 
-
         logger.info(": : regMemberInfoPOST : : uploadFile : "+ uploadFile);                                    // 2단계에서 넣은 이미지
         logger.info(": : regMemberInfoPOST : : mem_nick : "+ mem_nick);                                        // 2단계에서 입력한 닉네임
 
@@ -240,6 +234,27 @@ public class MemberController {
         String uploadPath = utilFile.fileUpload(request, uploadFile);
 
         logger.info(": : regMemberInfoPOST : : uploadPath : " + uploadPath);                                   // Y:\go\Jenga\profiles\파일명
+
+        /*** 다시
+         *
+         * service에서 암호화, iuid 생성
+         *
+         * ***/
+
+        memberDTO.setMem_profile(uploadPath);
+
+        memberService.addMemberInfo(memberDTO);
+
+        /*** 다시 ***/
+
+
+
+
+
+
+
+
+
 
 
         // 소셜이든 이메일이든 만들어서 uuid 넣어주기
@@ -268,10 +283,13 @@ public class MemberController {
 
 
         // if 이메일 회원가입이면
+        // 인증여부 Y로 바꿔야함
+        // update로 iuid 최신화, 닉네임, 파일경로, level, date)바꿔주기   IN tbl_memInfo
+        // update로 이메일, 비밀번호, 인증여부 'Y' emember  WHERE
         if(!(emailMemberDTO.getEm_id().equals(""))){
 //      eMember에 이메일, 비밀번호 넣어야함
             logger.info("이메일 회원가입입니다.");
-            SHA256Cipher sha = SHA256Cipher.getInstance();
+           /* SHA256Cipher sha = SHA256Cipher.getInstance();
 
 
             //String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
@@ -283,7 +301,7 @@ public class MemberController {
             logger.info("emailMemberDTO.getEm_id()에서 뽑은 aes_id는 "+emailMemberDTO.getEm_id());
             logger.info("emailMemberDTO.getEm_pwd()에서 뽑은 sha_pw는 "+emailMemberDTO.getEm_pwd());
 
-            memberService.addEMember(emailMemberDTO, aes_iuid);
+            memberService.addEMember(emailMemberDTO, aes_iuid);*/
 
             return "redirect:/";
         }

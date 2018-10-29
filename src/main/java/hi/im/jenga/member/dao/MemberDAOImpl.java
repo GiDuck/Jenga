@@ -64,7 +64,7 @@ public class MemberDAOImpl implements MemberDAO{
         return result == null? false : true;
     }
 
-    public List<EmailMemberDTO> isEMExist(String aes_eid) throws Exception {
+    public String isEMExist(String aes_eid) throws Exception {
     logger.info("오이잉 daoimpl "+aes_eid);
 //        logger.info("11111 "+aes_eid);
 //        aes_eid = "WrfT15MiBQqfHDhHLR5AcA==";
@@ -72,7 +72,17 @@ public class MemberDAOImpl implements MemberDAO{
 //        logger.info("232323     "+aes_decode);
 //        String result = sqlSession.selectList("member.isEMExist", aes_eid);
 //        logger.info("2222 "+result);
-        return sqlSession.selectList("member.isEMExist", aes_eid);
+        String result = sqlSession.selectOne("member.isEMExist", aes_eid);
+        /*if(result != null){
+            if(result.equals("Y")){
+
+            }else if(result.equals("N")){
+
+            }
+
+        }else if(result == null)*/
+        logger.info("빠져나와라 "+result);
+        return result != null ? (result == "Y" ? "Y" : "N") : "notexist";
     }
 
     public boolean isAMExist(String aes_eid) {
@@ -109,15 +119,15 @@ public class MemberDAOImpl implements MemberDAO{
         return result == null? false : true;
     }
 
-    public void sendKey(EmailMemberDTO emailMemberDTO, List<EmailMemberDTO> list) throws Exception {
+    public void sendKey(EmailMemberDTO emailMemberDTO) throws Exception {
 
         logger.info(": : : sendKey 1 :");
-        logger.info(": : : "+list.get(0).getEm_acheck()+"입니다.");
+//        logger.info(": : : "+list.get(0).getEm_acheck()+"입니다.");
         // 이메일은 있지만 인증여부가 N일 경우 INSERT
-        if(list.get(0).getEm_acheck().equals("N")){
+        if(!emailMemberDTO.getEm_acheck().equals("N")){
             String aes_iuid  = aes256Cipher.AES_Encode(UUID.randomUUID().toString());     // Memberinfo에 넣어줄 iuid. 나머지는 0으로 지정
-            sqlSession.insert("member.tempIns", aes_iuid);
-            emailMemberDTO.setEm_ref(aes_iuid);                             // tbl_memInfo 의 iuid(PK)를 ref에 넣어줌
+            sqlSession.insert("member.tempIns", aes_iuid);                      // 임시로 memInfo 에 iuid, nick, profile, joindate 넣음
+            emailMemberDTO.setEm_ref(aes_iuid);                                             // tbl_memInfo 의 iuid(PK)를 ref에 넣어줌
             logger.info(": : : sendKey 2 :");
             sqlSession.insert("member.sendKeyInsert", emailMemberDTO);
             return;

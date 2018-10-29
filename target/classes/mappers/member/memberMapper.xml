@@ -46,9 +46,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		sm_id = #{aes_sid}
 	</select>
 
-	<select id="isEMExist" resultType="hi.im.jenga.member.dto.EmailMemberDTO">
+	<select id="isEMExist" resultType="String">
 	SELECT
-		em_id, em_acheck
+		em_acheck
 	FROM
 		tbl_EMember
 	WHERE

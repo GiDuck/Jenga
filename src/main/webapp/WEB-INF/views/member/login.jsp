@@ -52,10 +52,10 @@
                         Us!</h3>
                     <form class="register-form">
                         <label>Email</label>
-                        <input type="email" class="form-control no-border" placeholder="Email" id="em_id"
+                        <input type="email" class="form-control no-border" placeholder="Email" id="login_em_id"
                                style="color : black;">
                         <label>Password</label>
-                        <input type="password" class="form-control no-border" placeholder="Password" id="em_pwd"
+                        <input type="password" class="form-control no-border" placeholder="Password" id="login_em_pwd"
                                style="color : black;">
                         <button class="btn btn-danger btn-block btn-round" id="login-check">Login</button>
                     </form>

@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface MemberService {
-    int addMemberInfo(MemberDTO memberDTO);
+    int addMemberInfo(MemberDTO memberDTO) throws Exception;
 
     void addEMember(EmailMemberDTO emailMemberDTO, String iuid);
 
@@ -26,7 +26,7 @@ public interface MemberService {
 
     boolean isSMExist(String aes_sid);
 
-    List<EmailMemberDTO> isEMExist(String em_id) throws Exception;
+    String isEMExist(String em_id) throws Exception;
 
     boolean isAMExist(String aes_eid);
 
@@ -38,7 +38,7 @@ public interface MemberService {
 
     void join(EmailMemberDTO emailMemberDTO);
 
-    String sendKey(EmailMemberDTO emailMemberDTO, List<EmailMemberDTO> list) throws Exception;
+    String sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
 
     boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception;
 }

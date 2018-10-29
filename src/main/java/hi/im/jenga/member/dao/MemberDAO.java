@@ -25,7 +25,7 @@ public interface MemberDAO {
 
     boolean isSMExist(String aes_sid);
 
-    List<EmailMemberDTO> isEMExist(String aes_eid) throws Exception;
+    String isEMExist(String aes_eid) throws Exception;
 
     boolean isAMExist(String aes_eid);
 
@@ -33,7 +33,7 @@ public interface MemberDAO {
 
     void findAPwd(String find_pwd, String tempPwdKey);
 
-    void sendKey(EmailMemberDTO emailMemberDTO, List<EmailMemberDTO> list) throws Exception;
+    void sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
 
     void tempIns(String iuid);
 
