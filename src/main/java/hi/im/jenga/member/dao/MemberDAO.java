@@ -21,17 +21,17 @@ public interface MemberDAO {
 
     void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
 
-    void addAMember(AuthMemberDTO authMemberDTO);
-
     boolean isSMExist(String aes_sid);
 
     String isEMExist(String aes_eid) throws Exception;
 
-    boolean isAMExist(String aes_eid);
+    void findEPwd(String aes_find_pwd, String tempPwdKey);
 
-    void findEPwd(String find_pwd, String tempPwdKey);
+    String checkEmail(EmailMemberDTO emailMemberDTO);
 
-    void findAPwd(String find_pwd, String tempPwdKey);
+    String checkPwd(EmailMemberDTO emailMemberDTO);
+
+    MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO);
 
     void sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
 

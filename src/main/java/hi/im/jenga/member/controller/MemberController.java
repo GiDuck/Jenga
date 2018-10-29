@@ -9,6 +9,7 @@ import hi.im.jenga.member.util.UtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import hi.im.jenga.member.util.login.*;
+import org.apache.http.HttpResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -19,17 +20,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.*;
 
 @Controller
@@ -50,7 +46,6 @@ public class MemberController {
 
     private String apiResult = null;
 
-
     @Autowired
     private AES256Cipher aes256Cipher;
     @Autowired
@@ -58,13 +53,35 @@ public class MemberController {
 
 
     @RequestMapping(value = "/")
-    public String hi() {
-
+    public String hi(HttpSession session) {
+        logger.info(""+(MemberDTO)session.getAttribute("Member"));
         return "main/main";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginGET(HttpSession session, Model model) {
+
+
+
+    @RequestMapping(value = "logincheck", method = RequestMethod.POST)
+    public void logincheck(EmailMemberDTO emailMemberDTO, HttpSession session, HttpServletResponse response)throws Exception{
+        logger.info("아이디"+emailMemberDTO.getEm_id());
+        logger.info("비밀번호"+emailMemberDTO.getEm_pwd());
+        String check = memberService.checkEmail(emailMemberDTO);
+        logger.info("체크"+check);
+        if(check.equals("success")){
+            MemberDTO Member = memberService.getMemInfo(emailMemberDTO);
+            session.setAttribute("Member",Member);
+        }
+
+        response.getWriter().println(check);
+    }
+
+
+
+
+
+
+    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
+    public String login(HttpSession session, Model model) {
 
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
@@ -109,9 +126,18 @@ public class MemberController {
     void findPwdPOST(@RequestParam String find_pwd, HttpServletResponse response) throws Exception {
         String check = "success";
         boolean result;
-//        이메일로 가입한 회원조회
 
-        check = "error";
+        logger.info(find_pwd);
+//        이메일로 가입한 회원조회
+//        check구분해야함
+        int findPwdCheck = memberService.findEPwd(find_pwd);
+
+        if(findPwdCheck == 0){
+            check = "error";
+            response.getWriter().println(check);
+            logger.info("가입된 이메일이 없거나 이메일 인증을 해주세요.");
+            return;
+        }
         response.getWriter().println(check);
         return;
     }
@@ -126,17 +152,18 @@ public class MemberController {
     public void authCheck(@ModelAttribute EmailMemberDTO emailMemberDTO, HttpServletResponse response) throws Exception {
         String check = "success";
         String result;
-        logger.info(emailMemberDTO.getEm_id());
+        logger.info("아이디 받아옴"+emailMemberDTO.getEm_id());
         result = memberService.isEMExist(emailMemberDTO.getEm_id());
-        System.out.println(result);
+        logger.info(result);
 //        이미 완전 가입완료한 이메일 일 경우
         if (result.equals("Y")) {
-            System.out.println("yyyyyyyy");
             logger.info("이미 존재하는 이메일입니다.");
-            response.getWriter().println("isExist");
+            check = "isExist";
+            response.getWriter().println(check);
+            return;
 //        가입은 했지만 인증을 안한 이메일
         } else if (result.equals("N")) {
-            System.out.println("N이다");  // N 이니까 UPDATE를 해야해서 N으로 구분해줌
+            logger.info("N이다");  // N 이니까 UPDATE를 해야해서 N으로 구분해줌
             emailMemberDTO.setEm_acheck("N");
             System.out.println(emailMemberDTO.getEm_id());
         }
@@ -205,17 +232,17 @@ public class MemberController {
 
 
 
+
     // 추가정보페이지에 있는 submit 버튼
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
     public String regMemberInfoPOST(@RequestParam String mem_nick, EmailMemberDTO emailMemberDTO, SocialMemberDTO socialMemberDTO, @RequestParam("mem_profile") MultipartFile uploadFile,
                                     MultipartHttpServletRequest request) throws Exception {
-        logger.info(": : : : : /regMemInfo 들어옴");
         MemberDTO memberDTO = new MemberDTO();
 
-        logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : " + emailMemberDTO.getEm_id());         // 1단계에서 이메일
-        logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : " + emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
+        logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
+        logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : "+ emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
 //       이미 암호화 후 받아온 고유아이디, 소셜 타입
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_id : " + socialMemberDTO.getSm_id());        // 1단계에서 고유아이디
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_type : " + socialMemberDTO.getSm_type());    // 1단계에서 소셜 타입
@@ -223,12 +250,12 @@ public class MemberController {
         logger.info(": : regMemberInfoPOST : : uploadFile : " + uploadFile);                                    // 2단계에서 넣은 이미지
         logger.info(": : regMemberInfoPOST : : mem_nick : " + mem_nick);                                        // 2단계에서 입력한 닉네임
 
+
 //      UtilFile 객체 생성
         UtilFile utilFile = new UtilFile();
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
         String uploadPath = utilFile.fileUpload(request, uploadFile);
 
-        logger.info(": : regMemberInfoPOST : : uploadPath : " + uploadPath);                                   // Y:\go\Jenga\profiles\파일명
 
         /*** 다시
          *
@@ -247,6 +274,7 @@ public class MemberController {
         memberDTO.setMem_iuid(aes_iuid);
 
         memberService.addMemberInfo(memberDTO);
+
 
         /*** 다시 ***/
         // if 이메일 회원가입이면
@@ -279,56 +307,71 @@ public class MemberController {
 
 
 
+    /******************************** 소셜별 콜백 매핑 *********************************/
 
     @RequestMapping(value = "/facebookcallback", method = {RequestMethod.GET, RequestMethod.POST})
     public String facebookcallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
+        SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
+        boolean result = false;
         OAuth2AccessToken oauthToken;
         LoginUtil util = facebookLoginUtil;
         oauthToken = util.getAccessToken(session, code, state);
-        System.out.println(oauthToken);
         //로그인 사용자 정보를 읽어온다.
         apiResult = util.getUserProfile(oauthToken);
-        logger.info(apiResult);
-        model.addAttribute("result", apiResult);
-
+        /*model.addAttribute("result", apiResult);*/
 
         JSONParser jsonParser = new JSONParser();
         JSONObject json = (JSONObject) jsonParser.parse(apiResult);
-        String email = (String) json.get("email");
-        System.out.println(email);
+        String id = (String) json.get("id");
+        System.out.println(id);
 
-        return "facebookcallback";
+        String aes_id = aes256Cipher.AES_Encode(id);
+        result = memberService.isSMExist(aes_id);
+        if (result) {
+            logger.info("존재하는 소셜 ID 입니다");
+            return "redirect:/";
+        }
+
+        socialMemberDTO.setSm_id(aes_id);                   // 네이버 고유아이디를 암호화
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));              // 소셜 타입 직접 정의 "naver"를 암호화
+
+        model.addAttribute("socialMemberDTO", socialMemberDTO);
+
+        return "member/setMemInfo";
     }
 
-
-
-
-
-
-    @RequestMapping(value = "/oauth", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/kakaocallback", method = {RequestMethod.GET, RequestMethod.POST})
     public String kakaocallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
+        SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
+        boolean result = false;
         String oauthToken;
         String oauthToken1;
         LoginUtil util = kakaoLoginUtil;
 
         oauthToken = util.getAccessTokens(session, code, state);
-        System.out.println(oauthToken);
         JSONParser jsonParser = new JSONParser();
         JSONObject json = (JSONObject) jsonParser.parse(oauthToken);
-        logger.info((String) json.get("access_token"));
         oauthToken1 = ((String) json.get("access_token"));
+        session.setAttribute("access_token", "kakao%&"+oauthToken1);
         //로그인 사용자 정보를 읽어온다.
         apiResult = util.getUserProfiles(oauthToken1);
-        logger.info(apiResult);
+        JSONObject json1 = (JSONObject) jsonParser.parse(apiResult);
+        String id = String.valueOf(json1.get("id"));
 
+        String aes_id = aes256Cipher.AES_Encode(id);
+        result = memberService.isSMExist(aes_id);
+        if (result) {
+            logger.info("존재하는 소셜 ID 입니다");
+            return "redirect:/";
+        }
 
-        return "callback";
+        socialMemberDTO.setSm_id(aes_id);                   // 네이버 고유아이디를 암호화
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));              // 소셜 타입 직접 정의 "naver"를 암호화
+
+        model.addAttribute("socialMemberDTO", socialMemberDTO);
+
+        return "member/setMemInfo";
     }
-
-
-
-
-
 
     @RequestMapping(value = "/navercallback", method = {RequestMethod.GET, RequestMethod.POST})
     public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, SocialMemberDTO socialMemberDTO) throws Exception {
@@ -336,11 +379,10 @@ public class MemberController {
         OAuth2AccessToken oauthToken;
         LoginUtil util = naverLoginUtil;
         oauthToken = util.getAccessToken(session, code, state);
-        logger.info("oauthToken " + oauthToken);
         //로그인 사용자 정보를 읽어온다.
         apiResult = util.getUserProfile(oauthToken);
-
-        model.addAttribute("result", apiResult);
+        session.setAttribute("access_token", "naver%&"+oauthToken);
+        /*model.addAttribute("result", apiResult);*/
 
 
         JSONParser jsonParser = new JSONParser();
@@ -349,52 +391,53 @@ public class MemberController {
 
         String id = (String) json2.get("id");           // 네이버 고유아이디
 
-
-        logger.info(": : callback : : json2 : " + json2);
-        logger.info(": : callback : : json2.get(\"id\") " + id);
-
-
-        String aes_Sid = aes256Cipher.AES_Encode(id);
-        result = memberService.isSMExist(aes_Sid);
+        String aes_id = aes256Cipher.AES_Encode(id);
+        result = memberService.isSMExist(aes_id);
         if (result) {
-            logger.info("존재하는 네이버 ID 입니다");
+            logger.info("존재하는 소셜 ID 입니다");
+
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_Sid);                                               // 네이버 고유아이디를 암호화
+        socialMemberDTO.setSm_id(aes_id);                                               // 네이버 고유아이디를 암호화
         socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));              // 소셜 타입 직접 정의 "naver"를 암호화
-
-        logger.info(socialMemberDTO.getSm_id());
-        logger.info(socialMemberDTO.getSm_type());
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
         // 타입은 우리가 줘야함
+
+
+        return "member/setMemInfo";
+    }
+
+    @RequestMapping(value = "/googlecallback", method = {RequestMethod.GET, RequestMethod.POST})
+    public String googlecallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
+        SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
+        boolean result = false;
+        OAuth2AccessToken oauthToken;
+        oauthToken = googleLoginUtil.getAccessToken(session, code, state);
+        apiResult = googleLoginUtil.getUserProfile(oauthToken);
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject json = (JSONObject) jsonParser.parse(apiResult);
+        String id = (String)json.get("id");
+
+        String aes_id = aes256Cipher.AES_Encode(id);
+        result = memberService.isSMExist(aes_id);
+        if (result) {
+            logger.info("존재하는 소셜 ID 입니다");
+            return "redirect:/";
+        }
+        socialMemberDTO.setSm_id(aes_id);                   // 네이버 고유아이디를 암호화
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));              // 소셜 타입 직접 정의 "naver"를 암호화
+
+        model.addAttribute("socialMemberDTO", socialMemberDTO);
+
 
         return "member/setMemInfo";
     }
 
 
-
-
-
-
-    @RequestMapping(value = "/googlecallback", method = {RequestMethod.GET, RequestMethod.POST})
-    public String googlecallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
-        logger.info("구글콜백");
-        OAuth2AccessToken oauthToken;
-        oauthToken = googleLoginUtil.getAccessToken(session, code, state);
-        logger.info("토큰받");
-        apiResult = googleLoginUtil.getUserProfile(oauthToken);
-        logger.info("결과받");
-        logger.info(googleLoginUtil.getUserProfile(oauthToken).toString());
-        model.addAttribute("result", apiResult);
-        logger.info("result" + apiResult);
-
-        return "googlecallback";
-    }
-
-
-
+    /*******************************************************************************/
 
 
 
@@ -444,8 +487,34 @@ public class MemberController {
         return params;
 
     }
-    
 
+
+
+
+
+
+
+    @RequestMapping("logout")
+    public String logOut(HttpSession session){
+        String getSes = (String)session.getAttribute("access_token");
+        System.out.println(getSes);
+        String[] check =getSes.split("%&");
+
+            if(check[0].equals("kakao")){
+                LoginUtil util = kakaoLoginUtil;
+                util.logOut(check[1]);
+            }else if(check[0].equals("google")){
+
+            }else if(check[0].equals("facebook")){
+
+            }else if(check[0].equals("naver")){
+                LoginUtil util = naverLoginUtil;
+                util.logOut("");
+            }
+            session.invalidate();
+            return "redirect:/";
+
+    }
 
 
 }

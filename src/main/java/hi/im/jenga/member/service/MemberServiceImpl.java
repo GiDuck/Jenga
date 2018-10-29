@@ -60,28 +60,6 @@ public class MemberServiceImpl implements MemberService {
         dao.addSMember(socialMemberDTO, iuid);
     }
 
-    public void addAMember(AuthMemberDTO authMemberDTO) throws Exception {
-
-        String key = new TempKey().getKey(10, false);    // 인증키 생성
-        logger.info(": : : MemberServiceImpl  생성된 인증키 : " + key);
-
-
-        MailHandler sendMail = new MailHandler(mailSender);
-        sendMail.setSubject("Jenga 인증 번호 입니다.");
-        sendMail.setText(new StringBuffer().append("<h1>메일 인증</h1><br><br>").append("키는 ").append("<h2><b>" + key + "</b></h2>").append(" 입니다").toString());
-        sendMail.setFrom("jengamaster@gmail.com", "젠가관리자");
-        sendMail.setTo(authMemberDTO.getAm_id());
-        sendMail.send();
-        // 이메일, 비번(SHA256), 키 암호화해서 authMemberDTO에 넣음
-        authMemberDTO.setAm_id(aes256Cipher.AES_Encode(authMemberDTO.getAm_id()));
-        authMemberDTO.setAm_pwd(sha256Cipher.getEncSHA256(authMemberDTO.getAm_pwd()));
-        authMemberDTO.setAm_key(key);
-
-
-        dao.addAMember(authMemberDTO);
-
-    }
-
     public boolean isSMExist(String aes_sid) {
         return dao.isSMExist(aes_sid);
     }
@@ -93,53 +71,58 @@ public class MemberServiceImpl implements MemberService {
         return dao.isEMExist(aes_eid);
     }
 
-    public boolean isAMExist(String aes_eid) {
-        return dao.isAMExist(aes_eid);
-    }
-
     // 인증키 생성 후 해당 회원의 비밀번호를 인증키로 바꾸고   이 회원이 이메일, 바뀐 인증키비번으로 로그인 후 자율적으로 정보수정가서 비밀번호 변경하게
-    public void findEPwd(String find_pwd) throws Exception {
+    public int findEPwd(String find_pwd) throws Exception {
+        String result;
         logger.info(": : : findEPwd");
         String tempPwdKey = new TempKey().getKey(10, false);    // 인증키 생성
         logger.info(": 생성된 임시 키 " + tempPwdKey);
         // find_pwd의 비밀번호를 임시비밀번호로 바꿔야함
         // 바꾸고 메일보내기
 
-        find_pwd = aes256Cipher.AES_Encode(find_pwd);       // 암호화 후 찾아야 하니까
-        dao.findEPwd(find_pwd, tempPwdKey);
+        String aes_find_pwd = aes256Cipher.AES_Encode(find_pwd);       // 암호화 후 찾아야 하니까
+
+        result = dao.isEMExist(aes_find_pwd);    // 일단 존재하는지 여부
+
+//        인증 N 이고 가입한 메일이 없을때
+        if(result.equals("notexist")){
+            return 0;
+        }
+
+        String aes_key = sha256Cipher.getEncSHA256(tempPwdKey);           // 키를 암호화 후 넣음
+        dao.findEPwd(aes_find_pwd, aes_key);
 
         MailHandler sendMail = new MailHandler(mailSender);
         sendMail.setSubject("Jenga 임시 비밀번호입니다. ");
         sendMail.setText(new StringBuffer().append("<h1>임시 비밀번호</h1><br><br>").append("<h2>" + tempPwdKey + "</h2>").append(" 입니다.").toString());
-        sendMail.setFrom("jengamaster@gmail.com", "젠가관리자");
+        sendMail.setFrom("imjengamaster@gmail.com", "젠가관리자");
         sendMail.setTo(find_pwd);
         sendMail.send();
 
-
+        return 1;
     }
 
-    public void findAPwd(String find_pwd) throws Exception {
-        logger.info(": : : findAPwd");
-        String tempPwdKey = new TempKey().getKey(10, false);  // 인증키 생성
-        String find_pwd_original = find_pwd;
-        logger.info(find_pwd);
-        logger.info(": 생성된 임시 키 " + tempPwdKey);
-        // find_pwd의 비밀번호를 임시비밀번호로 바꿔야함
-        // 바꾸고 메일보내기
-
-        find_pwd = aes256Cipher.AES_Encode(find_pwd);       // 암호화 후 찾아야 하니까
-        logger.info(find_pwd);
-        dao.findAPwd(find_pwd, tempPwdKey);
-
-        MailHandler sendMail = new MailHandler(mailSender);
-        sendMail.setSubject("Jenga 임시 비밀번호입니다. ");
-        sendMail.setText(new StringBuffer().append("<h1>임시 비밀번호</h1><br><br>").append("<h2>" + tempPwdKey + "</h2>").append(" 입니다.").toString());
-        sendMail.setFrom("jengamaster@gmail.com", "젠가관리자");
-        sendMail.setTo(find_pwd_original);
-        sendMail.send();
-
-
+    public String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception {
+        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
+        emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));
+        System.out.println(emailMemberDTO.getEm_id());
+        System.out.println(emailMemberDTO.getEm_pwd());
+        String idcheck = dao.checkEmail(emailMemberDTO);
+        if(idcheck == null){
+            return "iderror";
+        }
+        String pwdcheck = dao.checkPwd(emailMemberDTO);
+        if(pwdcheck == null){
+            return "pwderror";
+        }
+        return "success";
     }
+
+    public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
+        return dao.getMemInfo(emailMemberDTO);
+    }
+
+
 
     public void loginEMCheck(EmailMemberDTO emailMemberDTO) throws Exception {
         //암호화하기 id -> aes, pwd -> sha
@@ -198,31 +181,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-/*
-        MailHandler sendMail = new MailHandler(mailSender);
-        sendMail.setSubject("Jenga 인증 번호 입니다.");
-        sendMail.setText(new StringBuffer().append("<h1>이메일 인증</h1><br><br>").append("키는 ").append("<h2><b>"+key+"</b></h2>").append(" 입니다").toString());
-        sendMail.setFrom("jengamaster@gmail.com","젠가관리자");
-        sendMail.setTo(emailMemberDTO.getEm_id());
-        sendMail.send();
-
-        logger.info("뭡니까대체 "+emailMemberDTO.getEm_id());
-
-//        dao.tempIns(aes_iuid);
-
-//        logger.info("aes_iuid 1 "+aes_iuid);
-
-        // 암호화 후 DB에 넣기
-        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
-        emailMemberDTO.setEm_pwd(aes256Cipher.AES_Encode(emailMemberDTO.getEm_pwd()));
-//        emailMemberDTO.setEm_ref(aes_iuid);
-        emailMemberDTO.setEm_akey(key);
-
-        logger.info("총 뽑기 "+emailMemberDTO.getEm_id()+emailMemberDTO.getEm_pwd()+emailMemberDTO.getEm_ref()+emailMemberDTO.getEm_akey());
-
-//        dao.sendKey(emailMemberDTO);
-
-        logger.info("dao로 슝");*/
 
 
     public boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception {
@@ -248,4 +206,5 @@ public class MemberServiceImpl implements MemberService {
         sendMail.setTo(emailId);      // 암호화 안한 이메일
         sendMail.send();
     }
+
 }

@@ -80,6 +80,10 @@ public class FacebookLoginUtil implements LoginUtil{
         return null;
     }
 
+    public void logOut(String oauthToken) {
+
+    }
+
     /* http session에 데이터 저장 */
     private void setSession(HttpSession session,String state){
         session.setAttribute(SESSION_STATE, state);

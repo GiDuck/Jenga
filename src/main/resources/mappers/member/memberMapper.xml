@@ -16,13 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE mem_iuid = #{mem_iuid}
 	</insert>
 
-	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 완전 회원가입 완료 -->
+	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 날짜로 그날 날짜로 바꾸고 완전 회원가입 완료 -->
 	<!-- 이메일 가입 (부) -->
 	<insert id="addEMember">
 	UPDATE
 		tbl_EMember
 	SET
-		em_acheck = 'Y'
+		em_acheck = 'Y', em_adate = sysdate
 	WHERE em_ref = #{aes_iuid}
 	</insert>
 
@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		tbl_EMember
 	SET
 		em_pwd = #{tempPwdKey}
-	WHERE em_id = #{find_pwd}
+	WHERE em_id = #{aes_find_pwd}
 	</update>
 
 	<update id="findAPwd" parameterType="HashMap">
@@ -127,6 +127,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</update>
 
+	<select id="checkid" resultType="String">
+	SELECT
+		EM_ID
+	FROM
+	    tbl_EMember
+	where
+	    EM_ID = #{em_id}
+	</select>
+
+	<select id="checkpass" resultType="String">
+	SELECT
+		*
+	FROM
+	    tbl_EMember
+	WHERE
+	    EM_ID = #{em_id} AND EM_PWD = #{em_pwd}
+	</select>
+
+	<select id="getMemInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		  *
+	FROM
+		  tbl_meminfo
+	WHERE
+		  mem_iuid = (SELECT
+		                    EM_REF
+		  			  FROM
+		  			        tbl_EMember
+		  			  where
+		  			        em_id = #{em_id}
+		             )
+
+	</select>
+
 	<!-- 이메일을 이용해서 임시로 넣은 iuid를 찾기위한 메서드 -->
 	<select id="findIuid" resultType="String">
 	SELECT
@@ -136,6 +170,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE em_id = #{em_id}
 	</select>
 
+	<select id="isExist" resultType="String">
+	SELECT
+		sm_id
+	FROM
+		tbl_sMember
+	WHERE
+		sm_id = #{id}
+	</select>
 </mapper>
 
 

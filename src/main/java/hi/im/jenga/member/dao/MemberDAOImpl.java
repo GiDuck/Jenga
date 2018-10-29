@@ -63,37 +63,32 @@ public class MemberDAOImpl implements MemberDAO{
 
     public String isEMExist(String aes_eid) throws Exception {
     logger.info("오이잉 daoimpl "+aes_eid);
-//        logger.info("11111 "+aes_eid);
-//        aes_eid = "WrfT15MiBQqfHDhHLR5AcA==";
-//        String aes_decode = aes256Cipher.AES_Decode(aes_eid);
-//        logger.info("232323     "+aes_decode);
-//        String result = sqlSession.selectList("member.isEMExist", aes_eid);
-//        logger.info("2222 "+result);
-        String result = sqlSession.selectOne("member.isEMExist", aes_eid);
-        /*if(result != null){
-            if(result.equals("Y")){
-
-            }else if(result.equals("N")){
-
-            }
-
-        }else if(result == null)*/
+        String result= sqlSession.selectOne("member.isEMExist", aes_eid);
         logger.info("빠져나와라 "+result);
-        return result != null ? (result == "Y" ? "Y" : "N") : "notexist";
+
+        /*if(result.equals("Y ")){
+            logger.info(result+" 로 나왔다");
+            return "Y";
+        }else if(result.equals("N ")){
+            logger.info(result+" 로 나왔다2");
+            return "N";
+        }
+        // null 일 때
+        logger.info(result+" 로 나왔다3");
+
+        return "notexist";*/
+        return result != null ? (result.equals("Y ") ? "Y" : "N") : "notexist";
     }
 
-    public boolean isAMExist(String aes_eid) {
-        String result = sqlSession.selectOne("member.isAMExist", aes_eid);
-        return result == null? false : true;
-    }
-
-    public void findEPwd(String find_pwd, String tempPwdKey) {
+    public void findEPwd(String aes_find_pwd, String tempPwdKey) {
         logger.info(": : : findEPwd 들어옴 ");
         HashMap <String, String> map = new HashMap();
-        map.put("find_pwd", find_pwd);
+        map.put("aes_find_pwd", aes_find_pwd);
         map.put("tempPwdKey", tempPwdKey);
 
-        sqlSession.update("member.findEPwd",map);
+        int n = sqlSession.update("member.findEPwd",map);
+
+        logger.info(": : : n은 "+n);
         logger.info(": : : findEPwd 나감 ");
     }
 
@@ -125,6 +120,7 @@ public class MemberDAOImpl implements MemberDAO{
 
         logger.info(": : : sendKey 1 :");
 //        logger.info(": : : "+list.get(0).getEm_acheck()+"입니다.");
+
         // INSERT 아예 없을 경우
         if(emailMemberDTO.getEm_acheck() == null){
             String aes_iuid  = aes256Cipher.AES_Encode(UUID.randomUUID().toString());     // Memberinfo에 넣어줄 iuid. 나머지는 0으로 지정
@@ -141,7 +137,25 @@ public class MemberDAOImpl implements MemberDAO{
         logger.info(": : : sendKey 4 :");
     }
 
+    public String checkEmail(EmailMemberDTO emailMemberDTO) {
+        String checkid = sqlSession.selectOne("member.checkid",emailMemberDTO);
+
+        return checkid;
+    }
+    public String checkPwd(EmailMemberDTO emailMemberDTO){
+        String checkpwd = sqlSession.selectOne("member.checkpass",emailMemberDTO);
+
+        return checkpwd;
+    }
+
+    public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
+        return sqlSession.selectOne("member.getMemInfo",emailMemberDTO);
+    }
+
     public void addAMember(AuthMemberDTO authMemberDTO) {
+        logger.info("인증멤버"+authMemberDTO.getAm_id());
+        logger.info("인증멤버"+authMemberDTO.getAm_pwd());
+        logger.info("인증멤버"+authMemberDTO.getAm_key());
         sqlSession.insert("member.addAMember", authMemberDTO);
     }
 }

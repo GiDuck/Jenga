@@ -50,14 +50,16 @@
                      style="background-color: rgba( 255, 255, 255, 0.3 );">
                     <h3 class="card-title" style="color : #ffffff; display : inline; font-weight : bold;">Play with
                         Us!</h3>
-                    <form class="register-form">
+                    <form class="register-form" method ="post">
                         <label>Email</label>
+
                         <input type="email" class="form-control no-border" placeholder="Email" id="login_em_id"
                                style="color : black;">
                         <label>Password</label>
                         <input type="password" class="form-control no-border" placeholder="Password" id="login_em_pwd"
                                style="color : black;">
-                        <button class="btn btn-danger btn-block btn-round" id="login-check">Login</button>
+                        <button class="btn btn-danger btn-block btn-round" id="login-check" >Login</button>
+                        <input type="checkbox" id="saveid" name="saveid">아이디 저장
                     </form>
                     <div id="join_socialBtn" class="col-12 text-center"></div>
                     <div class="row text-center" style="margin-top:15px; padding : 12px;">
@@ -82,28 +84,47 @@ $('#em_id').focus();
 return false; --%>
 <script>
     $(function () {
-        $('#login-check').on('click', function () {
-            $.ajax({
-                url: "/login",
-                type: "post",
-                data: {
-                    "em_id": $("#em_id").val(),
-                    "em_pwd": $("#em_pwd").val()
-                },
-            }).done(function (responseData){
-                $(this).remove();
-                if (responseData.indexOf('success')) {
-                    location.href="/";
-                } else if (responseData.indexOf('notauth')) {
-                    location.href="/auth"; // 이메일를 여기로 받음(조건절에 들어가야하니까)
-                } else if (responseData.indexOf('notexist')) {
-                    alert('존재하지 않는 이메일입니다.');
-                    return false;
-                }
-            });
-        });
-    });
+        $('#login-check').on('click', function (e) {
+            e.preventDefault();
+            console.log(e);
+            if ($('#login_em_id').val() == "") {
+                alert('이메일을 입력해주세요');
+                $('#lgoin_em_id').focus();
+                return false;
+            } else if ($('#login_em_pwd').val() == "") {
+                alert('비밀번호를 입력해주세요');
+                $('#login_em_pwd').focus();
+                return false;
+            } else {
+                $.ajax({
+                    url: "/logincheck",
+                    type: "post",
+                    data: {
+                        "em_id": $('#login_em_id').val(),
+                        "em_pwd": $('#login_em_pwd').val()
+                    },
+                    success: function (responseData) {
 
+                        if (responseData.indexOf('iderror') != -1) {
+                            alert("존재하지 않는 아이디 입니다. 다시 확인해 주세요!");
+                            $('#em_id').val("");
+                            $('#em_id').focus();
+                            return false;
+                        } else if (responseData.indexOf('pwderror') != -1) {
+                            alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
+                            $('#em_pwd').val("");
+                            $('#em_pwd').focus();
+                        } else {
+                            location.replace("/");
+
+                        }
+                    }
+                });
+            }
+
+        });
+
+    });
 
     $(document).ready(_ => {
 
@@ -142,4 +163,64 @@ return false; --%>
 
 
     });
+
+
+    $(document).ready(function(){
+       let em_id = getCookie("saveid");
+       $("#login_em_id").val(em_id);
+       if($("#login_em_id").val() != ""){
+           $("#saveid").attr("checked", true);
+       }
+
+       $("#saveid").change(function () {
+           if($("#saveid").is(":checked")){
+               let saveid = $("#login_em_id").val();
+               setCookie("saveid",saveid,7);
+           }else{
+               deleteCookie("saveid");
+           }
+       });
+
+       $("#login_em_id").keyup(function () {
+           if($("#saveid").is(":checked")){
+               let saveid = $("#login_em_id").val();
+               setCookie("saveid",saveid,7);
+           }
+       })
+    });
+
+
+
+
+
+    /*쿠키 세팅*/
+    function setCookie(cookie_name, value, days){
+        let date = new Date();
+        date.setDate(date.getDate()+days);
+        let cookie_value = escape(value) + ((date==null) ? "" : "; expires=" + date.toGMTString());
+        document.cookie = cookie_name + "=" + cookie_value;
+    }
+
+    function deleteCookie(cookie_Name){
+        let expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() - 1);
+        document.cookie = cookie_Name + "= " + "; expires=" + expireDate.toGMTString();
+    }
+
+    function getCookie(cookie_Name) {
+        cookie_Name = cookie_Name + '=';
+        let cookieData = document.cookie;
+        let start = cookieData.indexOf(cookie_Name);
+        let cookieValue = '';
+        if(start != -1){
+            start += cookie_Name.length;
+            let end = cookieData.indexOf(';', start);
+            if(end == -1)end = cookieData.length;
+            cookieValue = cookieData.substring(start, end);
+        }
+        return unescape(cookieValue);
+    }
+
+
+
 </script>
