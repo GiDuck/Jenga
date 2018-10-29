@@ -27,7 +27,7 @@ public interface MemberService {
 
     void findAPwd(String find_pwd) throws Exception;
 
-    String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception;
+    String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception; //이메일, 패스워드 체크
 
-    String getToken(EmailMemberDTO emailMemberDTO);
+    String getToken(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
 }
