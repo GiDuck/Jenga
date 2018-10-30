@@ -6,5 +6,5 @@
 	  <div id="fbBtn" class="btn btn-just-icon btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i></div>
 	  <div id="googleBtn" class="btn btn-just-icon btn-google"><i class="fa fa-google" aria-hidden="true"></i></div>
 	  <div id="kakaoBtn" class="btn btn-just-icon btn-twitter"><i class="fa fa-twitter" aria-hidden="true"></i></div>
-	 <div id="naverBtn" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></div>          
+	 <div id="naverBtn" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></div>
   </div>

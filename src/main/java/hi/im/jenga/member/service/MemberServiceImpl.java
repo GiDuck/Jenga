@@ -126,16 +126,9 @@ public class MemberServiceImpl implements MemberService {
 
     public void loginEMCheck(EmailMemberDTO emailMemberDTO) throws Exception {
         //암호화하기 id -> aes, pwd -> sha
-        // emember
         boolean result;
         String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
         String aes_pwd = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
-
-      /*  result = dao.loginEMcheck(emailMemberDTO);
-
-        if(!result){
-            result = dao.loginAMcheck()
-        }*/
 
     }
 
@@ -199,6 +192,12 @@ public class MemberServiceImpl implements MemberService {
 
     public void delMemInfo(String session_mem_iuid) {
         dao.delMemInfo(session_mem_iuid);
+    }
+
+    public void updMemInfo(MemberDTO memberDTO) {
+        memberDTO.getMem_nick();
+        memberDTO.getMem_profile();
+        dao.updMemInfo(memberDTO);
     }
 
     //     이메일 인증번호 보내는 메소드

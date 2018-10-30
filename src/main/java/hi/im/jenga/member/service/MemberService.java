@@ -43,4 +43,6 @@ public interface MemberService {
     String findIuid(EmailMemberDTO emailMemberDTO) throws Exception;
 
     void delMemInfo(String session_mem_iuid) throws Exception;
+
+    void updMemInfo(MemberDTO memberDTO);
 }

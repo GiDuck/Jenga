@@ -1,15 +1,14 @@
 package hi.im.jenga.member.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import hi.im.jenga.member.dao.MemberDAO;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.UtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
-import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import hi.im.jenga.member.util.login.*;
-import org.apache.http.HttpResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -109,19 +108,6 @@ public class MemberController {
 
 
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public @ResponseBody
-    void loginPOST(EmailMemberDTO emailMemberDTO, HttpSession session, Model model) throws Exception {
-        logger.info(emailMemberDTO.getEm_id());
-        logger.info(emailMemberDTO.getEm_pwd());
-        //memberService.loginEMCheck(emailMemberDTO);
-    }
-
-
-
-
-
-
     @RequestMapping(value = "/findPwd", method = RequestMethod.POST)
     public @ResponseBody
     void findPwdPOST(@RequestParam String find_pwd, HttpServletResponse response) throws Exception {
@@ -209,6 +195,17 @@ public class MemberController {
 
     }
 
+
+
+
+
+    @RequestMapping(value ="/modMemInfo")
+    public String setMemberInfoGET(HttpSession session){
+logger.info("모드모드");
+//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_profile());
+//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_nick());
+    return "member/modMemInfo";
+    }
 
 
 
@@ -307,6 +304,25 @@ public class MemberController {
 
 
 
+
+
+    // 회원정보 수정
+    @RequestMapping(value = "/updMemInfo", method = RequestMethod.POST)
+    public String updMemberInfoPOST(@ModelAttribute MemberDTO memberDTO, @RequestParam("mem_profile") MultipartFile uploadFile, MultipartHttpServletRequest request){
+
+        UtilFile utilFile = new UtilFile();
+        String uploadPath = utilFile.fileUpload(request, uploadFile);
+
+        memberService.updMemInfo(memberDTO);
+
+        return "";
+    }
+
+
+
+
+
+    // 회원삭제
     @RequestMapping(value = "/delMemInfo", method = RequestMethod.GET)
     public String delMemberInfoGET(HttpSession session) throws Exception {
         logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
@@ -318,6 +334,39 @@ public class MemberController {
 //        회원정보 삭제 후 보여지는 페이지
         return "redirect:/";
     }
+
+
+
+
+
+
+    // 로그아웃
+    @RequestMapping("logout")
+    public String logOut(HttpSession session){
+        String getSes = (String)session.getAttribute("access_token");
+        System.out.println(getSes);
+        String[] check =getSes.split("%&");
+
+        if(check[0].equals("kakao")){
+            LoginUtil util = kakaoLoginUtil;
+            util.logOut(check[1]);
+        }else if(check[0].equals("google")){
+
+        }else if(check[0].equals("facebook")){
+
+        }else if(check[0].equals("naver")){
+            LoginUtil util = naverLoginUtil;
+            util.logOut("");
+        }
+        session.invalidate();
+        return "redirect:/";
+
+    }
+
+
+
+
+
 
     /******************************** 소셜별 콜백 매핑 *********************************/
 
@@ -452,7 +501,6 @@ public class MemberController {
     /*******************************************************************************/
 
 
-
     // 취향 선택 IN setMemberInfo
     @ResponseBody
     @RequestMapping(value = "/getCategory", method = RequestMethod.GET)
@@ -500,33 +548,6 @@ public class MemberController {
 
     }
 
-
-
-
-
-
-
-    @RequestMapping("logout")
-    public String logOut(HttpSession session){
-        String getSes = (String)session.getAttribute("access_token");
-        System.out.println(getSes);
-        String[] check =getSes.split("%&");
-
-            if(check[0].equals("kakao")){
-                LoginUtil util = kakaoLoginUtil;
-                util.logOut(check[1]);
-            }else if(check[0].equals("google")){
-
-            }else if(check[0].equals("facebook")){
-
-            }else if(check[0].equals("naver")){
-                LoginUtil util = naverLoginUtil;
-                util.logOut("");
-            }
-            session.invalidate();
-            return "redirect:/";
-
-    }
 
 
 }

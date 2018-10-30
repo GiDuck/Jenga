@@ -42,4 +42,6 @@ public interface MemberDAO {
     String findIuid(EmailMemberDTO emailMemberDTO);
 
     void delMemInfo(String aes_iuid);
+
+    void updMemInfo(MemberDTO memberDTO);
 }

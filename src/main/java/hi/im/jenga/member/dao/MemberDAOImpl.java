@@ -124,6 +124,10 @@ public class MemberDAOImpl implements MemberDAO{
 //        logger.info("n은 "+n);
     }
 
+    public void updMemInfo(MemberDTO memberDTO) {
+        sqlSession.update("member.updMemInfo", memberDTO);
+    }
+
     public void sendKey(EmailMemberDTO emailMemberDTO) throws Exception {
 
         logger.info(": : : sendKey 1 :");
