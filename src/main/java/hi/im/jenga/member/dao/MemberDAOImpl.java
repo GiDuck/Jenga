@@ -80,25 +80,16 @@ public class MemberDAOImpl implements MemberDAO{
         return result != null ? (result.equals("Y ") ? "Y" : "N") : "notexist";
     }
 
-    public void findEPwd(String aes_find_pwd, String tempPwdKey) {
+    public void findEPwd(String aes_find_pwd, String sha_key) {
         logger.info(": : : findEPwd 들어옴 ");
         HashMap <String, String> map = new HashMap();
         map.put("aes_find_pwd", aes_find_pwd);
-        map.put("tempPwdKey", tempPwdKey);
+        map.put("sha_key", sha_key);
 
         int n = sqlSession.update("member.findEPwd",map);
 
         logger.info(": : : n은 "+n);
         logger.info(": : : findEPwd 나감 ");
-    }
-
-    public void findAPwd(String find_pwd, String tempPwdKey) {
-        HashMap<String, String> map = new HashMap();
-        map.put("find_pwd", find_pwd);
-        map.put("tempPwdKey", tempPwdKey);
-
-        sqlSession.update("member.findAPwd",map);
-
     }
 
     public void tempIns(String iuid) {

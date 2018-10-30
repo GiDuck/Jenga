@@ -32,8 +32,6 @@ public interface MemberService {
 
     MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
 
-    void loginEMCheck(EmailMemberDTO emailMemberDTO) throws Exception;
-
     void join(EmailMemberDTO emailMemberDTO);
 
     String sendKey(EmailMemberDTO emailMemberDTO) throws Exception;

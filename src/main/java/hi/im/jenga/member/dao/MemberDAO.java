@@ -25,7 +25,7 @@ public interface MemberDAO {
 
     String isEMExist(String aes_eid) throws Exception;
 
-    void findEPwd(String aes_find_pwd, String tempPwdKey);
+    void findEPwd(String aes_find_pwd, String sha_key);
 
     String checkEmail(EmailMemberDTO emailMemberDTO);
 

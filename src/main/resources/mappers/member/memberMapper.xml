@@ -34,13 +34,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES (#{socialMemberDTO.sm_id}, #{iuid}, #{socialMemberDTO.sm_type})
 	</insert>
 
-	<insert id="addAMember">
-	INSERT INTO
-		tbl_AMember
-		(am_id, am_pwd, am_key)
-	VALUES (#{am_id}, #{am_pwd}, #{am_key})
-	</insert>
-
 	<select id="isSMExist" resultType="String">
 	SELECT
 		sm_id
@@ -73,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE
 		tbl_EMember
 	SET
-		em_pwd = #{tempPwdKey}
+		em_pwd = #{sha_key}
 	WHERE em_id = #{aes_find_pwd}
 	</update>
 

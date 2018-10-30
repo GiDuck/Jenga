@@ -22,3 +22,5 @@
   <script src="${pageContext.request.contextPath}/resources/assets/js/paper-kit.js?v=2.2.1" type="text/javascript"></script>
  <!--  Plugin for presentation page - isometric cards  -->
   <script src="${pageContext.request.contextPath}/resources/assets/js/plugins/presentation-page/main.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>  
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>

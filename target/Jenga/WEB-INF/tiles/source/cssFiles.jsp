@@ -7,3 +7,5 @@
   <script src="${pageContext.request.contextPath}/resources/assets/js/core/jquery.min.js" type="text/javascript"></script>
   <script src="${pageContext.request.contextPath}/resources/assets/js/core/popper.min.js" type="text/javascript"></script>
   <script src="${pageContext.request.contextPath}/resources/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+
+  

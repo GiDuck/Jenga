@@ -53,8 +53,7 @@ public class MemberServiceImpl implements MemberService {
         dao.addMemberInfo(memberDTO);
     }
 
-    public void addEMember(String aes_iuid) { dao.addEMember(aes_iuid);
-    }
+    public void addEMember(String aes_iuid) { dao.addEMember(aes_iuid); }
 
     public void addSMember(SocialMemberDTO socialMemberDTO, String iuid) {
         dao.addSMember(socialMemberDTO, iuid);
@@ -75,10 +74,6 @@ public class MemberServiceImpl implements MemberService {
     public int findEPwd(String find_pwd) throws Exception {
         String result;
         logger.info(": : : findEPwd");
-        String tempPwdKey = new TempKey().getKey(10, false);    // 인증키 생성
-        logger.info(": 생성된 임시 키 " + tempPwdKey);
-        // find_pwd의 비밀번호를 임시비밀번호로 바꿔야함
-        // 바꾸고 메일보내기
 
         String aes_find_pwd = aes256Cipher.AES_Encode(find_pwd);       // 암호화 후 찾아야 하니까
 
@@ -88,9 +83,14 @@ public class MemberServiceImpl implements MemberService {
         if(result.equals("notexist")){
             return 0;
         }
+//        ////////////
+        String tempPwdKey = new TempKey().getKey(10, false);    // 인증키 생성
+        logger.info(": 생성된 임시 키 " + tempPwdKey);
+        // find_pwd의 비밀번호를 임시비밀번호로 바꿔야함
+        // 바꾸고 메일보내기
 
-        String aes_key = sha256Cipher.getEncSHA256(tempPwdKey);           // 키를 암호화 후 넣음
-        dao.findEPwd(aes_find_pwd, aes_key);
+        String sha_key = sha256Cipher.getEncSHA256(tempPwdKey);           // 키를 암호화 후 넣음
+        dao.findEPwd(aes_find_pwd, sha_key);
 
         MailHandler sendMail = new MailHandler(mailSender);
         sendMail.setSubject("Jenga 임시 비밀번호입니다. ");
@@ -122,15 +122,6 @@ public class MemberServiceImpl implements MemberService {
         return dao.getMemInfo(emailMemberDTO);
     }
 
-
-
-    public void loginEMCheck(EmailMemberDTO emailMemberDTO) throws Exception {
-        //암호화하기 id -> aes, pwd -> sha
-        boolean result;
-        String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
-        String aes_pwd = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
-
-    }
 
     public void join(EmailMemberDTO emailMemberDTO) {
 

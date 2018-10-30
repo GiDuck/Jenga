@@ -1,7 +1,6 @@
 package hi.im.jenga.member.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import hi.im.jenga.member.dao.MemberDAO;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
@@ -70,8 +69,8 @@ public class MemberController {
         if(check.equals("success")){
             MemberDTO Member = memberService.getMemInfo(emailMemberDTO);
             session.setAttribute("Member",Member);
+            logger.info((session.getAttribute("Member").toString()));
         }
-
         response.getWriter().println(check);
     }
 
@@ -200,8 +199,8 @@ public class MemberController {
 
 
     @RequestMapping(value ="/modMemInfo")
-    public String setMemberInfoGET(HttpSession session){
-logger.info("모드모드");
+    public String modMemberInfoGET(HttpSession session){
+        logger.info("모드모드");
 //        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_profile());
 //        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_nick());
     return "member/modMemInfo";

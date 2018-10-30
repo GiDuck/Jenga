@@ -1,6 +1,6 @@
-<%@ page import="hi.im.jenga.member.dto.MemberDTO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="hi.im.jenga.member.dto.MemberDTO" %>
 
 <!--
 본 페이지는 사용자가 가입 후에 개인 정보를 수정할 수 있는 페이지임.
@@ -14,9 +14,7 @@ Form-data parameter
 
 
 <jsp:include page="./mem_components.jsp"/>
-<script>
-    console.log('안농'+<%= ((MemberDTO)session.getAttribute("Member")).getMem_nick()%>);
-</script>
+
 
 <div class="wrapper">
     <div class="profile-content section">
@@ -126,6 +124,7 @@ Form-data parameter
 
         });
 
+        // 회원 탈퇴
         $("#retireBtn").on('click', function(e) {
 
 
