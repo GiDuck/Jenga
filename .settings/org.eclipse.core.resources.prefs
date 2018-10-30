@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
@@ -12,3 +13,10 @@ encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding/<project>=UTF-8
 >>>>>>> 901e84998199a6e0d46712ab99dc868e246a8314
+=======
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/WEB-INF/tiles/component/modal.jsp=UTF-8
+encoding/<project>=UTF-8
+>>>>>>> f82263e0e8653aa1b1004d15bb9bed7a059d4040

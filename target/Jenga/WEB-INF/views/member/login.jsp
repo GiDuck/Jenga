@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <jsp:include page="./c_modal.jsp"></jsp:include>
-<jsp:include page="./c_buttons.jsp"></jsp:include>
 
 
 <style>

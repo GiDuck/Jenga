@@ -11,20 +11,20 @@
 <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>Basic Layout</title>
+<title>Jenga! 지식을 쌓고 빼고 즐기세요.</title>
 
 <tiles:insertAttribute name="cssFiles"/>
+<tiles:insertAttribute name="components"/>
+
 </head>
 <body>
 <tiles:insertAttribute name="navbar"/>
-<tiles:insertAttribute name="header"/>
 <tiles:insertAttribute name="content"/>
 <tiles:insertAttribute name="footer"/>
 
 </body>
 
 <tiles:insertAttribute name="jsFiles"/>
-<tiles:insertAttribute name="comJs"/>
 
 
 </html>

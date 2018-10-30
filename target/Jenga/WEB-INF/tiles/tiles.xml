@@ -12,6 +12,36 @@
 		<put-attribute name="cssFiles"
 			value="/WEB-INF/tiles/source/cssFiles.jsp" />
 
+		<put-attribute name="components"
+			value="/WEB-INF/tiles/source/components.jsp" />
+
+
+		<put-attribute name="navbar"
+			value="/WEB-INF/tiles/component/navbar.jsp" />
+
+		<put-attribute name="header"
+			value="/WEB-INF/tiles/component/header.jsp" />
+
+		<put-attribute name="footer"
+			value="/WEB-INF/tiles/component/footer.jsp" />
+
+		<put-attribute name="jsFiles"
+			value="/WEB-INF/tiles/source/jsFiles.jsp" />
+			
+			
+	</definition>
+	
+		<definition name="withEditor"
+		template="/WEB-INF/tiles/layout/basicTemplate.jsp">
+
+
+		<put-attribute name="components"
+			value="/WEB-INF/tiles/source/components.jsp" />
+			
+			
+		<put-attribute name="cssFiles"
+			value="/WEB-INF/tiles/source/cssWithEditor.jsp" />
+
 		<put-attribute name="navbar"
 			value="/WEB-INF/tiles/component/navbar.jsp" />
 
@@ -30,9 +60,13 @@
 	</definition>
 	
 	
-	
 
 	<definition name="*/*" extends="basic">
+		<put-attribute name="content"
+			value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+	
+		<definition name="editor/*/*" extends="withEditor">
 		<put-attribute name="content"
 			value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
