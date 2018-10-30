@@ -115,39 +115,38 @@ Form-data parameter
 
     /* ------------ 뷰 초기화 작업 ------------ */
     $(document).ready(function(){
-        setNavType("blue");
-        initFavorForm();
+                   setNavType("blue");
+            initFavorForm();
 
-        $("#saveBtn").on('click', function(e) {
-            e.preventDefault();
-            getSelectedCard();
+            $("#saveBtn").on('click', function(e) {
+                e.preventDefault();
+                getSelectedCard();
 
-        });
+            });
 
-        // 회원 탈퇴
-        $("#retireBtn").on('click', function(e) {
+            // 회원 탈퇴
+            $("#retireBtn").on('click', function(e) {
 
 
-            e.preventDefault();
-            e.stopPropagation();
-            //OK 버튼 클릭시 수행 함수
-            let okFunc = function(){
+                e.preventDefault();
+                e.stopPropagation();
+                //OK 버튼 클릭시 수행 함수
+                let okFunc = function(){
 
-                $.ajax({
+                    $.ajax({
 
-                    url : "",
-                    type : "",
-                    data : "",
-                    success : makeSimpleNotifyModal(null, "회원 탈퇴되었습니다. 감사합니다.", "닫기", null),
-                    error : (xhs, status, error), function() {
+                        url : "/delMemInfo",
+                        type : "post",
+                        success : makeSimpleNotifyModal(null, "회원 탈퇴되었습니다. 감사합니다.", "닫기", null),
+                        error : (xhs, status, error), function() {
 
-                        console.log(status.code + "에러가 발생하였습니다.");
+                            console.log(status.code + "에러가 발생하였습니다.");
 
-                    }
+                        }
 
-                });
+                    });
 
-            }
+                }
 
             //거절 시 수행 함수
             let refuseFunc = function(){}

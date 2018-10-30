@@ -1,51 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 
 
 <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>
 
 <style>
-	.modal-open .modal {
-		display: block;
-	}
+    .modal-open .modal {
+        display: block;
+    }
 
 </style>
 
 <!-- Modal Default Form -->
 
 
-<div id = "defaultModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="false">
-	<div class="modal-dialog modal-register">
-		<div class="modal-content">
-			<div id="modalHeader" class="modal-header no-border-header text-center">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div id="modalBody" class="modal-body"></div>
-		</div>
-	</div>
+<div id="defaultModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-register">
+        <div class="modal-content">
+            <div id="modalHeader" class="modal-header no-border-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
 </div>
 
-<div id = "tripleModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="false">
-	<div class="modal-dialog modal-register">
-		<div class="modal-content">
-			<div id="modalHeader" class="modal-header no-border-header text-center">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div id="modalBody" class="modal-body"></div>
-			<div id="modalFooter" class="modal-footer"></div>
+<div id="tripleModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-register">
+        <div class="modal-content">
+            <div id="modalHeader" class="modal-header no-border-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+            <div id="modalFooter" class="modal-footer"></div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 
 <script>
 
     //Modal Object
-    function Modal () {
+    //Modal is Mother Object of all Modals.
+    //.. You can inherit and overwrite custom modals by this Object.
+    function Modal() {
 
         this.modal = $("#defaultModal").clone();
         this.header = this.modal.find("#modalHeader");
@@ -55,8 +58,7 @@
     }
 
 
-
-    Modal.prototype.setModal = function(modal){
+    Modal.prototype.setModal = function (modal) {
 
         this.modal = modal;
         this.header = this.modal.find("#modalHeader");
@@ -65,34 +67,34 @@
 
     }
 
-    Modal.prototype.getModal = function(){
+    Modal.prototype.getModal = function () {
 
         return this.modal;
     }
 
-    Modal.prototype.setHeader = function(header){
+    Modal.prototype.setHeader = function (header) {
         this.header = header;
     }
 
-    Modal.prototype.getHeader = function(){
+    Modal.prototype.getHeader = function () {
 
         return this.header;
     }
 
-    Modal.prototype.setBody = function(body){
+    Modal.prototype.setBody = function (body) {
         this.body = body;
     }
 
-    Modal.prototype.getBody = function(){
+    Modal.prototype.getBody = function () {
 
         return this.body;
     }
 
-    Modal.prototype.setFooter = function(footer){
+    Modal.prototype.setFooter = function (footer) {
         this.footer = footer;
     }
 
-    Modal.prototype.getFooter = function(){
+    Modal.prototype.getFooter = function () {
 
         return this.footer;
     }
@@ -106,18 +108,19 @@
     //... You can define DOM object and inject that.
     //... So Modal Factory will be assemble that.
 
-    function ModalFactory(type, header, body, footer){
+    function ModalFactory(type, header, body, footer) {
 
         this.modal = new Modal();
 
-        switch(type){
+        switch (type) {
 
             case 'simple' : {
 
                 this.modal.getHeader().append(header);
                 this.modal.getBody().append(body);
 
-            }break;
+            }
+                break;
 
             case 'triple' : {
 
@@ -127,10 +130,11 @@
                 this.modal.getFooter().append(footer);
 
 
+            }
+                break;
 
-            }break;
-
-            default : break;
+            default :
+                break;
 
         }
 
@@ -140,42 +144,44 @@
     }
 
     //PW Modal
-    function makePWModal(){
+    function makePWModal() {
 
         let header = $("<h3>").attr("id", "findPwModal").addClass("modal-title text-center").html("비밀번호 찾기").append($("<p>").html("가입시 입력한 이메일을 입력하세요.."));
 
-        let successFunc = function(){
+        let successFunc = function () {
 
         }
 
-        let failFunc = function(){
+        let failFunc = function () {
 
 
         }
 
-        let body= $("<div>").addClass("form-group")
+        let body = $("<div>").addClass("form-group")
             .append($("<label>").html("Email"))
             .append($("<input>").attr("type", "email").attr("placeholder", "Email").addClass("form-control"))
             .append($("<br>"))
             .append(
-                $("<button>").attr("id", "findPwInnerBtn").addClass("btn btn-block btn-round").html("Find").on('click', function(){
+                $("<button>").attr("id", "findPwInnerBtn").addClass("btn btn-block btn-round").html("Find").on('click', function () {
 
                     let email = $(this).parent().find("input[type=email]").val();
                     console.log("찾아온 이메일.." + email);
 
                     //You request by AJAX, than decise by recived token.
                     $.ajax({
-                        url : "/findPwd",
-                        type : "post",
-                        data : {"find_pwd" : email},
+                        url: "/findPwd",
+                        type: "post",
+                        data: {"find_pwd": email},
                     }).done(function (responseData) {
 
                         let token = false;
-                        if(responseData.indexOf('success') != -1){
-                            makeSimpleNotifyModal('비밀번호 변경', '임시 비밀번호가 이메일로 발송 되었습니다. \n 이메일을 확인 해 주세요', function(){});
+                        if (responseData.indexOf('success') != -1) {
+                            makeSimpleNotifyModal('비밀번호 변경', '임시 비밀번호가 이메일로 발송 되었습니다. \n 이메일을 확인 해 주세요', function () {
+                            });
                         }
-                        else if(responseData.indexOf('error') != -1)
-                            makeSimpleNotifyModal('비밀번호 변경', '이메일 인증에 실패하였습니다. \n 관리자에게 문의 해 주세요.', function(){});
+                        else if (responseData.indexOf('error') != -1)
+                            makeSimpleNotifyModal('비밀번호 변경', '존재하지 않는 이메일입니다. \n 관리자에게 문의 해 주세요.', function () {
+                            });
                     })
                 }))
             .append($("<br>"));
@@ -183,37 +189,37 @@
         return ModalFactory("simple", header, body);
 
 
-
     }
 
 
+
     //Email Join Modal
-    function makeJoinEmailModal(){
+                    function makeJoinEmailModal(){
 
-        let header = $("<h3>").addClass("modal-title text-center")
-            .append($("<label>").addClass("form-group").html("이메일로 회원가입"));
+                        let header = $("<h3>").addClass("modal-title text-center")
+                            .append($("<label>").addClass("form-group").html("이메일로 회원가입"));
 
-        let body = $("<div>").addClass("form-group")
-            .append($("<label>").html("Email"))
-            .append($("<input>").attr("type", "email").attr("placeholder", "Email").addClass("form-control"))
-            .append($("<br>"))
-            .append($("<label>").html("PW"))
-            .append($("<input>").attr("id", "pwd").attr("type", "password").attr("placeholder", "대문자, 소문자, 숫자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keydown focus', function(e){
+                        let body = $("<form>").addClass("form-group").attr("id","form_setMemInfo").attr("name","form_setMemInfo").attr("method","post").on("submit", function(e){
+                            e.preventDefault();
+                            return false;
+                        })
+                            .append($("<label>").html("Email"))
+                            .append($("<input>").attr("type", "email").attr("placeholder", "Email").attr("name","em_id").attr("id", "em_id").addClass("form-control"))
+                            .append($("<br>"))
+                            .append($("<label>").html("PW"))
+                            .append($("<input>").attr("id", "em_pwd").attr("type", "password").attr("name","em_pwd").attr("placeholder", "영문자와 특수문자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keydown focus', function(e){
 
 
-                let pwd = undefined;
+                                let pwd = undefined;
 
-                setTimeout(function(){
-
-                    $pwdCheck = $(e.target).parent().find("#pwdCheck");
-                    $pwd = $(e.target);
+                                setTimeout(function(){
+                                console.log($('#em_id').val());
+                                $pwdCheck = $(e.target).parent().find("#pwdCheck");
+                                $pwd = $(e.target);
 
 
                     pwd = $(e.target).val();
-                    console.log(pwd);
-                    console.log(REGEX_PASSWORD);
 
-                    console.log(REGEX_PASSWORD.test(pwd));
                     if(REGEX_PASSWORD.test(pwd)){
                         $pwd.css("background-color", "#BEEFFF");
 
@@ -266,40 +272,76 @@
             .append($("<button>").attr("id", "joinEmailBtn").addClass("btn btn-block btn-round").html("Join").on('click', function(e){
 
 
+                setTimeout(function(){
+
+                },2000);
+
 
                 let id = $(this).parent().find("input[type=email]").val();
-                let pwd = $(this).parent().find("input[type=email]").val();
+                console.log(id);
+                let pwd = $(this).parent().find("#em_pwd").val();
+                let checkPwd = $(this).parent().find("#pwdCheck").val();
+
+
+                if(!validCheckAuth(id, pwd)){
+
+                    return;
+
+                }
+
+                if(pwd !== checkPwd){
+
+                    makeSimpleNotifyModal('이메일로 회원가입', '비밀번호가 동일하지 않습니다. 다시 확인해 주십시오.',  function(){});
+                    return;
+
+                }
+
+
 
 
                 //Please request on here by AJAX to Server.
                 //.. You can receive token that procedure was fine or bad.
+                $.ajax({
+                    url: "/authCheck",
+                    type: "post",
+                    data: {
+                        "em_id": id,
+                        "em_pwd": pwd
+                    },
 
-                let token = true;
+                }).done(function (responseData) {
+                    console.log(responseData);
+                    // let token = true;
 
-                if(token){
-                    makeSimpleNotifyModal('이메일로 회원가입', '인증 번호가 발송되었습니다..',  function(){});
+                    // 이메일이 존재하지 않을때 / 이메일 O, 인증여부 Y
+                    if (responseData.indexOf('sendAuthKey') != -1) {
+                        makeAuthModal(id);
+                        $("#em_id").prop('readonly', true);
+                        $("#em_pwd").prop('readonly', true);
+                        $("#em_pwd2").prop('readonly', true);
 
-                }else{
-
-                    makeSimpleNotifyModal('이메일로 회원가입', '인증이 실패하였습니다. 이메일이 정확한 지 확인하세요.',  function(){});
-
-                }
-                e.preventDefault();
-
+                        // 이미 가입한 이메일 일 때
+                    } else if (responseData.indexOf('isExist') != -1) {
+                        makeSimpleNotifyModal('이메일로 회원가입', '인증이 실패하였습니다. 이메일이 정확한 지 확인하세요.', function () {
+                        });
+                        $("#em_id").val("");
+                        $("#em_pwd").val("");
+                        $("#em_pwd2").val("");
+                    }
+                    e.preventDefault();
+                })
             }))
             .append($("<br>"));
 
 
 
-
         return ModalFactory("simple", header, body);
-
 
     }
 
 
     //복구용 계정 모달
-    function makeRecoverModal(){
+    function makeRecoverModal() {
 
         let header = $("<h3>").addClass("modal-title text-center").html("복구용 계정으로 로그인")
             .append($("<br>"))
@@ -311,7 +353,7 @@
             .append($("<br>"))
             .append($("<label>").html("PW.."))
             .append($("<input>").attr("type", "password").attr("placeHolder", "Password").addClass("form-control"))
-            .append($("<button>").attr("id", "recoverSocialAuthBtn").addClass("btn btn-block btn-round").html("Login").css("margin-top", "40px").on('click', function(e){
+            .append($("<button>").attr("id", "recoverSocialAuthBtn").addClass("btn btn-block btn-round").html("Login").css("margin-top", "40px").on('click', function (e) {
 
                 let id = $(this).parent().find("input[type=email]").val();
                 let pwd = $(this).parent().find("input[type=password]").val();
@@ -327,41 +369,40 @@
     }
 
 
-
     //소셜 로그인과 동기화 모달
     /* function makeRecoverModalSync(){
 
-       modal.getModal().attr("id", "recoverSocialAuthSync");
+        modal.getModal().attr("id", "recoverSocialAuthSync");
 
-        let header = $("<h3>").addClass("modal-title text-center").html("소셜 계정과 동기화 하기")
-                 .append($("<br>"))
-                 .append($("<p>").html(""));
+         let header = $("<h3>").addClass("modal-title text-center").html("소셜 계정과 동기화 하기")
+                     .append($("<br>"))
+                     .append($("<p>").html(""));
 
-        let body = $("<div>").addClass("form-group")
-                 .append($("<label>")).html("Email")
-                 .append($("<input>").attr("type", "email")).attr("placeholder", "Email").addClass("form-control")
-                 .append($("<br>"))
-                 .append($("<br>"))
-                 .append($("<button>").attr("id", "recoverSocialAuthSyncBtn").addClass("btn btn-block btn-round").html("Login"))
-                 .append($("<br>"));
+         let body = $("<div>").addClass("form-group")
+                     .append($("<label>")).html("Email")
+                     .append($("<input>").attr("type", "email")).attr("placeholder", "Email").addClass("form-control")
+                     .append($("<br>"))
+                     .append($("<br>"))
+                     .append($("<button>").attr("id", "recoverSocialAuthSyncBtn").addClass("btn btn-block btn-round").html("Login"))
+                     .append($("<br>"));
 
-        return ModalFactory("simple", header, body);
+         return ModalFactory("simple", header, body);
 
 
     } */
 
 
     // header, body, footer로 이루어진 예, 아니오를 선택할 수 있는 모달
-    function makeCheckableModal(title, subTitle, content, okFunc, refuseFunc){
+    function makeCheckableModal(title, subTitle, content, okFunc, refuseFunc) {
 
 
         let successBtn = ($("<button>").attr("id", "btn_OK").attr("data-dismiss", "modal").addClass("btn btn-default btn-link").html("예"))
-            .on("click", function(){
+            .on("click", function () {
                 okFunc();
             });
 
         let failBtn = ($("<button>").attr("id", "btn_Refuse").attr("data-dismiss", "modal").attr("type", "button").addClass("btn btn-danger btn-link close").html("아니오"))
-            .on("click", function(){
+            .on("click", function () {
 
                 refuseFunc();
             });
@@ -379,16 +420,14 @@
             .append($("<div>").addClass("right-side").append(failBtn));
 
 
-
-
-        return  ModalFactory("triple",  header, body, footer);
+        return ModalFactory("triple", header, body, footer);
 
 
     }
 
 
-    // header + body로 이루어진 2단계 모달
-    function makeSimpleNotifyModal (title, subTitle, content, closeParent){
+    // header + body로 이루어진 2단계 모달
+    function makeSimpleNotifyModal(title, subTitle, content, closeParent) {
 
         let header = $("<h3>").addClass("modal-title text-center").html(title)
             .append($("<br>"))
@@ -399,21 +438,108 @@
             .append("<h4>").html(content);
 
         let modalFactory = ModalFactory("simple", header, body);
-        modalFactory.on('hide.bs.modal', function() {
+        modalFactory.on('hide.bs.modal', function () {
 
-            if(closeParent){
+
+            if (closeParent) {
                 closeParent.modal('hide');
 
             }
 
         });
-
+        return modalFactory;
     };
 
 
 
+    //You can check auth string by this modal.
+    function makeAuthModal(id){
+
+
+        let header = $("<h3>").addClass("modal-title text-center")
+            .append($("<label>").addClass("form-group").html("이메일 인증하기"));
+
+
+        let body = $("<div>").addClass("form-group")
+            .append($("<label>").html("인증 문자 입력"))
+            .append($("<p>").html("이메일로 전송된 인증문자를 입력 해 주세요."))
+            .append($("<input>").attr("type", "text").attr("placeholder", "인증문자를 입력하세요.").addClass("form-control"))
+            .append($("<br>"))
+            .append($("<input>").attr("type", "button").addClass("btn btn-info w-100 text-center").val("인증하기").on('click', function(e){
+
+
+                e.preventDefault();
+
+
+                alert("클릭됐다");
+                $.ajax({
+                    url: "/join",
+                    type: "post",
+                    data: {
+                        "em_id" : id,
+                        "em_akey": $("input[type=text]").val()
+                    },
+                    success : function(responseData){
+                        alert("펑션실행");
+                        alert(responseData);
+                        if (responseData.indexOf('success') != -1) {
+                            let simpleModal = makeSimpleNotifyModal('', '인증에 성공하였습니다.', '');
+
+                            simpleModal.unbind('hide.bs.modal');
+                            let ad = document.form_setMemInfo;
+                            console.log("테스트로 뽑음...");
+                            console.log(ad);
+                            console.log(simpleModal.find("input[type=email]").val());
+                            console.log(simpleModal.find("input[type=password]").val());
+
+
+                            console.log($('#em_id').val());
+                            console.log($('#em_pwd').val());
+                            simpleModal.on('hide.bs.modal',function (e) {
+                                // let d = $(parent.parent.document).find('form_setMemInfo');
+                                // let d = parent.makeJoinEmailModal().getElementById('form_setMemInfo');
+                                // let d = dd.getElementById('form_setMemInfo');
+
+
+                                // let   d = document.makeJoinEmailModal.form_setMemInfo;
+
+                                // let d = window.parent.document.getElementById('form_setMemInfo');
+
+
+                                // let d = document.getElementById("form_setMemInfo");
+                                console.log("이메일머임?");
+                                // let d = document.makeJoinEmailModal.body.form_setMemInfo;
+                                ad.action = "/setMemInfo";
+
+                                ad.submit();
+                                e.stopImmediatePropagation();
+
+                            });
+
+
+
+                        } else if (responseData.indexOf('error') != -1) {
+                            alert("에러에러에러")
+                            makeSimpleNotifyModal('', '인증 실패하였습니다.', function(){});
+                            $("#em_akey").val("");
+                        }
+                    }
+                })
+
+                //Please make to request using AJAX to server.
+                //..below source will be embbed in success function on AJAX.
+
+            }));
+
+
+
+        return ModalFactory("simple", header, body);
+
+
+    }
 
 
 
 
 </script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

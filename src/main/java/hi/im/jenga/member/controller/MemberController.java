@@ -77,8 +77,6 @@ public class MemberController {
 
 
 
-
-
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public String login(HttpSession session, Model model) {
 
@@ -209,6 +207,7 @@ public class MemberController {
 
 
 
+
     // 모달에서 이메일, 비밀번호 넘어옴 / 여기서 uuid 만들어야함
     // 임시 추가정보 페이지 (GET)
     @RequestMapping(value = "/setMemInfo", method = RequestMethod.POST)
@@ -324,6 +323,7 @@ public class MemberController {
     // 회원삭제
     @RequestMapping(value = "/delMemInfo", method = RequestMethod.GET)
     public String delMemberInfoGET(HttpSession session) throws Exception {
+        logger.info("회원탈퇴로 들어옵니다");
         logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         String session_mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
 
