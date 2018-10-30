@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
   <jsp:include page="./mem_components.jsp"/>
-    
+      
     
     <style>
     
@@ -61,15 +61,28 @@
               </form>
               
 			<div id="join_socialBtn" class="row text-center" style="padding : 10px">
+               
+                <div class="col-12 text-left w-100">
+              	<label>아이디 저장</label>
+			  
+           <label>
+    <input type="checkbox" data-toggle="switch" checked="false" data-on-color="default" data-off-color="default" style="margin:0">
+    <span class="toggle"></span>
+</label>
+            <span class="toggle"></span>
+                 </div>
                 <div id="findPWBtn" class="col-12" style="padding : 10px"><span class="findSomeText">비밀번호를 잃어버렸나요?</span></div>
                 <div id="recoverAuthBtn" class="col-12" style="padding : 10px"><span class="findSomeText">복구할 계정이 있나요?</span></div>             
+               
               </div>
-          </div>
+              
+             
           </div>
         </div>
         </div>
     </div>
     
+</div>
     
 <script>
 
@@ -123,6 +136,14 @@ $(document).ready(function() {
 		
 		let inputEmail = $btn_comp.find("input[type:email]").html();
 		let inputPw = $btn_comp.find("input[type:password]").html();
+		
+		if(!validCheckAuth(inputEmail, inputPw)){
+			return;
+		}
+		
+		
+		
+		
 				
 		
 	});
