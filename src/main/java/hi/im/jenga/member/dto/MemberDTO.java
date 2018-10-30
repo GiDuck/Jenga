@@ -9,6 +9,17 @@ public class MemberDTO {
     private int mem_level;
     private Date mem_joinDate;
 
+    @Override
+    public String toString() {
+        return "MemberDTO{" +
+                "mem_iuid='" + mem_iuid + '\'' +
+                ", mem_nick='" + mem_nick + '\'' +
+                ", mem_profile='" + mem_profile + '\'' +
+                ", mem_level=" + mem_level +
+                ", mem_joinDate=" + mem_joinDate +
+                '}';
+    }
+
     public String getMem_iuid() {
         return mem_iuid;
     }

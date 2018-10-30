@@ -208,8 +208,27 @@
     // /authCheck에서 이메일 중복검사
 	$("#sendKeyBtn").on('click', _ => {
         event.preventDefault();
-        alert($("#em_id").val());
-        alert($("#em_pwd").val());
+
+        if($("#em_id").val() == ""){
+            alert('이메일을 입력해주세요.');
+            $("#em_id").focus();
+            return false;
+        }
+        if($("#em_pwd").val() == ""){
+            alert('비밀번호를 입력해주세요.');
+            $("#em_pwd").focus();
+            return false;
+        }
+        if($("#em_pwd2").val() == ""){
+            alert('체크할 비밀번호를 입력해주세요.');
+            $("#em_pwd2").focus();
+            return false;
+        }
+        if($("#em_pwd").val() != $("#em_pwd2").val()){
+            alert('체크할 비밀번호가 일치하지 않습니다. 다시 확인해주세요');
+            return false;
+        }
+
         console.log("뭐고"+$("#em_id").val());
         $.ajax({
             url: "/authCheck",

@@ -21,18 +21,11 @@ public interface MemberDAO {
 
     void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
 
-    void addAMember(AuthMemberDTO authMemberDTO);
-
     boolean isSMExist(String aes_sid);
 
     String isEMExist(String aes_eid) throws Exception;
 
-    boolean isAMExist(String aes_eid);
-
-    void findEPwd(String find_pwd, String tempPwdKey);
-
-    void findAPwd(String find_pwd, String tempPwdKey);
-
+    void findEPwd(String aes_find_pwd, String sha_key);
 
     String checkEmail(EmailMemberDTO emailMemberDTO);
 
@@ -47,4 +40,8 @@ public interface MemberDAO {
     boolean authCheck(EmailMemberDTO emailMemberDTO);
 
     String findIuid(EmailMemberDTO emailMemberDTO);
+
+    void delMemInfo(String aes_iuid);
+
+    void updMemInfo(MemberDTO memberDTO);
 }

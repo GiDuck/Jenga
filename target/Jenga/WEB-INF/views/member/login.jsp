@@ -157,36 +157,36 @@
         //페이스북 버튼 클릭시 Action
         $btn_comp.find("#fbBtn").on('click', function(){
 
-            alert('fbBtn!');
+            location.href = "${f}";
 
         });
 
         //구글 버튼 클릭시 Action
         $btn_comp.find("#googleBtn").on('click', function(){
-            alert('google!');
+            location.href = "${g}";
 
 
         });
 
         //카카오 버튼 클릭시 Action
         $btn_comp.find("#kakaoBtn").on('click', function(){
-            alert('kakao!');
+            location.href = "${k}";
 
 
         });
 
         //네이버 버튼 클릭시 Action
         $btn_comp.find("#naverBtn").on('click', function(){
-            alert('naver!');
+            location.href = "${n}";
 
 
         });
 
         //로그인 버튼 클릭시 Action
         $btn_comp.find("#login-check").on('click', function(){
-            /*let inputEmail = $btn_comp.find("input[type:email]").html();
-            let inputPw = $btn_comp.find("input[type:password]").html();*/
-            e.preventDefault();
+            let inputEmail = $btn_comp.find("input[type:email]").html();
+            let inputPw = $btn_comp.find("input[type:password]").html();
+            /*e.preventDefault();
             console.log(e);
             if ($('#login_em_id').val() == "") {
                 alert('이메일을 입력해주세요');
@@ -224,7 +224,8 @@
                 });
             }
 
-        });
+        });*/
 
+        });
     });
 </script>

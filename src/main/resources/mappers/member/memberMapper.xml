@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="member">
 
+	<!-- 2차 페이지에서 입력 후 임시로 저장한 정보들을 새로 UPDATE하는 -->
 	<!-- 개인정보 (주) -->
 	<insert id="addMemberInfo">
 	UPDATE
@@ -15,12 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE mem_iuid = #{mem_iuid}
 	</insert>
 
+	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 날짜로 그날 날짜로 바꾸고 완전 회원가입 완료 -->
 	<!-- 이메일 가입 (부) -->
 	<insert id="addEMember">
 	UPDATE
 		tbl_EMember
 	SET
-		em_acheck = 'Y'
+		em_acheck = 'Y', em_adate = sysdate
 	WHERE em_ref = #{aes_iuid}
 	</insert>
 
@@ -32,13 +34,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES (#{socialMemberDTO.sm_id}, #{iuid}, #{socialMemberDTO.sm_type})
 	</insert>
 
-	<insert id="addAMember">
-	INSERT INTO
-		tbl_AMember
-		(am_id, am_pwd, am_key)
-	VALUES (#{am_id}, #{am_pwd}, #{am_key})
-	</insert>
-
 	<select id="isSMExist" resultType="String">
 	SELECT
 		sm_id
@@ -48,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		sm_id = #{aes_sid}
 	</select>
 
+	<!-- 이메일 회원가입 할 때 입력된 이메일을 암호화 한 후 EMember에 존재하는지 여부를 ‘Y’, ‘N’, null 로 알려줌 -->
 	<select id="isEMExist" resultType="String">
 	SELECT
 		em_acheck
@@ -70,8 +66,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE
 		tbl_EMember
 	SET
-		em_pwd = #{tempPwdKey}
-	WHERE em_id = #{find_pwd}
+		em_pwd = #{sha_key}
+	WHERE em_id = #{aes_find_pwd}
 	</update>
 
 	<update id="findAPwd" parameterType="HashMap">
@@ -80,8 +76,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SET
 		am_pwd = #{tempPwdKey}
 	WHERE am_id = <![CDATA[#{find_pwd}]]>
-
 	</update>
+
+	<!-- 이메일 회원가입할 때 인증키 보낼 때 tbl_memInfo에 임시로 넣어주는 메서드 -->
 	<insert id="tempIns">
 	INSERT INTO
 		tbl_memInfo
@@ -115,14 +112,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE em_id = #{em_id} AND em_akey = #{em_akey}
 	</select>
 
-	<delete id="delMember">
-
+	<!-- 멤버 지움 -->
+	<delete id="delMemInfo">
+	DELETE FROM tbl_MemInfo
+	WHERE mem_iuid = #{aes_iuid}
 	</delete>
 
-	<update id="updateMember">
-
+	<!-- 멤버 정보 수정-->
+	<update id="updMemInfo">
+	UPDATE
+		tbl_MemInfo
+	SET
+		mem_nick = ${mem_nick}, mem_profile = #{mem_profile}
+	WHERE
+		mem_iuid = #{mem_iuid};
 	</update>
-
 
 	<select id="checkid" resultType="String">
 	SELECT
@@ -158,7 +162,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-
+	<!-- 이메일을 이용해서 임시로 넣은 iuid를 찾기위한 메서드 -->
 	<select id="findIuid" resultType="String">
 	SELECT
 		em_ref
@@ -175,7 +179,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE
 		sm_id = #{id}
 	</select>
-
 </mapper>
 
 

@@ -22,23 +22,15 @@ public interface MemberService {
 
     void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
 
-    void addAMember(AuthMemberDTO authMemberDTO) throws Exception;
-
     boolean isSMExist(String aes_sid);
 
     String isEMExist(String em_id) throws Exception;
 
-    boolean isAMExist(String aes_eid);
-
-    void findEPwd(String find_pwd) throws Exception;
-
-    void findAPwd(String find_pwd) throws Exception;
+    int findEPwd(String find_pwd) throws Exception;
 
     String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception; //이메일, 패스워드 체크
 
     MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
-
-    void loginEMCheck(EmailMemberDTO emailMemberDTO) throws Exception;
 
     void join(EmailMemberDTO emailMemberDTO);
 
@@ -48,4 +40,7 @@ public interface MemberService {
 
     String findIuid(EmailMemberDTO emailMemberDTO) throws Exception;
 
+    void delMemInfo(String session_mem_iuid) throws Exception;
+
+    void updMemInfo(MemberDTO memberDTO);
 }
