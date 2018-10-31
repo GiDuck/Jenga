@@ -77,7 +77,7 @@ public class MemberDAOImpl implements MemberDAO{
         logger.info(result+" 로 나왔다3");
 
         return "notexist";*/
-        return result != null ? (result.equals("Y ") ? "Y" : "N") : "notexist";
+        return result != null ? (result.equals("Y") ? "Y" : "N") : "notexist";
     }
 
     public void findEPwd(String aes_find_pwd, String sha_key) {

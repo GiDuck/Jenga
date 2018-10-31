@@ -7,70 +7,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d1935cd-a5d8-4175-9770-91bc6ac543a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.springBeans" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/components.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssWithEditor.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/loginX.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_js.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/regexManager.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/component/modal.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/source/components.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/source/cssWithEditor.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/mem_js.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/stackBlock.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/Jenga/resources/assets/js/regexManager.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/icon/kakao_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/icon/naver_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/mem_js.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dto/MemberDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dto/MemberDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/comJs.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssFiles.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssFiles.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/jsFiles.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/jsFiles.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/tiles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/tiles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/c_buttons.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/c_components.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/c_modal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/c_modal.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/join.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/join.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/login.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_components.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_components.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/modMemInfo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/modMemInfo.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/setMemInfo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/setMemInfo.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_js.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/regexManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/js/regexManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/controller/MemberController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/dao/MemberDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/dao/MemberDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/dto/MemberDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/dto/MemberDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/service/MemberService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/service/MemberService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/service/MemberServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/service/MemberServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/mappers/member/memberMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/mappers/member/memberMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/component/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/component/navbar.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/layout/basicTemplate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/layout/basicTemplate.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/source/comJs.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/source/cssFiles.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/source/cssFiles.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/source/jsFiles.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/source/jsFiles.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/tiles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/tiles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/main/main.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/c_buttons.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/c_components.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/component/modal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/component/modal.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/c_modal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/c_modal.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/login.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/mem_components.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/mem_components.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/modMemInfo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/modMemInfo.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/setMemInfo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/setMemInfo.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/updateMemInfo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/updateMemInfo.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/member/mem_js.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/assets/js/regexManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/assets/js/regexManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/controller/MemberController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/dao/MemberDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/dao/MemberDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/dto/MemberDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/dto/MemberDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/service/MemberService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/service/MemberService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/service/MemberServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/service/MemberServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mappers/member/memberMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappers/member/memberMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,46 +41,57 @@
     <session id="-1326966480">
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="6" />
-          <entry key="jsp" value="18" />
+          <entry key="java" value="8" />
+          <entry key="jsp" value="24" />
           <entry key="jsp~HEAD" value="1" />
-          <entry key="xml" value="5" />
+          <entry key="properties" value="1" />
+          <entry key="ts" value="1" />
+          <entry key="xml" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="6" />
-          <entry key="JSP" value="18" />
+          <entry key="JAVA" value="8" />
+          <entry key="JSP" value="24" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="XML" value="5" />
+          <entry key="Properties" value="1" />
+          <entry key="TypeScript" value="1" />
+          <entry key="XML" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="140" />
-          <entry key="jsp" value="167" />
+          <entry key="java" value="146" />
+          <entry key="jsp" value="1147" />
+          <entry key="properties" value="3" />
           <entry key="xml" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="1" />
-          <entry key="JAVA" value="140" />
-          <entry key="JSP" value="166" />
+          <entry key="JAVA" value="146" />
+          <entry key="JSP" value="1146" />
+          <entry key="Properties" value="3" />
           <entry key="XML" value="23" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.45494094">
+    <splitter split-orientation="horizontal" split-proportion="0.48123488">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="654">
-                  <caret line="140" column="57" lean-forward="true" selection-start-line="140" selection-start-column="57" selection-end-line="140" selection-end-column="57" />
+                <state relative-caret-position="51">
+                  <caret line="308" column="53" lean-forward="true" selection-start-line="308" selection-start-column="53" selection-end-line="308" selection-end-column="53" />
                   <folding>
                     <element signature="method#hi#0;class#MemberController#0" />
                     <element signature="method#joinPOST#0;class#MemberController#0" />
@@ -140,10 +110,23 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="403">
+                  <caret line="79" column="49" selection-start-line="79" selection-start-column="49" selection-end-line="79" selection-end-column="49" />
+                  <folding>
+                    <element signature="method#addSMember#0;class#MemberDAOImpl#0" />
+                    <element signature="method#isSMExist#0;class#MemberDAOImpl#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/c_modal.jsp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="12">
-                  <caret line="195" column="49" selection-start-line="195" selection-start-column="13" selection-end-line="195" selection-end-column="49" />
+                <state relative-caret-position="199">
+                  <caret line="44" column="59" selection-start-line="44" selection-start-column="59" selection-end-line="44" selection-end-column="59" />
                 </state>
               </provider>
             </entry>
@@ -152,31 +135,78 @@
             <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/modMemInfo.jsp">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="300">
-                  <caret line="113" lean-forward="true" selection-start-line="113" selection-end-line="113" />
+                  <caret line="113" selection-start-line="113" selection-end-line="113" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="433">
+                  <caret line="518" column="8" lean-forward="true" selection-start-line="518" selection-start-column="8" selection-end-line="518" selection-end-column="8" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-37">
+                  <caret line="68" column="26" selection-start-line="68" selection-start-column="26" selection-end-line="68" selection-end-column="26" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/login.jsp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="539">
-                  <caret line="226" column="13" selection-start-line="188" selection-start-column="12" selection-end-line="226" selection-end-column="13" />
+                <state relative-caret-position="-1050">
+                  <caret line="74" column="90" selection-start-line="74" selection-start-column="90" selection-end-line="74" selection-end-column="90" />
                   <folding>
+                    <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#video#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#input#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#input#1;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#input#0;n#label#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_components.jsp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="540">
-                  <caret line="36" column="74" lean-forward="true" selection-start-line="35" selection-end-line="36" selection-end-column="74" />
+                <state relative-caret-position="165">
+                  <caret line="11" column="16" lean-forward="true" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/join.jsp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="330">
+                  <caret line="84" column="6" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="84" selection-end-column="6" />
+                  <folding>
+                    <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#video#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#input#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#input#1;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#input#0;n#label#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -188,8 +218,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-2310">
-                  <caret line="167" column="49" lean-forward="true" selection-start-line="167" selection-start-column="49" selection-end-line="167" selection-end-column="49" />
+                <state relative-caret-position="321">
+                  <caret line="238" column="51" selection-start-line="238" selection-start-column="51" selection-end-line="238" selection-end-column="51" />
                 </state>
               </provider>
             </entry>
@@ -212,7 +242,15 @@
       <find>findPWBtn</find>
       <find>emailBtn</find>
       <find>login_em_id</find>
+      <find>pwdCheck</find>
+      <find>form</find>
+      <find>join</find>
+      <find>form_setMemInfo</find>
+      <find>makeSimpleNotifyModal</find>
+      <find>simpleNotifyModal</find>
       <find>login-check</find>
+      <find>findpwd</find>
+      <find>em_id</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -222,19 +260,21 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_components.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dto/MemberDTO.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/join.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/modMemInfo.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" />
+        <option value="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_components.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/join.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/login.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/c_modal.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp" />
       </list>
     </option>
   </component>
@@ -281,11 +321,6 @@
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
               <item name="Jenga" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -308,6 +343,30 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="jenga" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="member" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="member" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -349,6 +408,26 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="tiles" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="tiles" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -379,7 +458,8 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540882818565" />
+    <property name="SearchEverywhereHistoryKey" value="makeJoinEmailModal&#9;null&#9;null" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540907742993" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -495,18 +575,18 @@
       <workItem from="1540715998595" duration="5561000" />
       <workItem from="1540775398237" duration="22046000" />
       <workItem from="1540811073102" duration="7835000" />
-      <workItem from="1540862478822" duration="11240000" />
+      <workItem from="1540862478822" duration="28824000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7262000" />
+    <option name="totallyTimeSpent" value="24846000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14232409" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11940298" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -516,7 +596,7 @@
       <window_info id="UI Designer" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.23523094" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.23523094" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39849624" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -525,7 +605,7 @@
       <window_info anchor="bottom" id="Application Servers" order="8" weight="0.216971" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.33834586" />
       <window_info anchor="bottom" id="Spring" order="10" weight="0.32867885" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.19763695" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.25886145" />
       <window_info anchor="bottom" id="CheckStyle" order="12" weight="0.32975295" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
@@ -629,13 +709,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_components.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="68" selection-start-line="16" selection-start-column="68" selection-end-line="16" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -670,33 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/components.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="57" lean-forward="true" selection-start-line="3" selection-start-column="57" selection-end-line="3" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="654">
-          <caret line="140" column="57" lean-forward="true" selection-start-line="140" selection-start-column="57" selection-end-line="140" selection-end-column="57" />
-          <folding>
-            <element signature="method#hi#0;class#MemberController#0" />
-            <element signature="method#joinPOST#0;class#MemberController#0" />
-            <element signature="method#setMemberInfoPOST#0;class#MemberController#0" />
-            <element signature="method#regMemberInfoPOST#0;class#MemberController#0" />
-            <element signature="method#delMemberInfoGET#0;class#MemberController#0" />
-            <element signature="method#logOut#0;class#MemberController#0" />
-            <element signature="method#facebookcallback#0;class#MemberController#0" />
-            <element signature="method#kakaocallback#0;class#MemberController#0" />
-            <element signature="method#callback#0;class#MemberController#0" />
-            <element signature="method#googlecallback#0;class#MemberController#0" />
-            <element signature="method#getCategory#0;class#MemberController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/loginX.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="960">
@@ -707,28 +753,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/c_modal.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12">
-          <caret line="195" column="49" selection-start-line="195" selection-start-column="13" selection-end-line="195" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="27" column="53" selection-start-line="27" selection-start-column="53" selection-end-line="27" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="86" column="36" lean-forward="true" selection-start-line="86" selection-start-column="36" selection-end-line="86" selection-end-column="36" />
-          <folding>
-            <element signature="method#addSMember#0;class#MemberDAOImpl#0" />
-            <element signature="method#isSMExist#0;class#MemberDAOImpl#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -743,43 +771,136 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="68" column="26" selection-start-line="68" selection-start-column="26" selection-end-line="68" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/modMemInfo.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
-          <caret line="113" lean-forward="true" selection-start-line="113" selection-end-line="113" />
+          <caret line="113" selection-start-line="113" selection-end-line="113" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
-          <caret line="36" column="74" lean-forward="true" selection-start-line="35" selection-end-line="36" selection-end-column="74" />
+          <caret line="36" column="74" selection-start-line="35" selection-end-line="36" selection-end-column="74" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp">
+    <entry file="file://$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2310">
-          <caret line="167" column="49" lean-forward="true" selection-start-line="167" selection-start-column="49" selection-end-line="167" selection-end-column="49" />
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/join.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="84" column="6" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="84" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#video#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#label#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="79" column="49" selection-start-line="79" selection-start-column="49" selection-end-line="79" selection-end-column="49" />
+          <folding>
+            <element signature="method#addSMember#0;class#MemberDAOImpl#0" />
+            <element signature="method#isSMExist#0;class#MemberDAOImpl#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/mem_components.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="16" lean-forward="true" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/components.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="57" lean-forward="true" selection-start-line="3" selection-start-column="57" selection-end-line="3" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/c_modal.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="44" column="59" selection-start-line="44" selection-start-column="59" selection-end-line="44" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="16925" column="12" selection-start-line="16925" selection-start-column="12" selection-end-line="16925" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/login.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="226" column="13" selection-start-line="188" selection-start-column="12" selection-end-line="226" selection-end-column="13" />
+        <state relative-caret-position="-1050">
+          <caret line="74" column="90" selection-start-line="74" selection-start-column="90" selection-end-line="74" selection-end-column="90" />
           <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#video#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#1;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#label#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-37">
+          <caret line="68" column="26" selection-start-line="68" selection-start-column="26" selection-end-line="68" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="518" column="8" lean-forward="true" selection-start-line="518" selection-start-column="8" selection-end-line="518" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="308" column="53" lean-forward="true" selection-start-line="308" selection-start-column="53" selection-end-line="308" selection-end-column="53" />
+          <folding>
+            <element signature="method#hi#0;class#MemberController#0" />
+            <element signature="method#joinPOST#0;class#MemberController#0" />
+            <element signature="method#setMemberInfoPOST#0;class#MemberController#0" />
+            <element signature="method#regMemberInfoPOST#0;class#MemberController#0" />
+            <element signature="method#delMemberInfoGET#0;class#MemberController#0" />
+            <element signature="method#logOut#0;class#MemberController#0" />
+            <element signature="method#facebookcallback#0;class#MemberController#0" />
+            <element signature="method#kakaocallback#0;class#MemberController#0" />
+            <element signature="method#callback#0;class#MemberController#0" />
+            <element signature="method#googlecallback#0;class#MemberController#0" />
+            <element signature="method#getCategory#0;class#MemberController#0" />
           </folding>
         </state>
       </provider>

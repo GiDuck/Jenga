@@ -3,7 +3,8 @@
     
     
 <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>  
-    
+<script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>  
+
 	 <style>
 	 .modal-open .modal {
 	  display: block;
@@ -45,6 +46,8 @@
 	<script>
 	
 	//Modal Object
+	//Modal is Mother Object of all Modals.
+	//.. You can inherit and overwrite custom modals by this Object. 
 	function Modal () {
 	
 		this.modal = $("#defaultModal").clone();
@@ -185,20 +188,98 @@
 		
 	
 	}
+
+	//You can check auth string by this modal.
+	function makeAuthModal(id, md){
+
+		
+		let header = $("<h3>").addClass("modal-title text-center")
+			.append($("<label>").addClass("form-group").html("이메일 인증하기"));
+		
+		
+		 let body = $("<div>").addClass("form-group")
+			.append($("<label>").html("인증 문자 입력"))
+			.append($("<p>").html("이메일로 전송된 인증문자를 입력 해 주세요."))
+			.append($("<input>").attr("type", "text").attr("placeholder", "인증문자를 입력하세요.").addClass("form-control"))
+ 			.append($("<br>"))
+ 			.append($("<input>").attr("type", "button").addClass("btn btn-info w-100 text-center").val("인증하기").on('click', function(e){
+ 				
+ 				
+ 				e.preventDefault();
+
+
+                alert("클릭됐다");
+                $.ajax({
+                    url: "/join",
+                    type: "post",
+                    data: {
+                        "em_id" : id,
+                        "em_akey": $("input[type=text]").val()
+                    },
+                    success : function(responseData){
+                        alert("펑션실행");
+                        alert(responseData);
+                        if (responseData.indexOf('success') != -1) {
+                            let simpleModal = makeSimpleNotifyModal('', '인증에 성공하였습니다.', '');
+
+                            simpleModal.unbind('hide.bs.modal');
+                            simpleModal.on('hide.bs.modal',function (e) {
+                                // let d = $(parent.parent.document).find('form_setMemInfo');
+								// let d = parent.makeJoinEmailModal().getElementById('form_setMemInfo');
+								// let d = dd.getElementById('form_setMemInfo');
+
+
+								// let	d = document.makeJoinEmailModal.form_setMemInfo;
+
+                                // let d = window.parent.document.getElementById('form_setMemInfo');
+                                // let d = document.getElementById("form_setMemInfo");
+
+                                // let d = document.makeJoinEmailModal.body.form_setMemInfo;
+                                md.method = "post"
+                                md.action = "/setMemInfo"
+                                md.submit();
+                                e.stopImmediatePropagation();
+
+                            });
+
+
+
+                        } else if (responseData.indexOf('error') != -1) {
+                            alert("에러에러에러")
+                            makeSimpleNotifyModal('', '인증 실패하였습니다.', function(){});
+                            $("#em_akey").val("");
+                        }
+                    }
+                })
+ 				
+ 				//Please make to request using AJAX to server.
+ 				//..below source will be embbed in success function on AJAX.
+
+ 			}));
+ 			
+ 			
+
+		 return ModalFactory("simple", header, body);
+		
+		
+	}
 	
 	
 	//Email Join Modal
 	function makeJoinEmailModal(){
-	
+
+	     var md = document.getElementById("form_setMemInfo");
+
 		 let header = $("<h3>").addClass("modal-title text-center")
 		 			.append($("<label>").addClass("form-group").html("이메일로 회원가입"));
 		 
 		 let body = $("<div>").addClass("form-group")
+					.append($("<form>").attr("id","form_setMemInfo").attr("name","form_setMemInfo").attr("method","post"))
 		 			.append($("<label>").html("Email"))
-		 			.append($("<input>").attr("type", "email").attr("placeholder", "Email").addClass("form-control"))
+		 			.append($("<input>").attr("type", "email").attr("placeholder", "Email").attr("name","em_id").addClass("form-control"))
 		 			.append($("<br>"))
 		 			.append($("<label>").html("PW"))
-		 			.append($("<input>").attr("id", "pwd").attr("type", "password").attr("placeholder", "대문자, 소문자, 숫자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keydown focus', function(e){
+		 			.append($("<input>").attr("id", "pwd").attr("type", "password").attr("name","em_pwd").attr("placeholder", "영문자와 특수문자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keydown focus', function(e){
 		 				
 		 				
 						let pwd = undefined;
@@ -210,10 +291,7 @@
 							
 		 					
 		 					pwd = $(e.target).val();
-		 					console.log(pwd);
-		 					console.log(REGEX_PASSWORD);
 
-		 					console.log(REGEX_PASSWORD.test(pwd));
 		 					if(REGEX_PASSWORD.test(pwd)){
 		 						$pwd.css("background-color", "#BEEFFF");
 
@@ -265,35 +343,64 @@
 		 			.append($("<br>"))
 		 			.append($("<button>").attr("id", "joinEmailBtn").addClass("btn btn-block btn-round").html("Join").on('click', function(e){
 
-		 			
-		 				
+
+
 		 				let id = $(this).parent().find("input[type=email]").val();
-		 				let pwd = $(this).parent().find("input[type=email]").val();
-	
-		 					 				
+		 				let pwd = $(this).parent().find("#pwd").val();
+		 				let checkPwd = $(this).parent().find("#pwdCheck").val();
+
+
+		 				if(!validCheckAuth(id, pwd)){
+
+		 					return;
+
+		 				}
+
+		 				if(pwd !== checkPwd){
+
+		 				makeSimpleNotifyModal('이메일로 회원가입', '비밀번호가 동일하지 않습니다. 다시 확인해 주십시오.',  function(){});
+		 					return;
+
+		 				}
+
+
 		 				//Please request on here by AJAX to Server.
 		 				//.. You can receive token that procedure was fine or bad.
-		 				
-		 				let token = true;
-		 				
-		 				if(token){
-		 				makeSimpleNotifyModal('이메일로 회원가입', '인증 번호가 발송되었습니다..',  function(){});
-		 				
-		 				}else{
-		 					
-		 				makeSimpleNotifyModal('이메일로 회원가입', '인증이 실패하였습니다. 이메일이 정확한 지 확인하세요.',  function(){});
-			 					
-		 				}
-		 				e.preventDefault();
+                        $.ajax({
+                            url: "/authCheck",
+                            type: "post",
+                            data: {
+                                "em_id": id,
+                                "em_pwd": pwd
+                            },
 
+                        }).done(function (responseData) {
+                            console.log(responseData);
+                            // let token = true;
+
+                            // 이메일이 존재하지 않을때 / 이메일 O, 인증여부 Y
+                            if (responseData.indexOf('sendAuthKey') != -1) {
+                                makeAuthModal(id, md);
+                                $("#em_id").prop('readonly', true);
+                                $("#em_pwd").prop('readonly', true);
+                                $("#em_pwd2").prop('readonly', true);
+
+                                // 이미 가입한 이메일 일 때
+                            } else if (responseData.indexOf('isExist') != -1) {
+                                makeSimpleNotifyModal('이메일로 회원가입', '인증이 실패하였습니다. 이메일이 정확한 지 확인하세요.', function () {
+                                });
+                                $("#em_id").val("");
+                                $("#em_pwd").val("");
+                                $("#em_pwd2").val("");
+                            }
+                            e.preventDefault();
+                        })
 					}))
 					.append($("<br>"));
 
-		 
-		 
+
 		 
 		 return ModalFactory("simple", header, body);
-
 
 	}
 	
@@ -401,12 +508,15 @@
  		let modalFactory = ModalFactory("simple", header, body);
  		modalFactory.on('hide.bs.modal', function() {
 				
+ 			
 				if(closeParent){
 					closeParent.modal('hide');
 					
 				}
 				
 			});
+
+ 		return modalFactory;
  
 	};
 	

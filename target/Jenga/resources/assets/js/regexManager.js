@@ -1,3 +1,3 @@
 
-window.REGEX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-window.REGEX_EMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$/;
+window.REGEX_PASSWORD = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,16}$/
+window.REGEX_EMAIL = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/

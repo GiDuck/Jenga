@@ -32,47 +32,61 @@
 
     
     </style>
-    
 
-    <div style="width:auto; height:auto;" class="subscribe-line-transparent" >
-    
-    <video autoplay muted loop id="backgroundVideo" style="object-fit: fill;">
-    
-    	<source src="${pageContext.request.contextPath}/resources/assets/video/fireworks.mp4" type="video/mp4">
-    	
-    </video>
-    
-      <div class="container opt_fixed">
- 
-    
-        <div class="row">
-        
-        <div class="col-12" style="height : 100px; width : auto;"></div>
-        
-          <div class="col-sm-8 mr-auto ml-auto">
-            <div id="regForm" class="card card-register mr-auto ml-auto" style="background-color: rgba( 255, 255, 255, 0.3 );">
-              <h3 class="card-title" style="color : #ffffff; display : inline; font-weight : bold;">Play with Us!</h3>
-              <form class="register-form">
-                <label>Email</label>
-                <input type="email" class="form-control no-border" id="login_em_id" placeholder="Email" style="color : black;">
-                <label>Password</label>
-                <input type="password" class="form-control no-border" id = "login_em_pwd" placeholder="Password" style="color : black;">
-                <button id="login-check" class="btn btn-danger btn-block btn-round">Login</button>
-              </form>
-              
-			<div id="join_socialBtn" class="row text-center" style="padding : 10px">
-                <div id="findPWBtn" class="col-12" style="padding : 10px"><span class="findSomeText">비밀번호를 잃어버렸나요?</span></div>
-                <div id="recoverAuthBtn" class="col-12" style="padding : 10px"><span class="findSomeText">복구할 계정이 있나요?</span></div>             
-              </div>
+
+<div style="width:auto; height:auto;" class="subscribe-line-transparent" >
+
+  <video autoplay muted loop id="backgroundVideo" style="object-fit: fill;">
+
+    <source src="${pageContext.request.contextPath}/resources/assets/video/fireworks.mp4" type="video/mp4">
+
+  </video>
+
+  <div class="container opt_fixed">
+
+
+    <div class="row">
+
+      <div class="col-12" style="height : 100px; width : auto;"></div>
+
+      <div class="col-sm-8 mr-auto ml-auto">
+        <div id="regForm" class="card card-register mr-auto ml-auto" style="background-color: rgba( 255, 255, 255, 0.3 );">
+          <h3 class="card-title" style="color : #ffffff; display : inline; font-weight : bold;">Play with Us!</h3>
+          <form class="register-form">
+            <label>Email</label>
+            <input type="email" class="form-control no-border" placeholder="Email" style="color : black;">
+            <label>Password</label>
+            <input type="password" class="form-control no-border" placeholder="Password" style="color : black;">
+            <button id="btnLogin" class="btn btn-danger btn-block btn-round">Login</button>
+          </form>
+
+          <div id="join_socialBtn" class="row text-center" style="padding : 10px">
+
+            <div class="col-12 text-left w-100">
+              <label>아이디 저장</label>
+
+              <label>
+                <input type="checkbox" data-toggle="switch" checked="false" data-on-color="default" data-off-color="default" style="margin:0">
+                <span class="toggle"></span>
+              </label>
+              <span class="toggle"></span>
+            </div>
+            <div id="findPWBtn" class="col-12" style="padding : 10px"><span class="findSomeText">비밀번호를 잃어버렸나요?</span></div>
+            <div id="recoverAuthBtn" class="col-12" style="padding : 10px"><span class="findSomeText">복구할 계정이 있나요?</span></div>
+
           </div>
-          </div>
+
+
         </div>
-        </div>
+      </div>
     </div>
+  </div>
+
+</div>
     
     
 <script>
-    /*$(function () {
+   /* $(function () {
         $('#login-check').on('click', function (e) {
             e.preventDefault();
             console.log(e);
@@ -186,45 +200,10 @@
         $btn_comp.find("#login-check").on('click', function(){
             let inputEmail = $btn_comp.find("input[type:email]").html();
             let inputPw = $btn_comp.find("input[type:password]").html();
-            /*e.preventDefault();
-            console.log(e);
-            if ($('#login_em_id').val() == "") {
-                alert('이메일을 입력해주세요');
-                $('#lgoin_em_id').focus();
-                return false;
-            } else if ($('#login_em_pwd').val() == "") {
-                alert('비밀번호를 입력해주세요');
-                $('#login_em_pwd').focus();
-                return false;
-            } else {
-                $.ajax({
-                    url: "/logincheck",
-                    type: "post",
-                    data: {
-                        "em_id": $('#login_em_id').val(),
-                        "em_pwd": $('#login_em_pwd').val()
-                    },
-                    success: function (responseData) {
+            alert(inputEmail);
+            alert(inputPw);
+            /* */
 
-                        if (responseData.indexOf('iderror') != -1) {
-                            alert("존재하지 않는 아이디 입니다. 다시 확인해 주세요!");
-                            $('#em_id').val("");
-                            $('#em_id').focus();
-                            return false;
-
-                        } else if (responseData.indexOf('pwderror') != -1) {
-                            alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
-                            $('#em_pwd').val("");
-                            $('#em_pwd').focus();
-                        } else {
-                            location.replace("/");
-
-                        }
-                    }
-                });
-            }
-*/
         });
-
     });
 </script>

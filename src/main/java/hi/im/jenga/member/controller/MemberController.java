@@ -84,7 +84,7 @@ public class MemberController {
 
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
-        logger.info("session" + session);
+        logger.info("session 은 " + session);
         util = facebookLoginUtil;
         String FacebookAuthUrl = util.getAuthorizationUrl(session);
 
