@@ -4,10 +4,8 @@ import hi.im.jenga.member.dao.MemberDAO;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
-import hi.im.jenga.member.dto.AuthMemberDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.cipher.SHA256Cipher;
-import hi.im.jenga.member.util.login.Util;
 import hi.im.jenga.member.util.mail.MailHandler;
 import hi.im.jenga.member.util.mail.TempKey;
 import org.slf4j.Logger;
@@ -16,16 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -115,6 +106,11 @@ public class MemberServiceImpl implements MemberService {
         if(pwdcheck == null){
             return "pwderror";
         }
+        String Acheck = dao.checkAuth(emailMemberDTO);
+        logger.info("||||||||||auth 체크"+Acheck);
+        if(Acheck.equals("N")){
+            return "noauth";
+        }
         return "success";
     }
 
@@ -194,11 +190,11 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception{
         // 복호화 한 후 비교 후 현재 세션에 있는 사용자의 정보를 받아옴
         logger.info(": : : ServiceImpl에 modMemberInfo 들어옴");
-//        logger.info("세션에 있는 iuid는 "+memberDTO.getMem_iuid());
-//        String aes_iuid = aes256Cipher.AES_Decode(memberDTO.getMem_iuid());
-//        logger.info("복호화한 있는 iuid는 "+aes_iuid);
+        logger.info("세션에 있는 iuid는 "+memberDTO.getMem_iuid());
+        /*String  notAes_iuid = aes256Cipher.AES_Decode(memberDTO.getMem_iuid());
+        logger.info("복호화한 있는 iuid는 "+notAes_iuid);*/
 
-//        memberDTO = dao.modMemberInfo(aes_iuid);
+        memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
 
 
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
@@ -223,8 +219,20 @@ public class MemberServiceImpl implements MemberService {
         aes256Cipher.AES_Encode(memberDTO.getMem_profile());
         sha256Cipher.getEncSHA256(em_pwd);
 
-
     }
+
+
+    public void addMemberFavor(String aes_iuid, String[] favor) {
+        for(String fav : favor){
+            dao.addMemberFavor(aes_iuid,fav);
+        }
+    }
+
+    public List<String> getMemFavor(String member) { return dao.getMemFavor(member); }
+
+
+
+
 
     //     이메일 인증번호 보내는 메소드
     private void sendTempKey(String emailId, String key) throws MessagingException, UnsupportedEncodingException {

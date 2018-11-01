@@ -45,4 +45,10 @@ public interface MemberService {
     MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
 
     void modMemberInfoPOST(MemberDTO memberDTO, String em_pwd, String[] favor) throws Exception;
+
+    void updMemInfo(MemberDTO memberDTO);
+
+    void addMemberFavor(String aes_iuid, String[] favor);
+
+    List<String> getMemFavor(String member);
 }

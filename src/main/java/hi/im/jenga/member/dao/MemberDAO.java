@@ -46,4 +46,12 @@ public interface MemberDAO {
     void updMemInfo(MemberDTO memberDTO);
 
 //    MemberDTO modMemberInfo(String aes_iuid);
+
+    void addMemberFavor(String aes_iuid, String fav);
+
+    String checkAuth(EmailMemberDTO emailMemberDTO);
+
+    List<String> getMemFavor(String member);
+
+    MemberDTO modMemberInfoGET(String aes_iuid);
 }

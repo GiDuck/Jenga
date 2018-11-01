@@ -137,6 +137,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    EM_ID = #{em_id} AND EM_PWD = #{em_pwd}
 	</select>
 
+	<select id="checkauth" resultType="String">
+	SELECT
+	    em_acheck
+	from
+	    tbl_emember
+	where
+	    em_id = #{em_id} and em_pwd = #{em_pwd}
+	</select>
+
 	<select id="getMemInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
 	SELECT
 		  *
@@ -170,6 +179,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE
 		mem_iuid = #{aes_id}
 	</select>-->
+
+	<insert id="addMemberFavor">
+	INSERT INTO
+		tbl_mfavor
+	values
+		(#{aes_iuid}, (select
+		            mctg_uid
+		          from
+                    tbl_mcategory
+                  where
+                     mctg_name = #{fav}) )
+	</insert>
+
+	<select id = "getMemFavor" resultType="String">
+    SELECT
+        MCTG_NAME
+    from
+        tbl_mcategory
+    where
+        MCTG_UID IN (SELECT
+                       MF_TYPE
+                    FROM
+                       tbl_mfavor
+                    WHERE
+                       MF_REF = #{member}
+                    )
+   </select>
+
+	<select id = "modMemberInfoGET" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		mem_nick, mem_profile
+	FROM
+		tbl_MemInfo
+	WHERE
+		mem_iuid = #{aes_iuid}
+	</select>
 </mapper>
 
 

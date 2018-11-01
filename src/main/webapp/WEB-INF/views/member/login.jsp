@@ -52,14 +52,15 @@
       <div class="col-sm-8 mr-auto ml-auto">
         <div id="regForm" class="card card-register mr-auto ml-auto" style="background-color: rgba( 255, 255, 255, 0.3 );">
           <h3 class="card-title" style="color : #ffffff; display : inline; font-weight : bold;">Play with Us!</h3>
+          <form id="passform">
           <div class="register-form">
             <label>Email</label>
-            <input type="email" class="form-control no-border" placeholder="Email" style="color : black;">
+            <input type="email" name ="em_id" class="form-control no-border" placeholder="Email" style="color : black;">
             <label>Password</label>
-            <input type="password" class="form-control no-border" placeholder="Password" style="color : black;">
+            <input type="password" name ="em_pwd" class="form-control no-border" placeholder="Password" style="color : black;">
             <button id="btnLogin" class="btn btn-danger btn-block btn-round">Login</button>
           </div>
-
+          </form>
           <div id="join_socialBtn" class="row text-center" style="padding : 10px">
 
             <div class="col-12 text-left w-100">
@@ -75,8 +76,6 @@
             <div id="recoverAuthBtn" class="col-12" style="padding : 10px"><span class="findSomeText">복구할 계정이 있나요?</span></div>
 
           </div>
-
-
         </div>
       </div>
     </div>
@@ -87,10 +86,37 @@
 <script>
 
 
+    //비밀번호 찾기 버튼 클릭시 Action
+    $("#findPWBtn").on('click', function(e){
+
+        //모달 초기화 및 이벤트 캡쳐링 방지
+        makePWModal();
+        e.preventDefault();
+
+    });
+
+    //복구용 계정으로 로그인 클릭시 Action
+    $("#recoverAuthBtn").on('click', function(e){
+
+        makeRecoverModal();
+        e.preventDefault();
+
+
+    });
+
+
+
     $(document).ready(function() {
 
+        //소셜 로그인 버튼창 초기화
+        let $btn_comp = $("#btn_components").clone();
+        $btn_comp.css({ 'display' : 'block'});
+        $btn_comp.addClass("col-12");
+        $("#join_socialBtn").append($btn_comp);
+
         // 이메일 로그인
-        $("#btnLogin").on('click', function(){
+        $("#btnLogin").on('click', function(e){
+            e.preventDefault();
             let inputEmail = $(this).parent().find("input[type=email]").val();
             let inputPw = $(this).parent().find("input[type=password]").val();
             if(validCheckAuth(inputEmail, inputPw)){
@@ -112,7 +138,16 @@
                             alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
                             $('#login_em_pwd').val("");
                             $('#login_em_pwd').focus();
-                        } else {
+                            return false;
+                        } else if (responseData.indexOf('noauth') != -1){
+                            alert("추가정보 입력이 필요합니다. 입력페이지로 이동합니다.");
+                            let d = document.getElementById("passform");
+                            console.log(d);
+                            d.method="post";
+                            d.action="/setMemInfo";
+                            d.submit();
+                        }
+                        else {
                             location.replace("/");
 
                         }
@@ -120,38 +155,6 @@
                 })
             }
         });
-
-    });
-
-	//비밀번호 찾기 버튼 클릭시 Action
-	$("#findPWBtn").on('click', function(e){
-
-		//모달 초기화 및 이벤트 캡쳐링 방지
-		makePWModal();
-		e.preventDefault();
-
-	});
-
-	//복구용 계정으로 로그인 클릭시 Action
-	$("#recoverAuthBtn").on('click', function(e){
-
-		makeRecoverModal();
-		e.preventDefault();
-
-
-	});
-
-
-
-
-    $(document).ready(function() {
-
-        //소셜 로그인 버튼창 초기화
-        let $btn_comp = $("#btn_components").clone();
-        $btn_comp.css({ 'display' : 'block'});
-        $btn_comp.addClass("col-12");
-        $("#join_socialBtn").append($btn_comp);
-
 
         //이메일 버튼 클릭시 Action
         $btn_comp.find("#emailBtn").on('click', function(e){
@@ -188,7 +191,55 @@
 
 
         });
+
+        //로그인 버튼 클릭시 Action
+        $btn_comp.find("#login-check").on('click', function(e){
+            e.preventDefault();
+            let inputEmail = $btn_comp.find("input[type=email]").html();
+            let inputPw = $btn_comp.find("input[type=password]").html();
+            /*e.preventDefault();
+            console.log(e);
+            if ($('#login_em_id').val() == "") {
+                alert('이메일을 입력해주세요');
+                $('#lgoin_em_id').focus();
+                return false;
+            } else if ($('#login_em_pwd').val() == "") {
+                alert('비밀번호를 입력해주세요');
+                $('#login_em_pwd').focus();
+                return false;
+            } else {
+                $.ajax({
+                    url: "/logincheck",
+                    type: "post",
+                    data: {
+                        "em_id": $('#login_em_id').val(),
+                        "em_pwd": $('#login_em_pwd').val()
+                    },
+                    success: function (responseData) {
+
+                        if (responseData.indexOf('iderror') != -1) {
+                            alert("존재하지 않는 아이디 입니다. 다시 확인해 주세요!");
+                            $('#em_id').val("");
+                            $('#em_id').focus();
+                            return false;
+
+                        } else if (responseData.indexOf('pwderror') != -1) {
+                            alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
+                            $('#em_pwd').val("");
+                            $('#em_pwd').focus();
+                        } else {
+                            location.replace("/");
+
+                        }
+                    }
+                });
+            }
+
+        });*/
+
+        });
     });
+
 
 
     $(document).ready(function(){

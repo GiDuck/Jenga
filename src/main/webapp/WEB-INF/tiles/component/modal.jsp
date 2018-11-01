@@ -389,9 +389,7 @@
 
 
                         } else if (responseData.indexOf('error') != -1) {
-                            alert("에러에러에러")
                             makeSimpleNotifyModal('', '인증 실패하였습니다.', function(){});
-                            $("#em_akey").val("");
                         }
                     }
                 })

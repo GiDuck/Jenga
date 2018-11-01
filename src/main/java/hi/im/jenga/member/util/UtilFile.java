@@ -2,6 +2,9 @@ package hi.im.jenga.member.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -10,15 +13,18 @@ import java.io.*;
 
 @Component
 public class UtilFile {
+
+    @Value("#{data['file.path']}")
+    private String PATH;
     private static final Logger logger = LoggerFactory.getLogger(UtilFile.class);
     String fileName = "";
+
 
     // 프로젝트 내 지정된 경로에 파일을 저장하는 메소드
 // DB에는 업로드 된 전체 경로명으로만 지정되기 때문에 (업로드 한 파일 자체는 경로에 저장됨)
 // fileUpload() 메소드에서 전체 경로를 리턴받아 DB에 경로 그대로 저장
     public String fileUpload(MultipartHttpServletRequest request, MultipartFile uploadFile) {
 
-        String path = "";
         String fileName = "";
 
         OutputStream out = null; // 찾아보기
@@ -28,12 +34,12 @@ public class UtilFile {
             fileName = uploadFile.getOriginalFilename();
             byte[] bytes = uploadFile.getBytes();
             //path = getSaveLocation(request);
-            path = "Y:\\go\\Jenga\\profiles\\";
+            /*path = "Y:\\go\\Jenga\\profiles\\";*/
 
             logger.info("UtilFile fileUpload fileName : " + fileName);
-            logger.info("UtilFile fileUpload path : " + path);
+            logger.info("UtilFile fileUpload path : " + PATH);
 
-            File file = new File(path); // 찾아보기
+            File file = new File(PATH); // 찾아보기
 
 //          파일명이 중복 && 공백일 경우
             if (fileName != null && !fileName.equals("")) {
@@ -41,12 +47,12 @@ public class UtilFile {
 //                  파일명 앞에 업로드 시간 초 단위로 붙여 파일명 중복을 방지
                     fileName = System.currentTimeMillis() + "_" + fileName;
 
-                    file = new File(path + fileName);
+                    file = new File(PATH + fileName);
                 }
             }
 
             logger.info("UtilFile fileUpload final fileName : " + fileName);
-            logger.info("UtilFile fileUpload final path : " + path);
+            logger.info("UtilFile fileUpload final path : " + PATH);
 
             out = new FileOutputStream(file);
 

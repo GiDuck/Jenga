@@ -128,7 +128,7 @@ return false; --%>
 
     $(document).ready(_ => {
 
-        let $btn_comp = $("#btn_components").clone();
+/*        let $btn_comp = $("#btn_components").clone();*/
 
         $("#join_socialBtn").html($btn_comp.css({'display': 'inline'}));
 
