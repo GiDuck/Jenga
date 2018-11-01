@@ -44,4 +44,8 @@ public interface MemberDAO {
     void delMemInfo(String aes_iuid);
 
     void updMemInfo(MemberDTO memberDTO);
+
+    void addMemberFavor(String aes_iuid, String fav);
+
+    String checkAuth(EmailMemberDTO emailMemberDTO);
 }

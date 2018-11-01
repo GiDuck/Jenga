@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="hi.im.jenga.member.dto.MemberDTO" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!--
 본 페이지는 사용자가 가입 후에 개인 정보를 수정할 수 있는 페이지임.
@@ -20,50 +19,52 @@ Form-data parameter
     <div class="profile-content section">
         <div class="container">
 
+            <form class="settings-form" action="/endPoint..." method="POST" onsubmit="return onFormReq()">
 
-            <div class="row">
-                <div class="col-12 text-center"><h2>회원 정보 수정</h2><br><br></div>
+                <div class="row">
+                    <div class="col-12 text-center"><h2>회원 정보 수정</h2><br><br></div>
 
-                <div class="profile-picture">
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-new img-no-padding">
-                            <img name="profile" src="${pageContext.request.contextPath}/resources/assets/img/faces/clem-onojeghuo-2.jpg" alt="...">
-                        </div>
-                        <div class="fileinput-preview fileinput-exists img-no-padding"></div>
-                        <div>
-                <span class="btn btn-outline-default btn-file btn-round">
-                  <span class="fileinput-new">Change Photo</span>
-                  <span class="fileinput-exists">Change</span>
-                  <input name="userProfile" type="file" name="...">
-                </span>
-                            <br />
-                            <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                    <div class="profile-picture">
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="fileinput-new img-no-padding">
+                                <img name="profile" src="img/${DTO.mem_profile}" alt="프로필 사진">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists img-no-padding"></div>
+                            <div>
+                                <span class="btn btn-outline-default btn-file btn-round">
+                                  <span class="fileinput-new">Change Photo</span>
+                                  <span class="fileinput-exists">Change</span>
+                                  <input type="file" name="mem_profile" id="mem_profile">
+                                </span>
+                                <br/>
+                                <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <br><br>
+                <br><br>
 
-            <div class="row">
-                <div class="col-md-6 ml-auto mr-auto">
-                    <form class="settings-form" action ="/endPoint..." method="POST" onsubmit = "return onFormReq()">
+                <div class="row">
+                    <div class="col-md-6 ml-auto mr-auto">
+
                         <div class="row">
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label>NickName</label>
-                                    <input type="text" name="nickname" class="form-control border-input" placeholder="NickName" value="${user_nick}">
+                                    <input type="text" name="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}">
                                 </div>
                             </div>
-                            <div class="col-md-6 col-12">
+                            <%--<div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" name="email" class="form-control border-input" placeholder="Email" value="${user_email}">
+                                    <label>PassWord</label>
+                                    <input type="password" name="em_pwd" class="form-control border-input" placeholder="Email" value="${EDTO.em_}">
                                 </div>
-                            </div>
+                            </div>--%>
                         </div>
 
-                        <div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의 취향을 선택해 주세요!</h3></div>
+                        <div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의
+                            취향을 선택해 주세요!</h3></div>
 
 
                         <div id="selectFavorField" class="row text-center" style="margin : 0"></div>
@@ -73,12 +74,14 @@ Form-data parameter
                             <ul class="notifications">
                                 <li class="notification-item">
                                     푸쉬 알림을 통해서 나에게 맞는 정보를 받아볼래요?
-                                    <input name="configure" type="checkbox" data-toggle="switch" checked="true" data-on-color="info" data-off-color="info">
+                                    <input name="configure" type="checkbox" data-toggle="switch" checked="true"
+                                           data-on-color="info" data-off-color="info">
                                     <span class="toggle"></span>
                                 </li>
                                 <li class="notification-item">
                                     팔로워가 새로운 글을 올리면 알려줄까요?
-                                    <input  name="configure" type="checkbox" data-toggle="switch" checked="true" data-on-color="info" data-off-color="info">
+                                    <input name="configure" type="checkbox" data-toggle="switch" checked="true"
+                                           data-on-color="info" data-off-color="info">
                                     <span class="toggle"></span>
                                 </li>
 
@@ -90,14 +93,14 @@ Form-data parameter
                             <button type="submit" id="saveBtn" class="col-sm-6 btn btn-info btn-round">Save</button>
                             <button id="retireBtn" class="col-sm-6 btn btn-danger btn-round">회원 탈퇴</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 
-<!--  사용자가 선택한 취향 정보를 JS에서 사용하기 위해, EL을 통해 받아온 리스트를 JS의 배열로 변환하는 소스 -->
+<!-- 사용자가 선택한 취향 정보를 JS에서 사용하기 위해, EL을 통해 받아온 리스트를 JS의 배열로 변환하는 소스 -->
 
 <script>
     //사용자가 선택한 취향 정보
@@ -114,45 +117,45 @@ Form-data parameter
 
 
     /* ------------ 뷰 초기화 작업 ------------ */
-    $(document).ready(function(){
-                   setNavType("blue");
-            initFavorForm();
+    $(document).ready(function () {
+        setNavType("blue");
+        initFavorForm();
 
-            $("#saveBtn").on('click', function(e) {
-                e.preventDefault();
-                getSelectedCard();
+        $("#saveBtn").on('click', function (e) {
+            e.preventDefault();
+            getSelectedCard();
 
-            });
+        });
 
-            // 회원 탈퇴
-            $("#retireBtn").on('click', function(e) {
+        // 회원 탈퇴
+        $("#retireBtn").on('click', function (e) {
 
 
-                e.preventDefault();
-                e.stopPropagation();
-                //OK 버튼 클릭시 수행 함수
-                let okFunc = function(){
+            e.preventDefault();
+            e.stopPropagation();
+            //OK 버튼 클릭시 수행 함수
+            let okFunc = function () {
 
-                    $.ajax({
+                $.ajax({
 
-                        url : "/delMemInfo",
-                        type : "post",
-                        success : makeSimpleNotifyModal(null, "회원 탈퇴되었습니다. 감사합니다.", "닫기", null),
-                        error : (xhs, status, error), function() {
+                    url: "/delMemInfo",
+                    type: "post",
+                    success: makeSimpleNotifyModal(null, "회원 탈퇴되었습니다. 감사합니다.", "닫기", null),
+                    error: (xhs, status, error), function() {
 
-                            console.log(status.code + "에러가 발생하였습니다.");
+                        console.log(status.code + "에러가 발생하였습니다.");
 
-                        }
+                    }
 
-                    });
+                });
 
-                }
+            }
 
             //거절 시 수행 함수
-            let refuseFunc = function(){}
+            let refuseFunc = function () {
+            }
             //모달 창 띄우기
             makeCheckableModal("회원 탈퇴", "복구용 계정을 설정 하지 않았다면 정보를 더이상 찾을 수 없습니다. 계속 진행하시겠습니까?", "예", "아니오", okFunc, refuseFunc);
-
 
 
         });
@@ -161,13 +164,13 @@ Form-data parameter
 
     // ---------- Submit시에 Hidden 값을 넣어주는 함수 -----------
 
-    function onFormReq(){
+    function onFormReq() {
 
         //사용자가 선택한 취향 카드 목록을 들고온다.
         let selectCard = getSelectedCard();
 
         //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
-        for(let i =0 ; i < selectCard.length ; ++i){
+        for (let i = 0; i < selectCard.length; ++i) {
 
             $inputNode = $("<input>").attr("type", "hidden").attr("name", "favor").val(selectCard[i]);
             $(".settings-form").append($inputNode);
@@ -188,11 +191,11 @@ Form-data parameter
         let $cards = $("#selectFavorField").find(".card");
         let selCards = new Array();
 
-        $cards.each(function(index, item) {
+        $cards.each(function (index, item) {
             let temp = $(item).css('opacity');
             alert("temp..." + temp);
             //만약 투명도가 1이 아니면 (카드 선택 시 투명도가 1 미만으로 설정되어있음)
-            if(temp < 1){
+            if (temp < 1) {
 
                 //html값을 가져와서 배열에 넣어준다.
                 selCards.push($(item).find("h3").html());
@@ -208,49 +211,49 @@ Form-data parameter
 
 
     //취향 카드 리스트 초기화
-    let initFavorForm = function() {
+    let initFavorForm = function () {
 
         //Ajax로 DB에서 카테고리 리스트를 받아옴
         $.ajax({
 
-            "type" : "get",
-            "url" : "/getCategory",
-            "data" : null,
-            "success" : function(response) {
+            "type": "get",
+            "url": "/getCategory",
+            "data": null,
+            "success": function (response) {
 
                 //div 필드를 초기화
-                let $selectFavorField =  $("#selectFavorField");
+                let $selectFavorField = $("#selectFavorField");
 
                 //Request Scope로 넘긴 배열 리스트들을
                 let index;
-                for(let i=0; i<response.length; ++i){
+                for (let i = 0; i < response.length; ++i) {
                     index = response[i];
                     let $cardItem = $("#cardItem").clone();
 
                     //display : none 처리 되어있는 카드를 show 해준다.
                     $cardItem.css('display', 'block');
-                    $cardItem.find(".card").css("background-image", "url('"+ index.image +"')" );
+                    $cardItem.find(".card").css("background-image", "url('" + index.image + "')");
                     $cardItem.find("h3").html(index.name);
 
-                    if(userFavor.includes(index.name)){
+                    if (userFavor.includes(index.name)) {
 
                         $cardItem.find(".card").css('opacity', '0.2');
 
 
                     }
 
-                    $cardItem.on('click', function(e) {
+                    $cardItem.on('click', function (e) {
 
                         //사용자가 클릭 시 투명도를 변경하여 눈에 띄게 처리한다.
                         e.preventDefault();
                         let opacity = $cardItem.find(".card").css('opacity');
 
                         //만약 선택된 카드가 선택되지 않았다면
-                        if(opacity == 1){
+                        if (opacity == 1) {
 
                             //투명도를 낮춰준다.
                             $cardItem.find(".card").css('opacity', '0.2');
-                        }else{
+                        } else {
 
                             //만약 카드가 선택되었다면 투명도를 높여준다.
                             $cardItem.find(".card").css('opacity', '1');
@@ -266,10 +269,10 @@ Form-data parameter
 
             },
 
-            "error" : function(xhs, request, error){
+            "error": function (xhs, request, error) {
 
 
-                console.log("error code.. " + request.status + " message : " + request.responseText + "error : " + error );
+                console.log("error code.. " + request.status + " message : " + request.responseText + "error : " + error);
 
             }
 
@@ -278,8 +281,6 @@ Form-data parameter
 
 
     }
-
-
 
 
 </script>

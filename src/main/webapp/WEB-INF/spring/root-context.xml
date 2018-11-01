@@ -27,6 +27,7 @@
 			<property name="password" value="#{data['oracle.password']}" />
 		</bean>
 
+
 		<!-- 메일 보내기 (SEND) -->
 		<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 			<property name="host" value="smtp.gmail.com" />

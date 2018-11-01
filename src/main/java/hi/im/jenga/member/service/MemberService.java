@@ -43,4 +43,8 @@ public interface MemberService {
     void delMemInfo(String session_mem_iuid) throws Exception;
 
     void updMemInfo(MemberDTO memberDTO);
+
+    void addMemberFavor(String aes_iuid, String[] favor);
+
+    MemberDTO modMemberInfo(MemberDTO memberDTO) throws Exception;
 }

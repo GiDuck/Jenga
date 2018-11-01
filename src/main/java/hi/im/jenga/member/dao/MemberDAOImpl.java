@@ -119,6 +119,14 @@ public class MemberDAOImpl implements MemberDAO{
         sqlSession.update("member.updMemInfo", memberDTO);
     }
 
+    public void addMemberFavor(String aes_iuid, String fav) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("aes_iuid",aes_iuid);
+        map.put("fav",fav);
+        sqlSession.insert("member.addMemberFavor", map);
+    }
+
+
     public void sendKey(EmailMemberDTO emailMemberDTO) throws Exception {
 
         logger.info(": : : sendKey 1 :");
@@ -147,10 +155,17 @@ public class MemberDAOImpl implements MemberDAO{
 
         return checkid;
     }
+
     public String checkPwd(EmailMemberDTO emailMemberDTO){
         String checkpwd = sqlSession.selectOne("member.checkpass",emailMemberDTO);
 
         return checkpwd;
+    }
+
+    public String checkAuth(EmailMemberDTO emailMemberDTO) {
+        String checkAuth = sqlSession.selectOne("member.checkauth",emailMemberDTO);
+
+        return checkAuth;
     }
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {

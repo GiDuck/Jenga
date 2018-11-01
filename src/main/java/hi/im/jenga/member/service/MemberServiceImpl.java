@@ -115,6 +115,11 @@ public class MemberServiceImpl implements MemberService {
         if(pwdcheck == null){
             return "pwderror";
         }
+        String Acheck = dao.checkAuth(emailMemberDTO);
+        logger.info("||||||||||auth 체크"+Acheck);
+        if(Acheck.equals("N")){
+            return "noauth";
+        }
         return "success";
     }
 
@@ -191,6 +196,12 @@ public class MemberServiceImpl implements MemberService {
         dao.updMemInfo(memberDTO);
     }
 
+    public void addMemberFavor(String aes_iuid, String[] favor) {
+        for(String fav : favor){
+            dao.addMemberFavor(aes_iuid,fav);
+        }
+    }
+
     //     이메일 인증번호 보내는 메소드
     private void sendTempKey(String emailId, String key) throws MessagingException, UnsupportedEncodingException {
         MailHandler sendMail = new MailHandler(mailSender);
@@ -199,6 +210,30 @@ public class MemberServiceImpl implements MemberService {
         sendMail.setFrom("jengamaster@gmail.com","젠가관리자");
         sendMail.setTo(emailId);      // 암호화 안한 이메일
         sendMail.send();
+    }
+
+    // 회원정보 수정
+    // 세션에 있는 회원정보를 조건으로 출력  session memberDTO
+    public MemberDTO modMemberInfo(MemberDTO memberDTO) throws Exception{
+        // 복호화 한 후 비교 후 현재 세션에 있는 사용자의 정보를 받아옴
+        logger.info(": : : ServiceImpl에 modMemberInfo 들어옴");
+//        logger.info("세션에 있는 iuid는 "+memberDTO.getMem_iuid());
+//        String aes_iuid = aes256Cipher.AES_Decode(memberDTO.getMem_iuid());
+//        logger.info("복호화한 있는 iuid는 "+aes_iuid);
+
+//        memberDTO = dao.modMemberInfo(aes_iuid);
+
+
+        // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
+        memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
+        memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()).split("\\\\")[6]);
+
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_nick());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_profile());
+        logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
+
+        return memberDTO;
+
     }
 
 }

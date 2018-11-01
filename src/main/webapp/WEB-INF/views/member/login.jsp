@@ -52,14 +52,16 @@
       <div class="col-sm-8 mr-auto ml-auto">
         <div id="regForm" class="card card-register mr-auto ml-auto" style="background-color: rgba( 255, 255, 255, 0.3 );">
           <h3 class="card-title" style="color : #ffffff; display : inline; font-weight : bold;">Play with Us!</h3>
+          <form id="passform">
           <div class="register-form">
             <label>Email</label>
             <input type="email" class="form-control no-border" placeholder="Email" style="color : black;">
             <label>Password</label>
             <input type="password" class="form-control no-border" placeholder="Password" style="color : black;">
+
             <button id="btnLogin" class="btn btn-danger btn-block btn-round">Login</button>
           </div>
-
+          </form>
           <div id="join_socialBtn" class="row text-center" style="padding : 10px">
 
             <div class="col-12 text-left w-100">
@@ -75,14 +77,13 @@
             <div id="recoverAuthBtn" class="col-12" style="padding : 10px"><span class="findSomeText">복구할 계정이 있나요?</span></div>
 
           </div>
-
-
         </div>
       </div>
     </div>
   </div>
 
 </div>
+
 
 
 <script>
@@ -119,7 +120,8 @@
 
 
 
-        $("#btnLogin").on('click', function(){
+        $("#btnLogin").on('click', function(e){
+            e.preventDefault();
             let inputEmail = $(this).parent().find("input[type=email]").val();
             let inputPw = $(this).parent().find("input[type=password]").val();
             if(validCheckAuth(inputEmail, inputPw)){
@@ -141,7 +143,16 @@
                             alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
                             $('#login_em_pwd').val("");
                             $('#login_em_pwd').focus();
-                        } else {
+                            return false;
+                        } else if (responseData.indexOf('noauth') != -1){
+                            alert("추가정보 입력이 필요합니다. 입력페이지로 이동합니다.");
+                            let d = document.getElementById("passform");
+                            console.log(d);
+                            d.method="post";
+                            d.action="/setMemInfo";
+                            d.submit();
+                        }
+                        else {
                             location.replace("/");
 
                         }
@@ -187,7 +198,8 @@
         });
 
         //로그인 버튼 클릭시 Action
-        $btn_comp.find("#login-check").on('click', function(){
+        $btn_comp.find("#login-check").on('click', function(e){
+            e.preventDefault();
             let inputEmail = $btn_comp.find("input[type=email]").html();
             let inputPw = $btn_comp.find("input[type=password]").html();
             /*e.preventDefault();

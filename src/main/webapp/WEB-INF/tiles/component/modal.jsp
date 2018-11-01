@@ -463,21 +463,18 @@
         let body = $("<div>").addClass("form-group")
             .append($("<label>").html("인증 문자 입력"))
             .append($("<p>").html("이메일로 전송된 인증문자를 입력 해 주세요."))
-            .append($("<input>").attr("type", "text").attr("placeholder", "인증문자를 입력하세요.").addClass("form-control"))
-            .append($("<br>"))
-            .append($("<input>").attr("type", "button").addClass("btn btn-info w-100 text-center").val("인증하기").on('click', function(e){
+                    .append($("<input>").attr("type", "text").attr("id","asdf").attr("placeholder", "인증문자를 입력하세요.").addClass("form-control"))
+                    .append($("<br>"))
+                    .append($("<input>").attr("type", "button").addClass("btn btn-info w-100 text-center").val("인증하기").on('click', function(e){
 
+                        e.preventDefault();
 
-                e.preventDefault();
-
-
-                alert("클릭됐다");
                 $.ajax({
                     url: "/join",
                     type: "post",
                     data: {
                         "em_id" : id,
-                        "em_akey": $("input[type=text]").val()
+                        "em_akey": $(this).parent().find("input[type=text]").val()  //$('#asdf').val()
                     },
                     success : function(responseData){
                         alert("펑션실행");
@@ -519,9 +516,8 @@
 
 
                         } else if (responseData.indexOf('error') != -1) {
-                            alert("에러에러에러")
                             makeSimpleNotifyModal('', '인증 실패하였습니다.', function(){});
-                            $("#em_akey").val("");
+
                         }
                     }
                 })

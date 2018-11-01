@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +42,8 @@ public class MemberController {
     private KakaoLoginUtil kakaoLoginUtil;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private UtilFile utilFile;
 
 
     private String apiResult = null;
@@ -66,12 +70,13 @@ public class MemberController {
         logger.info("비밀번호"+emailMemberDTO.getEm_pwd());
         String check = memberService.checkEmail(emailMemberDTO);
         logger.info("체크"+check);
-        if(check.equals("success")){
+        if(check.equals("success") || check.equals("noauth")){
             MemberDTO Member = memberService.getMemInfo(emailMemberDTO);
             session.setAttribute("Member",Member);
             logger.info((session.getAttribute("Member").toString()));
         }
         response.getWriter().println(check);
+
     }
 
 
@@ -233,7 +238,7 @@ public class MemberController {
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
-    public String regMemberInfoPOST(@RequestParam String mem_nick, EmailMemberDTO emailMemberDTO, SocialMemberDTO socialMemberDTO, @RequestParam("mem_profile") MultipartFile uploadFile,
+    public String regMemberInfoPOST(@RequestParam String mem_nick, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO, @RequestParam("mem_profile") MultipartFile uploadFile,
                                     MultipartHttpServletRequest request) throws Exception {
         MemberDTO memberDTO = new MemberDTO();
 
@@ -243,12 +248,13 @@ public class MemberController {
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_id : " + socialMemberDTO.getSm_id());        // 1단계에서 고유아이디
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_type : " + socialMemberDTO.getSm_type());    // 1단계에서 소셜 타입
 
-        logger.info(": : regMemberInfoPOST : : uploadFile : " + uploadFile);                                    // 2단계에서 넣은 이미지
-        logger.info(": : regMemberInfoPOST : : mem_nick : " + mem_nick);                                        // 2단계에서 입력한 닉네임
+       /* logger.info(": : regMemberInfoPOST : : uploadFile : " + uploadFile);                                    // 2단계에서 넣은 이미지
+        logger.info(": : regMemberInfoPOST : : mem_nick : " + mem_nick);                                        // 2단계에서 입력한 닉네임*/
 
-
+        System.out.println(favor.length);
+        logger.info(favor[0]);
 //      UtilFile 객체 생성
-        UtilFile utilFile = new UtilFile();
+
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
         String uploadPath = utilFile.fileUpload(request, uploadFile);
 
@@ -270,7 +276,7 @@ public class MemberController {
         memberDTO.setMem_iuid(aes_iuid);
 
         memberService.addMemberInfo(memberDTO);
-
+        memberService.addMemberFavor(aes_iuid,favor);
 
         /*** 다시 ***/
         // if 이메일 회원가입이면
@@ -509,7 +515,7 @@ public class MemberController {
 
         Map<String, String> map = new HashMap<String, String>();
 
-        map.put("name", "영화");
+        map.put("name", "문화/예술");
         map.put("image",
                 "https://cdn20.patchcdn.com/users/22924509/20180619/041753/styles/T800x600/public/processed_images/jag_cz_movie_theater_retro_shutterstock_594132752-1529438777-6045.jpg");
 
@@ -517,13 +523,13 @@ public class MemberController {
 
         Map<String, String> map1 = new HashMap<String, String>();
 
-        map1.put("name", "음악");
+        map1.put("name", "경제/경영");
         map1.put("image", "https://lajoyalink.com/wp-content/uploads/2018/03/Movie.jpg");
         params.add(map1);
 
         Map<String, String> map2 = new HashMap<String, String>();
 
-        map2.put("name", "미술");
+        map2.put("name", "IT");
         map2.put("image",
                 "https://www.moma.org/d/assets/W1siZiIsIjIwMTUvMTAvMjEvaWJ3dmJmanIyX3N0YXJyeW5pZ2h0LmpwZyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDIwMDB4MjAwMFx1MDAzZSJdXQ/starrynight.jpg?sha=161d3d1fb5eb4b23");
 
@@ -531,14 +537,14 @@ public class MemberController {
 
         Map<String, String> map3 = new HashMap<String, String>();
 
-        map3.put("name", "IT");
+        map3.put("name", "스포츠");
         map3.put("image", "https://www.indiewire.com/wp-content/uploads/2017/08/it-trailer-2-938x535.jpg?w=780");
 
         params.add(map3);
 
         Map<String, String> map4 = new HashMap<String, String>();
 
-        map4.put("name", "시사");
+        map4.put("name", "라이프");
         map4.put("image", "https://thumb.ad.co.kr/article/54/12/e8/92/i/459922.png");
 
         params.add(map4);
@@ -547,6 +553,20 @@ public class MemberController {
 
     }
 
+    @RequestMapping(value ="/modMemInfo", method = RequestMethod.GET)
+    public String modMemberInfoGET(HttpSession session, Model model) throws Exception {
+//        List<MemberDTO> list = new ArrayList<MemberDTO>();
+        logger.info(": : : modMemberInfoGET 들어옴");
+        logger.info("바뀌기 전 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
+        logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
 
+        MemberDTO memberDTO = memberService.modMemberInfo((MemberDTO)session.getAttribute("Member"));
+
+        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
+
+        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+        model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+        return "member/modMemInfo";
+    }
 
 }
