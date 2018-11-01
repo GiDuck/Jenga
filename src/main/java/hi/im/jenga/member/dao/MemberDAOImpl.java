@@ -43,10 +43,7 @@ public class MemberDAOImpl implements MemberDAO{
         return sqlSession.update("member.addMemberInfo", memberDTO);
     }
 
-    public void addEMember(String aes_iuid) {
-
-        sqlSession.update("member.addEMember",aes_iuid);
-    }
+    public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }
 
     public void addSMember(SocialMemberDTO socialMemberDTO, String iuid) {
         HashMap<String, Object> map = new HashMap();
@@ -119,6 +116,8 @@ public class MemberDAOImpl implements MemberDAO{
         sqlSession.update("member.updMemInfo", memberDTO);
     }
 
+//    public MemberDTO modMemberInfo(String aes_iuid) { return sqlSession.selectOne("member.modMemberInfo", aes_iuid); }
+
     public void sendKey(EmailMemberDTO emailMemberDTO) throws Exception {
 
         logger.info(": : : sendKey 1 :");
@@ -137,6 +136,7 @@ public class MemberDAOImpl implements MemberDAO{
         }
         // 인증여부가 N 일때
         logger.info(": : : sendKey 3 :");
+        logger.info("새로 뽑아서 넣어야지 / 후"+ emailMemberDTO.getEm_akey());
         sqlSession.update("member.sendKeyUpdate", emailMemberDTO);
 
         logger.info(": : : sendKey 4 :");
@@ -157,10 +157,4 @@ public class MemberDAOImpl implements MemberDAO{
         return sqlSession.selectOne("member.getMemInfo",emailMemberDTO);
     }
 
-    public void addAMember(AuthMemberDTO authMemberDTO) {
-        logger.info("인증멤버"+authMemberDTO.getAm_id());
-        logger.info("인증멤버"+authMemberDTO.getAm_pwd());
-        logger.info("인증멤버"+authMemberDTO.getAm_key());
-        sqlSession.insert("member.addAMember", authMemberDTO);
-    }
 }

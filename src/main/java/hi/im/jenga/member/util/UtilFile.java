@@ -68,7 +68,8 @@ public class UtilFile {
                 e.printStackTrace();
             }
         }
-        return path + fileName;
+        return fileName;
+//        return path + fileName;
     }
 
 //  업로드 파일 저장 경로 얻는 메소드

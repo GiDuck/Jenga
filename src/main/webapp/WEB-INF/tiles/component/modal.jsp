@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     
     
 <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>  
@@ -189,6 +188,153 @@
 	
 	}
 
+    //Email Join Modal
+    function makeJoinEmailModal(){
+
+        let header = $("<h3>").addClass("modal-title text-center")
+            .append($("<label>").addClass("form-group").html("이메일로 회원가입"));
+
+        let body = $("<form>").addClass("form-group").attr("id","form_setMemInfo").attr("name","form_setMemInfo").attr("method","post").on("submit", function(e){
+            e.preventDefault();
+            return false;
+        })
+            .append($("<label>").html("Email"))
+            .append($("<input>").attr("type", "email").attr("placeholder", "Email").attr("name","em_id").attr("id", "em_id").addClass("form-control"))
+            .append($("<br>"))
+            .append($("<label>").html("PW"))
+            .append($("<input>").attr("id", "em_pwd").attr("type", "password").attr("name","em_pwd").attr("placeholder", "영문자와 특수문자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keydown focus', function(e){
+
+
+                let pwd = undefined;
+
+                setTimeout(function(){
+                    console.log($('#em_id').val());
+                    $pwdCheck = $(e.target).parent().find("#pwdCheck");
+                    $pwd = $(e.target);
+
+
+                    pwd = $(e.target).val();
+
+                    if(REGEX_PASSWORD.test(pwd)){
+                        $pwd.css("background-color", "#BEEFFF");
+
+
+
+                    }else{
+
+                        $pwd.css("background-color", "#FFE6E6");
+
+
+                    }
+
+                    if($pwdCheck.val() === pwd && (pwd && $(e.target).val())){
+
+                        $pwdCheck.css("background-color", "#BEEFFF");
+                    }else{
+
+                        $pwdCheck.css("background-color", "#FFE6E6");
+
+                    }
+
+
+                }, 500);
+
+            }))
+            .append($("<br>"))
+            .append($("<label>").html("PW CHECK"))
+            .append($("<input>").attr("id", "pwdCheck").attr("type", "password").attr("placeholder", "Password Check").addClass("form-control").on('keydown focus', function(e){
+                let pwd = undefined;
+
+                setTimeout(function(){
+
+                    $pwd = $(e.target).parent().find("#pwd");
+
+                    if($pwd.val() === $(e.target).val() && ($pwd.val() && $(e.target).val())){
+
+                        $(e.target).css("background-color", "#BEEFFF");
+                    }else{
+
+                        $(e.target).css("background-color", "#FFE6E6");
+
+                    }
+
+
+                }, 500);
+
+
+            }))
+            .append($("<br>"))
+            .append($("<button>").attr("id", "joinEmailBtn").addClass("btn btn-block btn-round").html("Join").on('click', function(e){
+
+
+                setTimeout(function(){
+
+                },2000);
+
+
+                let id = $(this).parent().find("input[type=email]").val();
+                console.log(id);
+                let pwd = $(this).parent().find("#em_pwd").val();
+                let checkPwd = $(this).parent().find("#pwdCheck").val();
+
+
+                if(!validCheckAuth(id, pwd)){
+
+                    return;
+
+                }
+
+                if(pwd !== checkPwd){
+
+                    makeSimpleNotifyModal('이메일로 회원가입', '비밀번호가 동일하지 않습니다. 다시 확인해 주십시오.',  function(){});
+                    return;
+
+                }
+
+
+
+
+                //Please request on here by AJAX to Server.
+                //.. You can receive token that procedure was fine or bad.
+                $.ajax({
+                    url: "/authCheck",
+                    type: "post",
+                    data: {
+                        "em_id": id,
+                        "em_pwd": pwd
+                    },
+
+                }).done(function (responseData) {
+                    console.log(responseData);
+                    // let token = true;
+
+                    // 이메일이 존재하지 않을때 / 이메일 O, 인증여부 Y
+                    if (responseData.indexOf('sendAuthKey') != -1) {
+                        makeAuthModal(id);
+                        $("#em_id").prop('readonly', true);
+                        $("#em_pwd").prop('readonly', true);
+                        $("#em_pwd2").prop('readonly', true);
+
+                        // 이미 가입한 이메일 일 때
+                    } else if (responseData.indexOf('isExist') != -1) {
+                        makeSimpleNotifyModal('이메일로 회원가입', '인증이 실패하였습니다. 이메일이 정확한 지 확인하세요.', function () {
+                        });
+                        $("#em_id").val("");
+                        $("#em_pwd").val("");
+                        $("#em_pwd2").val("");
+                    }
+                    e.preventDefault();
+                })
+            }))
+            .append($("<br>"));
+
+
+
+        return ModalFactory("simple", header, body);
+
+    }
+
+
 	//You can check auth string by this modal.
 	function makeAuthModal(id, md){
 
@@ -200,21 +346,19 @@
 		 let body = $("<div>").addClass("form-group")
 			.append($("<label>").html("인증 문자 입력"))
 			.append($("<p>").html("이메일로 전송된 인증문자를 입력 해 주세요."))
-			.append($("<input>").attr("type", "text").attr("placeholder", "인증문자를 입력하세요.").addClass("form-control"))
+			.append($("<input>").attr("id","em_akey").attr("type", "text").attr("placeholder", "인증문자를 입력하세요.").addClass("form-control"))
  			.append($("<br>"))
  			.append($("<input>").attr("type", "button").addClass("btn btn-info w-100 text-center").val("인증하기").on('click', function(e){
  				
  				
  				e.preventDefault();
-
-
                 alert("클릭됐다");
                 $.ajax({
                     url: "/join",
                     type: "post",
                     data: {
                         "em_id" : id,
-                        "em_akey": $("input[type=text]").val()
+                        "em_akey": $(this).parent().find("input[type=text]").val()
                     },
                     success : function(responseData){
                         alert("펑션실행");
@@ -223,22 +367,22 @@
                             let simpleModal = makeSimpleNotifyModal('', '인증에 성공하였습니다.', '');
 
                             simpleModal.unbind('hide.bs.modal');
+                            let ad = document.form_setMemInfo;
+                            console.log("테스트로 뽑음...");
+                            console.log(ad);
+                            console.log(simpleModal.find("input[type=email]").val());
+                            console.log(simpleModal.find("input[type=password]").val());
+
+
+                            console.log($('#em_id').val());
+                            console.log($('#em_pwd').val());
+
                             simpleModal.on('hide.bs.modal',function (e) {
-                                // let d = $(parent.parent.document).find('form_setMemInfo');
-								// let d = parent.makeJoinEmailModal().getElementById('form_setMemInfo');
-								// let d = dd.getElementById('form_setMemInfo');
+							console.log("이메일머임?");
+							ad.action = "/setMemInfo";
 
-
-								// let	d = document.makeJoinEmailModal.form_setMemInfo;
-
-                                // let d = window.parent.document.getElementById('form_setMemInfo');
-                                // let d = document.getElementById("form_setMemInfo");
-
-                                // let d = document.makeJoinEmailModal.body.form_setMemInfo;
-                                md.method = "post"
-                                md.action = "/setMemInfo"
-                                md.submit();
-                                e.stopImmediatePropagation();
+							ad.submit();
+							e.stopImmediatePropagation();
 
                             });
 
@@ -251,7 +395,7 @@
                         }
                     }
                 })
- 				
+
  				//Please make to request using AJAX to server.
  				//..below source will be embbed in success function on AJAX.
 
@@ -265,144 +409,7 @@
 	}
 	
 	
-	//Email Join Modal
-	function makeJoinEmailModal(){
 
-	     var md = document.getElementById("form_setMemInfo");
-
-		 let header = $("<h3>").addClass("modal-title text-center")
-		 			.append($("<label>").addClass("form-group").html("이메일로 회원가입"));
-		 
-		 let body = $("<div>").addClass("form-group")
-					.append($("<form>").attr("id","form_setMemInfo").attr("name","form_setMemInfo").attr("method","post"))
-		 			.append($("<label>").html("Email"))
-		 			.append($("<input>").attr("type", "email").attr("placeholder", "Email").attr("name","em_id").addClass("form-control"))
-		 			.append($("<br>"))
-		 			.append($("<label>").html("PW"))
-		 			.append($("<input>").attr("id", "pwd").attr("type", "password").attr("name","em_pwd").attr("placeholder", "영문자와 특수문자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keydown focus', function(e){
-		 				
-		 				
-						let pwd = undefined;
-		 				
-		 				setTimeout(function(){
-		 					
-		 					$pwdCheck = $(e.target).parent().find("#pwdCheck");
-		 					$pwd = $(e.target);
-							
-		 					
-		 					pwd = $(e.target).val();
-
-		 					if(REGEX_PASSWORD.test(pwd)){
-		 						$pwd.css("background-color", "#BEEFFF");
-
-
-		 						
-		 					}else{
-		 						
-		 						$pwd.css("background-color", "#FFE6E6");
-
-		 						
-		 					}
-		 					
-		 					if($pwdCheck.val() === pwd && (pwd && $(e.target).val())){
-		 						
-		 						$pwdCheck.css("background-color", "#BEEFFF");
-		 					}else{
-		 						
-		 						$pwdCheck.css("background-color", "#FFE6E6");
-
-		 					}
-			 			
-
-		 				}, 500);
-		 				
-		 			}))
-		 			.append($("<br>"))
-		 			.append($("<label>").html("PW CHECK"))
-		 			.append($("<input>").attr("id", "pwdCheck").attr("type", "password").attr("placeholder", "Password Check").addClass("form-control").on('keydown focus', function(e){
-		 				let pwd = undefined;
-		 				
-		 				setTimeout(function(){
-		 					
-		 					$pwd = $(e.target).parent().find("#pwd");
-		 					
-		 					if($pwd.val() === $(e.target).val() && ($pwd.val() && $(e.target).val())){
-		 						
-		 						$(e.target).css("background-color", "#BEEFFF");
-		 					}else{
-		 						
-		 						$(e.target).css("background-color", "#FFE6E6");
-
-		 					}
-			 			
-
-		 				}, 500);
-		 				
-		 				
-		 			}))
-		 			.append($("<br>"))
-		 			.append($("<button>").attr("id", "joinEmailBtn").addClass("btn btn-block btn-round").html("Join").on('click', function(e){
-
-
-
-		 				let id = $(this).parent().find("input[type=email]").val();
-		 				let pwd = $(this).parent().find("#pwd").val();
-		 				let checkPwd = $(this).parent().find("#pwdCheck").val();
-
-
-		 				if(!validCheckAuth(id, pwd)){
-
-		 					return;
-
-		 				}
-
-		 				if(pwd !== checkPwd){
-
-		 				makeSimpleNotifyModal('이메일로 회원가입', '비밀번호가 동일하지 않습니다. 다시 확인해 주십시오.',  function(){});
-		 					return;
-
-		 				}
-
-
-		 				//Please request on here by AJAX to Server.
-		 				//.. You can receive token that procedure was fine or bad.
-                        $.ajax({
-                            url: "/authCheck",
-                            type: "post",
-                            data: {
-                                "em_id": id,
-                                "em_pwd": pwd
-                            },
-
-                        }).done(function (responseData) {
-                            console.log(responseData);
-                            // let token = true;
-
-                            // 이메일이 존재하지 않을때 / 이메일 O, 인증여부 Y
-                            if (responseData.indexOf('sendAuthKey') != -1) {
-                                makeAuthModal(id, md);
-                                $("#em_id").prop('readonly', true);
-                                $("#em_pwd").prop('readonly', true);
-                                $("#em_pwd2").prop('readonly', true);
-
-                                // 이미 가입한 이메일 일 때
-                            } else if (responseData.indexOf('isExist') != -1) {
-                                makeSimpleNotifyModal('이메일로 회원가입', '인증이 실패하였습니다. 이메일이 정확한 지 확인하세요.', function () {
-                                });
-                                $("#em_id").val("");
-                                $("#em_pwd").val("");
-                                $("#em_pwd2").val("");
-                            }
-                            e.preventDefault();
-                        })
-					}))
-					.append($("<br>"));
-
-
-		 
-		 return ModalFactory("simple", header, body);
-
-	}
 	
 	
 	//복구용 계정 모달

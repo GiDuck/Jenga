@@ -122,7 +122,6 @@ public class MemberServiceImpl implements MemberService {
         return dao.getMemInfo(emailMemberDTO);
     }
 
-
     public void join(EmailMemberDTO emailMemberDTO) {
 
    /*     aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
@@ -140,6 +139,8 @@ public class MemberServiceImpl implements MemberService {
             emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));        // 암호화 한 후 UPDATE
             emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));    // 암호화 한 후 UPDATE
             emailMemberDTO.setEm_akey(key);                                                     // 생성한 인증키를 넣음
+            logger.info("새로 뽑아서 넣어야지 / 넣기전"+ key);
+            logger.info("새로 뽑아서 넣어야지 / 후 "+ emailMemberDTO.getEm_akey());
             dao.sendKey(emailMemberDTO);
             sendTempKey(emailId, key);   // 이메일 보낼때는 암호화 안한 이메일과 인증키를 넘김
             return "sendAuthKey";
@@ -164,9 +165,6 @@ public class MemberServiceImpl implements MemberService {
 //
     }
 
-
-
-
     public boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception {
 
         emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
@@ -189,6 +187,43 @@ public class MemberServiceImpl implements MemberService {
         memberDTO.getMem_nick();
         memberDTO.getMem_profile();
         dao.updMemInfo(memberDTO);
+    }
+
+    // 회원정보 수정
+    // 세션에 있는 회원정보를 조건으로 출력  session memberDTO
+    public MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception{
+        // 복호화 한 후 비교 후 현재 세션에 있는 사용자의 정보를 받아옴
+        logger.info(": : : ServiceImpl에 modMemberInfo 들어옴");
+//        logger.info("세션에 있는 iuid는 "+memberDTO.getMem_iuid());
+//        String aes_iuid = aes256Cipher.AES_Decode(memberDTO.getMem_iuid());
+//        logger.info("복호화한 있는 iuid는 "+aes_iuid);
+
+//        memberDTO = dao.modMemberInfo(aes_iuid);
+
+
+        // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
+        memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
+        memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_nick());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_profile());
+        logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
+
+        return memberDTO;
+
+    }
+
+    public void modMemberInfoPOST(MemberDTO memberDTO, String em_pwd, String[] favor) throws Exception {
+
+        logger.info(memberDTO.getMem_nick());
+        logger.info(memberDTO.getMem_profile());
+        logger.info(em_pwd);
+
+        aes256Cipher.AES_Encode(memberDTO.getMem_nick());
+        aes256Cipher.AES_Encode(memberDTO.getMem_profile());
+        sha256Cipher.getEncSHA256(em_pwd);
+
+
     }
 
     //     이메일 인증번호 보내는 메소드

@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
- <jsp:include page="./mem_components.jsp"/>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<jsp:include page="./mem_components.jsp"/>
 
 
 <!-- 
@@ -18,6 +16,7 @@ Form-data parameter
 
 
  -->
+<script src="/resources/js/common.js"/>
     
       <div class="wrapper">
     <div class="profile-content section">

@@ -1,3 +1,4 @@
+<%--
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -41,7 +42,7 @@
                 <h3 class="modal-title text-center">이메일로 회원가입</h3>
                 <br>
             </div>
-            <%-- 유효성 검사 후 JOIN 버튼 누르면 컨트롤러에서 이메일, 비밀번호 EMEMBER에 넣고 uuid 생성해서 추가정보로 uuid 넘기면됨--%>
+            &lt;%&ndash; 유효성 검사 후 JOIN 버튼 누르면 컨트롤러에서 이메일, 비밀번호 EMEMBER에 넣고 uuid 생성해서 추가정보로 uuid 넘기면됨&ndash;%&gt;
             <form method="POST" id="form_setMemInfo" name="form_setMemInfo">
                 <div class="modal-body">
                     <div class="form-group">
@@ -319,4 +320,4 @@
 
 	})();
 
-</script>
+</script>--%>

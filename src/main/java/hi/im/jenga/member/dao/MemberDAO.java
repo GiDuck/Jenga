@@ -44,4 +44,6 @@ public interface MemberDAO {
     void delMemInfo(String aes_iuid);
 
     void updMemInfo(MemberDTO memberDTO);
+
+//    MemberDTO modMemberInfo(String aes_iuid);
 }

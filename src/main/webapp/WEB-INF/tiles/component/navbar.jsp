@@ -65,7 +65,7 @@
          
          <!-- 세션 존재여부에 따라 로그인, 로그아웃 여부가 다르게 보임 -->
          <c:choose>
-            <c:when test="${SessionScope.Member != null}">
+            <c:when test="${sessionScope.Member ne null}">
             <a class="nav-link">LOGOUT</a>
             </c:when>
             

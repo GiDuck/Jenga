@@ -74,6 +74,7 @@
 				}
 				
 			}
+			console.log(passport);
 	  
 	  return passport;
 	  

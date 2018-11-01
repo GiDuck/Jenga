@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import java.lang.reflect.Member;
 import java.util.*;
 
 @Controller
@@ -53,9 +54,11 @@ public class MemberController {
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
         logger.info("세션은 "+(MemberDTO)session.getAttribute("Member"));
-//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+//        logger.info("세션의 iuid는 "+((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         return "main/main";
     }
+
+
 
 
 
@@ -198,13 +201,51 @@ public class MemberController {
 
 
 
-    @RequestMapping(value ="/modMemInfo")
-    public String modMemberInfoGET(HttpSession session){
-        logger.info("모드모드");
-//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_profile());
-//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_nick());
-    return "member/modMemInfo";
+
+
+    @RequestMapping(value ="/modMemInfo", method = RequestMethod.GET)
+    public String modMemberInfoGET(HttpSession session, Model model) throws Exception {
+//        List<MemberDTO> list = new ArrayList<MemberDTO>();
+        logger.info(": : : modMemberInfoGET 들어옴");
+        logger.info("바뀌기 전 파일이름 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
+        logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+
+        MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
+
+        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
+        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+
+        model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+
+        return "member/modMemInfo";
     }
+
+
+
+
+
+    @RequestMapping(value ="/modMemInfo", method = RequestMethod.POST)
+    public String modMemberInfoPOST(@ModelAttribute MemberDTO memberDTO, @RequestParam String em_pwd, @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
+        logger.info(": : : modMemberInfoPOST 들어옴");
+        logger.info("수정 후 받아온 파일이름 "+ memberDTO.getMem_profile());
+        logger.info("수정 후 받아온 닉네임 "+ memberDTO.getMem_nick());
+        logger.info("수정 후 받아온 비밀번호 "+ em_pwd);
+        logger.info("수정 후 받아온 취향 선택된 개수 "+ favor.length);
+
+        for(String s:favor){
+            logger.info("수정 후 받아온 취향 선택된 카테고리 " + s);
+        }
+
+        memberService.modMemberInfoPOST(memberDTO, em_pwd, favor);
+
+        session.setAttribute("Member", memberDTO);      // 수정한 회원의 DTO를 세션에 다시 등록
+
+//        model.addAttribute("DTO", memberDTO);               // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+//        model.addAttribute("") 취향 카테고리테이블 넣어줘야함
+        return "redirect:member/modMemInfo";
+    }
+
+
 
 
 
@@ -251,7 +292,7 @@ public class MemberController {
 //      UtilFile 객체 생성
         UtilFile utilFile = new UtilFile();
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
-        String uploadPath = utilFile.fileUpload(request, uploadFile);
+        String uploadName = utilFile.fileUpload(request, uploadFile);
 
 
         /*** 다시
@@ -266,7 +307,7 @@ public class MemberController {
 
         logger.info("aes_iuid는 " + aes_iuid);
 
-        memberDTO.setMem_profile(uploadPath);
+        memberDTO.setMem_profile(uploadName);
         memberDTO.setMem_nick(mem_nick);
         memberDTO.setMem_iuid(aes_iuid);
 
@@ -305,25 +346,10 @@ public class MemberController {
 
 
 
-    // 회원정보 수정
-    @RequestMapping(value = "/updMemInfo", method = RequestMethod.POST)
-    public String updMemberInfoPOST(@ModelAttribute MemberDTO memberDTO, @RequestParam("mem_profile") MultipartFile uploadFile, MultipartHttpServletRequest request){
-
-        UtilFile utilFile = new UtilFile();
-        String uploadPath = utilFile.fileUpload(request, uploadFile);
-
-        memberService.updMemInfo(memberDTO);
-
-        return "";
-    }
-
-
-
-
-
     // 회원삭제
     @RequestMapping(value = "/delMemInfo", method = RequestMethod.GET)
     public String delMemberInfoGET(HttpSession session) throws Exception {
+        logger.info("회원탈퇴로 들어옵니다");
         logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         String session_mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
 
@@ -498,6 +524,9 @@ public class MemberController {
 
 
     /*******************************************************************************/
+
+
+
 
 
     // 취향 선택 IN setMemberInfo
