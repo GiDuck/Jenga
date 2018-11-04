@@ -111,63 +111,6 @@ Form-data parameter
 
 
 
-                <%--=======
-                                  <input name="userProfile" type="file" name="...">
-                                </span>
-                                <br />
-                                <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <br><br>
-
-                        <div class="row">
-                          <div class="col-md-6 ml-auto mr-auto">
-
-                            <form class="settings-form" action="/endPoint..." method="POST" onsubmit = "return onFormReq();">
-                              <div class="row">
-                                <div class="col-md-6 col-12">
-                                  <div class="form-group">
-                                    <label>NickName</label>
-                                    <input name ="nickname" type="text" class="form-control border-input" placeholder="NickName">
-                                  </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                  <div class="form-group">
-                                    <label>Email</label>
-                                    <input name ="email"type="email" class="form-control border-input" placeholder="Email">
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의 취향을 선택해 주세요!</h3></div>
-
-
-                              <div id="selectFavorField" class="row text-center" style="margin : 0"></div>
-
-                              <div class="col-12 mr-auto ml-auto" style="margin-top : 20px">
-                              <label style="font-weight : bold">Notifications</label>
-                              <ul class="notifications">
-                                <li class="notification-item">
-                                     푸쉬 알림을 통해서 나에게 맞는 정보를 받아볼래요?
-                                  <input name ="configure" type="checkbox" data-toggle="switch" checked="true" data-on-color="info" data-off-color="info">
-                                  <span class="toggle"></span>
-                                </li>
-                                <li class="notification-item">
-                                      팔로워가 새로운 글을 올리면 알려줄까요?
-                                  <input name ="configure" type="checkbox" data-toggle="switch" checked="true" data-on-color="info" data-off-color="info">
-                                  <span class="toggle"></span>
-                                </li>
-
-                              </ul>
-
-                              </div>
-                              <div class="text-center">
-                                <button type="submit" id="saveBtn" class="btn btn-wd btn-info btn-round">Save</button>
-                              </div>
-                >>>>>>> f82263e0e8653aa1b1004d15bb9bed7a059d4040--%>
             </form>
 
         </div>

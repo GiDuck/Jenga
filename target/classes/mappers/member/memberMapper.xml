@@ -182,22 +182,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="addMemberFavor">
 	INSERT INTO
-		tbl_mfavor
-	values
-		(#{aes_iuid}, (select
-		            mctg_uid
-		          from
-                    tbl_mcategory
-                  where
-                     mctg_name = #{fav}) )
+		tbl_mFavor
+	VALUES
+		(#{s_iuid}, (SELECT
+		               		mctg_uid
+		          	 FROM
+                    		tbl_mCategory
+                  	 WHERE
+                     		mctg_name = #{fav})
+					)
 	</insert>
+
+	<delete id="delMemberFavor">
+	DELETE FROM
+		tbl_mFavor
+	WHERE
+		mf_ref = #{s_iuid}
+	</delete>
 
 	<select id = "getMemFavor" resultType="String">
     SELECT
         MCTG_NAME
-    from
+    FROM
         tbl_mcategory
-    where
+    WHERE
         MCTG_UID IN (SELECT
                        MF_TYPE
                     FROM
@@ -215,6 +223,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE
 		mem_iuid = #{aes_iuid}
 	</select>
+
+	<update id="modMemberInfoPOST_MemInfo">
+	UPDATE
+		tbl_MemInfo
+	SET
+		mem_nick = #{memberDTO.mem_nick}, mem_profile = #{memberDTO.mem_profile}
+	WHERE
+		mem_iuid = #{s_iuid}
+	</update>
+
+	<update id="modMemberInfoPOST_EMember">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{aes_em_pwd}
+	WHERE
+		em_ref = #{s_iuid}
+	</update>
+
+	<select id="getMemInfoSession" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		*
+	FROM
+		tbl_MemInfo
+	WHERE
+	 	mem_iuid = #{s_iuid}
+	</select>
+
+	<select id="getMemProfile" resultType="String">
+	SELECT
+		mem_profile
+	FROM
+		tbl_MemInfo
+	WHERE
+		mem_iuid = #{s_iuid}
+	</select>
+
 </mapper>
 
 

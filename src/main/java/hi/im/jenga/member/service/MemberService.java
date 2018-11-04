@@ -3,12 +3,11 @@ package hi.im.jenga.member.service;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
-import hi.im.jenga.member.dto.AuthMemberDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -44,7 +43,7 @@ public interface MemberService {
 
     MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
 
-    void modMemberInfoPOST(MemberDTO memberDTO, String em_pwd, String[] favor) throws Exception;
+    MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception;
 
     void updMemInfo(MemberDTO memberDTO);
 

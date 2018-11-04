@@ -11,14 +11,14 @@ Form-data parameter
 사용자 취향 설정 (String 배열) - favor
 -->
 
-
+<script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>
 <jsp:include page="./mem_components.jsp"/>
 
 <div class="wrapper">
     <div class="profile-content section">
         <div class="container">
 
-            <form class="settings-form" action="/endPoint..." method="POST" onsubmit="return onFormReq()">
+            <form class="settings-form" enctype="multipart/form-data" action="/modMemInfo" method="POST" onsubmit="return onFormReq();">
 
                 <div class="row">
                     <div class="col-12 text-center"><h2>회원 정보 수정</h2><br><br></div>
@@ -26,7 +26,7 @@ Form-data parameter
                     <div class="profile-picture">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <div class="fileinput-new img-no-padding">
-                                <img name="profile" src="img/${DTO.mem_profile}" alt="프로필 사진">
+                                <img name="profile" id="profile" src="img/${DTO.mem_profile}" alt="프로필 사진">
                             </div>
                             <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                             <div>
@@ -54,15 +54,15 @@ Form-data parameter
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label>NickName</label>
-                                    <input type="text" name="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}">
+                                    <input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}" onchange="nickChange()">
                                 </div>
                             </div>
-                            <%--<div class="col-md-6 col-12">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label>PassWord</label>
-                                    <input type="password" name="em_pwd" class="form-control border-input" placeholder="Email" value="${EDTO.em_}">
+                                    <input type="password" id = "em_pwd" name="em_pwd" class="form-control border-input" placeholder="Password" value="">
                                 </div>
-                            </div>--%>
+                            </div>
                         </div>
 
                         <div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의
@@ -132,12 +132,12 @@ Form-data parameter
         setNavType("blue");
         initFavorForm();
 
-        $("#saveBtn").on('click', function (e) {
+        /*$("#saveBtn").on('click', function (e) {
             e.preventDefault();
             getSelectedCard();
 
         });
-
+*/
         // 회원 탈퇴
         $("#retireBtn").on('click', function (e) {
 
@@ -173,6 +173,24 @@ Form-data parameter
 
     });
 
+/*    console.log("input file 원래 사진 "+$("#mem_profile").value); //요거 인듯
+    $("#mem_profile").change(function () {
+        alert("사진이 바뀌었습니다.");
+        console.log("input file 원래 사진 "+ $("#mem_profile").value);
+
+    });
+
+
+    $("#mem_nick").change(function () {
+        alert("닉이 바뀌었습니다.");
+        console.log("input file 원래 사진 "+ $("#mem_nick").value);
+
+    });
+
+    function nickChange() {
+        alert("Asdfasdf");
+    }*/
+
     // ---------- Submit시에 Hidden 값을 넣어주는 함수 -----------
 
     function onFormReq() {
@@ -182,11 +200,16 @@ Form-data parameter
 
         //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
         for (let i = 0; i < selectCard.length; ++i) {
-
             $inputNode = $("<input>").attr("type", "hidden").attr("name", "favor").val(selectCard[i]);
             $(".settings-form").append($inputNode);
 
         }
+        alert(userFavor);           // 받아온 문학/예술, 경제/경영
+        alert($("#profile").val());
+        alert($("#profile").value);
+        alert(document.getElementsByName('mem_nick')[0].value); // 냥
+        alert(document.getElementsByName('mem_profile')[0].value); //  C:\fakepath\about2.jpg
+        alert(document.getElementsByName('profile')[0].value);  // asdfasdf1
 
         //초기화 절차가 끝나면 true를 리턴하여 form submit 수행
         return true;
@@ -204,7 +227,7 @@ Form-data parameter
 
         $cards.each(function (index, item) {
             let temp = $(item).css('opacity');
-            alert("temp..." + temp);
+            // alert("temp..." + temp);
             //만약 투명도가 1이 아니면 (카드 선택 시 투명도가 1 미만으로 설정되어있음)
             if (temp < 1) {
 

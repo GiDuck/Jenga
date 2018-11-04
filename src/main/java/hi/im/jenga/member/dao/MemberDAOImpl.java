@@ -4,23 +4,13 @@ package hi.im.jenga.member.dao;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
-import hi.im.jenga.member.dto.AuthMemberDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
-import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -169,6 +159,41 @@ public class MemberDAOImpl implements MemberDAO{
     public List<String> getMemFavor(String member) { return sqlSession.selectList("member.getMemFavor",member); }
 
     public MemberDTO modMemberInfoGET(String aes_iuid) { return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
+
+    public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String aes_em_pwd, String[] favor){
+        Map<String, Object> map = new HashMap();
+
+        map.put("memberDTO", memberDTO);
+        map.put("s_iuid", s_iuid);
+
+        sqlSession.update("member.modMemberInfoPOST_MemInfo", map);
+
+        logger.info("비번 공백이면 뒤에 음따 "+aes_em_pwd+"음제");
+        if(!aes_em_pwd.equals("")) {
+            map.put("aes_em_pwd", aes_em_pwd);
+            sqlSession.update("member.modMemberInfoPOST_EMember", map);
+        }
+
+//        sqlSession.delete("member.delMemberFavor", s_iuid);
+        for(String fav : favor) {
+            map.put("fav",fav);
+            try {
+                sqlSession.delete("member.delMemberFavor", s_iuid);
+                sqlSession.insert("member.addMemberFavor", map);
+            }catch (Exception e){
+                // 무결성 제약 조건에 위배됩니다.
+            }
+        }
+
+//        세션에 있는 아이디로 memInfo를 뽑아오기 위해
+        return sqlSession.selectOne("member.getMemInfoSession",s_iuid);
+
+    }
+
+    // 프사를 그대로 할 시 다시 뽑아오기
+    public String getMemProfile(String s_iuid) {
+        return sqlSession.selectOne("member.getMemProfile",s_iuid);
+    }
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
         return sqlSession.selectOne("member.getMemInfo",emailMemberDTO);

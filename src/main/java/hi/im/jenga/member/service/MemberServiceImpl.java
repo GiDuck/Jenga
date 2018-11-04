@@ -13,9 +13,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Member;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Service
@@ -140,25 +148,6 @@ public class MemberServiceImpl implements MemberService {
             dao.sendKey(emailMemberDTO);
             sendTempKey(emailId, key);   // 이메일 보낼때는 암호화 안한 이메일과 인증키를 넘김
             return "sendAuthKey";
-            /*
-
-            emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));        // 암호화 한 후 UPDATE
-            emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));    // 암호화 한 후 UPDATE
-            emailMemberDTO.setEm_akey(key);                                                     // 생성한 인증키를 넣음
-            dao.sendKey(emailMemberDTO, list);                                                  // 이땐 list는 안씀
-            return "sendAuthKey";*/
-//        }
-//
-//        //  인증안했으니 입력한 아이디, 비번, 인증키 UPDATE/ 아이디가 없으니 아이디, 비번, 인증키 INSERT 해야함 / List는 Y/N을 보기위해
-//
-//        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));        // 암호화 한 후 INSERT / UPDATE
-//        emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));    // 암호화 한 후 INSERT / UPDATE
-//        emailMemberDTO.setEm_akey(key);                                                     // 생성한 인증키를 넣음
-//
-//        dao.sendKey(emailMemberDTO, list);
-//
-//        sendTempKey(emailId, key);                                                   // 이메일 보낼때는 암호화 안한 이메일과 인증키를 넘김
-//
     }
 
     public boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception {
@@ -209,15 +198,36 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public void modMemberInfoPOST(MemberDTO memberDTO, String em_pwd, String[] favor) throws Exception {
+    public MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception {
+        logger.info("MemberServiceImpl 1 "+s_iuid);
+        logger.info("MemberServiceImpl 2 "+mem_nick);
+        logger.info("MemberServiceImpl 3 "+uploadName);
+        logger.info("MemberServiceImpl 4 "+em_pwd);
+        for(String s:favor){
+            logger.info("MemberServiceImpl 5 "+s);
+        }
+        // 공백으로 넘어오면 암호화안하고 daoImpl로 ""로 넘어감
+        String aes_em_pwd = "";
 
-        logger.info(memberDTO.getMem_nick());
-        logger.info(memberDTO.getMem_profile());
-        logger.info(em_pwd);
+        MemberDTO memberDTO = new MemberDTO();
 
-        aes256Cipher.AES_Encode(memberDTO.getMem_nick());
-        aes256Cipher.AES_Encode(memberDTO.getMem_profile());
-        sha256Cipher.getEncSHA256(em_pwd);
+        memberDTO.setMem_nick(aes256Cipher.AES_Encode(mem_nick));       // 닉네임 암호화 후 DTO에 넣음
+
+
+        if(uploadName.equals("")){
+            logger.info("빈파일이면 뒤에 안뜸 "+uploadName);
+            uploadName = dao.getMemProfile(s_iuid); // 세션id로 원래 파일이름 가져옴
+            uploadName = aes256Cipher.AES_Decode(uploadName);   // 암호화 된채로 왔으니 복호화하고 밑에서 다시 암호화
+        }
+        memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadName));  // 파일이름 암호화 후 DTO에 넣음
+
+
+        if(!em_pwd.equals("")) {
+            logger.info("MemberServiceImpl 비밀번호 공백아니고 "+ em_pwd);
+            aes_em_pwd = sha256Cipher.getEncSHA256(em_pwd);
+        }
+
+        return dao.modMemberInfoPOST(s_iuid, memberDTO, aes_em_pwd, favor);
 
     }
 
