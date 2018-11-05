@@ -60,12 +60,16 @@ Form-data parameter
                     <input type="text" name="nickname" class="form-control border-input" placeholder="NickName" value="${user_nick}">
                   </div>
                 </div>
+            
+                
                 <div class="col-md-6 col-12">
                   <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control border-input" placeholder="Email" value="${user_email}">
+                    <label>PW</label>
+                    <input type="password" name="pwd" class="form-control border-input" value="password">
                   </div>
                 </div>
+                
+                
               </div>
            
            	<div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의 취향을 선택해 주세요!</h3></div>
@@ -129,13 +133,13 @@ Form-data parameter
 		  
 	  });
 	  
-	  $("#retireBtn").on('click', function(3) {
+	  $("#retireBtn").on('click', function() {
 		  
 		  
 			e.preventDefault();
 			e.stopPropagation();
 			  //OK 버튼 클릭시 수행 함수
-			  let okFunc = function(){
+/* 			  let okFunc = function(){
 				  
 				  $.ajax({
 					  
@@ -151,7 +155,7 @@ Form-data parameter
 					  
 				  });
 				  
-			  }
+			  } */
 			  
 			  //거절 시 수행 함수
 			  let refuseFunc = function(){}
@@ -190,7 +194,7 @@ Form-data parameter
 	  
   }
   
-  
+/*   
   //선택된 카드를 가져오는 함수
   function getSelectedCard() {
 	  
@@ -216,7 +220,7 @@ Form-data parameter
 	  return selCards;
 	  	  
 	  
-  }
+  } */
 
  
   

@@ -66,10 +66,9 @@
               	<label>아이디 저장</label>
 			  
            <label>
-    <input type="checkbox" data-toggle="switch" checked="false" data-on-color="default" data-off-color="default" style="margin:0">
+    <input id="switchBtn" type="checkbox" data-toggle="switch" checked="" data-on-color="default" data-off-color="default" style="margin:0">
     <span class="toggle"></span>
 </label>
-            <span class="toggle"></span>
                  </div>
                 <div id="findPWBtn" class="col-12" style="padding : 10px"><span class="findSomeText">비밀번호를 잃어버렸나요?</span></div>
                 <div id="recoverAuthBtn" class="col-12" style="padding : 10px"><span class="findSomeText">복구할 계정이 있나요?</span></div>             
@@ -87,6 +86,15 @@
 <script>
 
 $(document).ready(function() {
+
+	$('#switchBtn').on('switchChange.bootstrapSwitch', function(e){
+		
+		e.preventDefault();
+		alert('hello');
+		
+	});
+	
+	
 	
 	//소셜 로그인 버튼창 초기화
 	let $btn_comp = $("#btn_components").clone();
@@ -166,6 +174,8 @@ $(document).ready(function() {
 
 	
 	});
+	
+
 
 	
 });
