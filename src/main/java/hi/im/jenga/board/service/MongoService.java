@@ -1,6 +1,6 @@
-package hi.im.jenga.member.service;
+package hi.im.jenga.board.service;
 
-import hi.im.jenga.member.dao.MongoPersistence;
+import hi.im.jenga.board.dao.MongoPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

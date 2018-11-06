@@ -1,4 +1,4 @@
-package hi.im.jenga.member.dao;
+package hi.im.jenga.board.dao;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,10 @@ public class MongoPersistence {
 	
 	
 	public void getAnyway() {
-		
-	
-		Criteria criteria = new Criteria("name").is("kim");
+
+		Criteria criteria = new Criteria("name").is("ㅎㅇㅂㅇ");
 		Query query = new Query(criteria);
-		String result = mongoTemplate.findOne(query, String.class, "catDb");
+		String result = mongoTemplate.findOne(query, String.class, "hi");
 		System.out.println("get Result... " + result);
 	}
 }

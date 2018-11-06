@@ -30,7 +30,7 @@ import java.util.*;
 @Controller
 public class MemberController {
 
-    public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     @Autowired
     private NaverLoginUtil naverLoginUtil;
     @Autowired
