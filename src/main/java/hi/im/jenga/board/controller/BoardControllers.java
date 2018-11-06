@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @Controller
-public class BoardController {
+public class BoardControllers {
     /*public static final Logger logger = LoggerFactory.getLogger(BoardController.class);*/
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
