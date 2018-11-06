@@ -15,7 +15,7 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -50,8 +50,9 @@
 	
 	<!-- 스프링 빈을 태그로 등록하지 않고 자동으로 검색 (auto scan) -->
 	<!-- 스프링에서 관리하는 bean의 기본 디렉토리 -->
+	<context:annotation-config/>
 	<context:component-scan base-package="hi.im.jenga" />
-	
+	<annotation-driven />
 	<!-- aop의 설정으로 Proxy 객체를 자동으로 생성 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
@@ -71,6 +72,5 @@
 		&lt;!&ndash; 파일업로드 디렉토리&ndash;&gt;
 		<beans:constructor-arg value="해당디렉토리"/>
 	</beans:bean>-->
-
 
 </beans:beans>

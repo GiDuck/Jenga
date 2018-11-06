@@ -1,9 +1,6 @@
 package hi.im.jenga.member.dao;
 
-import hi.im.jenga.member.dto.EmailMemberDTO;
-import hi.im.jenga.member.dto.MemberDTO;
-import hi.im.jenga.member.dto.SocialMemberDTO;
-import hi.im.jenga.member.dto.AuthMemberDTO;
+import hi.im.jenga.member.dto.*;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -48,4 +45,6 @@ public interface MemberDAO {
     void addMemberFavor(String aes_iuid, String fav);
 
     String checkAuth(EmailMemberDTO emailMemberDTO);
+
+    List<String> getMemFavor(String member);
 }

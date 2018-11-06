@@ -1,9 +1,6 @@
 package hi.im.jenga.member.service;
 
-import hi.im.jenga.member.dto.EmailMemberDTO;
-import hi.im.jenga.member.dto.MemberDTO;
-import hi.im.jenga.member.dto.SocialMemberDTO;
-import hi.im.jenga.member.dto.AuthMemberDTO;
+import hi.im.jenga.member.dto.*;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -46,5 +43,7 @@ public interface MemberService {
 
     void addMemberFavor(String aes_iuid, String[] favor);
 
-    MemberDTO modMemberInfo(MemberDTO memberDTO) throws Exception;
+    MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
+
+    List<String> getMemFavor(String member);
 }

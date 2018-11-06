@@ -3,6 +3,7 @@ package hi.im.jenga.member.controller;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
+import hi.im.jenga.member.dto.MemberFavorDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.UtilFile;
@@ -201,14 +202,14 @@ public class MemberController {
 
 
 
-    @RequestMapping(value ="/modMemInfo")
+   /* @RequestMapping(value ="/modMemInfo")
     public String modMemberInfoGET(HttpSession session){
         logger.info("모드모드");
 //        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_profile());
 //        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_nick());
     return "member/modMemInfo";
     }
-
+*/
 
 
 
@@ -252,7 +253,7 @@ public class MemberController {
         logger.info(": : regMemberInfoPOST : : mem_nick : " + mem_nick);                                        // 2단계에서 입력한 닉네임*/
 
         System.out.println(favor.length);
-        logger.info(favor[0]);
+
 //      UtilFile 객체 생성
 
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
@@ -557,15 +558,22 @@ public class MemberController {
     public String modMemberInfoGET(HttpSession session, Model model) throws Exception {
 //        List<MemberDTO> list = new ArrayList<MemberDTO>();
         logger.info(": : : modMemberInfoGET 들어옴");
+
         logger.info("바뀌기 전 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
         logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
 
-        MemberDTO memberDTO = memberService.modMemberInfo((MemberDTO)session.getAttribute("Member"));
+        MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
         logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
 
         logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+
+        List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+        logger.info("컨트롤러 페버"+favor);
+        logger.info("컨트롤러 페버"+favor.get(0));
         model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+        model.addAttribute("favor", favor);      // 선택한 favor 가져옴
+
         return "member/modMemInfo";
     }
 

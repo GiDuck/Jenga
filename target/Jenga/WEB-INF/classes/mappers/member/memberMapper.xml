@@ -200,6 +200,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                   where
                      mctg_name = #{fav}) )
 	</insert>
+
+
+	 <select id = "getMemFavor" resultType="String">
+	SELECT
+	    MCTG_NAME
+	from
+	    tbl_mcategory
+	where
+	    MCTG_UID IN (SELECT
+	                   MF_TYPE
+	                FROM
+	                   tbl_mfavor
+	                WHERE
+	                   MF_REF = #{member}
+	                )
+
+	</select>
 </mapper>
 
 

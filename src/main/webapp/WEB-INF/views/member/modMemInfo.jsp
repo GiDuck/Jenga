@@ -14,7 +14,6 @@ Form-data parameter
 
 <jsp:include page="./mem_components.jsp"/>
 
-
 <div class="wrapper">
     <div class="profile-content section">
         <div class="container">
@@ -36,6 +35,9 @@ Form-data parameter
                                   <span class="fileinput-exists">Change</span>
                                   <input type="file" name="mem_profile" id="mem_profile">
                                 </span>
+                        <%--        <c:forEach var="favor" items="${favor}">
+                                        ${favor.MCTG_NAME});
+                                </c:forEach>--%>
                                 <br/>
                                 <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
                             </div>
@@ -100,20 +102,29 @@ Form-data parameter
     </div>
 </div>
 
+<script>
+
+    var userFavor = new Array();
+
+</script>
+
+<c:forEach var="favor" items="${favor}">
+    <script>
+        userFavor.push('${favor}');
+    </script>
+</c:forEach>
+
 <!-- 사용자가 선택한 취향 정보를 JS에서 사용하기 위해, EL을 통해 받아온 리스트를 JS의 배열로 변환하는 소스 -->
 
 <script>
     //사용자가 선택한 취향 정보
-    var userFavor = new Array();
+    console.log(userFavor);
+
 </script>
 
-<c:forEach var="itemName" items="${user_favor}">
-    <script>
-        userFavor.push('${itemName}');
-    </script>
-</c:forEach>
 
 <script>
+
 
 
     /* ------------ 뷰 초기화 작업 ------------ */

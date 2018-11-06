@@ -1,10 +1,7 @@
 package hi.im.jenga.member.dao;
 
 
-import hi.im.jenga.member.dto.EmailMemberDTO;
-import hi.im.jenga.member.dto.MemberDTO;
-import hi.im.jenga.member.dto.SocialMemberDTO;
-import hi.im.jenga.member.dto.AuthMemberDTO;
+import hi.im.jenga.member.dto.*;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import org.apache.ibatis.session.SqlSession;
@@ -166,6 +163,11 @@ public class MemberDAOImpl implements MemberDAO{
         String checkAuth = sqlSession.selectOne("member.checkauth",emailMemberDTO);
 
         return checkAuth;
+    }
+
+    public List<String> getMemFavor(String member) {
+
+        return sqlSession.selectList("member.getMemFavor",member);
     }
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {

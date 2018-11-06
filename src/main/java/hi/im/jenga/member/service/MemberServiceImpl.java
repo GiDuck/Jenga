@@ -1,10 +1,7 @@
 package hi.im.jenga.member.service;
 
 import hi.im.jenga.member.dao.MemberDAO;
-import hi.im.jenga.member.dto.EmailMemberDTO;
-import hi.im.jenga.member.dto.MemberDTO;
-import hi.im.jenga.member.dto.SocialMemberDTO;
-import hi.im.jenga.member.dto.AuthMemberDTO;
+import hi.im.jenga.member.dto.*;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import hi.im.jenga.member.util.login.Util;
@@ -214,7 +211,7 @@ public class MemberServiceImpl implements MemberService {
 
     // 회원정보 수정
     // 세션에 있는 회원정보를 조건으로 출력  session memberDTO
-    public MemberDTO modMemberInfo(MemberDTO memberDTO) throws Exception{
+    public MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception{
         // 복호화 한 후 비교 후 현재 세션에 있는 사용자의 정보를 받아옴
         logger.info(": : : ServiceImpl에 modMemberInfo 들어옴");
 //        logger.info("세션에 있는 iuid는 "+memberDTO.getMem_iuid());
@@ -226,13 +223,19 @@ public class MemberServiceImpl implements MemberService {
 
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
         memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
-        memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()).split("\\\\")[6]);
+        memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
 
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_nick());
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_profile());
         logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
 
         return memberDTO;
+
+    }
+
+    public List<String> getMemFavor(String member) {
+
+        return dao.getMemFavor(member);
 
     }
 
