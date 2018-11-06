@@ -427,7 +427,6 @@
 		 			
 		 			let id = $(this).parent().find("input[type=email]").val();
 		 			let pwd = $(this).parent().find("input[type=password]").val();
-		 			console.log("받아온 id " + id + " 받아온 pwd " + pwd);
 		 			e.preventDefault();
 		 			
 		 		}))
