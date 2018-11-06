@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 개인정보 (주) -->
 	<insert id="addMemberInfo">
 	UPDATE
-		tbl_memInfo
+		tbl_MemInfo
 	SET
 		mem_nick = #{mem_nick}, mem_profile = #{mem_profile}, mem_joinDate = sysdate
 	WHERE mem_iuid = #{mem_iuid}
@@ -53,15 +53,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		em_id = #{aes_eid}
 	</select>
 
-	<select id="isAMExist" resultType="String">
-	SELECT
-		am_id
-	FROM
-		tbl_AMember
-	WHERE
-		am_id = #{aes_eid}
-	</select>
-
 	<update id="findEPwd">
 	UPDATE
 		tbl_EMember
@@ -81,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 이메일 회원가입할 때 인증키 보낼 때 tbl_memInfo에 임시로 넣어주는 메서드 -->
 	<insert id="tempIns">
 	INSERT INTO
-		tbl_memInfo
+		tbl_MemInfo
 	(mem_iuid, mem_nick, mem_profile,  mem_joindate)
 	VALUES (#{iuid},'temp', 'temp', sysdate)
 	</insert>
@@ -159,7 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT
 		  *
 	FROM
-		  tbl_meminfo
+		  tbl_MemInfo
 	WHERE
 		  mem_iuid = (SELECT
 		                    EM_REF
@@ -180,43 +171,96 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE em_id = #{em_id}
 	</select>
 
-	<select id="isExist" resultType="String">
+	<!--<select id="modMemberInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
 	SELECT
-		sm_id
+		mem_nick, mem_profile
 	FROM
-		tbl_sMember
+		tbl_MemInfo
 	WHERE
-		sm_id = #{id}
-	</select>
+		mem_iuid = #{aes_id}
+	</select>-->
 
 	<insert id="addMemberFavor">
 	INSERT INTO
-		tbl_mfavor
-	values
-		(#{aes_iuid}, (select
-		            mctg_uid
-		          from
-                    tbl_mcategory
-                  where
-                     mctg_name = #{fav}) )
+		tbl_mFavor
+	VALUES
+		(#{s_iuid}, (SELECT
+		               		mctg_uid
+		          	 FROM
+                    		tbl_mCategory
+                  	 WHERE
+                     		mctg_name = #{fav})
+					)
 	</insert>
 
 
-	 <select id = "getMemFavor" resultType="String">
-	SELECT
-	    MCTG_NAME
-	from
-	    tbl_mcategory
-	where
-	    MCTG_UID IN (SELECT
-	                   MF_TYPE
-	                FROM
-	                   tbl_mfavor
-	                WHERE
-	                   MF_REF = #{member}
-	                )
+	<delete id="delMemberFavor">
+	DELETE FROM
+		tbl_mFavor
+	WHERE
+		mf_ref = #{s_iuid}
+	</delete>
 
+	<select id = "getMemFavor" resultType="String">
+    SELECT
+        MCTG_NAME
+    FROM
+        tbl_mcategory
+    WHERE
+        MCTG_UID IN (SELECT
+                       MF_TYPE
+                    FROM
+                       tbl_mfavor
+                    WHERE
+                       MF_REF = #{member}
+                    )
+   </select>
+
+	<select id = "modMemberInfoGET" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		mem_nick, mem_profile
+	FROM
+		tbl_MemInfo
+	WHERE
+		mem_iuid = #{aes_iuid}
 	</select>
+
+	<update id="modMemberInfoPOST_MemInfo">
+	UPDATE
+		tbl_MemInfo
+	SET
+		mem_nick = #{memberDTO.mem_nick}, mem_profile = #{memberDTO.mem_profile}
+	WHERE
+		mem_iuid = #{s_iuid}
+	</update>
+
+	<update id="modMemberInfoPOST_EMember">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{aes_em_pwd}
+	WHERE
+		em_ref = #{s_iuid}
+	</update>
+
+	<select id="getMemInfoSession" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		*
+	FROM
+		tbl_MemInfo
+	WHERE
+	 	mem_iuid = #{s_iuid}
+	</select>
+
+	<select id="getMemProfile" resultType="String">
+	SELECT
+		mem_profile
+	FROM
+		tbl_MemInfo
+	WHERE
+		mem_iuid = #{s_iuid}
+	</select>
+
 </mapper>
 
 

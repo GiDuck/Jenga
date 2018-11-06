@@ -3,7 +3,6 @@ package hi.im.jenga.member.controller;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
-import hi.im.jenga.member.dto.MemberFavorDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.UtilFile;
@@ -20,19 +19,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpSession;
-
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MemberController {
 
-    public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     @Autowired
     private NaverLoginUtil naverLoginUtil;
     @Autowired
@@ -58,9 +56,11 @@ public class MemberController {
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
         logger.info("세션은 "+(MemberDTO)session.getAttribute("Member"));
-//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+//        logger.info("세션의 iuid는 "+((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         return "main/main";
     }
+
+
 
 
 
@@ -83,12 +83,14 @@ public class MemberController {
 
 
 
+
+
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public String login(HttpSession session, Model model) {
 
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
-        logger.info("session" + session);
+        logger.info("session 은 " + session);
         util = facebookLoginUtil;
         String FacebookAuthUrl = util.getAuthorizationUrl(session);
 
@@ -202,14 +204,65 @@ public class MemberController {
 
 
 
-   /* @RequestMapping(value ="/modMemInfo")
-    public String modMemberInfoGET(HttpSession session){
-        logger.info("모드모드");
-//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_profile());
-//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_nick());
-    return "member/modMemInfo";
+
+
+
+    @RequestMapping(value ="/modMemInfo", method = RequestMethod.GET)
+    public String modMemberInfoGET(HttpSession session, Model model) throws Exception {
+//        List<MemberDTO> list = new ArrayList<MemberDTO>();
+        logger.info(": : : modMemberInfoGET 들어옴");
+        logger.info("바뀌기 전 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
+        logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+
+        MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
+
+        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
+        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+
+        List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+        logger.info("컨트롤러 페버"+favor);
+        logger.info("컨트롤러 페버"+favor.get(0));
+        logger.info("컨트롤러 페버"+favor.get(0).toString());
+        model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+        model.addAttribute("favor", favor);      // 선택한 favor 가져옴
+
+        return "member/modMemInfo";
     }
-*/
+
+
+
+
+
+    @RequestMapping(value ="/modMemInfo", method = RequestMethod.POST)
+    public String modMemberInfoPOST(@RequestParam String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile,  MultipartHttpServletRequest request,
+                                    @RequestParam String em_pwd, @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
+        String s_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        logger.info(": : : modMemberInfoPOST 들어옴");
+        logger.info("Session에서 뽑아온 iuid " + s_iuid);
+        logger.info("수정 후 받아온 닉네임 " + mem_nick);                          //tbl_memInfo
+        logger.info("수정 후 받아온 파일이름 " + uploadFile);                      //tbl_memInfo
+
+
+//      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
+//      프사 새로 안올렸으면 utilFile에서 return ""임
+        String uploadName = utilFile.fileUpload(request, uploadFile);
+
+        logger.info("수정 후 받아온 파일이름 " + uploadName);                  //tbl_memInfo
+
+        logger.info("수정 후 받아온 비밀번호 " + em_pwd);                       //tbl_Emember
+
+        logger.info("수정 후 받아온 취향 선택된 개수 " + favor.length);         //tbl_mfavor
+
+        for (String s : favor) {
+            logger.info("수정 후 받아온 취향 선택된 카테고리 " + s);
+        }
+
+        MemberDTO memberDTO = memberService.modMemberInfoPOST(s_iuid, mem_nick, uploadName, em_pwd, favor);
+        session.setAttribute("Member", memberDTO);
+
+        return "redirect:/";
+    }
+
 
 
 
@@ -240,7 +293,7 @@ public class MemberController {
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
     public String regMemberInfoPOST(@RequestParam String mem_nick, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO, @RequestParam("mem_profile") MultipartFile uploadFile,
-                                    MultipartHttpServletRequest request) throws Exception {
+                                    MultipartHttpServletRequest request, HttpSession session) throws Exception {
         MemberDTO memberDTO = new MemberDTO();
 
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
@@ -254,10 +307,11 @@ public class MemberController {
 
         System.out.println(favor.length);
 
-//      UtilFile 객체 생성
+        logger.info(favor[0]);
 
+//      UtilFile 객체 생성
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
-        String uploadPath = utilFile.fileUpload(request, uploadFile);
+        String uploadName = utilFile.fileUpload(request, uploadFile);
 
 
         /*** 다시
@@ -272,12 +326,14 @@ public class MemberController {
 
         logger.info("aes_iuid는 " + aes_iuid);
 
-        memberDTO.setMem_profile(uploadPath);
+        memberDTO.setMem_profile(uploadName);
         memberDTO.setMem_nick(mem_nick);
         memberDTO.setMem_iuid(aes_iuid);
 
         memberService.addMemberInfo(memberDTO);
         memberService.addMemberFavor(aes_iuid,favor);
+
+        session.setAttribute("Member",memberDTO);       // 입력된 정보를 세션에 넣어줌
 
         /*** 다시 ***/
         // if 이메일 회원가입이면
@@ -290,6 +346,7 @@ public class MemberController {
             logger.info("이메일 회원가입입니다.");
 //            이메일, 비밀번호는 이미 넣었으니까 인증여부를 'Y' 로 바꾸고 WHERE 이메일
             memberService.addEMember(aes_iuid);
+
             return "redirect:/";
         }
 
@@ -304,23 +361,8 @@ public class MemberController {
 
         memberService.addSMember(socialMemberDTO, aes_iuid);
 
+
         return "redirect:/";
-    }
-
-
-
-
-
-    // 회원정보 수정
-    @RequestMapping(value = "/updMemInfo", method = RequestMethod.POST)
-    public String updMemberInfoPOST(@ModelAttribute MemberDTO memberDTO, @RequestParam("mem_profile") MultipartFile uploadFile, MultipartHttpServletRequest request){
-
-        UtilFile utilFile = new UtilFile();
-        String uploadPath = utilFile.fileUpload(request, uploadFile);
-
-        memberService.updMemInfo(memberDTO);
-
-        return "";
     }
 
 
@@ -507,6 +549,9 @@ public class MemberController {
     /*******************************************************************************/
 
 
+
+
+
     // 취향 선택 IN setMemberInfo
     @ResponseBody
     @RequestMapping(value = "/getCategory", method = RequestMethod.GET)
@@ -552,29 +597,6 @@ public class MemberController {
 
         return params;
 
-    }
-
-    @RequestMapping(value ="/modMemInfo", method = RequestMethod.GET)
-    public String modMemberInfoGET(HttpSession session, Model model) throws Exception {
-//        List<MemberDTO> list = new ArrayList<MemberDTO>();
-        logger.info(": : : modMemberInfoGET 들어옴");
-
-        logger.info("바뀌기 전 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
-        logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
-
-        MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
-
-        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
-
-        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
-
-        List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
-        logger.info("컨트롤러 페버"+favor);
-        logger.info("컨트롤러 페버"+favor.get(0));
-        model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
-        model.addAttribute("favor", favor);      // 선택한 favor 가져옴
-
-        return "member/modMemInfo";
     }
 
 }

@@ -32,6 +32,12 @@ public class UtilFile {
 
         try {
             fileName = uploadFile.getOriginalFilename();
+
+            if(fileName.equals("")){
+                logger.info(": : : UtilFile 빈 파일이 들어왔습니다. 이름을 공백으로 return ");
+                return "";
+            }
+
             byte[] bytes = uploadFile.getBytes();
             //path = getSaveLocation(request);
             /*path = "Y:\\go\\Jenga\\profiles\\";*/

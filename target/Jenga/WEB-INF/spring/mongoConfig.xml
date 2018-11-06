@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd">
 
 
-	<mongo:mongo-client id="admin" host="127.0.0.1" port="27017">
+	<mongo:mongo-client id="jenga" host="127.0.0.1" port="27017">
 
 		<mongo:client-options
 				connect-timeout="1000"
@@ -21,8 +21,8 @@
 	</mongo:mongo-client>
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg ref="admin"/>
-		<constructor-arg name="databaseName" value="local"/>
+		<constructor-arg ref="jenga"/>
+		<constructor-arg name="databaseName" value="jengayujun"/>
 	</bean>
 
 

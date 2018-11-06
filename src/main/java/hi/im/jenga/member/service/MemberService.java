@@ -1,15 +1,9 @@
 package hi.im.jenga.member.service;
 
-import hi.im.jenga.member.dto.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import hi.im.jenga.member.dto.EmailMemberDTO;
+import hi.im.jenga.member.dto.MemberDTO;
+import hi.im.jenga.member.dto.SocialMemberDTO;
 import java.util.List;
 
 public interface MemberService {
@@ -39,11 +33,14 @@ public interface MemberService {
 
     void delMemInfo(String session_mem_iuid) throws Exception;
 
+    MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
+
+    MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception;
+
     void updMemInfo(MemberDTO memberDTO);
 
     void addMemberFavor(String aes_iuid, String[] favor);
 
-    MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
-
     List<String> getMemFavor(String member);
 }
+

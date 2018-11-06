@@ -2,7 +2,7 @@
          pageEncoding="UTF-8"%>
 <jsp:include page="./mem_components.jsp"/>
 
-
+<script src="/resources/js/common.js"></script>
 <style>
 
   video
@@ -55,10 +55,9 @@
           <form id="passform">
           <div class="register-form">
             <label>Email</label>
-            <input type="email" class="form-control no-border" placeholder="Email" style="color : black;">
+            <input type="email" name ="em_id" class="form-control no-border" placeholder="Email" style="color : black;">
             <label>Password</label>
-            <input type="password" class="form-control no-border" placeholder="Password" style="color : black;">
-
+            <input type="password" name ="em_pwd" class="form-control no-border" placeholder="Password" style="color : black;">
             <button id="btnLogin" class="btn btn-danger btn-block btn-round">Login</button>
           </div>
           </form>
@@ -84,9 +83,8 @@
 
 </div>
 
-
-
 <script>
+
     //비밀번호 찾기 버튼 클릭시 Action
     $("#findPWBtn").on('click', function(e){
 
@@ -107,9 +105,7 @@
 
 
 
-
     $(document).ready(function() {
-
 
         //소셜 로그인 버튼창 초기화
         let $btn_comp = $("#btn_components").clone();
@@ -117,8 +113,7 @@
         $btn_comp.addClass("col-12");
         $("#join_socialBtn").append($btn_comp);
 
-
-
+        // 이메일 로그인
         $("#btnLogin").on('click', function(e){
             e.preventDefault();
             let inputEmail = $(this).parent().find("input[type=email]").val();
@@ -245,6 +240,7 @@
     });
 
 
+
     $(document).ready(function(){
         let em_id = getCookie("saveid");
         $("input[type=email]").val(em_id);
@@ -268,6 +264,7 @@
             }
         })
     });
+
     /*쿠키 세팅*/
     function setCookie(cookie_name, value, days){
         let date = new Date();
@@ -293,5 +290,7 @@
         }
         return unescape(cookieValue);
     }
+
+
 
 </script>

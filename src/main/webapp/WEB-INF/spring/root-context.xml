@@ -7,6 +7,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 		<util:properties id="data" location="file:D:\data\tests.properties" />
+		<!--<util:properties id="data" location="file:Y:\go\Jenga\tests.properties" />-->
 
 	<!-- DataSource는 JDBC의 커넥션을 처리하는 기능을 가지고 있기 때문에 데이터베이스와 연동 작업에 반드시 필요하다. -->
 	<!-- oracle -->
@@ -21,8 +22,6 @@
 
 		 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
 		 	<!--<property name="url" value="jdbc:oracle:thin:@172.22.226.201:1521:orcl"></property>-->
-			<!--<property name="username" value="jengayujun" />
-			<property name="password" value="jenga" />-->
 			<property name="username" value="#{data['oracle.username']}" />
 			<property name="password" value="#{data['oracle.password']}" />
 		</bean>

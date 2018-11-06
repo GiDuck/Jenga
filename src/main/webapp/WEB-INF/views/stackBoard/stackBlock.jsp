@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
 
@@ -21,7 +21,9 @@ height : auto;
 
 
 .bookMarkItem:hover{
-background-color : red;
+
+background-color : green;
+
 }
 
 .myBookMarkItem{
@@ -30,7 +32,9 @@ background-color : red;
 
 
 .myBookMarkItem:hover{
+
 background-color : pink;
+
 }
 
 .bookMarkLabel{
@@ -39,6 +43,18 @@ padding : 25px;
 
 }
 
+.selectedElementLeft{
+
+background-color : red;
+
+}
+
+
+.selectedElementRight{
+background-color : blue;
+
+
+}
 
 </style>
 
@@ -56,29 +72,15 @@ padding : 25px;
     		 <div class="w-100 text-center bookMarkLabel"><h4><b>내 북마크</b></h4></div>
     		
     		<div id="getMyBookMark" class="bookMarkField" class="row">
-    		
-    		
-    			<div class="col-12 myBookMarkItem"><div>item1<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item2<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item3<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item4<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item5<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item6<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item7<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item8<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item9<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item10<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item11<hr></div></div>
-    			<div class="col-12 myBookMarkItem"><div>item12<hr></div></div>
-
+    		    		
     		
     		 	
     		</div>
     		
     		<div class="row text-center" style="padding : 10px">
-				<div class = "col-sm-3"><div class="btn w-100 text-center"> < </div></div>
-				<div class = "col-sm-3"><div class="btn w-100 text-center"> > </div></div>
-				<div class = "col-sm-5"><div class="btn w-100 text-center"> 요소 추가 </div></div>
+				<div class = "col-sm-6"><div id="moveToUpperLeft" class="btn w-100 text-center"> < </div></div>
+				<div class = "col-sm-6"><div id="moveToLowerLeft" class="btn w-100 text-center"> > </div></div>
+				
 			
 			</div>
     		
@@ -91,26 +93,15 @@ padding : 25px;
     	    <div class="w-100 text-center bookMarkLabel"><h4><b>북마크 편집</b></h4></div>
     		
     		<div id="editBookMark" class= "editBookMarkField bookMarkField" class="row">
-    		    		    <div class="col-12 bookMarkItem"><div>parent1<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent2<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent3<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent4<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent5<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent6<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent7<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent8<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent9<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent10<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent11<hr></div></div>
-    		    		    <div class="col-12 bookMarkItem"><div>parent12<hr></div></div>
+
 				</div>
 				
 			<div class="row text-center" style="padding : 10px">
-				<div class = "col-md-1 col-sm-6"><div class="btn w-100 text-center"> < </div></div>
-				<div class = "col-md-1 col-sm-6"><div class="btn w-100 text-center"> > </div></div>
-				<div class = "col-md-4 col-sm-4"><div class="btn w-100 text-center"> 북마크 추가 </div></div>
-				<div class = "col-md-3 col-sm-4"><div class="btn w-100 text-center"> 폴더 추가 </div></div>
-				<div class = "col-md-3 col-sm-4"><div class="btn w-100 text-center"> 선택 삭제 </div></div>
+				<div class = "col-md-1 col-sm-6"><div id="moveToUpperRight" class="btn w-100 text-center"> < </div></div>
+				<div class = "col-md-1 col-sm-6"><div id="moveToLowerRight" class="btn w-100 text-center"> > </div></div>
+				<div class = "col-md-4 col-sm-4"><div id="addElementRight" class="btn w-100 text-center"> 북마크 추가 </div></div>
+				<div class = "col-md-3 col-sm-4"><div id="addFolderRight" class="btn w-100 text-center"> 폴더 추가 </div></div>
+				<div class = "col-md-3 col-sm-4"><div id="removeElementRight" class="btn w-100 text-center"> 선택 삭제 </div></div>
 			
 			</div>
 				
@@ -238,120 +229,368 @@ padding : 25px;
     </div>
   </div>
   
+
   <script>
   
-  /* left : 왼쪽 필드에서 드래그 가능한 이벤트 부착
-  	 right : 오른쪽 필드에서 드래그 가능한 이벤트 부착
-  */
-  function setDraggable($element, token) {
+	  /* left : 왼쪽 필드에서 드래그 가능한 이벤트 부착
+	  	 right : 오른쪽 필드에서 드래그 가능한 이벤트 부착
+	  */
 	  
-	  if(token === 'left' ){
+	  var bookmarks = ${resultJSON};
+	  var bookmarkElements = bookmarks.roots.bookmark_bar.children;
 	  
-		  $element.draggable({
-			 
-		   cursor : "move",
-	        opacity : 0.8,
-	        revert : "invaild",
-	        helper : "clone"
+	  
+	  function removeOtherClass(type){
 		  
-	  
-		  });
+		  if(type === "right"){
+			  
+			  $("#editBookMark").find(".selectedElementLeft").removeClass("selectedElementLeft");
+			  
+		  }else if(type === "left"){
+			  
+			  
+			  $("#getMyBookMark").find(".selectedElementRight").removeClass("selectedElementRight");
+
+			  
+		  }
 		  
-	  }else if(token === "right" ){
 		  
-		  $element.draggable({
-		        classes : {"ui-draggable" : "highlight"},
-			  	cursor : "clone",
-		        opacity : 0.8,
-		        revert : true,
-		        helper : "clone",
-		        zIndex : 200
-		        });
-	  
-	  
+		  
 	  }
 	  
-  }
-  
-  var setOnClickListener = ($element, token) => {
 	  
-	  let leftClicked = false;
-	  let rightClicked = false;
+	  function initBookmarks(){
 	  
-	  if(token === "left"){
+	  
+	  	 }
+	  
+	  function setDraggable($element, token) {
 		  
-		  $element.on('click', (e) => {
+		  if(token === 'left' ){
+		  
+			  $element.draggable({
+				 
+			    cursor : "move",
+		        opacity : 0.8,
+		        revert : "invaild",
+		        helper : "clone"
 			  
-			  e.preventDefault();
-			  $element.css("background-color", "green");
-			  let children = $("#editBookMark").children();
-			  children.each(function(index, item){
-
-				  
+		  
 			  });
 			  
-		  });
+		  }else if(token === "right" ){
+			  
+			  $element.draggable({
+			        classes : {"ui-draggable" : "highlight"},
+				  	cursor : "move",
+			        opacity : 0.8,
+			        revert : true,
+			        helper : "clone",
+			        zIndex : 300
+			        });
 		  
+		  
+		  }
+		  
+	  }
+
+	  //clickListener 
+	  var setOnClickListener = function($element, token) {
+			 
+		  	let $selected = undefined;
+			
+		  	$element.on('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			
+			console.log($element, token);
+			
+			 if(token === "right"){
+				 
+			 removeOtherClass("right");
+			 $selected = $("#editBookMark").find(".selectedElementRight");			
+			 $selected.removeClass("selectedElementRight");
+			 $selected.removeAttr("background-color", "");
+			 console.log("right");
+			 
+	 			
+			$element.addClass("selectedElementRight");
+	
+			 
+			 }else if(token === "left"){
+			
+			removeOtherClass("left");
+			 $selected = $("#getMyBookMark").find(".selectedElementLeft");
+			 $selected.removeClass("selectedElementLeft");
+			 $selected.removeAttr("background-color", "");
+			
+			
+
+			$element.addClass("selectedElementLeft");
+
+						
+
+				 
+			}
+
+	  
+		   });
+  
+	  }
+  
+  
+	  function setDroppable($element, token){
+		  
+		  if(token === "right"){
+	
+			  $element.droppable({
+	  	
+		        tolerance : "intersect",
+		        activeClass: "ui-state-default",
+		        hoverClass: "ui-state-hover",
+		        drop : function(e, ui){
+	
+	  	        let dragNode = $(ui.draggable);
+
+	  	        		//즉, 오른쪽 노드가 오른쪽 필드에 드래그 앤 드랍 되었을 시.
+		        		if(dragNode.hasClass("bookMarkItem"))
+		        		{
+
+		        	       dragNode.insertAfter($(this));
+	
+		        		//왼쪽 필드의 노드가 오른쪽 필드로 드래그 앤 드랍 되었을 시.
+		        		}else if(dragNode.hasClass("myBookMarkItem")){
+		        			
+		        			dragNode = dragNode.clone();
+		        			dragNode.css("padding-left", "20px");
+		        			$(dragNode).removeClass("myBookMarkItem");
+		        			$(dragNode).addClass($(this).attr('class'));
+		        			$(dragNode).unbind('click');
+		        			setOnClickListener($(dragNode), "right");		        			
+		        			setDraggable($(dragNode), "right");
+		        			setDroppable($(dragNode), "right");
+		        			$(dragNode).insertBefore($(this));
+		        			removeOtherClass("right");
+		
+		        			
+		        		}
+	
+		        }
+	
+			  
+			  });
+		  
+		  }
 		  
 	  }
 	  
-	  
-  }
   
-  
-  function setDroppable($element, token){
-	  
-	  if(token === "right"){
+	  //요소 추가 함수
+	  //요소 혹은 폴더를 구분하여 추가한다.
+	  //추가 연산은 오른쪽 필드에서만 가능하므로 editBookMark 필드에서만 진행한다.
+	  function add(panelType, type){
 
-		  $element.droppable({
-  	
-	        tolerance : "intersect",
-	        activeClass: "ui-state-default",
-	        hoverClass: "ui-state-hover",
-	        drop : function(e, ui){
-
-  	        let dragNode = $(ui.draggable);
-
-	        		if(dragNode.hasClass("bookMarkItem"))
-	        		{
-	        	      
-	        	       dragNode.insertBefore($(this));
-
-	        		
-	        		}else{
-	        			dragNode = dragNode.clone();
-	        			dragNode.css("padding-left", "20px");
-	        			dragNode.css("background-color", "yellow");
-
-	        			dragNode.insertBefore($(this));
-	        			dragNode.removeClass("myBookMarkItem");
-	        			dragNode.addClass($(this).attr('class'));
-	        			setDraggable(dragNode, "right");
-	        			setDroppable(dragNode, "right");
-
-
-	        			
-	        		}
-
-	        }
-
+		let $parent = $("#editBookMark");
+		let $newElement;
+			  
+		//현재 선택된 노드 가져오기
+		let $selElement = $($parent).find(".selectedElementRight");
+			
+		
+		if(type === "folder"){
+		  		  
+		  $newElement = $("<div>").addClass("col-12 w-100 bookMarkItem").css("padding-left", "20px").attr("name", "elementParent")
+			  			 .append($("<div>").addClass("w-100").append($("<i>").addClass("nc-icon nc-bag-16").css("padding-left", "5px"))
+			  			 .append($("<input>").addClass("w-100").attr("type", "text").attr("placeHolder", "폴더 이름 입력..").css("border", 0)))
+			  			 .append($("<br>"));
 		  
-		  });
+		  
+		}else if(type === "element"){
+			
+		  $newElement = ($("<div>").addClass("col-12 w-100 bookMarkItem").attr("name", "elementParent")
+				  .append($("<hr>"))	  
+				  .append($("<div>").addClass("w-100").append($("<i>").addClass("nc-icon nc-book-bookmark text-left").html("Bookmark")))
+				  .append($("<div>").addClass("w-100").attr("name", "section")
+				  .append($("<input>").attr("type", "text").attr("placeHolder", "제목 입력..").css("border", 0).css("padding-bottom", "10px").addClass("w-100"))
+				  .append($("<input>").attr("type", "text").attr("placeHolder", "url 입력..").css("border", 0).addClass("w-100 bookMarkItem").val("https://"))
+				  .append($("<hr>")))).append($("<br>")).clone();
+		
+		  
+		}
+		
+		  setDraggable($newElement, "right");
+		  setDroppable($newElement, "right");	
+		  setOnClickListener($newElement, "right");		  
+		  
+		  if(!$selElement){
+				
+			  $parent.append($newElement);
+
+		  }else{			  
+			  
+			  $newElement.insertAfter($selElement);
+		  
+		  }
+
+	  }
+
+  
 	  
+	  //상위 이동 함수
+	  function moveUpper($element, $parent){
+		    
 	  }
 	  
+	  //하위 이동 함수
+	  function moveLower($element, $parent){
+		  
+		  
+	  }  
+  
+  
+	  //삭제 함수
+	  function removeElement(panelType){
+		  
+		  
+		let $selElement = findCheckElement(panelType);
+		  
+		  if(!$selElement){
+			  
+			  swal('','현재 선택된 요소가 없습니다. 삭제를 원하는 노드를 선택하십시오.', '');
+			  return;
+		  }
+		  
+		  $selElement.parent().find("div").remove();
+	  
+	  }  
+  
+	  
+	  //선태된 요소를 찾는 함수
+	  function findCheckElement(panelType){
+		  
+		  let $parent = undefined;
+		  let $item = undefined;
+		  
+		  if(panelType === "left"){
+			  
+			  $parent = $("#getMyBookMark");
+			  $item = $parent.find(".selectedElementLeft");
+
+			  
+		  }else if(panelType === "right"){
+	
+			  $parent = $("#editBookMark");
+			  $item = $parent.find(".selectedElementRight");
+
+			  
+		  }else{
+			  
+			  swal('', '에러가 발생하였습니다. 관리자에게 문의하십시오.', '');
+			  return false;
+			  
+		  }
+		 
+		  
+		  if(!$item){
+			  
+			  return $parent;
+			  
+		  }else{
+			  
+			  return $item;
+			  
+		  }
+	  
+	
+	  }
+	  
+  
+
+
+  //버튼 클릭리스너 부착 함수
+  function attchBtnEvent(){
+	  
+	//...왼쪽 패널
+	
+	//왼쪽패널, 상위폴더로 이동
+	$("#moveToUpperLeft").on('click', function(e){
+		
+		swal('', '왼쪽 패널, 상위 요소로 이동', '');
+		
+	});  
+
+	//왼쪽패널, 하위폴더로 이동
+	$("#moveToLowerLeft").on('click', function(e){
+		swal('', '왼쪽 패널, 하위 요소로 이동', '');
+
+		
+	});
+	
+	//왼쪽패널, 요소 추가 
+	$("#addElementLeft").on('click', function(e){
+		
+		
+		add("left", "element");
+		
+		
+	});
+	
+	//왼쪽패널, 폴더 추가 
+	$("#addFolderLeft").on('click', function(e){
+		
+		add("left", "folder");
+		
+	});
+	
+	
+	//...오른쪽 패널
+	
+	//오른쪽패널, 상위폴더로 이동
+	$("#moveToUpperRight").on('click', function(e){
+		
+		swal('', '오른쪽 패널, 상위 요소로 이동', '');
+
+		
+		
+	});
+	
+	//오른쪽패널, 하위폴더로 이동
+	$("#moveToLowerRight").on('click', function(e){
+		
+		swal('', '왼쪽 패널, 하위 요소로 이동', '');
+
+		
+	});
+	
+	//오른쪽패널, 요소 추가
+	$("#addElementRight").on('click', function(e){
+		
+		add("right", "element");
+
+		
+	});
+	
+	//오른쪽패널, 폴더 추가
+	$("#addFolderRight").on('click', function(e){
+		
+		
+		add("right", "folder");
+
+	});
+	
+	//오른쪽패널, 요소 제거
+	$("#removeElementRight").on('click', function(e){
+		
+		removeElement("right");
+		
+	});
+	
+	  
+	  
   }
+
   
-  
-  function setContextMenu($element){
-	  
-	  
-	  
-	  
-	  
-  }
-  
-  $(document).ready( _ => {
+  $(document).ready(function() {
 	  
 	  setNavType("blue");
 	  $("#summernote").summernote({
@@ -361,10 +600,56 @@ padding : 25px;
 	        height: 300
 		  
 	  });
-	  setOnClickListener($(".myBookMarkItem"), "left");
-	  setDraggable($(".myBookMarkItem"), "left");
 	  
-	  setDraggable($(".bookMarkItem"), "right");
+	  
+	  attchBtnEvent();
+	  let $itemParent = $("#getMyBookMark");
+	  let $rParent = $("#editBookMark");
+
+
+	  
+	  var $bookmark;
+	  
+	  for(let i=0; i<bookmarkElements.length; ++i){
+
+		  $bookmark = bookmarkElements[i];
+
+		  let $item = $("<div>").addClass("row myBookMarkItem").attr("name", "elementParent").css("padding", "10px");
+		  let $innerItem = $("<div>").addClass("col-10 w-100")
+		  .append($("<input>").attr("name", $bookmark.id).val($bookmark.name).attr("disabled", true).css("border", 0).css("background-color", "#ffffff").css("user-select", "none").addClass("w-100"))
+		  .append($("<input>").attr("name", $bookmark.id).val($bookmark.url).attr("disabled", true).css("border", 0).css("background-color", "#ffffff").css("user-select", "none").addClass("w-100"));
+
+		   
+		  //내 북마크 item
+		  
+		  if($bookmark.type === "folder"){
+			  
+			  $item.append($innerItem);
+			  $item.append($("<div>").addClass("col-2").append($("<i>").addClass("nc-icon nc-minimal-right text-right w-100")));
+			  $innerItem.append($("<hr>"));
+
+		  }else{
+			
+			  $item.append($innerItem);
+			  $innerItem.append($("<hr>"));			 
+			  
+		  }
+  	  
+		  $itemParent.append($item);
+		  setOnClickListener($item , "left"); 
+
+
+
+		  
+	  }
+	  
+	  let $rightItem = $("<div>").addClass("col-12 bookMarkItem w-100").attr("name", "elementParent").html("parent").append($("<hr>"));
+	  let $parentNode = $rightItem;
+	  $rParent.append($parentNode);
+	  
+	  setOnClickListener($parentNode , "right"); 
+	  setDraggable($(".myBookMarkItem"), "left");	
+ 	  setDraggable($(".bookMarkItem"), "right");
 	  setDroppable($(".bookMarkItem"), "right");
 	  
 
