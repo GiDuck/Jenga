@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
@@ -218,7 +219,10 @@ background-color : blue;
               <button class="btn btn-outline-danger btn-block btn-round">Cancel</button>
             </div>
             <div class="col-md-4 col-sm-4">
+              <button type="submit" formmethod="post" class="btn btn-outline-primary btn-block btn-round">Save</button>
+<%--
               <button class="btn btn-outline-primary btn-block btn-round">Save</button>
+--%>
             </div>
             <div class="col-md-4 col-sm-4">
               <button class="btn btn-primary btn-block btn-round">Save & Publish </button>
@@ -231,7 +235,7 @@ background-color : blue;
   
 
   <script>
-  
+
 	  /* left : 왼쪽 필드에서 드래그 가능한 이벤트 부착
 	  	 right : 오른쪽 필드에서 드래그 가능한 이벤트 부착
 	  */
