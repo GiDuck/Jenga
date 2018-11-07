@@ -1,21 +1,16 @@
 package hi.im.jenga.board.dto;
 
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
 public class MongoDTO {
 
-	String _blockid;
-	String _refBoardId;
-	Object _value;
-	String name;
-
-	@Override
-	public String toString() {
-		return "MongoDTO{" +
-				"_blockid='" + _blockid + '\'' +
-				", _refBoardId='" + _refBoardId + '\'' +
-				", _value=" + _value +
-				", name='" + name + '\'' +
-				'}';
-	}
+	private String _blockid;
+	private String _refBoardId;
+	private Object _value;
+	private String name;
 
 	public String getName() {
 		return name;

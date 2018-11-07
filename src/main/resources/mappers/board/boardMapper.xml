@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">		<!-- MyBatis의 경우 작성된 XML Mapper는 상단의 파일에서 사용하는 태그들에 대한 정보가 기록된 DTD를 추가 -->
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="board">
+	<insert id="writeViewPOST">
+		INSERT INTO
+    		tbl_block
+				(bl_uid, bl_writer, bl_title, bl_description, bl_mainCtg, bl_smCtg, bl_date, bl_objId)
+		VALUES
+				(#{boardDTO.bl_uid}, #{session_iuid}, #{boardDTO.bl_title}, #{boardDTO.bl_description}, #{boardDTO.bl_mainCtg}, #{boardDTO.bl_smCtg}, SYSDATE, #{boardDTO.bl_objId})
+	</insert>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

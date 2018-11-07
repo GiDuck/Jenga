@@ -1,22 +1,10 @@
 package hi.im.jenga.board.service;
 
-import org.springframework.stereotype.Service;
+import hi.im.jenga.board.dto.BoardDTO;
 
-@Service
-public class BoardService {
+public interface BoardService {
 
-	
-	public String getBookMark() {
-		
-		
-		FileIO fileIO = new FileIO("Bookmarks");
-		String result = fileIO.InputBookMark();
-		
-		return result;
-		
-		
-		
-	}
-	
-	
+    String getBookMark();
+
+    void writeViewPOST(String session_iuid, BoardDTO boardDTO) throws Exception;
 }
