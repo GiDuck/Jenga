@@ -5,7 +5,7 @@ import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 import hi.im.jenga.member.service.MemberService;
-import hi.im.jenga.member.util.UtilFile;
+import hi.im.jenga.member.util.MemberUtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.login.*;
 import org.json.simple.JSONObject;
@@ -42,7 +42,7 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private UtilFile utilFile;
+    private MemberUtilFile memberUtilFile;
 
 
     private String apiResult = null;
@@ -244,7 +244,7 @@ public class MemberController {
 
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
 //      프사 새로 안올렸으면 utilFile에서 return ""임
-        String uploadName = utilFile.fileUpload(request, uploadFile);
+        String uploadName = memberUtilFile.fileUpload(request, uploadFile);
 
         logger.info("수정 후 받아온 파일이름 " + uploadName);                  //tbl_memInfo
 
@@ -310,7 +310,7 @@ public class MemberController {
 
 //      UtilFile 객체 생성
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
-        String uploadName = utilFile.fileUpload(request, uploadFile);
+        String uploadName = memberUtilFile.fileUpload(request, uploadFile);
 
 
         /*** 다시

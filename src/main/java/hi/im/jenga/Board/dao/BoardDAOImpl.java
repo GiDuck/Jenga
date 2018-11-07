@@ -21,14 +21,47 @@ public class BoardDAOImpl implements BoardDAO {
         this.sqlSession = sqlSession;
     }
 
-    public void writeViewPOST(BoardDTO boardDTO, String session_iuid) {
+    public void writeViewBlock(BoardDTO boardDTO, String session_iuid) {
         Map<String, Object> map = new HashMap();
+
         map.put("boardDTO", boardDTO);
         map.put("session_iuid", session_iuid);
-        logger.info("뭐야 너 "+boardDTO.getBl_smCtg());
-        logger.info(" 맵 " + map.get("boardDTO"));
-        logger.info(" 맵 " + map.get("session_iuid"));
-        logger.info("dddd"+map.size());
-        sqlSession.insert("board.writeViewPOST","map");
+
+        sqlSession.insert("board.writeViewBlock", map);
     }
+
+    public void writeViewThumbImg(String bl_uid, String uploadName) {
+        Map<String, String> map = new HashMap();
+
+        map.put("uploadName", uploadName);
+        map.put("bl_uid", bl_uid);
+
+        sqlSession.insert("board.writeViewThumbImg", map);
+    }
+
+    public void writeViewTag(String bl_uid, String[] bt_name) {
+        Map<String, String> map = new HashMap();
+
+        map.put("bl_uid", bl_uid);
+
+        for(String tag: bt_name){
+            map.put("tag", tag);
+            sqlSession.insert("board.writeViewTag", map);
+        }
+    }
+
+//    블록정보들, 썸네일 JOIN으로 뽑고
+//    태그는 []이니까 따로 뽑고
+    public HashMap modifyViewGET(String bl_uid) {
+        Map<String, String []> map = new HashMap();
+
+        String [] info1 = sqlSession.selectOne("board.modifyViewGET", bl_uid);
+        String [] info2 = sqlSession.selectOne("board.modifyViewGET2", bl_uid);
+
+        map.put("info1", info1);
+        map.put("info2", info2);
+
+        return (HashMap)map;
+    }
+
 }

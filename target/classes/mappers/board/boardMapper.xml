@@ -5,13 +5,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="board">
-	<insert id="writeViewPOST">
+	<insert id="writeViewBlock">
 		INSERT INTO
     		tbl_block
 				(bl_uid, bl_writer, bl_title, bl_description, bl_mainCtg, bl_smCtg, bl_date, bl_objId)
 		VALUES
 				(#{boardDTO.bl_uid}, #{session_iuid}, #{boardDTO.bl_title}, #{boardDTO.bl_description}, #{boardDTO.bl_mainCtg}, #{boardDTO.bl_smCtg}, SYSDATE, #{boardDTO.bl_objId})
 	</insert>
+
+	<insert id="writeViewThumbImg">
+		INSERT INTO
+			tbl_thumbImg
+				(bti_ref, bti_url)
+		VALUES
+				(#{bl_uid}, #{uploadName})
+	</insert>
+
+	<insert id="writeViewTag">
+		INSERT INTO
+			tbl_blockTags
+				(bt_ref, bt_name)
+		VALUES
+				(#{bl_uid}, #{tag})
+	</insert>
+
+	<select id="modifyViewGET" resultType="String">
+		SELECT
+			B.bl_writer, B.bl_title, B.bl_description, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
+			I.bti_url
+		FROM
+			tbl_block B
+			INNER JOIN
+				tbl_thumbImg I
+			ON
+				B.bl_uid = I.bti_ref
+		WHERE
+			B.bl_uid = #{bl_uid}
+	</select>
 
 </mapper>
 

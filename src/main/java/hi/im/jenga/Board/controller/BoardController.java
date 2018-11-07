@@ -1,10 +1,12 @@
 package hi.im.jenga.board.controller;
 
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.BoardServiceImpl;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.member.dto.MemberDTO;
+import hi.im.jenga.board.util.BoardUtilFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -22,14 +29,16 @@ public class BoardController {
     private static final Logger logger= LoggerFactory.getLogger(BoardController.class);
     private final MongoService mongoService;
     private final BoardService boardService;
+    private final BoardUtilFile boardUtilFile;
 
     @Autowired
-    public BoardController(MongoService mongoService, BoardServiceImpl boardService) {
+    public BoardController(MongoService mongoService, BoardServiceImpl boardService, BoardUtilFile boardUtilFile) {
         this.mongoService = mongoService;
         this.boardService = boardService;
+        this.boardUtilFile = boardUtilFile;
     }
 
-
+    // 임시
     @RequestMapping(value="/stackBlock", method = RequestMethod.GET)
     public String getWriteView(Model model) {
         String resultJSON = boardService.getBookMark();
@@ -55,10 +64,11 @@ public class BoardController {
     * tbl_thumbImg
     */
     @RequestMapping(value="/stackBlock", method = RequestMethod.POST)
-    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session) throws Exception {
+    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name) throws Exception {
         logger.info("session에서 뽑아온 iuid는 "+((MemberDTO)(session.getAttribute("Member"))).getMem_iuid());
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
 
+        // tbl_block
         // 임시   / 실제는 DTO 바로넘김 여기서 set안하고
         String bl_uid = UUID.randomUUID().toString();
         String bl_writer = "PvPmRRt6cKp0/qyTaXJw2UjVzUvG+voo0ux1oj1/N2Sj44pBLUiDiiyM+bJcgZJi";
@@ -78,14 +88,34 @@ public class BoardController {
 //        boardDTO.setBl_date(bl_date);
         boardDTO.setBl_objId(bl_objId);
 
-        boardService.writeViewPOST(session_iuid, boardDTO);
+        boardService.writeViewBlock(session_iuid, boardDTO);
 
-        return "/";
+        /////////////////////////썸네일이미지///////////////////////////
+        String uploadName = boardUtilFile.fileUpload(request,uploadFile);
+
+        boardService.writeViewThumbImg(bl_uid, uploadName);
+
+        ////////////////////////태그////////////////////////
+        boardService.writeViewTag(bl_uid, bt_name);
+
+        return "return:/";
+    }
+
+    @RequestMapping(value = "/modView", method = RequestMethod.GET)
+    public String modifyViewGET(@RequestParam String bl_uid, Model model){
+        Map<String, String[]> map = new HashMap();
+        map = boardService.modifyViewGET(bl_uid);
+
+        model.addAttribute("map",map);
+        return "modBlock";
     }
 
     @RequestMapping(value = "/mongo")
     public String mongo(){
+
+
         mongoService.getAnyway();
         return "/mongo";
     }
+
 }

@@ -1,10 +1,8 @@
-package hi.im.jenga.member.util;
+package hi.im.jenga.board.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -12,17 +10,18 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.*;
 
 @Component
-public class UtilFile {
+public class BoardUtilFile {
 
-    @Value("#{data['file.path']}")
-    private String PATH;
-    private static final Logger logger = LoggerFactory.getLogger(UtilFile.class);
+    @Value("#{data['image.block_path']}")
+    private String BLOCK_PATH;
+    private static final Logger logger = LoggerFactory.getLogger(BoardUtilFile.class);
     String fileName = "";
 
-
-    // 프로젝트 내 지정된 경로에 파일을 저장하는 메소드
-// DB에는 업로드 된 전체 경로명으로만 지정되기 때문에 (업로드 한 파일 자체는 경로에 저장됨)
-// fileUpload() 메소드에서 전체 경로를 리턴받아 DB에 경로 그대로 저장
+    /*
+    * 프로젝트 내 지정된 경로에 파일을 저장하는 메소드
+    * DB에는 업로드 된 전체 경로명으로만 지정되기 때문에 (업로드 한 파일 자체는 경로에 저장됨)
+    * fileUpload() 메소드에서 전체 경로를 리턴받아 DB에 경로 그대로 저장
+    */
     public String fileUpload(MultipartHttpServletRequest request, MultipartFile uploadFile) {
 
         String fileName = "";
@@ -33,8 +32,10 @@ public class UtilFile {
         try {
             fileName = uploadFile.getOriginalFilename();
 
+
+//          파일이름이 ""면 (파일을 올리지 않았으면 ""로 들어옴)
             if(fileName.equals("")){
-                logger.info(": : : UtilFile 빈 파일이 들어왔습니다. 이름을 공백으로 return ");
+                logger.info(": : : UtilFile 빈 파일이 들어왔습니다. 이름을 공백으로 반환");
                 return "";
             }
 
@@ -43,9 +44,9 @@ public class UtilFile {
             /*path = "Y:\\go\\Jenga\\profiles\\";*/
 
             logger.info("UtilFile fileUpload fileName : " + fileName);
-            logger.info("UtilFile fileUpload path : " + PATH);
+            logger.info("UtilFile fileUpload path : " + BLOCK_PATH);
 
-            File file = new File(PATH); // 찾아보기
+            File file = new File(BLOCK_PATH); // 찾아보기
 
 //          파일명이 중복 && 공백일 경우
             if (fileName != null && !fileName.equals("")) {
@@ -53,12 +54,12 @@ public class UtilFile {
 //                  파일명 앞에 업로드 시간 초 단위로 붙여 파일명 중복을 방지
                     fileName = System.currentTimeMillis() + "_" + fileName;
 
-                    file = new File(PATH + fileName);
+                    file = new File(BLOCK_PATH + fileName);
                 }
             }
 
             logger.info("UtilFile fileUpload final fileName : " + fileName);
-            logger.info("UtilFile fileUpload final path : " + PATH);
+            logger.info("UtilFile fileUpload final path : " + BLOCK_PATH);
 
             out = new FileOutputStream(file);
 

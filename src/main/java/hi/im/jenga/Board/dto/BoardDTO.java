@@ -1,6 +1,5 @@
 package hi.im.jenga.board.dto;
 
-import java.util.Arrays;
 import java.util.Date;
 
 public class BoardDTO {
@@ -10,7 +9,7 @@ public class BoardDTO {
     String bl_description;
     String bl_mainCtg;              // FK (-> tbl_mCategory(mctg_uid)
     String bl_smCtg;                // FK (-> tbl_sCategory(sctg_uid)
-    String  bl_date;
+    String bl_date;
 /*
     Date bl_date;
 */

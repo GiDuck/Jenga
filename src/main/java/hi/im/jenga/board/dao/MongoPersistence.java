@@ -1,6 +1,7 @@
 package hi.im.jenga.board.dao;
 
 
+import hi.im.jenga.board.dto.MongoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,10 +17,14 @@ public class MongoPersistence {
 	
 	
 	public void getAnyway() {
+		MongoDTO mongoDTO = new MongoDTO();
+		mongoDTO.setName("Asdfgh");
 
-		Criteria criteria = new Criteria("name").is("ㅎㅇㅂㅇ");
+		mongoTemplate.insert(mongoDTO, "hi");
+
+		/*Criteria criteria = new Criteria("name").is("ㅎㅇㅂㅇ");
 		Query query = new Query(criteria);
 		String result = mongoTemplate.findOne(query, String.class, "hi");
-		System.out.println("get Result... " + result);
+		System.out.println("get Result... " + result);*/
 	}
 }
