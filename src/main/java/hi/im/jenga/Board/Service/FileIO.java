@@ -1,13 +1,10 @@
 package hi.im.jenga.board.service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class FileIO {
 	
-	public final String filePath = "C:\\Users\\YUJUN\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\";	// 북마크 파일있는 위치
+	public final String filePath = "C:\\Users\\LG\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\";	// 북마크 파일있는 위치
 	private FileReader reader;
 	private BufferedReader buffer;
 	private File file;
@@ -26,8 +23,9 @@ public class FileIO {
 
 		file = new File(filePath + fileName);
 		try {
+
 			reader = new FileReader(file);
-		buffer = new BufferedReader(reader);
+		buffer = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
 		
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -71,9 +69,7 @@ public class FileIO {
 			}
 			
 		}
- 		
- 		
-		
+
  		return resultJSON.toString();
 
 		

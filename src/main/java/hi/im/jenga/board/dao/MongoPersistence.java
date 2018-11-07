@@ -17,8 +17,12 @@ public class MongoPersistence {
 	
 	public void getAnyway() {
 
-		Criteria criteria = new Criteria("name").is("ㅎㅇㅂㅇ");
+		mongoTemplate.createCollection("hi");
+		mongoTemplate.insert("asdf","hi");
+		Criteria criteria = new Criteria("name").is("hi");
+		System.out.println(criteria);
 		Query query = new Query(criteria);
+		System.out.println(query);
 		String result = mongoTemplate.findOne(query, String.class, "hi");
 		System.out.println("get Result... " + result);
 	}
