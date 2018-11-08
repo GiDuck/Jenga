@@ -1,9 +1,7 @@
 package hi.im.jenga.board.controller;
 
 import hi.im.jenga.board.dto.BoardDTO;
-import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.board.service.BoardService;
-import hi.im.jenga.board.service.BoardServiceImpl;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.board.util.BoardUtilFile;
@@ -32,7 +30,7 @@ public class BoardController {
     private final BoardUtilFile boardUtilFile;
 
     @Autowired
-    public BoardController(MongoService mongoService, BoardServiceImpl boardService, BoardUtilFile boardUtilFile) {
+    public BoardController(MongoService mongoService, BoardService boardService, BoardUtilFile boardUtilFile) {
         this.mongoService = mongoService;
         this.boardService = boardService;
         this.boardUtilFile = boardUtilFile;
@@ -64,7 +62,7 @@ public class BoardController {
     * tbl_thumbImg
     */
     @RequestMapping(value="/stackBlock", method = RequestMethod.POST)
-    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name) throws Exception {
+    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
         logger.info("session에서 뽑아온 iuid는 "+((MemberDTO)(session.getAttribute("Member"))).getMem_iuid());
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
 
@@ -91,11 +89,13 @@ public class BoardController {
         boardService.writeViewBlock(session_iuid, boardDTO);
 
         /////////////////////////썸네일이미지///////////////////////////
-        String uploadName = boardUtilFile.fileUpload(request,uploadFile);
-
-        boardService.writeViewThumbImg(bl_uid, uploadName);
+//        String uploadName = boardUtilFile.fileUpload(request,uploadFile);
+//
+//        boardService.writeViewThumbImg(bl_uid, uploadName);
 
         ////////////////////////태그////////////////////////
+        String [] bt_name = {"더치", "커피", "카페"};
+        System.out.println(bt_name[1]);
         boardService.writeViewTag(bl_uid, bt_name);
 
         return "return:/";
@@ -106,15 +106,32 @@ public class BoardController {
         Map<String, String[]> map = new HashMap();
         map = boardService.modifyViewGET(bl_uid);
 
+        logger.info("컨트롤러 맵은 "+map);
+
+        logger.info(map.get("info1")[0]);
+        logger.info(map.get("info1")[1]);
+        logger.info(map.get("info1")[2]);
+        logger.info(map.get("info1")[3]);
+        logger.info(map.get("info1")[4]);
+        logger.info(map.get("info1")[5]);
+        logger.info(map.get("info1")[6]);
+        logger.info(map.get("info1")[7]);
+
+        for(String tag : map.get("info2")) {
+            logger.info("tag는 "+tag);
+        }
+
+
         model.addAttribute("map",map);
-        return "modBlock";
+        return "/modBlock";
+
     }
 
     @RequestMapping(value = "/mongo")
     public String mongo(){
 
 
-        mongoService.getAnyway();
+//        mongoService.getAnyway();
         return "/mongo";
     }
 

@@ -43,6 +43,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			B.bl_uid = #{bl_uid}
 	</select>
 
+	<select id="modifyViewGET2" resultType="String">
+		SELECT
+			bt_name
+		FROM
+			tbl_blockTags
+		WHERE
+			bt_ref = #{bl_uid}
+	</select>
+
 </mapper>
 
 
