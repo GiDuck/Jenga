@@ -55,26 +55,25 @@ public class BoardDAOImpl implements BoardDAO {
 //    info1 [] => tbl_block JOIN tbl_thumbImg
 //    info2 [] => tbl_blockTag  / 사용자가 입력한 개수가 다 다르니까 따로 뽑음
     public HashMap modifyViewGET(String bl_uid) {
-        Map<String, String []> map = new HashMap();
+        Map<String, String> map = new HashMap();
 
-        List<String> list1 = sqlSession.selectList("board.modifyViewGET", bl_uid);
 
-        logger.info("list1는 "+list1.get(0));
-        logger.info("list1는 "+list1.get(1));
-        logger.info("list1는 "+list1.get(2));
-        logger.info("list1는 "+list1.get(3));
-        logger.info("list1는 "+list1.get(4));
-        logger.info("list1는 "+list1.get(5));
-        logger.info("list1는 "+list1.get(6));
-        logger.info("list1는 "+list1.get(7));
+        map = sqlSession.selectOne("board.modifyViewGET", bl_uid);
+//        String [] info1 = sqlSession.selectOne("board.modifyViewGET", bl_uid);
 
-        String [] info1 = list1.toArray(new String[list1.size()]);
+//        logger.info("g"+list1);
 
-        logger.info(info1[0]);
-        logger.info(info1[1]);
-        logger.info(info1[2]);
-        logger.info(info1[3]);
-        logger.info(info1[4]);
+//        logger.info("list1는 "+list1.get(0));
+//        String [] info1 = list1.toArray(new String[list1.size()]);
+
+//        logger.info(info1[0]);
+//        logger.info(info1[1]);
+//        logger.info(info1[2]);
+//        logger.info(info1[3]);
+//        logger.info(info1[4]);
+
+        logger.info("맵은 "+map);
+        logger.info("그게 왜 "+map.get("BL_WRITER"));
 
         List<String> list2 = sqlSession.selectList("board.modifyViewGET2", bl_uid);
 
@@ -82,6 +81,14 @@ public class BoardDAOImpl implements BoardDAO {
         logger.info("list2는 "+list2.get(1));
         logger.info("list2는 "+list2.get(2));
 
+        for(int i = 0; i < list2.size(); i++){
+            map.put("tag"+i,list2.get(i));
+        }
+
+
+
+/*
+        //       List를 배열로 변환
         //방법1
         String[] info2 = list2.toArray(new String[list2.size()]);
 
@@ -89,7 +96,6 @@ public class BoardDAOImpl implements BoardDAO {
         logger.info("배여루 "+ info2[1]);
         logger.info("배여루 "+ info2[2]);
 
-/*
         //방법 2
         String [] info2 = new String[list2.size()];
 
@@ -98,8 +104,9 @@ public class BoardDAOImpl implements BoardDAO {
         }
 */
 
-        map.put("info1", info1);
-        map.put("info2", info2);
+        logger.info("모야모야 "+map.get("BTI_URL"));
+        logger.info("탴태탴 "+map.get("tag1"));
+        logger.info("탴태탴 "+map.get("tag2"));
 
         return (HashMap)map;
     }

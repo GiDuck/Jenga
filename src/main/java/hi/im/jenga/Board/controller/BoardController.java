@@ -108,20 +108,6 @@ public class BoardController {
 
         logger.info("컨트롤러 맵은 "+map);
 
-        logger.info(map.get("info1")[0]);
-        logger.info(map.get("info1")[1]);
-        logger.info(map.get("info1")[2]);
-        logger.info(map.get("info1")[3]);
-        logger.info(map.get("info1")[4]);
-        logger.info(map.get("info1")[5]);
-        logger.info(map.get("info1")[6]);
-        logger.info(map.get("info1")[7]);
-
-        for(String tag : map.get("info2")) {
-            logger.info("tag는 "+tag);
-        }
-
-
         model.addAttribute("map",map);
         return "/modBlock";
 

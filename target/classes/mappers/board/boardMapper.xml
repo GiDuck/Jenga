@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				(#{bl_uid}, #{tag})
 	</insert>
 
-	<select id="modifyViewGET" resultType="String">
+	<select id="modifyViewGET" resultType="Map">
 		SELECT
 			B.bl_writer, B.bl_title, B.bl_description, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
 			I.bti_url
