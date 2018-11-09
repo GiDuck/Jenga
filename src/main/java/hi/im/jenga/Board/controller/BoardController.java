@@ -1,12 +1,11 @@
 package hi.im.jenga.board.controller;
 
-import com.google.api.client.googleapis.testing.services.MockGoogleClient;
 import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.BoardServiceImpl;
 import hi.im.jenga.board.service.MongoService;
-import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.board.util.BoardUtilFile;
+import hi.im.jenga.member.dto.MemberDTO;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,8 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
