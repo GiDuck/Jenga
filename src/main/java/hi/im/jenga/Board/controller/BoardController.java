@@ -101,12 +101,20 @@ public class BoardController {
         return "return:/";
     }
 
+    /*
+    * 뷰단에 Map 던져줌
+    * */
     @RequestMapping(value = "/modView", method = RequestMethod.GET)
     public String modifyViewGET(@RequestParam String bl_uid, Model model){
         Map<String, String[]> map = new HashMap();
         map = boardService.modifyViewGET(bl_uid);
 
         logger.info("컨트롤러 맵은 "+map);
+        /*
+        * 예시
+        * map.get("BL_WRITER")
+        * map.get("tag1"
+        */
 
         model.addAttribute("map",map);
         return "/modBlock";
