@@ -1,21 +1,29 @@
 package hi.im.jenga.board.controller;
 
+import com.google.api.client.googleapis.testing.services.MockGoogleClient;
 import hi.im.jenga.board.dto.BoardDTO;
-import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.BoardServiceImpl;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.member.dto.MemberDTO;
+import hi.im.jenga.board.util.BoardUtilFile;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -24,14 +32,16 @@ public class BoardController {
     private static final Logger logger= LoggerFactory.getLogger(BoardController.class);
     private final MongoService mongoService;
     private final BoardService boardService;
+    private final BoardUtilFile boardUtilFile;
 
     @Autowired
-    public BoardController(MongoService mongoService, BoardServiceImpl boardService) {
+    public BoardController(MongoService mongoService, BoardServiceImpl boardService, BoardUtilFile boardUtilFile) {
         this.mongoService = mongoService;
         this.boardService = boardService;
+        this.boardUtilFile = boardUtilFile;
     }
 
-
+    // 임시
     @RequestMapping(value="/stackBlock", method = RequestMethod.GET)
     public String getWriteView(Model model) {
         String resultJSON = boardService.getBookMark();
@@ -58,10 +68,11 @@ public class BoardController {
     */
 
     @RequestMapping(value="/stackBlock", method = RequestMethod.POST)
-    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session) throws Exception {
+    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
         logger.info("session에서 뽑아온 iuid는 "+((MemberDTO)(session.getAttribute("Member"))).getMem_iuid());
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
 
+        // tbl_block
         // 임시   / 실제는 DTO 바로넘김 여기서 set안하고
         String bl_uid = UUID.randomUUID().toString();
         String bl_writer = "PvPmRRt6cKp0/qyTaXJw2UjVzUvG+voo0ux1oj1/N2Sj44pBLUiDiiyM+bJcgZJi";
@@ -72,7 +83,6 @@ public class BoardController {
 //        String bl_date = "18/10/31";          // 임시로 String으로 받음
         String bl_objId = UUID.randomUUID().toString();
 
-
         boardDTO.setBl_uid(bl_uid);
         boardDTO.setBl_writer(bl_writer);
         boardDTO.setBl_title(bl_title);
@@ -82,23 +92,41 @@ public class BoardController {
 //        boardDTO.setBl_date(bl_date);
         boardDTO.setBl_objId(bl_objId);
 
+        boardService.writeViewBlock(session_iuid, boardDTO);
 
-        System.out.println(boardDTO.getBl_smCtg());
-        System.out.println(boardDTO.getBl_description());
-        System.out.println(boardDTO.getBl_mainCtg());
-        System.out.println(boardDTO.getBl_objId());
+        /////////////////////////썸네일이미지///////////////////////////
+//        String uploadName = boardUtilFile.fileUpload(request,uploadFile);
+//
+//        boardService.writeViewThumbImg(bl_uid, uploadName);
 
-        boardService.writeViewPOST(session_iuid, boardDTO);
+        ////////////////////////태그////////////////////////
+        String [] bt_name = {"더치", "커피", "카페"};
+        System.out.println(bt_name[1]);
+        boardService.writeViewTag(bl_uid, bt_name);
 
-        return "redirect:/";
+        return "return:/";
+    }
+
+    @RequestMapping(value = "/modView", method = RequestMethod.GET)
+    public String modifyViewGET(@RequestParam String bl_uid, Model model){
+        Map<String, String[]> map = new HashMap();
+        map = boardService.modifyViewGET(bl_uid);
+
+        model.addAttribute("map",map);
+        return "modBlock";
+
     }
 
     @RequestMapping(value = "/mongo")
-    public String mongo(){
+    public String mongo(HttpSession session) throws ParseException {
 
+        MemberDTO member = (MemberDTO)session.getAttribute("Member");
+        JSONParser jsonParser = new JSONParser();
+        System.out.println(boardService.getBookMark().length());
+        JSONObject json = (JSONObject)jsonParser.parse(boardService.getBookMark());
 
-
-        mongoService.getAnyway();
+        mongoService.getAnyway(member,json);
         return "/mongo";
     }
+
 }

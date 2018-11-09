@@ -1,8 +1,6 @@
 package hi.im.jenga.board.dto;
 
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 
 public class MongoDTO {
@@ -10,15 +8,7 @@ public class MongoDTO {
 	private String _blockid;
 	private String _refBoardId;
 	private Object _value;
-	private String name;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	private String name;	// 테스트용 나중에 지움 ㅅㄱ
 
 	public String get_blockid() {
 		return _blockid;
@@ -43,5 +33,14 @@ public class MongoDTO {
 	public void set_value(Object _value) {
 		this._value = _value;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 }

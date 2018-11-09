@@ -1,22 +1,10 @@
 package hi.im.jenga.board.service;
 
-import hi.im.jenga.board.dao.MongoPersistence;
-import hi.im.jenga.board.dto.MongoDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class MongoService {
+import hi.im.jenga.member.dto.MemberDTO;
+import org.json.simple.JSONObject;
 
-	
-	@Autowired
-	private MongoPersistence mongoDAO;
-	
-	public void getAnyway() {
-	
-		mongoDAO.getAnyway();
-	
-	}
-	
-	
+public interface MongoService {
+
+    void getAnyway(MemberDTO member, JSONObject json);
 }

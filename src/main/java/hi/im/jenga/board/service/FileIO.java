@@ -53,7 +53,7 @@ public class FileIO {
 		try {
 		resultJSON.append("{");
 	
-		
+
  		while(buffer.read() != -1) {
  			
  			resultJSON.append(buffer.readLine());

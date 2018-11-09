@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -33,10 +35,26 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 
-	public void writeViewPOST(String session_iuid, BoardDTO boardDTO) throws Exception {
+	public void writeViewBlock(String session_iuid, BoardDTO boardDTO) {
 
-//		String decode_s_iuid = aes256Cipher.AES_Decode(session_iuid);
-		logger.info("뭐야 너 "+boardDTO.getBl_smCtg());
-		dao.writeViewPOST(boardDTO, session_iuid);
+		dao.writeViewBlock(boardDTO, session_iuid);
+	}
+
+	public void writeViewThumbImg(String bl_uid, String uploadName) {
+
+		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
+		if(uploadName.equals("")){
+			// 디폴트 이미지를 넣어준다
+		}
+		dao.writeViewThumbImg(bl_uid, uploadName);
+	}
+
+	public void writeViewTag(String bl_uid, String[] bt_name) {
+
+		dao.writeViewTag(bl_uid, bt_name);
+	}
+
+	public HashMap modifyViewGET(String bl_uid) {
+		return dao.modifyViewGET(bl_uid);
 	}
 }
