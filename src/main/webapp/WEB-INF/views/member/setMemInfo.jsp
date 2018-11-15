@@ -145,10 +145,15 @@ Form-data parameter
 
         console.log(selectCard);
 
-        //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
-        for(let i =0 ; i < selectCard.length ; ++i){
-            $inputNode = $("<input>").attr("type", "hidden").attr("name", "favor").val(selectCard[i]);
-            $(".settings-form").append($inputNode);
+
+	  //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
+      if(selectCard.length==0){
+          alert("카드를 하나이상 선택해 주세요!")
+          return false;
+      }
+	  for(let i =0 ; i < selectCard.length ; ++i){
+          $inputNode = $("<input>").attr("type", "hidden").attr("name", "favor").val(selectCard[i]);
+          $(".settings-form").append($inputNode);
 
         }
 

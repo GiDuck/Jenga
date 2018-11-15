@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-		xmlns="http://www.springframework.org/schema/mvc"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xmlns:beans="http://www.springframework.org/schema/beans"
-		 xmlns:context="http://www.springframework.org/schema/context"
-		 xmlns:aop="http://www.springframework.org/schema/aop"
-		 xmlns:util="http://www.springframework.org/schema/util"
-		 xsi:schemaLocation="http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/aop
-		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xmlns:beans="http://www.springframework.org/schema/beans"
+			 xmlns:context="http://www.springframework.org/schema/context"
+			 xmlns:aop="http://www.springframework.org/schema/aop"
+			 xsi:schemaLocation="http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
-	<util:properties id="data" location="file:Y:\go\Jenga\tests.properties" />
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/img/**" location="file:///Y:/go/Jenga/profiles/"/>
+	<resources mapping="/img/**" location="file:///C:/Users/LG/Desktop/Jenga/upload/" />
 
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -35,27 +31,28 @@
 	<!-- Tiles 뷰 리졸버 -->
 	<!-- Tiles 뷰 리졸버가 view로 리턴하는 요청을 기본으로 설정된 InternalViewResolver보다 먼저 catch 하여 처리한다.-->
 	<beans:bean id="tielsViewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+				class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<beans:property name="viewClass"
-			value="org.springframework.web.servlet.view.tiles3.TilesView" />
+						value="org.springframework.web.servlet.view.tiles3.TilesView" />
 		<beans:property name="order" value="1" />
 	</beans:bean>
 
 
 	<!-- Tiles 설정 파일 -->
 	<beans:bean id="tilesConfigurer"
-		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+				class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<beans:property name="definitions">
 			<beans:list>
 				<beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>
-	
+
 	<!-- 스프링 빈을 태그로 등록하지 않고 자동으로 검색 (auto scan) -->
 	<!-- 스프링에서 관리하는 bean의 기본 디렉토리 -->
+	<context:annotation-config/>
 	<context:component-scan base-package="hi.im.jenga" />
-	
+	<annotation-driven />
 	<!-- aop의 설정으로 Proxy 객체를 자동으로 생성 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
@@ -70,11 +67,10 @@
 	</beans:bean>
 
 	<!--&lt;!&ndash; 파일업로드를 위한 디렉토리 설정 &ndash;&gt;
-	&lt;!&ndash; String uploadPath = new String("업로드 경로") &ndash;&gt;
-	<beans:bean id="uploadPath" class="java.lang.String">
-		&lt;!&ndash; 파일업로드 디렉토리&ndash;&gt;
-		<beans:constructor-arg value="해당디렉토리"/>
-	</beans:bean>-->
-
+    &lt;!&ndash; String uploadPath = new String("업로드 경로") &ndash;&gt;
+    <beans:bean id="uploadPath" class="java.lang.String">
+       &lt;!&ndash; 파일업로드 디렉토리&ndash;&gt;
+       <beans:constructor-arg value="해당디렉토리"/>
+    </beans:bean>-->
 
 </beans:beans>

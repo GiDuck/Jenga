@@ -25,7 +25,6 @@ public class GoogleLoginApi extends DefaultApi20 {
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        // TODO Auto-generated method stub
         return "https://accounts.google.com/o/oauth2/v2/auth";
     }
 }

@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.http.HttpSession;
-
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MemberController {
@@ -206,6 +206,7 @@ public class MemberController {
 
 
 
+
     @RequestMapping(value ="/modMemInfo", method = RequestMethod.GET)
     public String modMemberInfoGET(HttpSession session, Model model) throws Exception {
 //        List<MemberDTO> list = new ArrayList<MemberDTO>();
@@ -235,11 +236,11 @@ public class MemberController {
     @RequestMapping(value ="/modMemInfo", method = RequestMethod.POST)
     public String modMemberInfoPOST(@RequestParam String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile,  MultipartHttpServletRequest request,
                                     @RequestParam String em_pwd, @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
-        String s_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+        String s_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         logger.info(": : : modMemberInfoPOST 들어옴");
-        logger.info("Session에서 뽑아온 iuid "+ s_iuid);
-        logger.info("수정 후 받아온 닉네임 "+ mem_nick);                          //tbl_memInfo
-        logger.info("수정 후 받아온 파일이름 "+ uploadFile);                      //tbl_memInfo
+        logger.info("Session에서 뽑아온 iuid " + s_iuid);
+        logger.info("수정 후 받아온 닉네임 " + mem_nick);                          //tbl_memInfo
+        logger.info("수정 후 받아온 파일이름 " + uploadFile);                      //tbl_memInfo
 
 
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
@@ -248,11 +249,11 @@ public class MemberController {
 
         logger.info("수정 후 받아온 파일이름 " + uploadName);                  //tbl_memInfo
 
-        logger.info("수정 후 받아온 비밀번호 "+ em_pwd);                       //tbl_Emember
+        logger.info("수정 후 받아온 비밀번호 " + em_pwd);                       //tbl_Emember
 
-        logger.info("수정 후 받아온 취향 선택된 개수 "+ favor.length);         //tbl_mfavor
+        logger.info("수정 후 받아온 취향 선택된 개수 " + favor.length);         //tbl_mfavor
 
-        for(String s:favor){
+        for (String s : favor) {
             logger.info("수정 후 받아온 취향 선택된 카테고리 " + s);
         }
 
@@ -261,7 +262,6 @@ public class MemberController {
 
         return "redirect:/";
     }
-
 
 
 
@@ -288,6 +288,7 @@ public class MemberController {
 
 
 
+
     // 추가정보페이지에 있는 submit 버튼
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
@@ -306,6 +307,7 @@ public class MemberController {
         logger.info(": : regMemberInfoPOST : : mem_nick : " + mem_nick);                                        // 2단계에서 입력한 닉네임*/
 
         System.out.println(favor.length);
+
         logger.info(favor[0]);
 
 //      UtilFile 객체 생성
@@ -597,7 +599,5 @@ public class MemberController {
         return params;
 
     }
-
-
 
 }

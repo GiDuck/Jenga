@@ -25,7 +25,6 @@ public class NaverLoginApi extends DefaultApi20 {
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        // TODO Auto-generated method stub
         return "https://nid.naver.com/oauth2.0/authorize";
     }
 }

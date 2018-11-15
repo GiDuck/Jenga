@@ -24,7 +24,6 @@ public class KakaoLoginApi extends DefaultApi20 {
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        // TODO Auto-generated method stub
         return "https://kauth.kakao.com/oauth/authorize";
     }
 }

@@ -14,80 +14,86 @@ Form-data parameter
 <script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>
 <jsp:include page="./mem_components.jsp"/>
 
-<div class="wrapper">
-    <div class="profile-content section">
-        <div class="container">
+<%--<div class="wrapper">--%>
+    <%--<div class="profile-content section">--%>
+        <%--<form class="settings-form" enctype="multipart/form-data" action="/modMemInfo" method="POST" onsubmit="return onFormReq();">--%>
 
-            <form class="settings-form" enctype="multipart/form-data" action="/modMemInfo" method="POST" onsubmit="return onFormReq();">
+            <%--<div class="row">--%>
+                <%--<div class="col-12 text-center"><h2>회원 정보 수정</h2><br><br></div>--%>
 
-                <div class="row">
-                    <div class="col-12 text-center"><h2>회원 정보 수정</h2><br><br></div>
+                <%--<div class="profile-picture">--%>
+                    <%--<div class="fileinput fileinput-new" data-provides="fileinput">--%>
+                        <%--<div class="fileinput-new img-no-padding">--%>
+                            <%--<img name="profile" id="profile" src="profiles/${DTO.mem_profile}" alt="프로필 사진">--%>
+                        <%--</div>--%>
+                        <%--<div class="fileinput-preview fileinput-exists img-no-padding"></div>--%>
+                        <%--<div>--%>
+                                <%--<span class="btn btn-outline-default btn-file btn-round">--%>
+                                  <%--<span class="fileinput-new">Change Photo</span>--%>
+                                  <%--<span class="fileinput-exists">Change</span>--%>
+                                  <%--<input type="file" name="mem_profile" id="mem_profile">--%>
+                                <%--</span>--%>
+                            <%--<br/>--%>
+                            <%--<a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
-                    <div class="profile-picture">
-                        <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <div class="fileinput-new img-no-padding">
-                                <img name="profile" id="profile" src="img/${DTO.mem_profile}" alt="프로필 사진">
+            <%--<br><br>--%>
+
+            <%--<div class="row">--%>
+                <%--<div class="col-md-6 ml-auto mr-auto">--%>
+
+                    <%--<div class="row">--%>
+                        <%--<div class="col-md-6 col-12">--%>
+                            <%--<div class="form-group">--%>
+                                <%--<label>NickName</label>--%>
+                                <%--<input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}" onchange="nickChange()">--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="col-md-6 col-12">--%>
+                            <%--<div class="form-group">--%>
+                                <%--<label>PassWord</label>--%>
+                                <%--<input type="password" id = "em_pwd" name="em_pwd" class="form-control border-input" placeholder="Password" value="">--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+
+                    <%--<div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의--%>
+                        <%--취향을 선택해 주세요!</h3></div>--%>
+
+
+                    <%--<div id="selectFavorField" class="row text-center" style="margin : 0"></div>--%>
+                    <%--<div class="col-12 mr-auto ml-auto" style="margin-top : 20px">--%>
+                        <%--<label style="font-weight : bold">Notifications</label>--%>
+                        <%--<ul class="notifications">--%>
+                            <%--<li class="notification-item">--%>
+                                <%--푸쉬 알림을 통해서 나에게 맞는 정보를 받아볼래요?--%>
+                                <%--<input name="configure" type="checkbox" data-toggle="switch" checked="true"--%>
+                                       <%--data-on-color="info" data-off-color="info">--%>
+                                <%--<span class="toggle"></span>--%>
+                            <%--</li>--%>
+                            <%--<li class="notification-item">--%>
+                                <%--팔로워가 새로운 글을 올리면 알려줄까요?--%>
+                                <%--<input name="configure" type="checkbox" data-toggle="switch" checked="true"--%>
+                                       <%--data-on-color="info" data-off-color="info">--%>
+                                <%--<span class="toggle"></span>--%>
+                            <%--</li>--%>
+
+                        <%--</ul>--%>
+
+                        <div class="row" style="margin-top : 20px">
+
+                            <div class="col-12">
+                                <label style="font-weight : bold">Bookmarks</label>
                             </div>
-                            <div class="fileinput-preview fileinput-exists img-no-padding"></div>
-                            <div>
-                                <span class="btn btn-outline-default btn-file btn-round">
-                                  <span class="fileinput-new">Change Photo</span>
-                                  <span class="fileinput-exists">Change</span>
-                                  <input type="file" name="mem_profile" id="mem_profile">
-                                </span>
-                                <%--        <c:forEach var="favor" items="${favor}">
-                                                ${favor.MCTG_NAME});
-                                        </c:forEach>--%>
-                                <br/>
-                                <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                            <div class="col-12 md-6">
+                                <div class="btn btn-danger w-100 text-center"  id="btnSyncWithGoogleBK"><i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크와 동기화</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <br><br>
-
-                <div class="row">
-                    <div class="col-md-6 ml-auto mr-auto">
-
-                        <div class="row">
-                            <div class="col-md-6 col-12">
-                                <div class="form-group">
-                                    <label>NickName</label>
-                                    <input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}" onchange="nickChange()">
-                                </div>
+                            <div class="col-12 md-6">
+                                <div class="btn btn-primary w-100 text-center"  id="btnSyncWithExploreBK">익스플로러 북마크와 동기화</div>
                             </div>
-                            <div class="col-md-6 col-12">
-                                <div class="form-group">
-                                    <label>PassWord</label>
-                                    <input type="password" id = "em_pwd" name="em_pwd" class="form-control border-input" placeholder="Password" value="">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의
-                            취향을 선택해 주세요!</h3></div>
-
-
-                        <div id="selectFavorField" class="row text-center" style="margin : 0"></div>
-
-                        <div class="col-12 mr-auto ml-auto" style="margin-top : 20px">
-                            <label style="font-weight : bold">Notifications</label>
-                            <ul class="notifications">
-                                <li class="notification-item">
-                                    푸쉬 알림을 통해서 나에게 맞는 정보를 받아볼래요?
-                                    <input name="configure" type="checkbox" data-toggle="switch" checked="true"
-                                           data-on-color="info" data-off-color="info">
-                                    <span class="toggle"></span>
-                                </li>
-                                <li class="notification-item">
-                                    팔로워가 새로운 글을 올리면 알려줄까요?
-                                    <input name="configure" type="checkbox" data-toggle="switch" checked="true"
-                                           data-on-color="info" data-off-color="info">
-                                    <span class="toggle"></span>
-                                </li>
-
-                            </ul>
 
                         </div>
                         <br><br>
@@ -97,16 +103,29 @@ Form-data parameter
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+        </form>
+        <div class="container">
         </div>
     </div>
-</div>
 
 <script>
-
     var userFavor = new Array();
+</script>
+
+<script>
+    $(function () {
+        $('#btnSyncWithGoogleBK').click(function () {
+            makeUploadBookMarkFileModal('chrome');
+        });
+
+        $('#btnSyncWithExploreBK').click(function () {
+            makeUploadBookMarkFileModal('explorer');
+        });
+    });
 
 </script>
+
 
 <c:forEach var="favor" items="${favor}">
     <script>
@@ -124,6 +143,7 @@ Form-data parameter
 
 
 <script>
+
 
 
 

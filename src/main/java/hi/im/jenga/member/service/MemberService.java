@@ -1,17 +1,9 @@
 package hi.im.jenga.member.service;
 
+
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface MemberService {
@@ -51,3 +43,4 @@ public interface MemberService {
 
     List<String> getMemFavor(String member);
 }
+

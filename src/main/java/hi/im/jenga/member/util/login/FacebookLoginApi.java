@@ -25,7 +25,6 @@ public class FacebookLoginApi extends DefaultApi20 {
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        // TODO Auto-generated method stub
         return "https://www.facebook.com/v3.1/dialog/oauth";
     }
 }

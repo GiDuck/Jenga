@@ -180,11 +180,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		mem_iuid = #{aes_id}
 	</select>-->
 
+	<!-- aes_iuid 대신 s_iuid가 되어있노 일단 aes_iuid로 바꿈-->
 	<insert id="addMemberFavor">
 	INSERT INTO
 		tbl_mFavor
 	VALUES
-		(#{s_iuid}, (SELECT
+		(#{aes_iuid}, (SELECT
 		               		mctg_uid
 		          	 FROM
                     		tbl_mCategory
@@ -192,6 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                      		mctg_name = #{fav})
 					)
 	</insert>
+
 
 	<delete id="delMemberFavor">
 	DELETE FROM
