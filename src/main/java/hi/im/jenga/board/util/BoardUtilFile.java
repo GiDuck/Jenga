@@ -1,0 +1,139 @@
+package hi.im.jenga.board.util;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.io.*;
+
+@Component
+public class BoardUtilFile {
+
+    @Value("#{data['image.block_path']}")
+    private String BLOCK_IMAGE_PATH;
+    @Value("#{data['block.path']}")
+    private String BLOCK_PATH;
+    private static final Logger logger = LoggerFactory.getLogger(BoardUtilFile.class);
+    String fileName = "";
+    File file;
+
+    /**
+    * 프로젝트 내 지정된 경로에 파일을 저장하는 메소드
+    * DB에는 업로드 된 전체 경로명으로만 지정되기 때문에 (업로드 한 파일 자체는 경로에 저장됨)
+    *
+    * fileUpload() / block으로 들어오면 메소드에서 전체 경로를 리턴받아 DB에 경로 그대로 저장
+    *              / image로 들어오면 파일이름만 리턴받고 저장
+    */
+    public String fileUpload(MultipartHttpServletRequest request, MultipartFile uploadFile, String type) {
+
+        String fileName = "";
+//        File file;
+        OutputStream out = null; // 찾아보기
+        PrintWriter printWriter = null; // 찾아보기
+
+//        File file;
+
+        try {
+
+            fileName = uploadFile.getOriginalFilename();
+
+//          Image가 들어오면
+            if(type.equals("image")) {
+//          파일이름이 ""면 (파일을 올리지 않았으면 ""로 들어옴)
+                if (fileName.equals("")) {
+                    logger.info(": : : BoardUtilFile 빈 이미지파일이 들어왔습니다. 이름을 공백으로 반환");
+                    return "";
+                }
+
+                logger.info("BoardUtilFile fileUpload fileName : " + fileName);
+                logger.info("BoardUtilFile fileUpload path : " + BLOCK_IMAGE_PATH);
+
+
+                file = new File(BLOCK_IMAGE_PATH);
+
+
+//          파일명이 중복 && 공백일 경우
+                if (fileName != null && !fileName.equals("")) {
+                    if (file.exists()) {
+//                  파일명 앞에 업로드 시간 초 단위로 붙여 파일명 중복을 방지
+                        fileName = System.currentTimeMillis() + "_" + fileName;
+
+                        file = new File(BLOCK_IMAGE_PATH + fileName);
+                    }
+                }
+
+                logger.info("BoardUtilFile fileUpload final fileName : " + fileName);
+                logger.info("BoardUtilFile fileUpload final path : " + BLOCK_IMAGE_PATH);
+            }
+
+
+
+
+
+//          block path로 들어오면
+            else {
+
+                logger.info("BoardUtilFile fileUpload fileName : " + fileName);
+                logger.info("BoardUtilFile fileUpload path : " + BLOCK_PATH);
+
+
+                file = new File(BLOCK_PATH + fileName);
+
+            }
+
+
+
+            logger.info("file direcroty"+file.isDirectory());
+
+
+            byte[] bytes = uploadFile.getBytes();
+            //path = getSaveLocation(request);
+            /*path = "Y:\\go\\Jenga\\profiles\\";*/
+
+
+            out = new FileOutputStream(file);
+
+            logger.info("BoardUtilFile fileUpload out : " + out);
+
+            out.write(bytes);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if(out != null){
+                    out.close();
+                }
+                if(printWriter != null){
+                    printWriter.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        if(type.equals("image")) {
+            logger.info("image입니다");
+            return fileName;
+        }
+        logger.info("그냥입니다");
+        return BLOCK_PATH + fileName;
+    }
+
+//  업로드 파일 저장 경로 얻는 메소드
+//  업로드한 파일의 경로가 도메인 별로 달라야 했기 때문에 도메인의 형을 비교하여 파일 저장 경로를 다르게 지정
+    private String getSaveLocation(MultipartHttpServletRequest request) {
+
+        String uploadPath = request.getSession().getServletContext().getRealPath("/");
+        String attachPath = "resources\\profiles\\";
+
+        logger.info("UtilFile getSaveLocation path : " + uploadPath + attachPath);
+
+        return uploadPath + attachPath;
+
+    }
+
+}
