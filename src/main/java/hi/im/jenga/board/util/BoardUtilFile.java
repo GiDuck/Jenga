@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component
 public class BoardUtilFile {
@@ -30,15 +32,13 @@ public class BoardUtilFile {
     public String fileUpload(MultipartHttpServletRequest request, MultipartFile uploadFile, String type) {
 
         String fileName = "";
-//        File file;
-        OutputStream out = null; // 찾아보기
-        PrintWriter printWriter = null; // 찾아보기
-
-//        File file;
+        OutputStream out = null;
+        PrintWriter printWriter = null;
 
         try {
 
             fileName = uploadFile.getOriginalFilename();
+
 
 //          Image가 들어오면
             if(type.equals("image")) {
@@ -48,11 +48,18 @@ public class BoardUtilFile {
                     return "";
                 }
 
+                File uploadPath = new File(BLOCK_IMAGE_PATH, getFolder());
+
+                // yyyy/MM/dd 폴더를 만듬
+                if(uploadPath.exists() == false){
+                    uploadPath.mkdirs();
+                }
+
                 logger.info("BoardUtilFile fileUpload fileName : " + fileName);
                 logger.info("BoardUtilFile fileUpload path : " + BLOCK_IMAGE_PATH);
 
 
-                file = new File(BLOCK_IMAGE_PATH);
+                file = new File(uploadPath, fileName);
 
 
 //          파일명이 중복 && 공백일 경우
@@ -61,7 +68,7 @@ public class BoardUtilFile {
 //                  파일명 앞에 업로드 시간 초 단위로 붙여 파일명 중복을 방지
                         fileName = System.currentTimeMillis() + "_" + fileName;
 
-                        file = new File(BLOCK_IMAGE_PATH + fileName);
+                        file = new File(uploadPath, fileName);
                     }
                 }
 
@@ -75,14 +82,20 @@ public class BoardUtilFile {
 
 //          block path로 들어오면
             else {
+                File uploadPath = new File(BLOCK_PATH, getFolder());
+                // yyyy/MM/dd 폴더를 만듬
+                if(uploadPath.exists() == false){
+                    uploadPath.mkdirs();
+                }
 
                 logger.info("BoardUtilFile fileUpload fileName : " + fileName);
                 logger.info("BoardUtilFile fileUpload path : " + BLOCK_PATH);
 
 
-                file = new File(BLOCK_PATH + fileName);
+                file = new File(uploadPath, fileName);
 
             }
+
 
 
 
@@ -134,6 +147,18 @@ public class BoardUtilFile {
 
         return uploadPath + attachPath;
 
+    }
+
+    //날짜별 폴더에 담음 중복방지
+    private String getFolder(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date = new Date();
+
+        String str = sdf.format(date);
+
+        return str.replace("-",File.separator);
     }
 
 }

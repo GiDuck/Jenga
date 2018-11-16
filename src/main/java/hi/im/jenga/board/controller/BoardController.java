@@ -39,9 +39,9 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-    // 글쓰는페이지 GET
-    // TODO 사용자의 업로드 파일을 읽어와서 String으로 반환 -> html경로 저장해서 html 파일을 읽어와서 String으로 반환해야함 /  기덕이 최신코드 주기로 함
 
+    // 사용자의 업로드 파일을 읽어와서 String으로 반환 -> html경로 저장해서 html 파일을 읽어와서 String으로 반환해야함
+    // 글쓰는페이지 GET
     @RequestMapping(value="/stackBlock", method = RequestMethod.GET)
     public String getWriteView(HttpSession session, Model model) {
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
@@ -50,9 +50,7 @@ public class BoardController {
 
         logger.info(resultJSON);
 
-        // TODO 코드 받고 다시
         model.addAttribute("resultJSON", resultJSON);
-
 
         return "editor/stackBoard/stackBlock";
     }
@@ -142,8 +140,8 @@ public class BoardController {
     * /modView?bl_uid=asdfasdfasdfasdf
     * /stackBlock
     */
-    @RequestMapping(value = "/modView", method = RequestMethod.GET)
-    public String modifyViewGET(@RequestParam String bl_uid, Model model, MongoDTO mongoDTO){
+    @RequestMapping(value = "/modView/{bl_uid}", method = RequestMethod.GET)
+    public String modifyViewGET(@PathVariable("bl_uid") String bl_uid, Model model, MongoDTO mongoDTO){
         Map<String, String[]> map = boardService.modifyViewGET(bl_uid);
 
         mongoDTO = mongoService.modifyViewGET("_refBoardId", bl_uid);
@@ -190,11 +188,9 @@ public class BoardController {
         if(result == 0){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity(HttpStatus.OK);
 
     }
-
 
 
 

@@ -242,8 +242,7 @@ background-color : blue;
 	  
 	  var bookmarks = ${resultJSON};
 	  var bookmarkElements = bookmarks.roots.bookmark_bar.children;
-	  
-	  
+
 	  function removeOtherClass(type){
 		  
 		  if(type === "right"){

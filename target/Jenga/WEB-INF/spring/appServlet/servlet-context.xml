@@ -66,6 +66,20 @@
 		<beans:property name="maxInMemorySize" value="100000000"/>
 	</beans:bean>
 
+<!--	 Interceptor 설정 추가
+	<beans:bean id="LoginInterceptor" class="hi.im.jenga.interceptor.LoginInterceptor"></beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			&lt;!&ndash; 원하는 URI 지정, web.xml의 필터나 Servlet의 설정과 동일하므로, 필요한 경로를 직접 지정하거나 **, *와 같은 패턴을 적용해 줄 수 있다. &ndash;&gt;
+			&lt;!&ndash; => /logincheck 경로를 호출하면 LoginInterceptor가 동작한다. &ndash;&gt;
+			<mapping path="/logincheck"/>
+			<beans:ref bean="LoginInterceptor"/>
+		</interceptor>
+	</interceptors>-->
+
+	
+	
 	<!--&lt;!&ndash; 파일업로드를 위한 디렉토리 설정 &ndash;&gt;
     &lt;!&ndash; String uploadPath = new String("업로드 경로") &ndash;&gt;
     <beans:bean id="uploadPath" class="java.lang.String">

@@ -15,9 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -63,9 +65,28 @@ public class MemberController {
 
 
 
+/*
+//  interceptor처리
+//    Model에 DTO를 넣어서 NULL 체크 후 interceptor에서 세션에 넣음
+//    HttpServletSession 이어서 Logininterceptor에서 계속 getSession()이 안됐음 -> HttpSession으로 바꾸니 됨
+    @RequestMapping(value = "/logincheck", method = RequestMethod.POST)
+    public void logincheck(EmailMemberDTO emailMemberDTO, Model model, HttpSession session)throws Exception{
+        logger.info("아이디"+emailMemberDTO.getEm_id());
+        logger.info("비밀번호"+emailMemberDTO.getEm_pwd());
+        String check = memberService.checkEmail(emailMemberDTO);
+        logger.info("체크"+check);
+        model.addAttribute("check", check);
+        if(check.equals("success") || check.equals("noauth")){
+            MemberDTO Member = memberService.getMemInfo(emailMemberDTO);
+            model.addAttribute("Member", Member);
+            logger.info("if문 들어옴");
+        }
+        logger.info("if문 안들어감");
 
 
-    @RequestMapping(value = "logincheck", method = RequestMethod.POST)
+    }*/
+//    기존 로그인 POST
+    @RequestMapping(value = "/logincheck", method = RequestMethod.POST)
     public void logincheck(EmailMemberDTO emailMemberDTO, HttpSession session, HttpServletResponse response)throws Exception{
         logger.info("아이디"+emailMemberDTO.getEm_id());
         logger.info("비밀번호"+emailMemberDTO.getEm_pwd());
@@ -85,7 +106,7 @@ public class MemberController {
 
 
 
-    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session, Model model) {
 
         LoginUtil util = naverLoginUtil;
