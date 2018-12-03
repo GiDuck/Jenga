@@ -23,4 +23,5 @@
  <!--  Plugin for presentation page - isometric cards  -->
   <script src="${pageContext.request.contextPath}/resources/assets/js/plugins/presentation-page/main.js"></script>
   <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>  
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/htmlParser.js"></script>  
+  

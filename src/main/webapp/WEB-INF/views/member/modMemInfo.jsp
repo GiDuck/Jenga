@@ -93,6 +93,18 @@ Form-data parameter
                
               </ul>
               
+             <div class="row w-100" style="margin-top : 20px">
+              
+              <div class="col-12">
+              <label style="font-weight : bold">Bookmarks</label>
+              </div>  
+                <div class="col-6">
+                  	<div class="btn btn-danger w-100 text-center"  id="btnSyncWithGoogleBK"><i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크와 동기화</div>
+                </div>
+                <div class="col-6">
+                  	<div class="btn btn-primary w-100  text-center"  id="btnSyncWithExploreBK">익스플로러 북마크와 동기화</div>
+                </div>
+               
               </div>
               <br><br>
               <div class="row text-center" style="padding : 8px">
@@ -126,6 +138,18 @@ Form-data parameter
   $(document).ready(function(){
 	  setNavType("blue");
 	  initFavorForm();
+	  
+	  $("#btnSyncWithGoogleBK").on("click", function(e){
+		 
+		  
+		  e.preventDefault();
+		  e.stopPropagation();
+		  
+		  makeUploadBookMarkFileModal("chrome");
+		  
+	  });
+	  
+	  
 	  
 	  $("#saveBtn").on('click', function(e) {
 			e.preventDefault();
@@ -194,33 +218,6 @@ Form-data parameter
 	  
   }
   
-/*   
-  //선택된 카드를 가져오는 함수
-  function getSelectedCard() {
-	  
-	  //카드 목록을 가져와서 -
-	  let $cards = $("#selectFavorField").find(".card");
-	  let selCards = new Array();
-	  
-	  $cards.each(function(index, item) {
-
-		  let temp = $(item).css('opacity');
-		  alert("temp..." + temp);
-
-		  //만약 투명도가 1이 아니면 (카드 선택 시 투명도가 1 미만으로 설정되어있음)
-		  if(temp < 1){
-			  
-			  //html값을 가져와서 배열에 넣어준다.
-			  selCards.push($(item).find("h3").html());
-			  
-		  }
-	  });
-	  
-	  //배열을 리턴
-	  return selCards;
-	  	  
-	  
-  } */
 
  
   

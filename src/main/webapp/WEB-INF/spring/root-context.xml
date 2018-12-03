@@ -38,4 +38,15 @@
 	<!-- mybatis mapper interface bean을 자동으로 검색 -->
 	
 	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+	
+	<!--  이미지 드래그 앤 드롭 업로드 -->
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <!-- max upload size in bytes -->
+    <property name="maxUploadSize" value="209715200" /> <!-- 20MB -->
+    <!-- max size of file in memory (in bytes) -->
+    <property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+</bean>
+
+	
+	
 </beans>

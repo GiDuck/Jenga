@@ -5,12 +5,12 @@
 <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>  
 <script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>  
 
-	 <style>
+	<!--  <style>
 	 .modal-open .modal {
 	  display: block;
 	}
 	 
-	 </style>
+	 </style> -->
 	 
 	<!-- Modal Default Form -->
 	 
@@ -136,7 +136,7 @@
 					default : break;
 
 				}
-			
+
 				this.modal.getModal().modal();
 				return this.modal.getModal();
 
@@ -205,6 +205,7 @@
  				
  				//Please make to request using AJAX to server.
  				//..below source will be embbed in success function on AJAX.
+ 				
  				let token = false;
  				if(token){
  					
@@ -378,6 +379,171 @@
 
 
 	}
+	
+	
+	function makeUploadBookMarkFileModal(type){
+		
+		let uploadPath = "/";
+
+		/* if(type == "chrome"){
+			
+			
+			
+		}else if(type == "explore"){
+			
+			
+			
+		} */
+
+		
+		 let header = $("<h3>").addClass("modal-title text-center").html(type + " 북마크 동기화")
+			.append($("<br>"))
+			.append($("<p>").html(type + "북마크를 동기화 합니다. 북마크 내보내기 기능을 사용하여 HTML 파일로 지정해 주십시오."));
+
+			
+		 let body = $("<div>").addClass("w-100")
+		 .append($("<div>").append($("<input>").attr("type", "file").attr("id", "BKfile").attr("accept", ".html")))
+		 .append($("<br>"))
+		 .append($("<div>").append($("<div>").addClass("btn w-100").html("북마크 동기화 ")).on('click', function(e){
+			
+			 e.stopPropagation();
+			 e.preventDefault();
+			 
+			 let $upFile = document.getElementById("BKfile");
+			 let upFile = $upFile.files[0];
+			 let formData = new FormData();
+			 formData.append('file', upFile);
+
+
+			 //업로드 하려는 파알이 10MB 이상이면 불가
+			 if(upFile.size > 10485760 ){
+				 
+				 swal('파일 업로드 실패', '파일의 크기는 10MB를 초과할 수 없습니다.', '');
+				 return;
+			 //업로드 하려는 파일이 1바이트 이하면 취소
+			 }else if(upFile.size < 1){
+				 
+				 
+				 swal('파일 업로드 실패', '파일이 없거나 크기가 너무 작습니다.', '');
+				 return;		
+			 }
+			 
+			  $.ajax({
+				
+				 type : "POST",
+				 url : "/board/fileUpload",
+				 data : formData,
+			     enctype: 'multipart/form-data',
+				 processData: false,
+				 contentType : false,
+				 success : function(){
+				 swal('동기화 성공', '북마크가 성공적으로 업로드 되었습니다.', 'success');
+
+				 },
+				 error : function(xhs, status, error){
+					 
+				 swal('동기화 실패', '북마크 동기화에 실패하였습니다.', 'fail');
+					 
+				 }
+				 
+				 
+			 });
+			
+			
+		 }));
+		
+		 
+		 
+		 return ModalFactory("simple", header, body);
+
+		
+		
+		
+	}
+	
+	
+	//북마크 혹은 폴더의 내용을 변경하게 하는 모달
+	function makeModifyElementModal($element, bookmarks)
+	{
+		
+
+		  let $title = $($element).find("input[name=title]");
+		  let $url = $($element).find("input[name=url]");
+		  let isFolder = $($element).find("input[name=isFolder]").val();
+		  let timeStamp = $($element).find("input[name='timeStamp']").val();
+
+		  let type = undefined;
+		  
+		
+		  if(isFolder){
+			  
+			  type = "폴더";
+			  
+		  }else if(!isFolder){
+			  
+			  type = "북마크";
+		  }
+		  
+		 let header = $("<h3>").addClass("modal-title text-center").html(type + " 수정하기")
+		 	.append($("<br>"));
+		 		 
+		 let body = $("<div>").addClass("form-group")
+	 		.append($("<label>").html("TITLE"))
+	 		.append($("<input>").attr("name", "title").addClass("form-control").val($title.val()))
+	 		.append($("<br>"));
+		 
+		 if(isFolder == "false"){
+	 		body.append($("<label>").html("URL"))
+	 		.append($("<input>").attr("name", "url").addClass("form-control").val($url.val())); }
+	 		
+	 		body.append($("<button>").attr("id", "elementModifyBtn").addClass("btn btn-block btn-round").html("수정하기").css("margin-top", "40px").on('click', function(e){
+	 			e.preventDefault();
+
+				let title = $(this).parent().find("input[name='title']").val();
+	 			let url = undefined;
+	 			
+	 			let selectedElement = undefined;
+	 			
+	 			for(let i = 0; i<bookmarks.length; ++i){
+	 				
+	 				if(bookmarks[i].add_date == timeStamp){
+	 					
+	 					selectedElement = bookmarks[i];
+	 					break;
+	 				}
+	 				
+	 				
+	 			}
+
+	 			selectedElement.title = title;
+	 			$title.val(title);
+	 			
+	 				if(isFolder == "false"){
+	 				
+		 			url = $(this).parent().find("input[name=url]").val();
+		 			selectedElement.url = url;
+		 			$url.val(url);
+
+		 			}
+	 			
+
+
+	 			$(this).closest("#defaultModal").modal("hide");
+	 			refreshBookMark(bookmarks, "right");
+	 			
+	 		
+	 			
+	 		})).append($("<br>"));
+		 	
+		 
+		 
+		 
+	 return ModalFactory("simple", header, body);
+		
+		
+		
+	}
+	
 
 	
 
@@ -434,7 +600,7 @@
 		
 		 
 		 
-		return  ModalFactory("triple",  header, body, footer);
+		return ModalFactory("triple",  header, body, footer);
 			
 		
 	}
@@ -449,7 +615,7 @@
 
 			
 		 let body = $("<div>")
-		 .append("<h4>").html(content);
+		 .append($("<h4>").html(content));
 		 
  		let modalFactory = ModalFactory("simple", header, body);
  		modalFactory.on('hide.bs.modal', function() {
@@ -464,7 +630,6 @@
  
 	};
 	
-
 
 
 

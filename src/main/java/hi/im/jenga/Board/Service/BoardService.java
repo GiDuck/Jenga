@@ -18,5 +18,18 @@ public class BoardService {
 		
 	}
 	
+	public String getBookMarkFromHTML() {
+		
+		
+		FileIO fileIO = new FileIO("bookmarks_18. 11. 29..html");
+		String result = fileIO.InputHTMLBookMark();
+		
+		
+		return result;
+		
+		
+		
+	}
+	
 	
 }
