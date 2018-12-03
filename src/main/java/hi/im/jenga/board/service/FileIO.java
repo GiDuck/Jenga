@@ -1,4 +1,4 @@
-package hi.im.jenga.Board.Service;
+package hi.im.jenga.board.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

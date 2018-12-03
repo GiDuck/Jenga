@@ -1,4 +1,4 @@
-package hi.im.jenga.Board.Controller;
+package hi.im.jenga.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import hi.im.jenga.Board.Service.BoardService;
+import hi.im.jenga.board.service.BoardService;
 
 @Controller
 @RequestMapping("/board")

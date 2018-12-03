@@ -1,4 +1,4 @@
-package hi.im.jenga.Board.Controller;
+package hi.im.jenga.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;

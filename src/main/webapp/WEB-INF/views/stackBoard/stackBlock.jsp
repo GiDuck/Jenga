@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+
+
+
 <style>
 
 .bookMarkField{
@@ -210,8 +213,8 @@ background-color : blue;
                 <h6>Description</h6>
                 <br>
                 <section id="editor">
-                <div id="summernoteEditor">
-                </div>
+	                <textarea id="summernoteEditor">
+	                </textarea>
                 </section>
               </div>
               <div class="form-check">
@@ -1176,13 +1179,13 @@ background-color : blue;
 		};
  	  
 	  $("#summernoteEditor").summernote({
+		  
 	        placeholder: '내용을 작성하세요..',
-	        tabsize: 3,
 	        height: 300,
+	        focus : true,
 	        dialogsInBody: true
 
 	  });
-	   
 	  
 	  attachBtnEvent();
 
