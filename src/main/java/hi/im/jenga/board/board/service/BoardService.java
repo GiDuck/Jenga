@@ -1,10 +1,9 @@
-package hi.im.jenga.board.service;
+package hi.im.jenga.board.board.service;
 
-import hi.im.jenga.board.dto.BlockPathDTO;
-import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.board.board.dto.BlockPathDTO;
+import hi.im.jenga.board.board.dto.BoardDTO;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public interface BoardService {
 

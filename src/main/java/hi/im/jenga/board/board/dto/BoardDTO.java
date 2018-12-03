@@ -1,6 +1,4 @@
-package hi.im.jenga.board.dto;
-
-import java.util.Date;
+package hi.im.jenga.board.board.dto;
 
 public class BoardDTO {
 

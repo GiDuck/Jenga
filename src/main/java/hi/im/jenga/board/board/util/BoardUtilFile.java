@@ -1,4 +1,4 @@
-package hi.im.jenga.board.util;
+package hi.im.jenga.board.board.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,10 +1,8 @@
-package hi.im.jenga.board.service;
+package hi.im.jenga.board.board.service;
 
-import hi.im.jenga.board.dto.MongoDTO;
+import hi.im.jenga.board.board.dto.MongoDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import org.json.simple.JSONObject;
-
-import java.util.Map;
 
 public interface MongoService {
     void getAnyway(MemberDTO member, JSONObject json);
@@ -13,5 +11,5 @@ public interface MongoService {
 
     void writeViewBmks(String bl_uid);
 
-    MongoDTO  getView(String key, String bl_uid);
+    MongoDTO getView(String key, String bl_uid);
 }
