@@ -69,8 +69,7 @@ public class FileIO {
 			e.printStackTrace();
 			return null;
 		}finally {
-			
-			
+
 			try {
 				buffer.close();
 				//reader.close();

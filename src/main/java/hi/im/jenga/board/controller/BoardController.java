@@ -24,6 +24,18 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/**
+ *
+ * 글 조회 GET
+ * 글 작성 GET / POST
+ * 글 수정 GET / POST (PATCCH)
+ * 글 삭제 DELETE
+ *
+ * 검색
+ *
+ * 북마크 파일 업로드 POST  (모달 GET ? )
+ *
+ * */
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -40,6 +52,37 @@ public class BoardController {
     }
 
 
+    /*
+    * 검색창 하나만 띄우는 페이지
+    * */
+    @RequestMapping
+    public String boardSearch(){
+
+        return "/search";
+    }
+
+
+    /*
+    * 글 조회 GET
+    * 조회수, 좋아요 표시
+    * @param bl_uid : 글 UID
+    * */
+    @RequestMapping(value = "/{bl_uid}", method = RequestMethod.GET)
+    public String getView(@PathVariable String bl_uid, Model model, MongoDTO mongoDTO){
+
+        Map<String, String[]> map = boardService.getView(bl_uid);
+        mongoDTO = mongoService.getView("_refBoardId", bl_uid);
+
+        model.addAttribute("map", map);
+        model.addAttribute("mongoDTO", mongoDTO);
+
+        return ""; // 수정페이지/{bl_uid}
+    }
+
+
+
+
+    // 완료 / 뷰에서 뽑으면 됨
     // 사용자의 업로드 파일을 읽어와서 String으로 반환 -> html경로 저장해서 html 파일을 읽어와서 String으로 반환해야함
     // 글쓰는페이지 GET
     @RequestMapping(value="/stackBlock", method = RequestMethod.GET)
@@ -69,11 +112,11 @@ public class BoardController {
     *
     * Bookmarks 값 json으로 받아야함
     *
-    * //TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
-    *
+    * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
+    * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
     */
 
-    // 글쓰는페이지 POST
+    // 글쓰는페이지 POST / 작성
     @RequestMapping(value="/stackBlock", method = RequestMethod.POST)
     public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
         logger.info("session에서 뽑아온 iuid는 "+((MemberDTO)(session.getAttribute("Member"))).getMem_iuid());
@@ -132,11 +175,24 @@ public class BoardController {
 
         return "redirect:/";  // 임시로 보냄
     }
+// TODO  like 상태값으로 비교   이거먼저하자
+    // block iuid를 조건으로 insert mem_iuid(session에 있는)
+    @RequestMapping(value = "/like/{bl_iuid}")
+    public ResponseEntity<Void> like(@PathVariable String bl_iuid, HttpSession session){
+
+        String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
+
+        boardService.likeCheck(bl_iuid, session_mem_iuid);
+//      optional
+        return new ResponseEntity<Void>(HttpStatus.OK);
+//      return new ResponseEntity<Void>(Http.Status.BAD_REQUEST);
+
+    }
 
     /*
     * 수정페이지 GET
-    * 뷰단에 Map 던져줌
-    *
+    * 뷰단에 회원정보를 Map으로 던져줌
+    * //TODO 테스트
     * /modView?bl_uid=asdfasdfasdfasdf
     * /stackBlock
     */
@@ -160,6 +216,7 @@ public class BoardController {
 
     }
 
+//  TODO 테스트
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
     @RequestMapping(value = "/modView", method = RequestMethod.POST)
     public String modifyViewPOST(BoardDTO boardDTO, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String[] bt_name) {
@@ -176,7 +233,7 @@ public class BoardController {
         return "";
     }
 
-//    TODO 삭제 테스트
+//    TODO 테스트
 //    View에서 받는거 테스트해야함
 //    HttpMethod  DELETE로 준거 테스트
 //    삭제페이지 POST
@@ -193,8 +250,7 @@ public class BoardController {
     }
 
 
-
-    // 북마크 파일업로드
+    // 북마크 파일업로드  /  완료
     @RequestMapping(value="/fileUpload", method=RequestMethod.POST)
     @ResponseBody
     public ResponseEntity fileUpload(@RequestParam String bp_browstype, @RequestParam String bp_booktype, @RequestParam("file") MultipartFile uploadFile, MultipartHttpServletRequest request, HttpSession session) {
@@ -238,6 +294,7 @@ public class BoardController {
 
     }
 
+                                  /***   임시   ***/
 
 
     @RequestMapping(value = "/mongo")
@@ -250,13 +307,6 @@ public class BoardController {
 //
 //        mongoService.getAnyway(member,json);
         return "/mongo";
-    }
-
-    @RequestMapping(value = "/mongoUpdate")
-    public String mongoUpdate(){
-
-
-        return "/";
     }
 
 }

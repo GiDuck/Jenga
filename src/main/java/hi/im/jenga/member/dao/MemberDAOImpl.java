@@ -196,6 +196,10 @@ public class MemberDAOImpl implements MemberDAO{
         return sqlSession.selectOne("member.getMemProfile",s_iuid);
     }
 
+    public MemberDTO testParam() {
+        return null;
+    }
+
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
         return sqlSession.selectOne("member.getMemInfo",emailMemberDTO);
     }

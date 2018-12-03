@@ -33,6 +33,35 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.insert("board.writeViewBlock", map);
     }
 
+    public void writeViewReadCount(String bl_uid) {
+        sqlSession.insert("board.writeViewReadCount",bl_uid);
+    }
+
+    public void likeCheck(String bl_iuid, String session_mem_iuid) {
+        String result;
+        Map<String, String> map = new HashMap();
+        map.put("bl_iuid", bl_iuid);
+        map.put("session_mem_iuid", session_mem_iuid);
+
+        /*
+        하나의 주소로 들어오고 select해서 있으면 dislike
+                                          없으면 like
+
+        select mem_iuid FROM tbl_blocklike WHERE ref = bl_iuid 해서
+        있으면  delete from
+        없으면  insert into
+
+        */
+         result = sqlSession.selectOne("board.likeCheck",map);
+
+         if(result == null){
+            sqlSession.insert("board.addLike", map);
+            return;
+         }
+         sqlSession.delete("board.cancelLike", map);
+
+    }
+
     public void writeViewThumbImg(String bl_uid, String uploadName) {
         Map<String, String> map = new HashMap();
 
@@ -57,7 +86,7 @@ public class BoardDAOImpl implements BoardDAO {
     public HashMap modifyViewGET(String bl_uid) {
         Map<String, String> map = new HashMap();
 
-
+        // tbl_Block (작성자, 제목, 설명, 대분류, 소분류, 날짜, 북마크id), tbl_thumbImg(url)
         map = sqlSession.selectOne("board.modifyViewGET", bl_uid);
 
         logger.info("맵은 "+map);
@@ -142,13 +171,29 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("blockPathDTO", blockPathDTO);
         sqlSession.update("board.updateBmksPath", map);
     }
-
 //    경로+파일이름 return
+
     public String getBookMark(String session_iuid) {
         return sqlSession.selectOne("board.getBookMark", session_iuid);
     }
 
     public int deleteBlock(String bl_uid) { return sqlSession.delete("board.deleteBlock", bl_uid); }
+
+    public HashMap getView(String bl_uid) {
+        Map<String, String> map = new HashMap();
+
+        sqlSession.update("board.addReadCount", bl_uid);    // 조회수를 올림
+
+        map = sqlSession.selectOne("board.getView1", bl_uid);
+
+        List <String> list = sqlSession.selectList("board.getView2", bl_uid);   // 태그 뽑음
+        for(int i = 0; i < list.size(); i++){
+            map.put("tag"+i, list.get(i));
+        }
+
+
+        return (HashMap)map;
+    }
 
 
 }

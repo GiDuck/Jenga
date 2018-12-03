@@ -42,5 +42,7 @@ public interface MemberService {
     void addMemberFavor(String aes_iuid, String[] favor);
 
     List<String> getMemFavor(String member);
+
+    MemberDTO testParam();
 }
 

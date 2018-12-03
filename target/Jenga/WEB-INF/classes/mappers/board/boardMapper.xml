@@ -4,6 +4,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		<!-- MyBatis의 경우 작성된 XML Mapper는 상단의 파일에서 사용하는 태그들에 대한 정보가 기록된 DTD를 추가 -->
 
 <mapper namespace="board">
+
+	<update id="addReadCount">
+		UPDATE
+			tbl_blockReadCount
+		SET
+			blrc_count = blrc_count + 1
+		WHERE
+			blrc_ref = #{bl_uid}
+	</update>
+<!-- 수정 중 -->
+	<select id="getView1" resultType="Map">
+		SELECT
+			B.bl_writer, B.bl_title, B.bl_description, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
+			I.bti_url, R.blrc_count, L.blk_
+		FROM
+			tbl_block B
+			INNER JOIN
+				tbl_thumbImg I
+			ON
+				B.bl_uid = I.bti_ref
+			INNER JOIN
+				tbl_blockReadCount R
+			ON
+				R.blrc_ref = B.bl_uid
+			INNER JOIN
+				tbl_blockLikes L
+			ON
+				L.
+		WHERE
+			B.bl_uid = #{bl_uid} AND R.blrc_ref = #{bl_uid}
+	</select>
+
+	<select id="getView2" resultType="String">
+		SELECT
+			bt_name
+		FROM
+			tbl_blockTags
+		WHERE
+			bt_ref = #{bl_uid}
+	</select>
+
 	<insert id="writeViewBlock">
 		INSERT INTO
     		tbl_block
@@ -11,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 				(#{boardDTO.bl_uid}, #{session_iuid}, #{boardDTO.bl_title}, #{boardDTO.bl_description}, #{boardDTO.bl_mainCtg}, #{boardDTO.bl_smCtg}, SYSDATE, #{boardDTO.bl_objId})
 	</insert>
+
 
 	<insert id="writeViewThumbImg">
 		INSERT INTO
@@ -28,6 +70,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				(#{bl_uid}, #{tag})
 	</insert>
 
+	<insert id="writeViewReadCount">
+		INSERT INTO
+			tbl_blockReadCount
+				(blrc_ref)
+			VALUES
+				(#{bl_uid})
+	</insert>
+	
+	<insert id="writeViewLikes">
+		INSERT INTO
+			tbl_blockLikes
+				(blk_ref)
+			VALUES
+				(#{bl_uid})
+	</insert>
+	
 	<select id="modifyViewGET" resultType="Map">
 		SELECT
 			B.bl_writer, B.bl_title, B.bl_description, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,

@@ -241,8 +241,9 @@ public class MemberServiceImpl implements MemberService {
 
     public List<String> getMemFavor(String member) { return dao.getMemFavor(member); }
 
-
-
+    public MemberDTO testParam() {
+        return dao.testParam();
+    }
 
 
     //     이메일 인증번호 보내는 메소드

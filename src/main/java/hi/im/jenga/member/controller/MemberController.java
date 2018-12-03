@@ -1,6 +1,7 @@
 package hi.im.jenga.member.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
@@ -59,7 +60,17 @@ public class MemberController {
     public String hi(HttpSession session) {
         logger.info("세션은 "+(MemberDTO)session.getAttribute("Member"));
 //        logger.info("세션의 iuid는 "+((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+        System.out.println("호호호호");
         return "main/main";
+    }
+
+    @RequestMapping(value = "/test")
+    public String testParam(){
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO = memberService.testParam();
+
+        logger.info(memberDTO.toString());
+        return "/";
     }
 
 

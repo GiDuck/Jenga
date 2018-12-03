@@ -6,6 +6,8 @@ import hi.im.jenga.member.dto.MemberDTO;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class MongoServiceImpl implements MongoService {
 
@@ -23,4 +25,6 @@ public class MongoServiceImpl implements MongoService {
     }
 
     public void writeViewBmks(String bl_uid) { dao.writeViewBmks(bl_uid); }
+
+    public MongoDTO  getView(String key, String bl_uid) { return dao.getView(key, bl_uid); }
 }
