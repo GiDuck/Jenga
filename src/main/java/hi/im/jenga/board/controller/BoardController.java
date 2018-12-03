@@ -1,11 +1,11 @@
-package hi.im.jenga.board.board.controller;
+package hi.im.jenga.board.controller;
 
-import hi.im.jenga.board.board.dto.BlockPathDTO;
-import hi.im.jenga.board.board.dto.BoardDTO;
-import hi.im.jenga.board.board.dto.MongoDTO;
-import hi.im.jenga.board.board.service.BoardService;
-import hi.im.jenga.board.board.service.MongoService;
-import hi.im.jenga.board.board.util.BoardUtilFile;
+import hi.im.jenga.board.dto.BlockPathDTO;
+import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.board.dto.MongoDTO;
+import hi.im.jenga.board.service.BoardService;
+import hi.im.jenga.board.service.MongoService;
+import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;

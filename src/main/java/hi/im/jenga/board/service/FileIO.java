@@ -1,4 +1,4 @@
-package hi.im.jenga.board.board.service;
+package hi.im.jenga.board.service;
 
 import java.io.*;
 

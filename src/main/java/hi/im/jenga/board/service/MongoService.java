@@ -1,6 +1,6 @@
-package hi.im.jenga.board.board.service;
+package hi.im.jenga.board.service;
 
-import hi.im.jenga.board.board.dto.MongoDTO;
+import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import org.json.simple.JSONObject;
 

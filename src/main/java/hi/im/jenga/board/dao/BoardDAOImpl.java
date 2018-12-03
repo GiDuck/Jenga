@@ -1,7 +1,7 @@
-package hi.im.jenga.board.board.dao;
+package hi.im.jenga.board.dao;
 
-import hi.im.jenga.board.board.dto.BlockPathDTO;
-import hi.im.jenga.board.board.dto.BoardDTO;
+import hi.im.jenga.board.dto.BlockPathDTO;
+import hi.im.jenga.board.dto.BoardDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

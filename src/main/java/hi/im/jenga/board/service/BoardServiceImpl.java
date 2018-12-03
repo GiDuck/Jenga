@@ -1,8 +1,8 @@
-package hi.im.jenga.board.board.service;
+package hi.im.jenga.board.service;
 
-import hi.im.jenga.board.board.dao.BoardDAO;
-import hi.im.jenga.board.board.dto.BlockPathDTO;
-import hi.im.jenga.board.board.dto.BoardDTO;
+import hi.im.jenga.board.dao.BoardDAO;
+import hi.im.jenga.board.dto.BlockPathDTO;
+import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

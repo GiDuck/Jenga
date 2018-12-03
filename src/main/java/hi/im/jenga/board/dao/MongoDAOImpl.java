@@ -1,6 +1,6 @@
-package hi.im.jenga.board.board.dao;
+package hi.im.jenga.board.dao;
 
-import hi.im.jenga.board.board.dto.MongoDTO;
+import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import org.json.simple.JSONObject;
 import org.springframework.data.mongodb.core.MongoTemplate;
