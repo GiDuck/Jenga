@@ -87,12 +87,13 @@ public class BoardController {
     @RequestMapping(value="/stackBlock", method = RequestMethod.GET)
     public String getWriteView(HttpSession session, Model model) {
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-
         String resultJSON = boardService.getBookMark(session_iuid);
+        String resultHTML = boardService.getBookMarkFromHTML();
 
         logger.info(resultJSON);
 
         model.addAttribute("resultJSON", resultJSON);
+        model.addAttribute("resultHTML", resultHTML);
 
         return "editor/stackBoard/stackBlock";
     }
@@ -292,6 +293,16 @@ public class BoardController {
         }
 
         return result;
+
+    }
+
+    @PostMapping(value="/uploadBookmarks")
+    public void uploadBookmark (@RequestPart("bookmark") String bookmark) {
+
+
+
+
+
 
     }
 

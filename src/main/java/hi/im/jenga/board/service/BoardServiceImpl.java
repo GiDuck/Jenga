@@ -88,4 +88,17 @@ public class BoardServiceImpl implements BoardService {
 
 	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
+	public String getBookMarkFromHTML() {
+
+
+		FileIO fileIO = new FileIO("bookmarks_18. 11. 29..html");
+		String result = fileIO.InputHTMLBookMark();
+
+
+		return result;
+
+
+
+	}
+
 }

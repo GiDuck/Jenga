@@ -26,4 +26,6 @@ public interface BoardService {
     HashMap getView(String bl_uid);
 
     void likeCheck(String bl_iuid, String session_mem_iuid);
+
+	String getBookMarkFromHTML();
 }
