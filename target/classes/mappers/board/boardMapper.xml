@@ -180,7 +180,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			bp_iuid = #{session_iuid}
 	</update>
 
-	<select id="getBookMark" resultType="String">
+	<select id="getBookMarkFromHTML" resultType="String">
 		SELECT
 			bp_path
 		FROM

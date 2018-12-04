@@ -36,13 +36,13 @@ public class FileIO {
 
 			/*reader = new FileReader(file);*/
 //		buffer = new BufferedReader(new InputStreamReader(new FileInputStream(filePath+fileName),"UTF-8"));
-		buffer = new BufferedReader(new InputStreamReader(new FileInputStream(fileFullName), "UTF-8"));
-		
+			buffer = new BufferedReader(new InputStreamReader(new FileInputStream(fileFullName), "UTF-8"));
+
 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 
@@ -135,7 +135,7 @@ public class FileIO {
 
 			try {
 				buffer.close();
-				reader.close();
+//				reader.close();
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

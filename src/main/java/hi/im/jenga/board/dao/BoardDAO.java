@@ -25,7 +25,7 @@ public interface BoardDAO {
 
     void updateBmksPath(String session_iuid, BlockPathDTO blockPathDTO);
 
-    String getBookMark(String session_iuid);
+    String getBookMarkFromHTML(String session_iuid);
 
     int deleteBlock(String bl_uid);
 

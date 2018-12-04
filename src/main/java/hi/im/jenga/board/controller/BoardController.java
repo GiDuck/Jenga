@@ -87,12 +87,10 @@ public class BoardController {
     @RequestMapping(value="/stackBlock", method = RequestMethod.GET)
     public String getWriteView(HttpSession session, Model model) {
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-        String resultJSON = boardService.getBookMark(session_iuid);
-        String resultHTML = boardService.getBookMarkFromHTML();
+        String resultHTML = boardService.getBookMarkFromHTML(session_iuid);
 
-        logger.info(resultJSON);
+        logger.info(resultHTML);
 
-        model.addAttribute("resultJSON", resultJSON);
         model.addAttribute("resultHTML", resultHTML);
 
         return "editor/stackBoard/stackBlock";
@@ -265,7 +263,7 @@ public class BoardController {
         try {
             logger.info("업로드 된 파일");
             logger.info("파일 이름은 "+uploadFile.getOriginalFilename());
-            logger.info("사진 사이즈 "+uploadFile.getSize());
+            logger.info("파일 사이즈 "+uploadFile.getSize());
             logger.info("머고이건 "+uploadFile.getBytes().toString());
 
             String uploadPath = boardUtilFile.fileUpload(request, uploadFile, "block");

@@ -23,17 +23,6 @@ public class BoardServiceImpl implements BoardService {
 		this.dao = dao;
 	}
 
-	public String getBookMark(String session_iuid) {
-		// 사용자가 지정해준 경로에가서 Bookmarks 라는 이름의 파일을 읽어서 String으로 return
-		String fileFullName = dao.getBookMark(session_iuid);
-
-		FileIO fileIO = new FileIO(fileFullName);
-
-
-		return fileIO.InputBookMark();
-
-	}
-
 	public void writeViewBlock(String session_iuid, BoardDTO boardDTO) {
 
 		dao.writeViewBlock(boardDTO, session_iuid);
@@ -88,17 +77,15 @@ public class BoardServiceImpl implements BoardService {
 
 	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
-	public String getBookMarkFromHTML() {
+	public String getBookMarkFromHTML(String session_iuid) {
 
+		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 
-		FileIO fileIO = new FileIO("bookmarks_18. 11. 29..html");
+		FileIO fileIO = new FileIO(fileFullName);
 		String result = fileIO.InputHTMLBookMark();
 
-
 		return result;
-
-
-
 	}
+
 
 }

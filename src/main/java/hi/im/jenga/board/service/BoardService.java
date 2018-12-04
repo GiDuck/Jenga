@@ -7,8 +7,6 @@ import java.util.HashMap;
 
 public interface BoardService {
 
-    String getBookMark(String session_iuid);
-
     void writeViewBlock(String session_iuid, BoardDTO boardDTO) throws Exception;
 
     void writeViewThumbImg(String bl_uid, String uploadName);
@@ -27,5 +25,5 @@ public interface BoardService {
 
     void likeCheck(String bl_iuid, String session_mem_iuid);
 
-	String getBookMarkFromHTML();
+    String getBookMarkFromHTML(String session_iuid);
 }

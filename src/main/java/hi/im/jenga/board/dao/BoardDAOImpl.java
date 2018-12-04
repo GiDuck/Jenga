@@ -10,6 +10,16 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import hi.im.jenga.board.dto.BlockPathDTO;
+import hi.im.jenga.board.dto.BoardDTO;
+import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -171,10 +181,10 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("blockPathDTO", blockPathDTO);
         sqlSession.update("board.updateBmksPath", map);
     }
-//    경로+파일이름 return
 
-    public String getBookMark(String session_iuid) {
-        return sqlSession.selectOne("board.getBookMark", session_iuid);
+    //    경로+파일이름 return
+    public String getBookMarkFromHTML(String session_iuid) {
+        return sqlSession.selectOne("board.getBookMarkFromHTML", session_iuid);
     }
 
     public int deleteBlock(String bl_uid) { return sqlSession.delete("board.deleteBlock", bl_uid); }

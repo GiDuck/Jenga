@@ -18,6 +18,9 @@ public class BoardUtilFile {
     private String BLOCK_IMAGE_PATH;
     @Value("#{data['block.path']}")
     private String BLOCK_PATH;
+
+
+    private String BLOCK_FINAL_PATH;
     private static final Logger logger = LoggerFactory.getLogger(BoardUtilFile.class);
     String fileName = "";
     File file;
@@ -38,6 +41,7 @@ public class BoardUtilFile {
         try {
 
             fileName = uploadFile.getOriginalFilename();
+            logger.info("들어오자마자 " + fileName);
 
 
 //          Image가 들어오면
@@ -82,16 +86,21 @@ public class BoardUtilFile {
 
 //          block path로 들어오면
             else {
-                File uploadPath = new File(BLOCK_PATH, getFolder());
+                File uploadPath = new File(BLOCK_PATH, getFolder());    // 이 경로에가서 /년/월/일  폴더를 만듬
                 // yyyy/MM/dd 폴더를 만듬
                 if(uploadPath.exists() == false){
                     uploadPath.mkdirs();
                 }
 
                 logger.info("BoardUtilFile fileUpload fileName : " + fileName);
-                logger.info("BoardUtilFile fileUpload path : " + BLOCK_PATH);
+                logger.info("요기요기");
+                logger.info("BoardUtilFile fileUpload path : " +uploadPath.getName());  // 04
+                logger.info("BoardUtilFile fileUpload path : " +uploadPath.getAbsolutePath()+"\\"+fileName);
+                logger.info("BoardUtilFile fileUpload path : " +uploadPath.getPath()+"\\"+fileName);
 
+                BLOCK_FINAL_PATH = uploadPath.getPath()+"\\"+fileName;
 
+//                file = new File(BLOCK_FINAL_PATH, fileName);
                 file = new File(uploadPath, fileName);
 
             }
@@ -99,7 +108,7 @@ public class BoardUtilFile {
 
 
 
-            logger.info("file direcroty"+file.isDirectory());
+            logger.info("file direcroty "+file.isDirectory());
 
 
             byte[] bytes = uploadFile.getBytes();
@@ -133,7 +142,8 @@ public class BoardUtilFile {
             return fileName;
         }
         logger.info("그냥입니다");
-        return BLOCK_PATH + fileName;
+        return BLOCK_FINAL_PATH;
+//        return BLOCK_PATH + fileName;
     }
 
 //  업로드 파일 저장 경로 얻는 메소드
