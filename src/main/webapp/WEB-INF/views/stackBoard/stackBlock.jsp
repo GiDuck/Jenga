@@ -149,19 +149,37 @@ background-color : blue;
               
               
               <h6>Categories</h6>
-              <div id="tags-2">
+              <div id="tags-2" class="row">
                
-            <div class="dropdown">
-				  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="categorySelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    카테고리 선택
+            <div class="dropdown col-6">
+				  <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="categorySelect1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				   대분류
 				  </a>
 				
-				  <div class="dropdown-menu" aria-labelledby="categorySelect">
+				  <div class="dropdown-menu" aria-labelledby="categorySelect1">
 				    <a class="dropdown-item" href="#categorySelect">Action</a>
 				    <a class="dropdown-item" href="#categorySelect">Another action</a>
 				    <a class="dropdown-item" href="#categorySelect">Something else here</a>
 				  </div>
+				
+				  
 			</div>
+			
+			<div class="dropdown col-6">
+			
+			    <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="categorySelect2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    소분류
+				  </a>
+				
+				  <div class="dropdown-menu" aria-labelledby="categorySelect2">
+				    <a class="dropdown-item" href="#categorySelect">Action</a>
+				    <a class="dropdown-item" href="#categorySelect">Another action</a>
+				    <a class="dropdown-item" href="#categorySelect">Something else here</a>
+				  </div>
+			
+			</div>
+	
+			
            </div>
            
            <br>
@@ -188,13 +206,13 @@ background-color : blue;
                 <h6>Title
                   <span class="icon-danger">*</span>
                 </h6>
-                <input type="text" class="form-control border-input" placeholder="제목을 입력하세요..">
+                <input type="text" class="form-control border-input" placeholder="&nbsp제목을 입력하세요..">
               </div>
               <div class="form-group">
                 <h6>Introduce
                   <span class="icon-danger">*</span>
                 </h6>
-                <input type="text" class="form-control border-input" placeholder="소개를 입력하세요..">
+                <textarea class="form-control border-input" placeholder="소개를 입력하세요.." rows="3"></textarea>
               </div>
               <div class="row">
                 <div class="col-12">
@@ -202,7 +220,7 @@ background-color : blue;
                     <span class="icon-danger">*</span>
                   </h6>
                   <div class="input-group border-input">
-                    <input id="today" type="text" value="0000-00-00" class="form-control border-input" disabled=true>
+                    <input id="today" type="text" class="form-control border-input" disabled=true>
                   </div>
                 </div>
               </div>
@@ -213,23 +231,25 @@ background-color : blue;
                 <h6>Description</h6>
                 <br>
                 <section id="editor">
-	                <textarea id="summernoteEditor">
-	                </textarea>
+	                
+	                <iframe src="${pageContext.request.contextPath}/resources/editor.html" width="100%" height="500" style="border:0"></iframe>
+	                
                 </section>
               </div>
-              <div class="form-check">
+              
+            </div>
+          </div>
+            
+          
+          <div class="row buttons-row">
+          <div class="form-check col-12">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value=""> Display on landing page
+                  <input class="form-check-input" type="checkbox" value=""> 나는 저작권을 준수하며 불법 자료를 올리지 않는다고 약속합니다.
                   <span class="form-check-sign"></span>
                 </label>
               </div>
-            </div>
-          </div>
+             <br><br><br>
           
-          <br><br><br>
-          
-          
-          <div class="row buttons-row">
             <div class="col-md-4 col-sm-4">
               <button class="btn btn-outline-danger btn-block btn-round">Cancel</button>
             </div>
@@ -1178,14 +1198,14 @@ background-color : blue;
 		    };
 		};
  	  
-	  $("#summernoteEditor").summernote({
+	  /* $("#summernoteEditor").summernote({
 		  
 	        placeholder: '내용을 작성하세요..',
 	        height: 300,
 	        focus : true,
 	        dialogsInBody: true
 
-	  });
+	  }); */
 	  
 	  attachBtnEvent();
 
@@ -1198,7 +1218,7 @@ background-color : blue;
 	 setKeyListener();
 
 	 let today = new Date();
-	 let todayStr = today.getFullYear()+"년 "+today.getMonth()+"월 "+today.getDay()+"일";
+	 let todayStr = " " + today.getFullYear()+"년 "+today.getMonth()+"월 "+today.getDay()+"일";
 	 
 	 $("#today").val(todayStr);
 
