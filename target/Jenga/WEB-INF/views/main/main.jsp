@@ -9,29 +9,37 @@
 
 </div>
 <script>
+$(document).ready(function() {
 
-$(document).ready( _ => {
-	setNavType("blue");
+    setNavType("blue");
 
-	$("#moveBtn").on('click', _ => {
-		location.replace("/login"); //원래 /join#reg 머시기 였음
-	});
-});
 
-$(document).ready( _ => {
-	setNavType("blue");
-	$("#delBtn").on('click', _ => {
-	    location.href="delMemInfo";
+    $("#moveBtn").on('click', function () {
+
+        location.replace("/login");  //원래 /join#regForm 머시기 였음
+
     });
-});
 
-$(document).ready( _ => {
-	setNavType("blue");
-	$("#modBtn").on('click', _ => {
-	    location.href="modMemInfo";
+    $("#moveBtn2").on('click', function () {
+
+        location.replace("/board/stackBlock");
     });
-});
 
+    $(document).ready(_ => {
+        setNavType("blue");
+        $("#delBtn").on('click', _ => {
+            location.href = "delMemInfo";
+        });
+    });
+
+    $(document).ready(_ => {
+        setNavType("blue");
+        $("#modBtn").on('click', _ => {
+            location.href = "modMemInfo";
+        });
+    });
+
+});
 
 
 

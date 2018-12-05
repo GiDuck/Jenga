@@ -1,5 +1,7 @@
 package hi.im.jenga.board.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.board.dto.MongoDTO;
@@ -20,8 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  *
@@ -81,16 +82,47 @@ public class BoardController {
 
 
 
-    // 완료 / 뷰에서 뽑으면 됨
+    // TODO 카테고리 목록을 DB에서 가져옴
     // 사용자의 업로드 파일을 읽어와서 String으로 반환 -> html경로 저장해서 html 파일을 읽어와서 String으로 반환해야함
     // 글쓰는페이지 GET
     @RequestMapping(value="/stackBlock", method = RequestMethod.GET)
-    public String getWriteView(HttpSession session, Model model) {
+    public String getWriteView(HttpSession session, Model model) throws JsonProcessingException {
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+
+//        임시로 카테고리 목록 후에 DB에서 꺼내와야함
+        Map<String, List<String>> category = new HashMap<String, List<String>>();
+
+        List<String> sport = new ArrayList<String>();
+        sport.add("축구");
+        sport.add("농구");
+        sport.add("스키");
+        sport.add("수영");
+        category.put("스포츠", sport);
+
+        List<String> social = new ArrayList<String>();
+        social.add("시사");
+        social.add("정치");
+        social.add("국제");
+        social.add("수영");
+        category.put("사회", social);
+
+        List<String> life = new ArrayList<String>();
+        life.add("요리");
+        life.add("독서");
+        life.add("패션");
+        category.put("라이프", life);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        String categoryJSON = mapper.writeValueAsString(category);
+
+
+
         String resultHTML = boardService.getBookMarkFromHTML(session_iuid);
 
         logger.info(resultHTML);
 
+        model.addAttribute("category",categoryJSON);
         model.addAttribute("resultHTML", resultHTML);
 
         return "editor/stackBoard/stackBlock";
