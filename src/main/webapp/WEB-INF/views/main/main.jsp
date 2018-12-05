@@ -11,19 +11,19 @@
 
 <script>
 
-$(document).ready( _ => {
+$(document).ready(function(){
 
 	setNavType("blue");
 
 	
 	
-	$("#moveBtn").on('click', _ => {
+	$("#moveBtn").on('click',function(){
 		
 		location.replace("/join#regForm");
 		
 	});
 	
-	$("#moveBtn2").on('click', _ => {
+	$("#moveBtn2").on('click', function(){
 		
 		location.replace("/board/stackBlock");
 

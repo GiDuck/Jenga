@@ -131,88 +131,39 @@ background-color : blue;
                   <span class="btn btn-outline-default btn-round btn-file">
                     <span class="fileinput-new">Select image</span>
                   <span class="fileinput-exists">Change</span>
-                  <input type="file" name="...">
+                  <input type="file" name="thumbnail_Img">
                   </span>
-                  <a href="#paper-kit" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                  <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
                 </div>
               </div>
                
               <h6>Tags&nbsp<i class="nc-icon nc-alert-circle-i" data-container="body" data-toggle="popover" data-placement="top" data-content="태그를 입력하시고 엔터를 치시면 입력됩니다."></i></h6>
              
               <div id="tags">
-                <input class="tagsinput" data-color="success" type="text" placeHolder="태그를 입력하세요.." data-role="tagsinput" />
-                <!-- <div class="tagsinput-add"></div> -->
-                <!-- You can change "tag-primary" with with "tag-info", "tag-success", "tag-warning","tag-danger" -->
-              </div>
+                <input id="tagsinput" class="tagsinput" data-color="success" type="text" placeHolder="태그를 입력하세요.."/>
+               </div>
               
               <br>
               
               
-              <h6>Categories</h6>
-              <div id="tags-2" class="row">
-               
-            <div class="dropdown col-6">
-				  <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="categorySelect1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				   대분류
-				  </a>
-				
-				  <div class="dropdown-menu" aria-labelledby="categorySelect1">
-				    <a class="dropdown-item" href="#categorySelect">Action</a>
-				    <a class="dropdown-item" href="#categorySelect">Another action</a>
-				    <a class="dropdown-item" href="#categorySelect">Something else here</a>
-				  </div>
-				
-				  
-			</div>
-			
-			<div class="dropdown col-6">
-			
-			    <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="categorySelect2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    소분류
-				  </a>
-				
-				  <div class="dropdown-menu" aria-labelledby="categorySelect2">
-				    <a class="dropdown-item" href="#categorySelect">Action</a>
-				    <a class="dropdown-item" href="#categorySelect">Another action</a>
-				    <a class="dropdown-item" href="#categorySelect">Something else here</a>
-				  </div>
-			
-			</div>
-	
-			
-           </div>
+   
            
            <br>
            
-           
-              <h6>Format
-                <span class="icon-danger">*</span>
-              </h6>
-              <div class="form-check-radio">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"> Digital
-                  <span class="form-check-sign"></span>
-                </label>
-              </div>
-              <div class="form-check-radio">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked> Print
-                  <span class="form-check-sign"></span>
-                </label>
-              </div>
+
             </div>
             <div class="col-md-7 col-sm-7">
               <div class="form-group">
                 <h6>Title
                   <span class="icon-danger">*</span>
                 </h6>
-                <input type="text" class="form-control border-input" placeholder="&nbsp제목을 입력하세요..">
+                <input name="input_title" type="text" class="form-control border-input" placeholder="&nbsp제목을 입력하세요..">
               </div>
               <div class="form-group">
                 <h6>Introduce
                   <span class="icon-danger">*</span>
                 </h6>
-                <textarea class="form-control border-input" placeholder="소개를 입력하세요.." rows="3"></textarea>
+                <textarea name="input_introduce" class="form-control border-input" placeholder="소개를 입력하세요.." rows="3"></textarea>
               </div>
               <div class="row">
                 <div class="col-12">
@@ -225,23 +176,53 @@ background-color : blue;
                 </div>
               </div>
               
+              
+              <br><br>
+              
+              
+               <h6>Categories</h6>
+              <div id="tags-2" class="row w-100">
+               
+            <div class="dropdown col-6">
+				  <a id="mainCategory" class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="categorySelect1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">대분류</a>
+				
+				  <div id="mainCategoryItem" class="dropdown-menu" aria-labelledby="categorySelect1"></div>
+		</div>
+			
+			<div class="dropdown col-6">
+			
+			    <a id="subCategory" class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="categorySelect2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">소분류</a>
+				
+				  <div id="subCategoryItem" class="dropdown-menu" aria-labelledby="categorySelect2"></div>
+			
+			</div>
+	
+			
+           </div>
+              
+              
               <br>
               
-              <div class="form-group">
-                <h6>Description</h6>
-                <br>
-                <section id="editor">
-	                
-	                <iframe src="${pageContext.request.contextPath}/resources/editor.html" width="100%" height="500" style="border:0"></iframe>
-	                
-                </section>
-              </div>
+
               
             </div>
           </div>
             
           
           <div class="row buttons-row">
+          
+          
+              <div class="form-group col-12">
+                <h6>Description</h6>
+                <br>
+                <section>
+	                
+	                <iframe  id="editor" src="${pageContext.request.contextPath}/resources/editor.html" width="100%" height="500" style="border:0"></iframe>
+	                
+                </section>
+              </div>
+          
+          
           <div class="form-check col-12">
                 <label class="form-check-label">
                   <input class="form-check-input" type="checkbox" value=""> 나는 저작권을 준수하며 불법 자료를 올리지 않는다고 약속합니다.
@@ -853,11 +834,73 @@ background-color : blue;
 	});	
 	
 	$("#saveBtn").on('click', function(e){
+		
+		console.log("태그6");
+		e.preventDefault();
+		
+		let image = $("input[name='thumbnail_Img']").prop("files");
+		let title = $("input[name='input_title']").val();
+		let introduce = $("textarea[name='input_introduce']").val();
+		let category = $("#mainCategory").html();
+		let content = $("#editor").contents().find("#summernote").val();
+		let tags = $("#tagsinput").val();
+		let tagsContainer = tags.split(",");
+		let time = new Date().getTime();
+		
+		console.log("작성한 글 내용");
+		console.log(editedBKElements);
+		console.log(image);
+		console.log(title);
+		console.log(introduce);
+		console.log(category);
+		console.log(content);
+		console.log(tagsContainer);
+		console.log(time);
+		
+		let formData = new FormData();
+		formData.append("image", image[0]);
+		formData.append("title", title);
+		formData.append("bookmarks", editedBKElements);
+		formData.append("introduce", introduce);
+		formData.append("category", category);
+		formData.append("tags", tagsContainer);
+		formData.append("time", time);
+
+		console.log(formData);
+		
+		$.ajax({
+			
+			url : "/board/uploadBlock",
+			
+			enctype: "multipart/form-data",
+			contentType: false, 
+			cache: false,
+			processData:false,
+			data : {param : formData},
+			type : "POST",
+			success : function(response){
+				
+				alert("전송성공");
+			},
+			error : function(xhs, status, error){
+				
+				
+				alert("전송 실패 " + status);
+
+
+			}
+			
+			
+			
+			
+			
+		});
 
 		
-		console.log("item");
-		console.log(editedBKElements);
 		
+		
+
+
 	});
 	
 
@@ -1183,6 +1226,66 @@ background-color : blue;
 	  
   }
   
+  
+  function setCategory(categoryObj){
+	  
+	  
+	  
+	  let $mainField = $("#mainCategoryItem");
+	  let mainCategory = Object.keys(categoryObj);
+	  
+	  
+	  console.log("카테고리");
+	  console.log(categoryObj);
+	  console.log(categoryObj[0]);
+	  console.log(mainCategory);
+
+	  
+	  let $subField = $("#subCategoryItem");
+	  let $childForm = $("<a>").addClass("dropdown-item");
+	  
+	  for(let i = 0; i<mainCategory.length; ++i){
+		  
+		  let $mainChild = $childForm.clone();
+		  $mainChild.html(mainCategory[i]);
+		  
+		  $mainChild.on('click', function(e){
+			  e.preventDefault();
+			  let selected = $(this).html();
+				
+			  //메인 카테고리 선택시 드롭다운 메뉴가 선택한 카테고리로 초기화
+			  $("#mainCategory").html(selected);
+			  let subCategory = categoryObj[selected];
+
+			  
+			  $subField.empty();
+			  $("#subCategory").html(subCategory[0]);
+			 
+			  for(let j=0; j<subCategory.length; ++j){
+				  let $subChild = $childForm.clone();
+				  $subChild.html(subCategory[j]);
+				  $subField.append($subChild);
+
+				  $subChild.on('click', function(e){
+					  e.preventDefault();
+					  $("#subCategory").html($(this).html());
+					  
+				  });
+				  
+				  
+			  }
+			  
+			  
+		  });
+		  
+		  $mainField.append($mainChild);
+		
+		  
+		  
+	  }
+	  
+  }
+  
 
 
 
@@ -1197,18 +1300,12 @@ background-color : blue;
 		        return this[this.length - 1];
 		    };
 		};
- 	  
-	  /* $("#summernoteEditor").summernote({
-		  
-	        placeholder: '내용을 작성하세요..',
-	        height: 300,
-	        focus : true,
-	        dialogsInBody: true
-
-	  }); */
 	  
 	  attachBtnEvent();
-
+	  let category = '${category}';
+	  category = JSON.parse(category);
+	  
+	  setCategory(category);
 	  
 	 let parsedHTML =  parseHTML('${resultHTML}');
 	  
@@ -1218,7 +1315,7 @@ background-color : blue;
 	 setKeyListener();
 
 	 let today = new Date();
-	 let todayStr = " " + today.getFullYear()+"년 "+today.getMonth()+"월 "+today.getDay()+"일";
+	 let todayStr = " " + today.getFullYear()+"년 "+(today.getMonth() + 1)+"월 "+today.getDate()+"일";
 	 
 	 $("#today").val(todayStr);
 
