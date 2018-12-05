@@ -8,7 +8,7 @@ public class BoardDTO {
     private String bl_description;
     private String bl_mainCtg;              // FK (-> tbl_mCategory(mctg_uid)
     private String bl_smCtg;                // FK (-> tbl_sCategory(sctg_uid)
-    private String  bl_date;
+    private String bl_date;
 /*
     Date bl_date;
 */

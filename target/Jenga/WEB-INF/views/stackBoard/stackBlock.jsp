@@ -860,7 +860,7 @@
 		let formData = new FormData();
 		formData.append("image", image[0]);
 		formData.append("title", title);
-		formData.append("bookmarks", editedBKElements);
+		formData.append("bookmarks", JSON.stringify(editedBKElements));
 		formData.append("introduce", introduce);
 		formData.append("category", category);
 		formData.append("tags", tagsContainer);
@@ -876,7 +876,7 @@
 			contentType: false, 
 			cache: false,
 			processData:false,
-			data : {param : formData},
+			data : formData,
 			type : "POST",
 			success : function(response){
 				

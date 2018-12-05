@@ -7,16 +7,229 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75609a18-15e7-4d79-b597-56d7d0750a0f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/vo/BoardDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/vo/BoardDTO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/controller/BoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/main/main.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/editor.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/editor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.agignore" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.agignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.eslintrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.github/CODE_OF_CONDUCT.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.github/CODE_OF_CONDUCT.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.github/CONTRIBUTING.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.github/CONTRIBUTING.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.github/ISSUE_TEMPLATE.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.github/ISSUE_TEMPLATE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.github/PULL_REQUEST_TEMPLATE.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.github/PULL_REQUEST_TEMPLATE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.npmignore" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.npmignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/Gruntfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/Gruntfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/MAINTAIN.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/MAINTAIN.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/airmode.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/airmode.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/bs2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/bs2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/bs3.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/bs3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/bs4.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/bs4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/codemirror.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/codemirror.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/custom-style.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/custom-style.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/example.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/example.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/external-api.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/external-api.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/hint-emoji.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/hint-emoji.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/hint-symbols_mathematical-symbols_Greek-letters.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/hint-symbols_mathematical-symbols_Greek-letters.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/hint-userdefine.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/hint-userdefine.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/ie8.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/ie8.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/jquery-custom-event.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/jquery-custom-event.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/lang.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/lang.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/link-blank.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/link-blank.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/lite.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/lite.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/ondialog-multitab.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/ondialog-multitab.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/ondialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/ondialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/placeholder.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/placeholder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/plugin-hello.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/plugin-hello.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/textarea.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/textarea.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/toolbar-container.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/toolbar-container.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/with-google-font.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/examples/with-google-font.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/grunts/grunt-build.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/grunts/grunt-build.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/karma.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/karma.conf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ar-AR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ar-AR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-bg-BG.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-bg-BG.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ca-ES.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ca-ES.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-cs-CZ.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-cs-CZ.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-da-DK.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-da-DK.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-de-DE.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-de-DE.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-el-GR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-el-GR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-es-ES.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-es-ES.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-es-EU.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-es-EU.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-fa-IR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-fa-IR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-fi-FI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-fi-FI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-fr-FR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-fr-FR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-gl-ES.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-gl-ES.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-he-IL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-he-IL.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-hr-HR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-hr-HR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-hu-HU.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-hu-HU.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-id-ID.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-id-ID.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-it-IT.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-it-IT.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ja-JP.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ja-JP.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ko-KR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ko-KR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-lt-LT.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-lt-LT.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-lt-LV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-lt-LV.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-mn-MN.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-mn-MN.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-nb-NO.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-nb-NO.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-nl-NL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-nl-NL.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-pl-PL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-pl-PL.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-pt-BR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-pt-BR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-pt-PT.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-pt-PT.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ro-RO.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ro-RO.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ru-RU.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ru-RU.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sk-SK.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sk-SK.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sl-SI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sl-SI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sr-RS-Latin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sr-RS-Latin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sr-RS.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sr-RS.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sv-SE.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-sv-SE.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ta-IN.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-ta-IN.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-th-TH.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-th-TH.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-tr-TR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-tr-TR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-uk-UA.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-uk-UA.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-uz-UZ.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-uz-UZ.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-vi-VN.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-vi-VN.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-zh-CN.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-zh-CN.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-zh-TW.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/lang/summernote-zh-TW.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/plugin/databasic/summernote-ext-databasic.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/plugin/databasic/summernote-ext-databasic.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/plugin/databasic/summernote-ext-databasic.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/plugin/databasic/summernote-ext-databasic.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/plugin/hello/summernote-ext-hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/plugin/hello/summernote-ext-hello.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/plugin/specialchars/summernote-ext-specialchars.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/plugin/specialchars/summernote-ext-specialchars.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-center.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-center.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-indent.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-indent.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-justify.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-justify.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-outdent.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-outdent.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-right.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/align-right.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/arrows-alt.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/arrows-alt.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/bold.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/bold.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/circle.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/circle.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/code.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/code.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/col-after.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/col-after.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/col-before.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/col-before.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/col-remove.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/col-remove.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/font.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/font.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/frame.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/frame.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/italic.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/italic.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/magic.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/magic.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/picture.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/picture.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/question.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/question.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/redo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/redo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/row-above.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/row-above.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/row-below.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/row-below.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/row-remove.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/row-remove.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/special-character.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/special-character.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/square.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/square.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/strikethrough.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/strikethrough.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/subscript.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/subscript.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/summernote.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/summernote.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/superscript.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/superscript.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/table.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/table.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/templates/summernote.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/templates/summernote.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/templates/summernote.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/templates/summernote.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/text-height.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/text-height.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/underline.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/underline.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/undo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/icons/undo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/Context.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/Context.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/async.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/async.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/dom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/dom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/env.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/env.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/func.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/func.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/lists.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/lists.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/range.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/core/range.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/Bullet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/Bullet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/History.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/History.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/Style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/Style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/Table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/Typing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/editing/Typing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/AirPopover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/AirPopover.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/AutoLink.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/AutoLink.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/AutoSync.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/AutoSync.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Buttons.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Buttons.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Clipboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Clipboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Codeview.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Codeview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Dropzone.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Dropzone.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Editor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Editor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Fullscreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Fullscreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Handle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Handle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/HelpDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/HelpDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/HintPopover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/HintPopover.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/ImageDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/ImageDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/ImagePopover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/ImagePopover.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/LinkDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/LinkDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/LinkPopover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/LinkPopover.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Placeholder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Placeholder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Statusbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Statusbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/TablePopover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/TablePopover.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Toolbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/Toolbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/VideoDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/module/VideoDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/renderer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/summernote-en-US.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/base/summernote-en-US.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/bs3/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/bs3/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/bs3/ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/bs3/ui.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/bs4/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/bs4/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/bs4/ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/bs4/ui.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui/DropdownUI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui/DropdownUI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui/ModalUI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui/ModalUI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui/PopoverUI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui/PopoverUI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui/TooltipUI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/lite/ui/TooltipUI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/summernote.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/js/summernote.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/elements.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/elements.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/elements.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/elements.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/all.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/all.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/btn-group.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/btn-group.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/buttons.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/buttons.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/common.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/common.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/dropdown.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/dropdown.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/form.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/form.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/mixins/buttons.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/mixins/buttons.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/modal.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/modal.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/popover.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/popover.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/toolbar.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/toolbar.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/tooltip.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/tooltip.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/variables.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/lite-ui/variables.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote-bs4.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote-bs4.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote-bs4.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote-bs4.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote-lite.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote-lite.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/src/less/summernote.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/chaidom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/chaidom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/e2e/html/initialization.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/e2e/html/initialization.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/e2e/initialization.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/e2e/initialization.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/e2e/static-server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/e2e/static-server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/libs/sauce.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/libs/sauce.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/nightwatch.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/nightwatch.conf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/Context.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/Context.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/dom.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/dom.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/func.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/func.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/key.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/key.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/lists.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/lists.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/range.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/core/range.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/editing/Table.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/editing/Table.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/editing/Typing.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/editing/Typing.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/editing/style.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/editing/style.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/Buttons.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/Buttons.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/Codeview.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/Codeview.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/Editor.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/Editor.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/Fullscreen.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/Fullscreen.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/LinkDialog.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/LinkDialog.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/VideoDialog.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/test/unit/base/module/VideoDialog.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga.war" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/stackBlock.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/stackBlock.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/controller/BoardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/controller/BoardController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/editor.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/editor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/controller/BoardController.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/hi.im.jenga/Jenga/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -61,25 +274,27 @@
         <counts>
           <entry key="class" value="7" />
           <entry key="classpath" value="1" />
-          <entry key="java" value="225" />
+          <entry key="html" value="1" />
+          <entry key="java" value="228" />
           <entry key="jpg" value="2" />
           <entry key="js" value="6" />
-          <entry key="jsp" value="70" />
+          <entry key="jsp" value="73" />
           <entry key="springBeans" value="1" />
           <entry key="svg" value="2" />
-          <entry key="xml" value="69" />
+          <entry key="xml" value="71" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="7" />
           <entry key="Eclipse" value="2" />
+          <entry key="HTML" value="1" />
           <entry key="Image" value="2" />
-          <entry key="JAVA" value="225" />
-          <entry key="JSP" value="70" />
+          <entry key="JAVA" value="228" />
+          <entry key="JSP" value="73" />
           <entry key="JavaScript" value="6" />
           <entry key="SVG" value="2" />
-          <entry key="XML" value="69" />
+          <entry key="XML" value="71" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -114,12 +329,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="130" column="6" lean-forward="true" selection-start-line="130" selection-start-column="6" selection-end-line="130" selection-end-column="6" />
+            <state relative-caret-position="452">
+              <caret line="79" column="5" lean-forward="true" selection-start-line="79" selection-start-column="5" selection-end-line="79" selection-end-column="5" />
               <folding>
+                <element signature="method#BoardController#0;class#BoardController#0" />
                 <element signature="e#2731#2753#0" expanded="true" />
                 <element signature="e#2749#2757#0" expanded="true" />
                 <element signature="e#2941#2949#0" expanded="true" />
@@ -129,14 +345,56 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/controller/BoardController.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="34" column="52" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="52" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="390">
+              <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="376">
+              <caret line="59" column="92" selection-start-line="59" selection-start-column="92" selection-end-line="59" selection-end-column="92" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4365">
+              <caret line="291" column="35" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssWithEditor.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="105" selection-start-line="5" selection-start-column="105" selection-end-line="5" selection-end-column="105" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/editor.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssFiles.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
@@ -144,8 +402,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="368" column="18" lean-forward="true" selection-start-line="368" selection-start-column="18" selection-end-line="369" selection-end-column="17" />
+            <state relative-caret-position="248">
+              <caret line="219" column="153" selection-start-line="219" selection-start-column="153" selection-end-line="219" selection-end-column="153" />
+              <folding>
+                <element signature="n#style#0;n#iframe#0;n#section#0;n#div#0;n#div#3;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -154,7 +415,16 @@
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
-              <caret line="30" column="41" lean-forward="true" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+              <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/jsFiles.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="114" selection-start-line="16" selection-start-column="114" selection-end-line="16" selection-end-column="114" />
             </state>
           </provider>
         </entry>
@@ -198,6 +468,7 @@
       <find>modal</find>
       <find>parseHTML</find>
       <find>saveBtn</find>
+      <find>iframe</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -206,8 +477,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/FacebookLoginApi.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/GoogleLoginApi.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/KakaoLoginApi.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/NaverLoginApi.java" />
@@ -257,6 +526,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/controller/BoardController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/editor.html" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java" />
       </list>
     </option>
   </component>
@@ -354,6 +625,22 @@
               <item name="Jenga" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="board" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -362,7 +649,33 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="summernote-master" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -380,7 +693,8 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="tiles" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -389,8 +703,8 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="tiles" type="462c0819:PsiDirectoryNode" />
+              <item name="layout" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -399,8 +713,8 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="stackBoard" type="462c0819:PsiDirectoryNode" />
+              <item name="tiles" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -412,7 +726,7 @@
     <property name="SearchEverywhereHistoryKey" value="parseHTML&#9;null&#9;null&#10;Board&#9;FILE&#9;file://Y:/go/SPRING/Intellij/Jenga/bin/src/main/java/hi/im/jenga/Board" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544003062719" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544005067209" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -595,12 +909,12 @@
       <workItem from="1543832360025" duration="13034000" />
       <workItem from="1543853139243" duration="414000" />
       <workItem from="1543901762286" duration="10824000" />
-      <workItem from="1543975075117" duration="9086000" />
+      <workItem from="1543975075117" duration="11226000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="334062000" />
+    <option name="totallyTimeSpent" value="336202000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -615,7 +929,7 @@
     <frame x="-1928" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4983108" visible="true" weight="0.12686567" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4983108" visible="true" weight="0.12686567" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -625,14 +939,14 @@
       <window_info id="UI Designer" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.24929972" />
-      <window_info anchor="bottom" x="-1313" y="147" width="1190" height="557" id="Run" order="2" weight="0.2867884" />
+      <window_info anchor="bottom" x="-1313" y="147" width="1190" height="557" id="Run" order="2" visible="true" weight="0.2867884" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39849624" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.24929972" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" weight="0.32975295" />
       <window_info anchor="bottom" id="Application Servers" order="8" weight="0.21568628" />
-      <window_info active="true" anchor="bottom" id="Messages" order="9" visible="true" weight="0.32223415" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.32223415" />
       <window_info anchor="bottom" id="Spring" order="10" weight="0.32867885" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.25993556" />
       <window_info anchor="bottom" id="CheckStyle" order="12" weight="0.32956383" />
@@ -647,7 +961,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" sideWeight="0.498452" weight="0.11094225" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="right" id="Maven Projects" order="4" weight="0.32902735" />
+      <window_info anchor="right" id="Maven Projects" order="4" weight="0.17377399" />
       <window_info anchor="right" id="Database" order="5" weight="0.3295302" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Theme Preview" order="7" />
@@ -713,13 +1027,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.springBeans">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="75" column="8" lean-forward="true" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="8" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class">
       <provider selected="true" editor-type-id="text-editor" />
@@ -873,13 +1180,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/components.jsp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/jsFiles.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="114" lean-forward="true" selection-start-line="16" selection-start-column="114" selection-end-line="16" selection-end-column="114" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/htmlParser.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="224">
@@ -892,10 +1192,41 @@
         <state relative-caret-position="-225" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssWithEditor.jsp">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="105" selection-start-line="4" selection-end-line="5" selection-end-column="105" />
+        <state relative-caret-position="450">
+          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4365">
+          <caret line="291" column="35" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/controller/BoardController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="59" column="92" selection-start-line="59" selection-start-column="92" selection-end-line="59" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/jsFiles.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="114" selection-start-line="16" selection-start-column="114" selection-end-line="16" selection-end-column="114" />
         </state>
       </provider>
     </entry>
@@ -906,49 +1237,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssWithEditor.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="291" column="35" lean-forward="true" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="41" lean-forward="true" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+        <state relative-caret-position="75">
+          <caret line="5" column="105" selection-start-line="5" selection-start-column="105" selection-end-line="5" selection-end-column="105" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="368" column="18" lean-forward="true" selection-start-line="368" selection-start-column="18" selection-end-line="369" selection-end-column="17" />
+        <state relative-caret-position="248">
+          <caret line="219" column="153" selection-start-line="219" selection-start-column="153" selection-end-line="219" selection-end-column="153" />
+          <folding>
+            <element signature="n#style#0;n#iframe#0;n#section#0;n#div#0;n#div#3;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="130" column="6" lean-forward="true" selection-start-line="130" selection-start-column="6" selection-end-line="130" selection-end-column="6" />
+        <state relative-caret-position="452">
+          <caret line="79" column="5" lean-forward="true" selection-start-line="79" selection-start-column="5" selection-end-line="79" selection-end-column="5" />
           <folding>
+            <element signature="method#BoardController#0;class#BoardController#0" />
             <element signature="e#2731#2753#0" expanded="true" />
             <element signature="e#2749#2757#0" expanded="true" />
             <element signature="e#2941#2949#0" expanded="true" />
             <element signature="e#3135#3143#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/controller/BoardController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="34" column="52" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

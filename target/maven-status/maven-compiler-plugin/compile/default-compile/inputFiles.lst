@@ -34,6 +34,7 @@ Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\board\dao\BoardDAOImpl.jav
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\board\dao\MongoDAO.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\member\util\MemberUtilFile.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\board\dto\BoardDTO.java
+Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\vo\BoardDTO.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\member\service\MemberService.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\member\util\login\NaverLoginApi.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\member\util\login\NaverLoginUtil.java

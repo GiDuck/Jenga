@@ -15,6 +15,7 @@ hi\im\jenga\member\dto\MemberFavorDTO.class
 hi\im\jenga\member\util\cipher\SHA256Cipher.class
 hi\im\jenga\member\util\cipher\AES256Cipher.class
 hi\im\jenga\board\dao\MongoDAOImpl.class
+hi\im\jenga\vo\BoardDTO.class
 hi\im\jenga\member\util\login\FacebookLoginApi$InstanceHolder.class
 hi\im\jenga\board\service\BoardService.class
 hi\im\jenga\member\dto\MemberDTO.class
