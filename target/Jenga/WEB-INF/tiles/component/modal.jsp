@@ -4,12 +4,12 @@
 <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>  
 <script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>  
 
-	 <style>
+<%--	 <style>
 	 .modal-open .modal {
 	  display: block;
 	}
 	 
-	 </style>
+	 </style>--%>
 	 
 	<!-- Modal Default Form -->
 	 
@@ -609,6 +609,81 @@
 
         return ModalFactory("simple", header, body);
 
+
+
+
+    }
+
+    //북마크 혹은 폴더의 내용을 변경하게 하는 모달
+    function makeModifyElementModal($element, bookmarks)
+    {
+
+        let $title = $($element).find("input[name=title]");
+        let $url = $($element).find("input[name=url]");
+        let isFolder = $($element).find("input[name=isFolder]").val();
+        let timeStamp = $($element).find("input[name='timeStamp']").val();
+        let type = undefined;
+
+
+        if(isFolder){
+
+            type = "폴더";
+
+        }else if(!isFolder){
+
+            type = "북마크";
+        }
+
+        let header = $("<h3>").addClass("modal-title text-center").html(type + " 수정하기")
+            .append($("<br>"));
+
+        let body = $("<div>").addClass("form-group")
+            .append($("<label>").html("TITLE"))
+            .append($("<input>").attr("name", "title").addClass("form-control").val($title.val()))
+            .append($("<br>"));
+
+        if(isFolder == "false"){
+            body.append($("<label>").html("URL"))
+                .append($("<input>").attr("name", "url").addClass("form-control").val($url.val())); }
+
+        body.append($("<button>").attr("id", "elementModifyBtn").addClass("btn btn-block btn-round").html("수정하기").css("margin-top", "40px").on('click', function(e){
+            e.preventDefault();
+            let title = $(this).parent().find("input[name='title']").val();
+            let url = undefined;
+
+            let selectedElement = undefined;
+
+            for(let i = 0; i<bookmarks.length; ++i){
+
+                if(bookmarks[i].add_date == timeStamp){
+
+                    selectedElement = bookmarks[i];
+                    break;
+                }
+
+
+            }
+            selectedElement.title = title;
+            $title.val(title);
+
+            if(isFolder == "false"){
+
+                url = $(this).parent().find("input[name=url]").val();
+                selectedElement.url = url;
+                $url.val(url);
+            }
+
+            $(this).closest("#defaultModal").modal("hide");
+            refreshBookMark(bookmarks, "right");
+
+
+
+        })).append($("<br>"));
+
+
+
+
+        return ModalFactory("simple", header, body);
 
 
 

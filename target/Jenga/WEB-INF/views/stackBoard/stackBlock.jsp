@@ -7,242 +7,262 @@
 
 <style>
 
-  .bookMarkField{
+    .bookMarkField{
 
-    overflow: scroll;
-    border-style : groove;
-    min-height:100px;
-    max-height:400px;
-    height : auto;
+        overflow: scroll;
+        border-style : groove;
+        min-height:100px;
+        max-height:400px;
+        height : auto;
 
-  }
-
-
-  .bookMarkItem{
-  }
+    }
 
 
-  .bookMarkItem:hover{
-
-    background-color : green;
-
-  }
-
-  .myBookMarkItem{
-
-  }
+    .bookMarkItem{
+    }
 
 
-  .myBookMarkItem:hover{
+    .bookMarkItem:hover{
 
-    background-color : pink;
+        background-color : green;
 
-  }
+    }
 
-  .bookMarkLabel{
+    .myBookMarkItem{
 
-    padding : 25px;
-
-  }
-
-  .selectedElementLeft{
-
-    background-color : red;
-
-  }
+    }
 
 
-  .selectedElementRight{
-    background-color : blue;
+    .myBookMarkItem:hover{
+
+        background-color : pink;
+
+    }
+
+    .bookMarkLabel{
+
+        padding : 25px;
+
+    }
+
+    .selectedElementLeft{
+
+        background-color : red;
+
+    }
 
 
-  }
+    .selectedElementRight{
+        background-color : blue;
+
+
+    }
 
 </style>
 
 <div class="main">
-  <div class="section">
+    <div class="section">
 
-    <div class="container">
+        <div class="container">
 
-      <h2><b>Stack Block</b></h2>
-
-
-      <div class="row">
-
-        <div class="col-md-4 col-sm-9 mr-auto ml-auto">
-          <div class="w-100 text-center bookMarkLabel"><h4><b>내 북마크</b></h4></div>
-
-          <div id="getMyBookMark" class="bookMarkField" class="row" style="height : 400px">
+            <h2><b>Stack Block</b></h2>
 
 
+            <div class="row">
 
-          </div>
+                <div class="col-md-4 col-sm-9 mr-auto ml-auto">
+                    <div class="w-100 text-center bookMarkLabel"><h4><b>내 북마크</b></h4></div>
 
-          <div class="row text-center" style="padding : 10px">
-            <div class = "col-sm-6"><div id="moveToUpperLeft" class="btn w-100 text-center"> < </div></div>
-            <div class = "col-sm-6"><div id="moveToLowerLeft" class="btn w-100 text-center"> > </div></div>
+                    <div id="getMyBookMark" class="bookMarkField" class="row" style="height : 400px">
 
 
-          </div>
+
+                    </div>
+
+                    <div class="row text-center" style="padding : 10px">
+                        <div class = "col-sm-6"><div id="moveToUpperLeft" class="btn w-100 text-center"> < </div></div>
+                        <div class = "col-sm-6"><div id="moveToLowerLeft" class="btn w-100 text-center"> > </div></div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-md-7 col-sm-9 mr-auto ml-auto">
+
+                    <div class="w-100 text-center bookMarkLabel"><h4><b>북마크 편집</b></h4></div>
+
+                    <div id="editBookMark" class= "editBookMarkField bookMarkField" class="row" style="height : 400px"></div>
+
+                    <div class="row text-center" style="padding : 10px">
+
+                        <div class = "col-md-1 col-sm-6"><div id="moveToUpperRight" class="btn w-100 text-center"> < </div></div>
+                        <div class = "col-md-1 col-sm-6"><div id="moveToLowerRight" class="btn w-100 text-center"> > </div></div>
+                        <div class = "col-md-4 col-sm-4"><div id="addElementRight" class="btn w-100 text-center"> 북마크 추가 </div></div>
+                        <div class = "col-md-3 col-sm-4"><div id="addFolderRight" class="btn w-100 text-center"> 폴더 추가 </div></div>
+                        <div class = "col-md-3 col-sm-4"><div id="removeElementRight" class="btn w-100 text-center"> 선택 삭제 </div></div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
 
 
         </div>
 
-
-        <div class="col-md-7 col-sm-9 mr-auto ml-auto">
-
-          <div class="w-100 text-center bookMarkLabel"><h4><b>북마크 편집</b></h4></div>
-
-          <div id="editBookMark" class= "editBookMarkField bookMarkField" class="row" style="height : 400px"></div>
-
-          <div class="row text-center" style="padding : 10px">
-
-            <div class = "col-md-1 col-sm-6"><div id="moveToUpperRight" class="btn w-100 text-center"> < </div></div>
-            <div class = "col-md-1 col-sm-6"><div id="moveToLowerRight" class="btn w-100 text-center"> > </div></div>
-            <div class = "col-md-4 col-sm-4"><div id="addElementRight" class="btn w-100 text-center"> 북마크 추가 </div></div>
-            <div class = "col-md-3 col-sm-4"><div id="addFolderRight" class="btn w-100 text-center"> 폴더 추가 </div></div>
-            <div class = "col-md-3 col-sm-4"><div id="removeElementRight" class="btn w-100 text-center"> 선택 삭제 </div></div>
-
-          </div>
+        <br><br><br><br>
 
 
-        </div>
-
-      </div>
-
-
-    </div>
-
-    <br><br><br><br>
-
-
-    <div class="container">
-      <form id="submitForm">
-        <div class="row">
-          <div class="col-md-5 col-sm-5">
-            <h6>Main Image</h6>
-            <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-              <div class="fileinput-new thumbnail img-no-padding" style="max-width: 370px; max-height: 250px;">
-                <img src="${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg" alt="...">
-              </div>
-              <div class="fileinput-preview fileinput-exists thumbnail img-no-padding" style="max-width: 370px; max-height: 250px;"></div>
-              <div>
+        <div class="container">
+            <form id="submitForm">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5">
+                        <h6>Main Image</h6>
+                        <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-no-padding" style="max-width: 370px; max-height: 250px;">
+                                <img src="${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg" alt="...">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-no-padding" style="max-width: 370px; max-height: 250px;"></div>
+                            <div>
                   <span class="btn btn-outline-default btn-round btn-file">
                     <span class="fileinput-new">Select image</span>
                   <span class="fileinput-exists">Change</span>
                   <input type="file" name="...">
                   </span>
-                <a href="#paper-kit" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
-              </div>
-            </div>
+                                <a href="#paper-kit" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                            </div>
+                        </div>
 
-            <h6>Tags&nbsp<i class="nc-icon nc-alert-circle-i" data-container="body" data-toggle="popover" data-placement="top" data-content="태그를 입력하시고 엔터를 치시면 입력됩니다."></i></h6>
+                        <h6>Tags&nbsp<i class="nc-icon nc-alert-circle-i" data-container="body" data-toggle="popover" data-placement="top" data-content="태그를 입력하시고 엔터를 치시면 입력됩니다."></i></h6>
 
-            <div id="tags">
-              <input class="tagsinput" data-color="success" type="text" placeHolder="태그를 입력하세요.." data-role="tagsinput" />
-              <!-- <div class="tagsinput-add"></div> -->
-              <!-- You can change "tag-primary" with with "tag-info", "tag-success", "tag-warning","tag-danger" -->
-            </div>
+                        <div id="tags">
+                            <input class="tagsinput" data-color="success" type="text" placeHolder="태그를 입력하세요.." data-role="tagsinput" />
+                            <!-- <div class="tagsinput-add"></div> -->
+                            <!-- You can change "tag-primary" with with "tag-info", "tag-success", "tag-warning","tag-danger" -->
+                        </div>
 
-            <br>
+                        <br>
 
 
-            <h6>Categories</h6>
-            <div id="tags-2">
+                        <h6>Categories</h6>
+                        <div id="tags-2" class="row">
 
-              <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="categorySelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  카테고리 선택
-                </a>
+                            <div class="dropdown col-6">
+                                <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="categorySelect1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    대분류
+                                </a>
 
-                <div class="dropdown-menu" aria-labelledby="categorySelect">
-                  <a class="dropdown-item" href="#categorySelect">Action</a>
-                  <a class="dropdown-item" href="#categorySelect">Another action</a>
-                  <a class="dropdown-item" href="#categorySelect">Something else here</a>
+                                <div class="dropdown-menu" aria-labelledby="categorySelect1">
+                                    <a class="dropdown-item" href="#categorySelect">Action</a>
+                                    <a class="dropdown-item" href="#categorySelect">Another action</a>
+                                    <a class="dropdown-item" href="#categorySelect">Something else here</a>
+                                </div>
+
+
+                            </div>
+
+                            <div class="dropdown col-6">
+
+                                <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="categorySelect2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    소분류
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="categorySelect2">
+                                    <a class="dropdown-item" href="#categorySelect">Action</a>
+                                    <a class="dropdown-item" href="#categorySelect">Another action</a>
+                                    <a class="dropdown-item" href="#categorySelect">Something else here</a>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <br>
+
+
+                        <h6>Format
+                            <span class="icon-danger">*</span>
+                        </h6>
+                        <div class="form-check-radio">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"> Digital
+                                <span class="form-check-sign"></span>
+                            </label>
+                        </div>
+                        <div class="form-check-radio">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked> Print
+                                <span class="form-check-sign"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-sm-7">
+                        <div class="form-group">
+                            <h6>Title
+                                <span class="icon-danger">*</span>
+                            </h6>
+                            <input type="text" class="form-control border-input" placeholder="&nbsp제목을 입력하세요..">
+                        </div>
+                        <div class="form-group">
+                            <h6>Introduce
+                                <span class="icon-danger">*</span>
+                            </h6>
+                            <textarea class="form-control border-input" placeholder="소개를 입력하세요.." rows="3"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h6>Date
+                                    <span class="icon-danger">*</span>
+                                </h6>
+                                <div class="input-group border-input">
+                                    <input id="today" type="text" class="form-control border-input" disabled=true>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <h6>Description</h6>
+                            <br>
+                            <section id="editor">
+
+                                <iframe src="${pageContext.request.contextPath}/resources/editor.html" width="100%" height="500" style="border:0"></iframe>
+
+                            </section>
+                        </div>
+
+                    </div>
                 </div>
-              </div>
-            </div>
-
-            <br>
 
 
-            <h6>Format
-              <span class="icon-danger">*</span>
-            </h6>
-            <div class="form-check-radio">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"> Digital
-                <span class="form-check-sign"></span>
-              </label>
-            </div>
-            <div class="form-check-radio">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked> Print
-                <span class="form-check-sign"></span>
-              </label>
-            </div>
-          </div>
-          <div class="col-md-7 col-sm-7">
-            <div class="form-group">
-              <h6>Title
-                <span class="icon-danger">*</span>
-              </h6>
-              <input type="text" class="form-control border-input" placeholder="제목을 입력하세요..">
-            </div>
-            <div class="form-group">
-              <h6>Introduce
-                <span class="icon-danger">*</span>
-              </h6>
-              <input type="text" class="form-control border-input" placeholder="소개를 입력하세요..">
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <h6>Date
-                  <span class="icon-danger">*</span>
-                </h6>
-                <div class="input-group border-input">
-                  <input id="today" type="text" value="0000-00-00" class="form-control border-input" disabled=true>
+                <div class="row buttons-row">
+                    <div class="form-check col-12">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value=""> 나는 저작권을 준수하며 불법 자료를 올리지 않는다고 약속합니다.
+                            <span class="form-check-sign"></span>
+                        </label>
+                    </div>
+                    <br><br><br>
+
+                    <div class="col-md-4 col-sm-4">
+                        <button class="btn btn-outline-danger btn-block btn-round">Cancel</button>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <button id ="saveBtn" class="btn btn-outline-primary btn-block btn-round" onclick="javascript:void(0);">Save</button>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <button class="btn btn-primary btn-block btn-round">Save & Publish </button>
+                    </div>
                 </div>
-              </div>
-            </div>
-
-            <br>
-
-            <div class="form-group">
-              <h6>Description</h6>
-              <br>
-              <section id="editor">
-	                <textarea id="summernoteEditor">
-	                </textarea>
-              </section>
-            </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" value=""> Display on landing page
-                <span class="form-check-sign"></span>
-              </label>
-            </div>
-          </div>
+            </form>
         </div>
-
-        <br><br><br>
-
-
-        <div class="row buttons-row">
-          <div class="col-md-4 col-sm-4">
-            <button class="btn btn-outline-danger btn-block btn-round">Cancel</button>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <button id ="saveBtn" class="btn btn-outline-primary btn-block btn-round" onclick="javascript:void(0);">Save</button>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <button class="btn btn-primary btn-block btn-round">Save & Publish </button>
-          </div>
-        </div>
-      </form>
     </div>
-  </div>
 </div>
 
 
@@ -1178,14 +1198,14 @@
             };
         };
 
-        $("#summernoteEditor").summernote({
+        /* $("#summernoteEditor").summernote({
 
-            placeholder: '내용을 작성하세요..',
-            height: 300,
-            focus : true,
-            dialogsInBody: true
+              placeholder: '내용을 작성하세요..',
+              height: 300,
+              focus : true,
+              dialogsInBody: true
 
-        });
+        }); */
 
         attachBtnEvent();
 
@@ -1198,7 +1218,7 @@
         setKeyListener();
 
         let today = new Date();
-        let todayStr = today.getFullYear()+"년 "+today.getMonth()+"월 "+today.getDay()+"일";
+        let todayStr = " " + today.getFullYear()+"년 "+today.getMonth()+"월 "+today.getDay()+"일";
 
         $("#today").val(todayStr);
 
