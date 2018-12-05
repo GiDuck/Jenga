@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import hi.im.jenga.board.service.BoardService;
+import hi.im.jenga.vo.BoardDTO;
 
 @Controller
 @RequestMapping("/board")
@@ -64,9 +66,7 @@ public class BoardController {
 		String categoryJSON = mapper.writeValueAsString(category);
 		
 
-		String resultJSON = boardService.getBookMark();
 		String resultHTML = boardService.getBookMarkFromHTML();
-		model.addAttribute("resultJSON", resultJSON);
 		model.addAttribute("resultHTML", resultHTML);
 		model.addAttribute("category", categoryJSON);
 
@@ -75,13 +75,15 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping(value="/uploadBlock", method=RequestMethod.POST)
+	//Block Upload 컨트롤러
+	@RequestMapping(value="/uploadBlock", method=RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
 	@ResponseBody
-	public String stackBlock(@RequestPart("param") Object o){
+	public String stackBlock(@RequestPart("image") MultipartFile image, @ModelAttribute BoardDTO board) {
 		
 		System.out.println("들어온 값");
-		System.out.println(o);
+		System.out.println(image);
 		
+		System.out.println(board.toString());
 		
 		return "success";
 		
