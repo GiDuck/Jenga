@@ -4,10 +4,14 @@ import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface BoardDAO {
 
-    void writeViewBlock(BoardDTO boardDTO, String session_iuid);
+    void writeViewBlock(BoardDTO boardDTO);
+
+    void writeViewReadCount(String bl_uid);
 
     void writeViewThumbImg(String bl_uid, String uploadName);
 
@@ -31,7 +35,7 @@ public interface BoardDAO {
 
     HashMap getView(String bl_uid);
 
-    void writeViewReadCount(String bl_uid);
-
     void likeCheck(String bl_iuid, String session_mem_iuid);
+
+    Map<String, List<String>> getCategoryName();
 }

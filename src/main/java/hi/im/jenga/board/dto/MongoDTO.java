@@ -1,21 +1,22 @@
 package hi.im.jenga.board.dto;
 
 
+import com.mongodb.util.JSON;
 import org.springframework.data.annotation.Id;
 
 public class MongoDTO {
 
 	@Id
-	private String _blockid;
+	private String _blockId;
 	private String _refBoardId;
 	private Object _value;
 
-	public String get_blockid() {
-		return _blockid;
+	public String get_blockId() {
+		return _blockId;
 	}
 
-	public void set_blockid(String _blockid) {
-		this._blockid = _blockid;
+	public void set_blockId(String _blockId) {
+		this._blockId = _blockId;
 	}
 
 	public String get_refBoardId() {
@@ -33,5 +34,4 @@ public class MongoDTO {
 	public void set_value(Object _value) {
 		this._value = _value;
 	}
-
 }

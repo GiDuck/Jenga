@@ -10,16 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import hi.im.jenga.board.dto.BlockPathDTO;
-import hi.im.jenga.board.dto.BoardDTO;
-import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -33,18 +23,34 @@ public class BoardDAOImpl implements BoardDAO {
         this.sqlSession = sqlSession;
     }
 
-    public void writeViewBlock(BoardDTO boardDTO, String session_iuid) {
-        Map<String, Object> map = new HashMap();
+    public void writeViewBlock(BoardDTO boardDTO) {
 
-        map.put("boardDTO", boardDTO);
-        map.put("session_iuid", session_iuid);
-
-
-        sqlSession.insert("board.writeViewBlock", map);
+        sqlSession.insert("board.writeViewBlock", boardDTO);
     }
 
     public void writeViewReadCount(String bl_uid) {
-        sqlSession.insert("board.writeViewReadCount",bl_uid);
+        sqlSession.insert("board.writeViewReadCount", bl_uid);
+    }
+
+    public void writeViewThumbImg(String bl_uid, String uploadName) {
+        Map<String, String> map = new HashMap();
+
+        map.put("uploadName", uploadName);
+        map.put("bl_uid", bl_uid);
+
+        sqlSession.insert("board.writeViewThumbImg", map);
+    }
+
+    public void writeViewTag(String bl_uid, String[] bt_name) {
+        Map<String, String> map = new HashMap();
+
+        map.put("bl_uid", bl_uid);
+
+        for (String tag : bt_name) {
+            map.put("tag", tag);
+            logger.info("태그는 " + tag);
+            sqlSession.insert("board.writeViewTag", map);
+        }
     }
 
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
@@ -62,36 +68,30 @@ public class BoardDAOImpl implements BoardDAO {
         없으면  insert into
 
         */
-         result = sqlSession.selectOne("board.likeCheck",map);
+        result = sqlSession.selectOne("board.likeCheck", map);
 
-         if(result == null){
+        if (result == null) {
             sqlSession.insert("board.addLike", map);
             return;
-         }
-         sqlSession.delete("board.cancelLike", map);
-
-    }
-
-    public void writeViewThumbImg(String bl_uid, String uploadName) {
-        Map<String, String> map = new HashMap();
-
-        map.put("uploadName", uploadName);
-        map.put("bl_uid", bl_uid);
-
-        sqlSession.insert("board.writeViewThumbImg", map);
-    }
-
-    public void writeViewTag(String bl_uid, String[] bt_name) {
-        Map<String, String> map = new HashMap();
-
-        map.put("bl_uid", bl_uid);
-
-        for(String tag: bt_name){
-            map.put("tag", tag);
-            logger.info("태그는 "+tag);
-            sqlSession.insert("board.writeViewTag", map);
         }
+        sqlSession.delete("board.cancelLike", map);
+
     }
+
+    public Map<String, List<String>> getCategoryName() {
+        Map<String, List<String>> category = new HashMap();
+
+        List<String> uids = sqlSession.selectList("board.mCtgAllUids");
+        for(String uid : uids){
+            List<String> list = sqlSession.selectList("board.sCtgAllNames", uid);
+            String name = sqlSession.selectOne("board.mCtgAllNames",uid);
+
+            category.put(name, list);
+        }
+        return category;
+    }
+
+
 
     public HashMap modifyViewGET(String bl_uid) {
         Map<String, String> map = new HashMap();
@@ -99,17 +99,17 @@ public class BoardDAOImpl implements BoardDAO {
         // tbl_Block (작성자, 제목, 설명, 대분류, 소분류, 날짜, 북마크id), tbl_thumbImg(url)
         map = sqlSession.selectOne("board.modifyViewGET", bl_uid);
 
-        logger.info("맵은 "+map);
-        logger.info("그게 왜 "+map.get("BL_WRITER"));
+        logger.info("맵은 " + map);
+        logger.info("그게 왜 " + map.get("BL_WRITER"));
 
         List<String> list2 = sqlSession.selectList("board.modifyViewGET2", bl_uid);
 
-        logger.info("list2는 "+list2.get(0));
-        logger.info("list2는 "+list2.get(1));
-        logger.info("list2는 "+list2.get(2));
+        logger.info("list2는 " + list2.get(0));
+        logger.info("list2는 " + list2.get(1));
+        logger.info("list2는 " + list2.get(2));
 
-        for(int i = 0; i < list2.size(); i++){
-            map.put("tag"+i,list2.get(i));
+        for (int i = 0; i < list2.size(); i++) {
+            map.put("tag" + i, list2.get(i));
         }
 
 
@@ -131,11 +131,11 @@ public class BoardDAOImpl implements BoardDAO {
         }
 */
 
-        logger.info("모야모야 "+map.get("BTI_URL"));
-        logger.info("탴태탴 "+map.get("tag1"));
-        logger.info("탴태탴 "+map.get("tag2"));
+        logger.info("모야모야 " + map.get("BTI_URL"));
+        logger.info("탴태탴 " + map.get("tag1"));
+        logger.info("탴태탴 " + map.get("tag2"));
 
-        return (HashMap)map;
+        return (HashMap) map;
 
     }
 
@@ -147,7 +147,7 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("uploadName", uploadName);
         sqlSession.update("board.modifyViewThumbImg", map);
 
-        for(String tag: bt_name) {
+        for (String tag : bt_name) {
             map.put("tag", tag);
             sqlSession.update("board.modifyViewTag", map);
         }
@@ -161,7 +161,7 @@ public class BoardDAOImpl implements BoardDAO {
 
     public String checkBmksPath(String session_iuid) {
         String result = sqlSession.selectOne("board.checkBmksPath", session_iuid);
-        return result == null? "X" : "O";
+        return result == null ? "X" : "O";
     }
 
     public void insertBmksPath(String session_iuid, BlockPathDTO blockPathDTO) {
@@ -187,7 +187,9 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectOne("board.getBookMarkFromHTML", session_iuid);
     }
 
-    public int deleteBlock(String bl_uid) { return sqlSession.delete("board.deleteBlock", bl_uid); }
+    public int deleteBlock(String bl_uid) {
+        return sqlSession.delete("board.deleteBlock", bl_uid);
+    }
 
     public HashMap getView(String bl_uid) {
         Map<String, String> map = new HashMap();
@@ -196,14 +198,15 @@ public class BoardDAOImpl implements BoardDAO {
 
         map = sqlSession.selectOne("board.getView1", bl_uid);
 
-        List <String> list = sqlSession.selectList("board.getView2", bl_uid);   // 태그 뽑음
-        for(int i = 0; i < list.size(); i++){
-            map.put("tag"+i, list.get(i));
+        List<String> list = sqlSession.selectList("board.getView2", bl_uid);   // 태그 뽑음
+        for (int i = 0; i < list.size(); i++) {
+            map.put("tag" + i, list.get(i));
         }
 
 
-        return (HashMap)map;
+        return (HashMap) map;
     }
-
-
 }
+
+
+

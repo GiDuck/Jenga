@@ -19,10 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  *
@@ -89,34 +90,10 @@ public class BoardController {
     public String getWriteView(HttpSession session, Model model) throws JsonProcessingException {
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
 
-//        임시로 카테고리 목록 후에 DB에서 꺼내와야함
-        Map<String, List<String>> category = new HashMap<String, List<String>>();
-
-        List<String> sport = new ArrayList<String>();
-        sport.add("축구");
-        sport.add("농구");
-        sport.add("스키");
-        sport.add("수영");
-        category.put("스포츠", sport);
-
-        List<String> social = new ArrayList<String>();
-        social.add("시사");
-        social.add("정치");
-        social.add("국제");
-        social.add("수영");
-        category.put("사회", social);
-
-        List<String> life = new ArrayList<String>();
-        life.add("요리");
-        life.add("독서");
-        life.add("패션");
-        category.put("라이프", life);
-
+        Map<String, List<String>> category = boardService.getCategoryName();
         ObjectMapper mapper = new ObjectMapper();
 
         String categoryJSON = mapper.writeValueAsString(category);
-
-
 
         String resultHTML = boardService.getBookMarkFromHTML(session_iuid);
 
@@ -146,66 +123,77 @@ public class BoardController {
     * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
     */
 
+
+
+
+    //    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
+
+
+        /*
+        logger.info(boardDTO.getBl_mainCtg());
+        logger.info(boardDTO.getBl_smCtg());
+        logger.info(boardDTO.getBl_description());
+        logger.info(boardDTO.getBl_introduce());
+        logger.info(boardDTO.getBl_title());
+        logger.info(boardDTO.getBt_name().toString());
+        logger.info(boardDTO.getBt_name()[0]);
+        logger.info(boardDTO.getBt_name()[1]);
+        logger.info(boardDTO.getBl_date().toString());
+        logger.info(boardDTO.getBl_writer());           // mem_iuid
+        */
+
+    // TODO 이미지 NULL 처리
     // 글쓰는페이지 POST / 작성
-    @RequestMapping(value="/stackBlock", method = RequestMethod.POST)
-    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
+    @RequestMapping(value="/stackBlock", method = RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
+    public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, HttpSession session,
+                                              @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
+                                              @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
+
         logger.info("session에서 뽑아온 iuid는 "+((MemberDTO)(session.getAttribute("Member"))).getMem_iuid());
-        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+        boardDTO.setBl_uid(UUID.randomUUID().toString());
 
-        // tbl_block
-        // 임시   / 실제는 DTO 바로넘김 여기서 set안하고
-        String bl_uid = UUID.randomUUID().toString();
-        String bl_writer = "PvPmRRt6cKp0/qyTaXJw2UjVzUvG+voo0ux1oj1/N2Sj44pBLUiDiiyM+bJcgZJi";
-        String bl_title = "조오오오은 사이트를 공유합니다";
-        String bl_description = "개좋죠 이러쿵저러쿵쿵따리쿵쿵따쿵쿵따리쿵쿵따쿵쿵따리쿵쿵따쿵쿵쿵쿵유호준쿵쿵따준코쿵쿵따코주부쿵쿵따부잣집쿵쿵따집돌이쿵쿵따이새끼쿵쿵따끼인각쿵쿵따각시탈쿵쿵따탈의실쿵쿵따실실쪼개지마라쿵쿵따라라라라라";
-        String bl_mainCtg = "category1";      // 문화/예술
-        String bl_smCtg = "scategory1-4";     // 미술
-//        String bl_date = "18/10/31";          // 임시로 String으로 받음
-        String bl_objId = UUID.randomUUID().toString();
+        boardDTO.setBl_writer(((MemberDTO)session.getAttribute("Member")).getMem_iuid());
 
-        boardDTO.setBl_uid(bl_uid);
-        boardDTO.setBl_writer(bl_writer);
-        boardDTO.setBl_title(bl_title);
-        boardDTO.setBl_description(bl_description);
-        boardDTO.setBl_mainCtg(bl_mainCtg);
-        boardDTO.setBl_smCtg(bl_smCtg);
-//        boardDTO.setBl_date(bl_date);
-        boardDTO.setBl_objId(bl_objId);
+        String uploadName = boardUtilFile.fileUpload(uploadFile, "image");
 
-        boardService.writeViewBlock(session_iuid, boardDTO);
+        boardService.writeViewBlock(boardDTO, uploadName, bl_bookmarks);
 
-        /////////////////////////썸네일이미지///////////////////////////
-//        String uploadName = boardUtilFile.fileUpload(request,uploadFile, "image");
-//
-//        boardService.writeViewThumbImg(bl_uid, uploadName);
-
-
-
-        ////////////////////////태그////////////////////////
-        String [] bt_name = {"더치", "커피", "카페"};
-        System.out.println(bt_name[1]);
-        boardService.writeViewTag(bl_uid, bt_name);
-
-
-
-//        TODO json mongo에 INSERT 하기
+        logger.info("글작성 성공");
         /*
         mongo Block Insert
         블록쌓은거 (json)도 넘겨줘야함
         _Value는 json
         _refBoardId 는 bl_uid
         _blockId 는 ObjectId니까 따로 줄거 없다.
-
-        mongoService.writeViewBmks(bl_uid, json);
-
         */
 
-        mongoService.writeViewBmks(bl_uid);
 
-
-        return "redirect:/";  // 임시로 보냄
+        return "success";
     }
-// TODO  like 상태값으로 비교   이거먼저하자
+
+//    // tbl_block
+//    // 임시   / 실제는 DTO 바로넘김 여기서 set안하고
+//    String bl_uid = UUID.randomUUID().toString();
+//    String bl_writer = "PvPmRRt6cKp0/qyTaXJw2UjVzUvG+voo0ux1oj1/N2Sj44pBLUiDiiyM+bJcgZJi";
+//    String bl_title = "조오오오은 사이트를 공유합니다";
+//    String bl_description = "개좋죠 이러쿵저러쿵쿵따리쿵쿵따쿵쿵따리쿵쿵따쿵쿵따리쿵쿵따쿵쿵쿵쿵유호준쿵쿵따준코쿵쿵따코주부쿵쿵따부잣집쿵쿵따집돌이쿵쿵따이새끼쿵쿵따끼인각쿵쿵따각시탈쿵쿵따탈의실쿵쿵따실실쪼개지마라쿵쿵따라라라라라";
+//    String bl_mainCtg = "category1";      // 문화/예술
+//    String bl_smCtg = "scategory1-4";     // 미술
+//    //        String bl_date = "18/10/31";          // 임시로 String으로 받음
+//    String bl_objId = UUID.randomUUID().toString();
+//
+//        boardDTO.setBl_uid(bl_uid);
+//        boardDTO.setBl_writer(bl_writer);
+//        boardDTO.setBl_title(bl_title);
+//        boardDTO.setBl_description(bl_description);
+//        boardDTO.setBl_mainCtg(bl_mainCtg);
+//        boardDTO.setBl_smCtg(bl_smCtg);
+////        boardDTO.setBl_date(bl_date);
+//        boardDTO.setBl_objId(bl_objId);
+
+
+
+    // TODO  like 상태값으로 비교   이거먼저하자
     // block iuid를 조건으로 insert mem_iuid(session에 있는)
     @RequestMapping(value = "/like/{bl_iuid}")
     public ResponseEntity<Void> like(@PathVariable String bl_iuid, HttpSession session){
@@ -251,11 +239,11 @@ public class BoardController {
 //  TODO 테스트
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
     @RequestMapping(value = "/modView", method = RequestMethod.POST)
-    public String modifyViewPOST(BoardDTO boardDTO, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String[] bt_name) {
+    public String modifyViewPOST(BoardDTO boardDTO, @RequestParam("bti_url") MultipartFile uploadFile, @RequestParam String[] bt_name) {
 
 
         // 수정을 안하면 원래 이미지를 줘야함
-        String uploadName = boardUtilFile.fileUpload(request, uploadFile, "image");
+        String uploadName = boardUtilFile.fileUpload(uploadFile, "image");
 
         boardService.modifyViewPOST(boardDTO, uploadName, bt_name);
 
@@ -285,7 +273,7 @@ public class BoardController {
     // 북마크 파일업로드  /  완료
     @RequestMapping(value="/fileUpload", method=RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity fileUpload(@RequestParam String bp_browstype, @RequestParam String bp_booktype, @RequestParam("file") MultipartFile uploadFile, MultipartHttpServletRequest request, HttpSession session) {
+    public ResponseEntity fileUpload(@RequestParam String bp_browstype, @RequestParam String bp_booktype, @RequestParam("file") MultipartFile uploadFile, HttpSession session) {
         String session_iuid  = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
         ResponseEntity<String> result;
         BlockPathDTO blockPathDTO = new BlockPathDTO();
@@ -298,7 +286,7 @@ public class BoardController {
             logger.info("파일 사이즈 "+uploadFile.getSize());
             logger.info("머고이건 "+uploadFile.getBytes().toString());
 
-            String uploadPath = boardUtilFile.fileUpload(request, uploadFile, "block");
+            String uploadPath = boardUtilFile.fileUpload(uploadFile, "block");
 
             logger.info(uploadPath);
             blockPathDTO.setBp_booktype(bp_booktype);

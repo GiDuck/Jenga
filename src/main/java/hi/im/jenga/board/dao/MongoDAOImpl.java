@@ -3,6 +3,8 @@ package hi.im.jenga.board.dao;
 import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -13,7 +15,7 @@ public class MongoDAOImpl implements MongoDAO {
 
 
     private final MongoTemplate mongoTemplate;
-
+    private static final Logger logger = LoggerFactory.getLogger(MongoDAOImpl.class);
     public MongoDAOImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
@@ -32,17 +34,6 @@ public class MongoDAOImpl implements MongoDAO {
 
     }
 
-    public void writeViewBmks(String bl_uid) {
-        MongoDTO mongoDTO = new MongoDTO();
-
-        mongoDTO.set_refBoardId(bl_uid);
-//        mongoDTO.set_value(json);
-
-        mongoTemplate.insert(mongoDTO,"c_block");
-
-
-    }
-
     public MongoDTO getView(String key, String bl_uid) {
 
         Criteria criteria = new Criteria(key);
@@ -53,6 +44,22 @@ public class MongoDAOImpl implements MongoDAO {
         return mongoTemplate.findOne(query, MongoDTO.class, "c_block");
     }
 
+    public String getObjId(String key, String bl_uid) {
+
+        Criteria criteria = new Criteria(key);
+        criteria.is(bl_uid);
+//        _id를 찾아야함
+
+        Query query = new Query(criteria);
+
+        MongoDTO mongoDTO = mongoTemplate.findOne(query, MongoDTO.class, "c_block");
+        logger.info(mongoDTO.get_refBoardId());         // 2850f9e5-a237-41ad-9dfa-df27f97d110c
+        logger.info(mongoDTO.get_blockId());            // 5c0a5e0a7d14410cfcdf530b
+        logger.info(mongoDTO.get_value().toString());   // 북마크
+        return mongoDTO.get_blockId();
+
+    }
+
     public MongoDTO modifyViewGET(String key, String bl_uid) {
 
         Criteria criteria = new Criteria(key);
@@ -61,5 +68,16 @@ public class MongoDAOImpl implements MongoDAO {
         Query query = new Query(criteria);
 
         return mongoTemplate.findOne(query, MongoDTO.class,"c_block");
+    }
+
+    public void writeViewBmks(String bl_uid,  String bl_bookmarks) {
+
+        MongoDTO mongoDTO = new MongoDTO();
+
+        mongoDTO.set_refBoardId(bl_uid);
+        mongoDTO.set_value(bl_bookmarks);
+
+
+        mongoTemplate.insert(mongoDTO,"c_block");
     }
 }

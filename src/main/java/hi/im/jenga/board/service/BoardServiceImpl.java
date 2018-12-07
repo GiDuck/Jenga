@@ -8,8 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -17,30 +20,44 @@ public class BoardServiceImpl implements BoardService {
 	private static final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
 
 	private final BoardDAO dao;
+	private final MongoService mongoService;
 
 	@Autowired
-	public BoardServiceImpl(AES256Cipher aes256Cipher, BoardDAO dao) {
+	public BoardServiceImpl(BoardDAO dao, MongoService mongoService) {
 		this.dao = dao;
+		this.mongoService = mongoService;
 	}
 
-	public void writeViewBlock(String session_iuid, BoardDTO boardDTO) {
 
-		dao.writeViewBlock(boardDTO, session_iuid);
+	@Transactional
+	public void writeViewBlock(BoardDTO boardDTO, String uploadName, String bl_bookmarks) {
+
+		mongoService.writeViewBmks(boardDTO.getBl_uid(), bl_bookmarks);		// bl_objId가 있어야지 block에 값을 넣을 수 있다.
+		boardDTO.setBl_objId(mongoService.getObjId("_refBoardId",boardDTO.getBl_uid()));
+		logger.info("북마크 블록의 uid "+boardDTO.getBl_objId());
+
+
+		dao.writeViewBlock(boardDTO);
 		dao.writeViewReadCount(boardDTO.getBl_uid());
-	}
 
-	public void writeViewThumbImg(String bl_uid, String uploadName) {
+
+
 
 		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
 		if(uploadName.equals("")){
 			// 디폴트 이미지를 넣어준다
 		}
-		dao.writeViewThumbImg(bl_uid, uploadName);
-	}
+		dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 
-	public void writeViewTag(String bl_uid, String[] bt_name) {
 
-		dao.writeViewTag(bl_uid, bt_name);
+
+
+
+		dao.writeViewTag(boardDTO.getBl_uid(), boardDTO.getBt_name());
+
+
+
+
 	}
 
 	public HashMap modifyViewGET(String bl_uid) {
@@ -85,6 +102,10 @@ public class BoardServiceImpl implements BoardService {
 		String result = fileIO.InputHTMLBookMark();
 
 		return result;
+	}
+
+	public Map<String, List<String>> getCategoryName() {
+		return dao.getCategoryName();
 	}
 
 

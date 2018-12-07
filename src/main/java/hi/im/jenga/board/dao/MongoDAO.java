@@ -10,7 +10,9 @@ public interface MongoDAO {
 
     MongoDTO modifyViewGET(String key, String bl_uid);
 
-    void writeViewBmks(String bl_uid);
+    void writeViewBmks(String bl_uid,  String bl_bookmarks);
 
     MongoDTO getView(String key, String bl_uid);
+
+    String getObjId(String key, String bl_uid);
 }

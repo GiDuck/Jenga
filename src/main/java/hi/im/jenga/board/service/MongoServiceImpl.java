@@ -22,7 +22,9 @@ public class MongoServiceImpl implements MongoService {
         return dao.modifyViewGET(key, bl_uid);
     }
 
-    public void writeViewBmks(String bl_uid) { dao.writeViewBmks(bl_uid); }
+    public void writeViewBmks(String bl_uid, String bl_bookmarks) { dao.writeViewBmks(bl_uid, bl_bookmarks); }
 
     public MongoDTO getView(String key, String bl_uid) { return dao.getView(key, bl_uid); }
+
+    public String getObjId(String key, String bl_uid) { return dao.getObjId(key, bl_uid); }
 }

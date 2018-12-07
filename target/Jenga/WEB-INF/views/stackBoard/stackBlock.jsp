@@ -841,7 +841,8 @@
 		let image = $("input[name='thumbnail_Img']").prop("files");
 		let title = $("input[name='input_title']").val();
 		let introduce = $("textarea[name='input_introduce']").val();
-		let category = $("#mainCategory").html();
+		let mCategory = $("#mainCategory").html();
+        let sCategory = $("#subCategory").html();
 		let content = $("#editor").contents().find("#summernote").val();
 		let tags = $("#tagsinput").val();
 		let tagsContainer = tags.split(",");
@@ -852,28 +853,31 @@
 		console.log(image);
 		console.log(title);
 		console.log(introduce);
-		console.log(category);
+		console.log(mCategory);
+		console.log(sCategory);
 		console.log(content);
 		console.log(tagsContainer);
 		console.log(time);
 		
 		let formData = new FormData();
-		formData.append("image", image[0]);
-		formData.append("title", title);
-		formData.append("bookmarks", JSON.stringify(editedBKElements));
-		formData.append("introduce", introduce);
-		formData.append("category", category);
-		formData.append("tags", tagsContainer);
-		formData.append("time", time);
+		formData.append("bti_url", image[0]);                                       // param
+		formData.append("bl_title", title);                                         // dto
+		formData.append("bl_bookmarks", JSON.stringify(editedBKElements));          // param
+		formData.append("bl_introduce", introduce);                                 // dto
+		formData.append("bl_mainCtg", mCategory);                                      // dto   //문화예술
+		formData.append("bl_smCtg", sCategory);                                      // dto   //
+		formData.append("bl_description", content);                                 // dto
+		formData.append("bt_name", tagsContainer);                                  // dto
+		formData.append("bl_date", time);                                           // dto
 
 		console.log(formData);
 		
 		$.ajax({
 			
-			url : "/board/uploadBlock",
+			url : "/board/stackBlock",
 			
 			enctype: "multipart/form-data",
-			contentType: false, 
+			contentType: false,
 			cache: false,
 			processData:false,
 			data : formData,

@@ -4,14 +4,12 @@ import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
 
-    void writeViewBlock(String session_iuid, BoardDTO boardDTO) throws Exception;
-
-    void writeViewThumbImg(String bl_uid, String uploadName);
-
-    void writeViewTag(String bl_uid, String[] bt_name);
+    void writeViewBlock(BoardDTO boardDTO, String uploadName, String bl_bookmarks) throws Exception;
 
     HashMap modifyViewGET(String bl_uid);
 
@@ -26,4 +24,6 @@ public interface BoardService {
     void likeCheck(String bl_iuid, String session_mem_iuid);
 
     String getBookMarkFromHTML(String session_iuid);
+
+    Map<String, List<String>> getCategoryName();
 }
