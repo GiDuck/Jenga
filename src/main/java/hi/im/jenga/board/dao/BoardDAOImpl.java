@@ -23,10 +23,12 @@ public class BoardDAOImpl implements BoardDAO {
         this.sqlSession = sqlSession;
     }
 
-    public void writeViewBlock(BoardDTO boardDTO) {
 
-        sqlSession.insert("board.writeViewBlock", boardDTO);
-    }
+
+
+
+
+    public void writeViewBlock(BoardDTO boardDTO) { sqlSession.insert("board.writeViewBlock", boardDTO); }
 
     public void writeViewReadCount(String bl_uid) {
         sqlSession.insert("board.writeViewReadCount", bl_uid);
@@ -52,6 +54,13 @@ public class BoardDAOImpl implements BoardDAO {
             sqlSession.insert("board.writeViewTag", map);
         }
     }
+
+
+
+
+
+
+
 
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
         String result;
@@ -90,6 +99,7 @@ public class BoardDAOImpl implements BoardDAO {
         }
         return category;
     }
+
 
 
 
@@ -139,13 +149,26 @@ public class BoardDAOImpl implements BoardDAO {
 
     }
 
-    public void modifyViewPOST(BoardDTO boardDTO, String uploadName, String[] bt_name) {
-        Map<String, String> map = new HashMap();
-        sqlSession.update("board.modifyViewBoard", boardDTO);
 
+
+
+
+
+
+    public void modifyViewBoard(BoardDTO boardDTO) {
+        sqlSession.update("board.modifyViewBoard", boardDTO);
+    }
+
+    public void modifyViewThumbImg(BoardDTO boardDTO, String uploadName) {
+        Map<String, String> map = new HashMap();
         map.put("bl_uid", boardDTO.getBl_uid());
         map.put("uploadName", uploadName);
         sqlSession.update("board.modifyViewThumbImg", map);
+    }
+
+    public void modifyViewTag(BoardDTO boardDTO) {
+        Map<String, String> map = new HashMap();
+        String [] bt_name = boardDTO.getBt_name();
 
         for (String tag : bt_name) {
             map.put("tag", tag);
@@ -153,6 +176,11 @@ public class BoardDAOImpl implements BoardDAO {
         }
 
     }
+
+
+
+
+
 
     public String getUploadName(String bl_uid) {
         return sqlSession.selectOne("board.getUploadName", bl_uid);

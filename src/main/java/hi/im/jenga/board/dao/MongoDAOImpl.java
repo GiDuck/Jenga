@@ -2,12 +2,14 @@ package hi.im.jenga.board.dao;
 
 import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.member.dto.MemberDTO;
+import org.apache.ibatis.annotations.Delete;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -57,6 +59,36 @@ public class MongoDAOImpl implements MongoDAO {
         logger.info(mongoDTO.get_blockId());            // 5c0a5e0a7d14410cfcdf530b
         logger.info(mongoDTO.get_value().toString());   // 북마크
         return mongoDTO.get_blockId();
+
+    }
+
+    public void modifyViewPOST(String key, String bl_uid,  String bl_bookmarks) {
+
+        MongoDTO mongoDTO = new MongoDTO();
+
+        Criteria criteria = new Criteria(key);
+        criteria.is(bl_uid);
+
+        Query query = new Query(criteria);
+
+        Update update = new Update();
+
+        update.set("_value", bl_bookmarks);
+
+        mongoTemplate.updateFirst(query, update, "c_block");
+
+        logger.info(mongoDTO.get_value().toString());
+
+    }
+
+    public void deleteBlock(String key, String bl_uid) {
+
+        Criteria criteria = new Criteria(key);
+        criteria.is(bl_uid);
+
+        Query query = new Query(criteria);
+
+        mongoTemplate.remove(query, "c_block");
 
     }
 

@@ -41,7 +41,7 @@ public class BoardUtilFile {
         try {
 
             fileName = uploadFile.getOriginalFilename();
-            logger.info("들어오자마자 " + fileName);
+//            logger.info("들어오자마자 " + fileName);
 
 
 //          Image가 들어오면

@@ -14,4 +14,8 @@ public interface MongoService {
     MongoDTO getView(String key, String bl_uid);
 
     String getObjId(String key, String bl_uid);
+
+    void modifyViewPOST(String key, String bl_uid, String bl_bookmarks);
+
+    void deleteBlock(String refBoardId, String bl_uid);
 }

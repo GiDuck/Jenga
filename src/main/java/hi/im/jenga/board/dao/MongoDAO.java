@@ -15,4 +15,8 @@ public interface MongoDAO {
     MongoDTO getView(String key, String bl_uid);
 
     String getObjId(String key, String bl_uid);
+
+    void modifyViewPOST(String key, String bl_uid, String bl_bookmarks);
+
+    void deleteBlock(String key, String bl_uid);
 }

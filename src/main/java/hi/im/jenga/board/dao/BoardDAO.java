@@ -19,8 +19,6 @@ public interface BoardDAO {
 
     HashMap modifyViewGET(String bl_uid);
 
-    void modifyViewPOST(BoardDTO boardDTO, String uploadName, String[] bt_name);
-
     String getUploadName(String bl_uid);
 
     String checkBmksPath(String session_iuid);
@@ -38,4 +36,10 @@ public interface BoardDAO {
     void likeCheck(String bl_iuid, String session_mem_iuid);
 
     Map<String, List<String>> getCategoryName();
+
+    void modifyViewBoard(BoardDTO boardDTO);
+
+    void modifyViewThumbImg(BoardDTO boardDTO, String uploadName);
+
+    void modifyViewTag(BoardDTO boardDTO);
 }

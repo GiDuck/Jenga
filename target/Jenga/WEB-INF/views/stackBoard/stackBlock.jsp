@@ -888,9 +888,7 @@
 			},
 			error : function(xhs, status, error){
 				
-				
 				alert("전송 실패 " + status);
-
 
 			}
 			

@@ -41,8 +41,6 @@ public class BoardServiceImpl implements BoardService {
 		dao.writeViewReadCount(boardDTO.getBl_uid());
 
 
-
-
 		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
 		if(uploadName.equals("")){
 			// 디폴트 이미지를 넣어준다
@@ -51,11 +49,7 @@ public class BoardServiceImpl implements BoardService {
 
 
 
-
-
 		dao.writeViewTag(boardDTO.getBl_uid(), boardDTO.getBt_name());
-
-
 
 
 	}
@@ -64,13 +58,22 @@ public class BoardServiceImpl implements BoardService {
 		return dao.modifyViewGET(bl_uid);
 	}
 
-	public void modifyViewPOST(BoardDTO boardDTO, String uploadName, String[] bt_name) {
+	@Transactional
+	public void modifyViewPOST(BoardDTO boardDTO, String uploadName, String bl_bookmarks) {
+
+		dao.modifyViewBoard(boardDTO);
 
 		// 수정안했으면
 		if(uploadName.equals("")){
 			uploadName = dao.getUploadName(boardDTO.getBl_uid());
 		}
-		dao.modifyViewPOST(boardDTO, uploadName, bt_name);
+
+		dao.modifyViewThumbImg(boardDTO, uploadName);
+
+		dao.modifyViewTag(boardDTO);
+
+//		mongoDTO.set_value(bl_bookmarks);를 해서 mongoDTO를 넘길까 음
+		mongoService.modifyViewPOST("_refBoardId", boardDTO.getBl_uid(), bl_bookmarks);
 	}
 
 	public void addBmksPath(String session_iuid, BlockPathDTO blockPathDTO) {
@@ -86,7 +89,11 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+	@Transactional
 	public int deleteBlock(String bl_uid) {
+//		MongoDB쪽을 먼저 삭제 / 반대면 bl_uid가 없어서 에러
+		mongoService.deleteBlock("_refBoardId", bl_uid);
+
 		return dao.deleteBlock(bl_uid);
 	}
 

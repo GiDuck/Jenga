@@ -145,52 +145,27 @@ public class BoardController {
     // TODO 이미지 NULL 처리
     // 글쓰는페이지 POST / 작성
     @RequestMapping(value="/stackBlock", method = RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
-    public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, HttpSession session,
-                                              @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
+    public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, HttpSession session,@RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
                                               @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
 
-        logger.info("session에서 뽑아온 iuid는 "+((MemberDTO)(session.getAttribute("Member"))).getMem_iuid());
+        logger.info("session에서 뽑아온 iuid는 " + ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid());
         boardDTO.setBl_uid(UUID.randomUUID().toString());
 
-        boardDTO.setBl_writer(((MemberDTO)session.getAttribute("Member")).getMem_iuid());
+        boardDTO.setBl_writer(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+
+//       if(uploadFile == null){
+//          String uploadName = "";
+//       }
+//        service에서 디폴트이미지 처리
 
         String uploadName = boardUtilFile.fileUpload(uploadFile, "image");
 
         boardService.writeViewBlock(boardDTO, uploadName, bl_bookmarks);
 
         logger.info("글작성 성공");
-        /*
-        mongo Block Insert
-        블록쌓은거 (json)도 넘겨줘야함
-        _Value는 json
-        _refBoardId 는 bl_uid
-        _blockId 는 ObjectId니까 따로 줄거 없다.
-        */
-
 
         return "success";
     }
-
-//    // tbl_block
-//    // 임시   / 실제는 DTO 바로넘김 여기서 set안하고
-//    String bl_uid = UUID.randomUUID().toString();
-//    String bl_writer = "PvPmRRt6cKp0/qyTaXJw2UjVzUvG+voo0ux1oj1/N2Sj44pBLUiDiiyM+bJcgZJi";
-//    String bl_title = "조오오오은 사이트를 공유합니다";
-//    String bl_description = "개좋죠 이러쿵저러쿵쿵따리쿵쿵따쿵쿵따리쿵쿵따쿵쿵따리쿵쿵따쿵쿵쿵쿵유호준쿵쿵따준코쿵쿵따코주부쿵쿵따부잣집쿵쿵따집돌이쿵쿵따이새끼쿵쿵따끼인각쿵쿵따각시탈쿵쿵따탈의실쿵쿵따실실쪼개지마라쿵쿵따라라라라라";
-//    String bl_mainCtg = "category1";      // 문화/예술
-//    String bl_smCtg = "scategory1-4";     // 미술
-//    //        String bl_date = "18/10/31";          // 임시로 String으로 받음
-//    String bl_objId = UUID.randomUUID().toString();
-//
-//        boardDTO.setBl_uid(bl_uid);
-//        boardDTO.setBl_writer(bl_writer);
-//        boardDTO.setBl_title(bl_title);
-//        boardDTO.setBl_description(bl_description);
-//        boardDTO.setBl_mainCtg(bl_mainCtg);
-//        boardDTO.setBl_smCtg(bl_smCtg);
-////        boardDTO.setBl_date(bl_date);
-//        boardDTO.setBl_objId(bl_objId);
-
 
 
     // TODO  like 상태값으로 비교   이거먼저하자
@@ -212,7 +187,7 @@ public class BoardController {
     /*
     * 수정페이지 GET
     * 뷰단에 회원정보를 Map으로 던져줌
-    * //TODO 테스트
+    * //TODO 세션체크 없거나 틀리면 '권한이 없습니다'
     * /modView?bl_uid=asdfasdfasdfasdf
     * /stackBlock
     */
@@ -236,26 +211,24 @@ public class BoardController {
 
     }
 
-//  TODO 테스트
+//  TODO 테스트 mongo update도 함
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
     @RequestMapping(value = "/modView", method = RequestMethod.POST)
-    public String modifyViewPOST(BoardDTO boardDTO, @RequestParam("bti_url") MultipartFile uploadFile, @RequestParam String[] bt_name) {
+    public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
 
 
         // 수정을 안하면 원래 이미지를 줘야함
+        // 여기서 nullpointException 뜨면 여기서 boardService.getUploadName() 해야하고
+//         넘어가면 서비스impl에서 처리
         String uploadName = boardUtilFile.fileUpload(uploadFile, "image");
 
-        boardService.modifyViewPOST(boardDTO, uploadName, bt_name);
-
-//        TODO : Mongo json을 받아야함 / mongoService.modifyViewPOST();
-
+        boardService.modifyViewPOST(boardDTO, uploadName, bl_bookmarks);
 
         return "";
     }
 
-//    TODO 테스트
+//    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트
 //    View에서 받는거 테스트해야함
-//    HttpMethod  DELETE로 준거 테스트
 //    삭제페이지 POST
     @RequestMapping(value = "/delBlock", method=RequestMethod.DELETE)
     public ResponseEntity deleteBlock(@RequestParam String bl_uid){

@@ -13,7 +13,7 @@ public interface BoardService {
 
     HashMap modifyViewGET(String bl_uid);
 
-    void modifyViewPOST(BoardDTO boardDTO, String uploadName, String[] bt_name);
+    void modifyViewPOST(BoardDTO boardDTO, String uploadName, String bl_bookmarks);
 
     void addBmksPath(String session_iuid, BlockPathDTO blockPathDTO);
 
