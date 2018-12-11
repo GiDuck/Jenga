@@ -83,26 +83,53 @@ public class BoardController {
 
 
 
-    // TODO 카테고리 목록을 DB에서 가져옴
-    // 사용자의 업로드 파일을 읽어와서 String으로 반환 -> html경로 저장해서 html 파일을 읽어와서 String으로 반환해야함
-    // 글쓰는페이지 GET
-    @RequestMapping(value="/stackBlock", method = RequestMethod.GET)
-    public String getWriteView(HttpSession session, Model model) throws JsonProcessingException {
-        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+    // 글쓰는 페이지 GET, 글 수정 페이지 GET
+    @RequestMapping(value = "/stackBlock", method = RequestMethod.GET)
+    public String getWriteView(HttpSession session, Model model, String status, MongoDTO mongoDTO, @RequestParam (value = "bl_uid", required = false)String bl_uid) throws JsonProcessingException {
+//  TODO  status 없이 그냥 url로 접근하면 잘못된 페이지 띄우기 -> 임시로 / 로 감
+        if(status == null) return "redirect:/";
+        if(status.equals("stack")) {
+            String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
 
-        Map<String, List<String>> category = boardService.getCategoryName();
-        ObjectMapper mapper = new ObjectMapper();
+            Map<String, List<String>> category = boardService.getCategoryName();
+            ObjectMapper mapper = new ObjectMapper();
 
-        String categoryJSON = mapper.writeValueAsString(category);
+            String categoryJSON = mapper.writeValueAsString(category);
 
-        String resultHTML = boardService.getBookMarkFromHTML(session_iuid);
+            String resultHTML = boardService.getBookMarkFromHTML(session_iuid);
 
-        logger.info(resultHTML);
+            logger.info(resultHTML);
 
-        model.addAttribute("category",categoryJSON);
-        model.addAttribute("resultHTML", resultHTML);
+            model.addAttribute("category", categoryJSON);
+            model.addAttribute("resultHTML", resultHTML);
 
-        return "editor/stackBoard/stackBlock";
+            return "editor/stackBoard/stackBlock";
+
+        }else if(status.equals("modify")) {
+
+
+            Map<String, String[]> map = boardService.modifyViewGET(bl_uid);
+
+            mongoDTO = mongoService.modifyViewGET("_refBoardId", bl_uid);
+
+            logger.info(mongoDTO.get_value().toString());
+            logger.info("컨트롤러 맵은 " + map);
+            /*
+             * 뽑는 예시
+             * map.get("BL_WRITER")
+             * map.get("tag1")
+             * map.get("tag2")
+             */
+
+            model.addAttribute("map", map);
+            model.addAttribute("mongoDTO", mongoDTO);
+
+            return "editor/stackBoard/stackBlock";
+
+        }
+
+        return null;
+
     }
 
     /*
@@ -142,7 +169,6 @@ public class BoardController {
         logger.info(boardDTO.getBl_writer());           // mem_iuid
         */
 
-    // TODO 이미지 NULL 처리
     // 글쓰는페이지 POST / 작성
     @RequestMapping(value="/stackBlock", method = RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
     public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, HttpSession session,@RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
@@ -152,13 +178,15 @@ public class BoardController {
         boardDTO.setBl_uid(UUID.randomUUID().toString());
 
         boardDTO.setBl_writer(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
-
-//       if(uploadFile == null){
-//          String uploadName = "";
-//       }
+        String uploadName;
+       if(uploadFile != null){
+           uploadName = boardUtilFile.fileUpload(uploadFile, "image");
+       }else{
+           uploadName = "";
+       }
 //        service에서 디폴트이미지 처리
 
-        String uploadName = boardUtilFile.fileUpload(uploadFile, "image");
+
 
         boardService.writeViewBlock(boardDTO, uploadName, bl_bookmarks);
 
@@ -184,43 +212,21 @@ public class BoardController {
 
     }
 
-    /*
-    * 수정페이지 GET
-    * 뷰단에 회원정보를 Map으로 던져줌
-    * //TODO 세션체크 없거나 틀리면 '권한이 없습니다'
-    * /modView?bl_uid=asdfasdfasdfasdf
-    * /stackBlock
-    */
-    @RequestMapping(value = "/modView/{bl_uid}", method = RequestMethod.GET)
-    public String modifyViewGET(@PathVariable("bl_uid") String bl_uid, Model model, MongoDTO mongoDTO){
-        Map<String, String[]> map = boardService.modifyViewGET(bl_uid);
-
-        mongoDTO = mongoService.modifyViewGET("_refBoardId", bl_uid);
-
-        logger.info("컨트롤러 맵은 "+map);
-        /*
-        * 뽑는 예시
-        * map.get("BL_WRITER")
-        * map.get("tag1")
-        * map.get("tag2")
-        */
-
-        model.addAttribute("map",map);
-        model.addAttribute("mongoDTO", mongoDTO);
-        return "/modBlock";
-
-    }
 
 //  TODO 테스트 mongo update도 함
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
     @RequestMapping(value = "/modView", method = RequestMethod.POST)
     public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
 
-
+        String uploadName;
         // 수정을 안하면 원래 이미지를 줘야함
         // 여기서 nullpointException 뜨면 여기서 boardService.getUploadName() 해야하고
 //         넘어가면 서비스impl에서 처리
-        String uploadName = boardUtilFile.fileUpload(uploadFile, "image");
+        if(uploadFile != null){
+            uploadName = boardUtilFile.fileUpload(uploadFile, "image");
+        }else{
+            uploadName = "";
+        }
 
         boardService.modifyViewPOST(boardDTO, uploadName, bl_bookmarks);
 
@@ -313,3 +319,39 @@ public class BoardController {
     }
 
 }
+
+
+
+
+
+
+/*
+ * 수정페이지 GET
+ * 뷰단에 회원정보를 Map으로 던져줌
+ * //TODO 세션체크 없거나 틀리면 '권한이 없습니다'
+ * /modView?bl_uid=asdfasdfasdfasdf
+ * /stackBlock
+ *//*
+
+    @RequestMapping(value = "/modView/{bl_uid}", method = RequestMethod.GET)
+    public String modifyViewGET(@PathVariable("bl_uid") String bl_uid, Model model, MongoDTO mongoDTO){
+        Map<String, String[]> map = boardService.modifyViewGET(bl_uid);
+
+        mongoDTO = mongoService.modifyViewGET("_refBoardId", bl_uid);
+
+        logger.info("컨트롤러 맵은 "+map);
+        */
+/*
+ * 뽑는 예시
+ * map.get("BL_WRITER")
+ * map.get("tag1")
+ * map.get("tag2")
+ *//*
+
+
+        model.addAttribute("map",map);
+        model.addAttribute("mongoDTO", mongoDTO);
+        return "/modBlock";
+
+    }
+*/

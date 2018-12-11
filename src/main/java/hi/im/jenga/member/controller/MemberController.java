@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -76,28 +77,35 @@ public class MemberController {
 
 
 
-/*
 //  interceptor처리
 //    Model에 DTO를 넣어서 NULL 체크 후 interceptor에서 세션에 넣음
 //    HttpServletSession 이어서 Logininterceptor에서 계속 getSession()이 안됐음 -> HttpSession으로 바꾸니 됨
     @RequestMapping(value = "/logincheck", method = RequestMethod.POST)
-    public void logincheck(EmailMemberDTO emailMemberDTO, Model model, HttpSession session)throws Exception{
-        logger.info("아이디"+emailMemberDTO.getEm_id());
-        logger.info("비밀번호"+emailMemberDTO.getEm_pwd());
+    @ResponseBody
+    public void logincheck(EmailMemberDTO emailMemberDTO, HttpSession session, HttpServletRequest request)throws Exception{
+        /*logger.info("아이디"+emailMemberDTO.getEm_id());
+        logger.info("비밀번호"+emailMemberDTO.getEm_pwd());*/
+
         String check = memberService.checkEmail(emailMemberDTO);
+
         logger.info("체크"+check);
-        model.addAttribute("check", check);
+
+//        model.addAttribute("check", check);
+        request.setAttribute("check", check);       //
         if(check.equals("success") || check.equals("noauth")){
             MemberDTO Member = memberService.getMemInfo(emailMemberDTO);
-            model.addAttribute("Member", Member);
+//            model.addAttribute("Member", Member);
+            request.setAttribute("Member", Member);
             logger.info("if문 들어옴");
+            return;
         }
         logger.info("if문 안들어감");
 
+        // 내 글에서 수정하기 누르면 session iuid랑 글 번호를 가지고 prehandle에서 비교해야함 이 글이 이 사람것이 맞는지
 
-    }*/
+    }
 //    기존 로그인 POST
-    @RequestMapping(value = "/logincheck", method = RequestMethod.POST)
+/*    @RequestMapping(value = "/logincheck", method = RequestMethod.POST)
     public void logincheck(EmailMemberDTO emailMemberDTO, HttpSession session, HttpServletResponse response)throws Exception{
         logger.info("아이디"+emailMemberDTO.getEm_id());
         logger.info("비밀번호"+emailMemberDTO.getEm_pwd());
@@ -110,7 +118,7 @@ public class MemberController {
         }
         response.getWriter().println(check);
 
-    }
+    }*/
 
 
 

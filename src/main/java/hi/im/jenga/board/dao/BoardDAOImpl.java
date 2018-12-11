@@ -114,11 +114,8 @@ public class BoardDAOImpl implements BoardDAO {
 
         List<String> list2 = sqlSession.selectList("board.modifyViewGET2", bl_uid);
 
-        logger.info("list2는 " + list2.get(0));
-        logger.info("list2는 " + list2.get(1));
-        logger.info("list2는 " + list2.get(2));
-
         for (int i = 0; i < list2.size(); i++) {
+            logger.info(list2.get(i));
             map.put("tag" + i, list2.get(i));
         }
 

@@ -44,6 +44,7 @@ public class BoardServiceImpl implements BoardService {
 		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
 		if(uploadName.equals("")){
 			// 디폴트 이미지를 넣어준다
+			uploadName = "default.jpg";
 		}
 		dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 
