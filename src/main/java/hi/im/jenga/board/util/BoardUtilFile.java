@@ -32,7 +32,7 @@ public class BoardUtilFile {
     * fileUpload() / block으로 들어오면 메소드에서 전체 경로를 리턴받아 DB에 경로 그대로 저장
     *              / image로 들어오면 파일이름만 리턴받고 저장
     */
-    public String fileUpload(MultipartHttpServletRequest request, MultipartFile uploadFile, String type) {
+    public String fileUpload(MultipartFile uploadFile, String type) {
 
         String fileName = "";
         OutputStream out = null;
@@ -41,7 +41,7 @@ public class BoardUtilFile {
         try {
 
             fileName = uploadFile.getOriginalFilename();
-            logger.info("들어오자마자 " + fileName);
+//            logger.info("들어오자마자 " + fileName);
 
 
 //          Image가 들어오면
@@ -56,7 +56,10 @@ public class BoardUtilFile {
 
                 // yyyy/MM/dd 폴더를 만듬
                 if(uploadPath.exists() == false){
+                    logger.info("==========================================================================");
+                    logger.info("생성합니다....");
                     uploadPath.mkdirs();
+                    logger.info("생성완료");
                 }
 
                 logger.info("BoardUtilFile fileUpload fileName : " + fileName);
@@ -148,16 +151,16 @@ public class BoardUtilFile {
 
 //  업로드 파일 저장 경로 얻는 메소드
 //  업로드한 파일의 경로가 도메인 별로 달라야 했기 때문에 도메인의 형을 비교하여 파일 저장 경로를 다르게 지정
-    private String getSaveLocation(MultipartHttpServletRequest request) {
-
-        String uploadPath = request.getSession().getServletContext().getRealPath("/");
-        String attachPath = "resources\\profiles\\";
-
-        logger.info("UtilFile getSaveLocation path : " + uploadPath + attachPath);
-
-        return uploadPath + attachPath;
-
-    }
+//    private String getSaveLocation(MultipartHttpServletRequest request) {
+//
+//        String uploadPath = request.getSession().getServletContext().getRealPath("/");
+//        String attachPath = "resources\\profiles\\";
+//
+//        logger.info("UtilFile getSaveLocation path : " + uploadPath + attachPath);
+//
+//        return uploadPath + attachPath;
+//
+//    }
 
     //날짜별 폴더에 담음 중복방지
     private String getFolder(){

@@ -2,17 +2,16 @@ package hi.im.jenga.board.dto;
 
 public class BoardDTO {
 
-    private String bl_uid;                  // PK
+    private String bl_uid;                  // PK UUID로 생성
     private String bl_writer;               // FK (-> tbl_memInfo(mem_iuid)
     private String bl_title;
-    private String bl_description;
+    private String bl_introduce;
     private String bl_mainCtg;              // FK (-> tbl_mCategory(mctg_uid)
     private String bl_smCtg;                // FK (-> tbl_sCategory(sctg_uid)
-    private String bl_date;
-/*
-    Date bl_date;
-*/
-    String bl_objId;
+    private String bl_description;          // BLOB 타입
+    private String [] bt_name;
+    private Long bl_date;
+    private String bl_objId;
 
     public String getBl_uid() {
         return bl_uid;
@@ -38,12 +37,12 @@ public class BoardDTO {
         this.bl_title = bl_title;
     }
 
-    public String getBl_description() {
-        return bl_description;
+    public String getBl_introduce() {
+        return bl_introduce;
     }
 
-    public void setBl_description(String bl_description) {
-        this.bl_description = bl_description;
+    public void setBl_introduce(String bl_introduce) {
+        this.bl_introduce = bl_introduce;
     }
 
     public String getBl_mainCtg() {
@@ -62,11 +61,27 @@ public class BoardDTO {
         this.bl_smCtg = bl_smCtg;
     }
 
-    public String getBl_date() {
+    public String getBl_description() {
+        return bl_description;
+    }
+
+    public void setBl_description(String bl_description) {
+        this.bl_description = bl_description;
+    }
+
+    public String[] getBt_name() {
+        return bt_name;
+    }
+
+    public void setBt_name(String[] bt_name) {
+        this.bt_name = bt_name;
+    }
+
+    public Long getBl_date() {
         return bl_date;
     }
 
-    public void setBl_date(String bl_date) {
+    public void setBl_date(Long bl_date) {
         this.bl_date = bl_date;
     }
 
@@ -77,5 +92,4 @@ public class BoardDTO {
     public void setBl_objId(String bl_objId) {
         this.bl_objId = bl_objId;
     }
-
 }

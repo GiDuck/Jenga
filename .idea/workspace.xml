@@ -7,8 +7,61 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75609a18-15e7-4d79-b597-56d7d0750a0f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/MongoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/MongoDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/util/BoardUtilFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/util/BoardUtilFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/controller/BoardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/controller/BoardController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/BoardDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/BoardDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/BoardDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/BoardDAOImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/MongoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/MongoDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/MongoDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/MongoDAOImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dto/BoardDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dto/BoardDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dto/MongoDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dto/MongoDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/BoardService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/BoardService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/BoardServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/BoardServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/FileIO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/FileIO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/MongoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/MongoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/MongoServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/MongoServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/util/BoardUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/util/BoardUtilFile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/MemberUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/MemberUtilFile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/mappers/board/boardMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/mappers/board/boardMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/mongoConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/mongoConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/stackBlock.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/stackBlock.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/assets/css/paper-kit.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/assets/css/paper-kit.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/BoardDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/BoardDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/BoardDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/BoardDAOImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/MongoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/MongoDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/MongoDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/MongoDAOImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dto/BoardDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dto/BoardDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dto/MongoDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dto/MongoDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/BoardService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/BoardService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/BoardServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/BoardServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/FileIO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/FileIO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/MongoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/MongoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/MongoServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/MongoServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/util/BoardUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/util/BoardUtilFile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/MemberUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/MemberUtilFile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mappers/board/boardMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappers/board/boardMapper.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,122 +70,49 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CheckStyle-IDEA-workspace">
-    <option name="configuration">
-      <map>
-        <entry key="last-active-plugin-version" value="5.22.1" />
-      </map>
-    </option>
-  </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Jenga$MongoTest.ic" NAME="MongoTest Coverage Results" MODIFIED="1541606889684" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>hi.im.jenga.member.controller.*</FILTER>
     </SUITE>
   </component>
   <component name="FUSProjectUsageTrigger">
-    <session id="-1326966480">
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="dummy" value="109" />
-          <entry key="java" value="21825" />
-          <entry key="jsp" value="2241" />
-          <entry key="txt" value="13" />
-          <entry key="xml" value="4518" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="JAVA" value="21825" />
-          <entry key="JSP" value="2241" />
-          <entry key="PLAIN_TEXT" value="122" />
-          <entry key="SQL" value="337" />
-          <entry key="XML" value="4181" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="class" value="7" />
-          <entry key="classpath" value="1" />
-          <entry key="html" value="1" />
-          <entry key="java" value="228" />
-          <entry key="jpg" value="2" />
-          <entry key="js" value="6" />
-          <entry key="jsp" value="73" />
-          <entry key="springBeans" value="1" />
-          <entry key="svg" value="2" />
-          <entry key="xml" value="71" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="CLASS" value="7" />
-          <entry key="Eclipse" value="2" />
-          <entry key="HTML" value="1" />
-          <entry key="Image" value="2" />
-          <entry key="JAVA" value="228" />
-          <entry key="JSP" value="73" />
-          <entry key="JavaScript" value="6" />
-          <entry key="SVG" value="2" />
-          <entry key="XML" value="71" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="41" />
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.open.time.14" value="2" />
-          <entry key="project.open.time.15" value="5" />
-          <entry key="project.open.time.16" value="5" />
-          <entry key="project.open.time.17" value="2" />
-          <entry key="project.open.time.18" value="5" />
-          <entry key="project.open.time.19" value="5" />
-          <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.20" value="3" />
-          <entry key="project.open.time.21" value="2" />
-          <entry key="project.open.time.23" value="2" />
-          <entry key="project.open.time.24" value="2" />
-          <entry key="project.open.time.29" value="1" />
-          <entry key="project.open.time.3" value="3" />
-          <entry key="project.open.time.33" value="1" />
-          <entry key="project.open.time.4" value="1" />
-          <entry key="project.open.time.5" value="4" />
-          <entry key="project.opened" value="45" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.js.language.service.starts">
-        <counts>
-          <entry key="TypeScriptServerServiceImpl" value="2" />
-        </counts>
-      </usages-collector>
-    </session>
     <session id="376303195">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="1" />
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="java" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="JAVA" value="1" />
-        </counts>
-      </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="1" />
-          <entry key="xml" value="3" />
+          <entry key="class" value="3" />
+          <entry key="java" value="18" />
+          <entry key="jsp" value="1" />
+          <entry key="xml" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="1" />
-          <entry key="XML" value="3" />
+          <entry key="CLASS" value="3" />
+          <entry key="JAVA" value="18" />
+          <entry key="JSP" value="1" />
+          <entry key="XML" value="7" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.19" value="1" />
+          <entry key="project.open.time.20" value="1" />
+          <entry key="project.open.time.29" value="1" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="1110" />
+          <entry key="xml" value="603" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="1110" />
+          <entry key="SQL" value="43" />
+          <entry key="XML" value="560" />
         </counts>
       </usages-collector>
     </session>
@@ -140,60 +120,28 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAOImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+            <state relative-caret-position="450">
+              <caret line="42" selection-start-line="42" selection-end-line="42" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/mongoConfig.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
-              <caret line="20" column="25" lean-forward="true" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+              <caret line="161" column="29" lean-forward="true" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="960">
-              <caret line="64" column="11" lean-forward="true" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssWithEditor.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="105" selection-start-line="5" selection-start-column="105" selection-end-line="5" selection-end-column="105" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/editor.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssFiles.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="390">
+              <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -201,70 +149,87 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3285">
-              <caret line="219" column="153" selection-start-line="219" selection-start-column="153" selection-end-line="219" selection-end-column="153" />
+            <state relative-caret-position="12645">
+              <caret line="843" column="19" selection-start-line="843" selection-start-column="13" selection-end-line="843" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="695">
+              <caret line="132" column="5" lean-forward="true" selection-start-line="123" selection-start-column="4" selection-end-line="132" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/util/BoardUtilFile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="42" column="42" selection-start-line="42" selection-start-column="42" selection-end-line="42" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
-              <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+              <caret line="90" column="46" selection-start-line="90" selection-start-column="40" selection-end-line="90" selection-end-column="46" />
+              <folding>
+                <element signature="e#5388#5404#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/jsFiles.jsp">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="114" selection-start-line="16" selection-start-column="114" selection-end-line="16" selection-end-column="114" />
+            <state relative-caret-position="660">
+              <caret line="49" column="44" lean-forward="true" selection-start-line="49" selection-start-column="44" selection-end-line="49" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="424">
+              <caret line="281" column="24" lean-forward="true" selection-start-line="281" selection-start-column="24" selection-end-line="281" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>upload</find>
-      <find>get</find>
-      <find>getUp</find>
-      <find>hidden</find>
-      <find>chrome</find>
-      <find>fake</find>
-      <find>components</find>
-      <find>tbl_mFavor</find>
-      <find>내 북마크</find>
-      <find>getMyBookMark</find>
-      <find>bookmarks</find>
-      <find>getmeminfo</find>
-      <find>([A-Z])t</find>
-      <find>([a-z])t</find>
-      <find>([A-Z])x</find>
-      <find>HEAD</find>
-      <find>fileUpload</find>
-      <find>stackBlock</find>
-      <find>var bookmarks</find>
-      <find>북마크 혹</find>
-      <find>hamc</find>
-      <find>junit</find>
-      <find>parseH</find>
-      <find>modal</find>
-      <find>parseHTML</find>
-      <find>saveBtn</find>
-      <find>iframe</find>
+      <find>mem_compo</find>
+      <find>mem_com</find>
+      <find>getBookMarkFromHTML</find>
+      <find>getbook</find>
+      <find>그냥</find>
+      <find>boardUtil</find>
+      <find>writeViewBl</find>
+      <find>writeviewblock</find>
+      <find>readcou</find>
+      <find>thumbIMg</find>
+      <find>thumbImg</find>
+      <find>stack</find>
+      <find>ca</find>
+      <find>writeViewThumbImg</find>
+      <find>mCtgAllUids</find>
+      <find>se</find>
+      <find>session</find>
+      <find>search</find>
+      <find>inser</find>
+      <find>sear</find>
+      <find>insert</find>
+      <find>catego</find>
+      <find>set</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -273,8 +238,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/GoogleLoginApi.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/KakaoLoginApi.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/login/NaverLoginApi.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/util/cipher/AES256Cipher.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BlockPathDTO.java" />
@@ -304,12 +267,6 @@
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/fil.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/bbba/board/service/BoardServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/board/service/BoardServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/util/BoardUtilFile.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/FileIO.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssWithEditor.jsp" />
@@ -322,8 +279,16 @@
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/controller/BoardController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/editor.html" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" />
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/util/BoardUtilFile.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml" />
       </list>
     </option>
   </component>
@@ -340,39 +305,61 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-      <expand>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="Jenga Maven Webapp" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="Jenga Maven Webapp" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
-        </path>
-      </expand>
-      <select />
-    </treeState>
-  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
       <path value="$PROJECT_DIR$/src/main/webapp/resources/summernote-master/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="1945" />
+    <option name="height" value="1058" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>Android</id>
+          </State>
+          <State>
+            <id>CorrectnessLintAndroid</id>
+          </State>
+          <State>
+            <id>IconsUsabilityLintAndroid</id>
+          </State>
+          <State>
+            <id>Internationalization</id>
+          </State>
+          <State>
+            <id>InternationalizationJava</id>
+          </State>
+          <State>
+            <id>InternationalizationLintAndroid</id>
+          </State>
+          <State>
+            <id>Java</id>
+          </State>
+          <State>
+            <id>LintAndroid</id>
+          </State>
+          <State>
+            <id>PerformanceLintAndroid</id>
+          </State>
+          <State>
+            <id>Probable bugsJava</id>
+          </State>
+          <State>
+            <id>UsabilityLintAndroid</id>
+          </State>
+          <State>
+            <id>WebSocket</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -381,14 +368,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
               <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -511,6 +503,28 @@
               <item name="Jenga" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="hi" type="462c0819:PsiDirectoryNode" />
+              <item name="im" type="462c0819:PsiDirectoryNode" />
+              <item name="jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="interceptor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="hi" type="462c0819:PsiDirectoryNode" />
+              <item name="im" type="462c0819:PsiDirectoryNode" />
+              <item name="jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="member" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -518,7 +532,17 @@
               <item name="Jenga" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="mappers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="mappers" type="462c0819:PsiDirectoryNode" />
+              <item name="board" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -526,7 +550,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -545,6 +568,25 @@
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
               <item name="spring" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="stackBoard" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -552,29 +594,11 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="parseHTML&#9;null&#9;null&#10;Board&#9;FILE&#9;file://Y:/go/SPRING/Intellij/Jenga/bin/src/main/java/hi/im/jenga/Board" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544005067209" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544460931523" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="hi.im.jenga" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="hi.im.jenga.board.controller" />
-      <recent name="hi.im.jenga.board.dto" />
-      <recent name="hi.im.jenga.board.service" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\bbba" />
-      <recent name="Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga" />
-    </key>
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -589,8 +613,8 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="Unnamed" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.0.521" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+    <configuration name="Unnamed" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.0.531" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="COMMON_VM_ARGUMENTS" value="-Dfile.encoding=UTF-8" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="Jenga:war exploded">
@@ -600,7 +624,7 @@
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="Unnamed_Jenga_10" />
+        <option name="BASE_DIRECTORY_NAME" value="Unnamed_Jenga_7" />
       </server-settings>
       <predefined_log_file id="Tomcat" enabled="true" />
       <predefined_log_file id="Tomcat Catalina" enabled="true" />
@@ -608,7 +632,7 @@
       <predefined_log_file id="Tomcat Host Manager" enabled="false" />
       <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="10289" />
+        <option name="DEBUG_PORT" value="49713" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -740,11 +764,15 @@
       <workItem from="1543901762286" duration="10824000" />
       <workItem from="1543975075117" duration="11226000" />
       <workItem from="1544086948604" duration="1221000" />
+      <workItem from="1544419409386" duration="3720000" />
+      <workItem from="1544430497568" duration="1775000" />
+      <workItem from="1544439386749" duration="11918000" />
+      <workItem from="1544499937569" duration="3094000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="337423000" />
+    <option name="totallyTimeSpent" value="20442000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -756,9 +784,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-10" y="-10" width="1945" height="1058" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4983108" visible="true" weight="0.22974414" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4983108" visible="true" weight="0.2403183" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -768,16 +797,16 @@
       <window_info id="UI Designer" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.24929972" />
-      <window_info anchor="bottom" x="-1313" y="147" width="1190" height="557" id="Run" order="2" visible="true" weight="0.2867884" />
+      <window_info anchor="bottom" x="-1313" y="147" width="1190" height="557" id="Run" order="2" weight="0.28511235" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39849624" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.24929972" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.24864277" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" weight="0.32975295" />
-      <window_info anchor="bottom" id="Application Servers" order="8" weight="0.21568628" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="0.32223415" />
-      <window_info anchor="bottom" id="Spring" order="10" weight="0.32867885" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.25950053" />
+      <window_info anchor="bottom" id="Application Servers" order="8" weight="0.21498372" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.32022473" />
+      <window_info anchor="bottom" id="Spring" order="10" weight="0.32790446" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.25841478" />
       <window_info anchor="bottom" id="CheckStyle" order="12" weight="0.32956383" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
@@ -788,7 +817,7 @@
       <window_info anchor="bottom" id="TypeScript" order="19" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" sideWeight="0.498452" weight="0.11094225" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" sideWeight="0.498452" weight="0.110738255" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="right" id="Maven Projects" order="4" weight="0.17377399" />
       <window_info anchor="right" id="Database" order="5" weight="0.3295302" />
@@ -806,228 +835,27 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mongoConfig.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="45" column="19" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
+        <state relative-caret-position="495">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2925">
-          <caret line="228" column="9" selection-start-line="225" selection-start-column="31" selection-end-line="228" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="53" column="21" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dto/MemberDTO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.classpath">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.springBeans">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1035">
-          <caret line="167" selection-start-line="167" selection-end-line="167" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAOImpl.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoService.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAO.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BlockPathDTO.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/MongoDTO.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/modBlock.jsp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member/modMemInfo.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1335">
-          <caret line="89" column="34" selection-start-line="89" selection-start-column="34" selection-end-line="89" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="38" selection-start-column="38" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/util/BoardUtilFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="186" column="62" selection-start-line="186" selection-start-column="43" selection-end-line="186" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="182" column="35" selection-start-line="182" selection-start-column="35" selection-end-line="182" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="84" selection-start-line="84" selection-end-line="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/FileIO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="138" selection-start-line="138" selection-end-line="138" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/Jenga/resources/assets/img/korea/knock.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/Jenga/resources/assets/img/korea/mask.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/Jenga/resources/assets/img/korea/mask_white.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/Jenga/resources/assets/img/korea/snow_korea.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/assets/js/core/jquery.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="18529" selection-start-line="3" selection-start-column="18529" selection-end-line="3" selection-end-column="18529" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/common.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/modal.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10140">
-          <caret line="676" column="48" selection-start-line="676" selection-start-column="48" selection-end-line="676" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/mem_js.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="50" column="95" selection-start-line="50" selection-start-column="95" selection-end-line="50" selection-end-column="95" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/components.jsp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/htmlParser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="86" column="9" selection-start-line="86" selection-start-column="9" selection-end-line="86" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/tiles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-225" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/controller/BoardController.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3313">
-          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
-          <folding>
-            <element signature="method#BoardController#0;class#BoardController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4365">
-          <caret line="291" column="35" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/source/cssWithEditor.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="105" selection-start-line="5" selection-start-column="105" selection-end-line="5" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="55" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="55" />
         </state>
       </provider>
     </entry>
@@ -1045,13 +873,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3285">
-          <caret line="219" column="153" selection-start-line="219" selection-start-column="153" selection-end-line="219" selection-end-column="153" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -1066,107 +887,141 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        <state relative-caret-position="495">
+          <caret line="61" column="87" selection-start-line="61" selection-start-column="87" selection-end-line="61" selection-end-column="87" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.3.RELEASE/spring-aop-5.0.3.RELEASE.jar!/org/springframework/aop/framework/JdkDynamicAopProxy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1470">
+          <caret line="118" selection-start-line="118" selection-end-line="118" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="64" column="11" lean-forward="true" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="11" />
+        <state relative-caret-position="1065">
+          <caret line="71" column="27" selection-start-line="71" selection-start-column="27" selection-end-line="71" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mongoConfig.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="52" column="32" selection-start-line="52" selection-start-column="32" selection-end-line="52" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.0.3.RELEASE/spring-web-5.0.3.RELEASE.jar!/org/springframework/web/multipart/MultipartFile.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/FileIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.9.7/jackson-databind-2.9.7.jar!/com/fasterxml/jackson/databind/ObjectMapper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="1220" column="18" selection-start-line="1220" selection-start-column="18" selection-end-line="1220" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12645">
+          <caret line="843" column="19" selection-start-line="843" selection-start-column="13" selection-end-line="843" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/util/BoardUtilFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="42" column="42" selection-start-line="42" selection-start-column="42" selection-end-line="42" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="49" column="44" lean-forward="true" selection-start-line="49" selection-start-column="44" selection-end-line="49" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAOImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="281" column="24" lean-forward="true" selection-start-line="281" selection-start-column="24" selection-end-line="281" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="695">
+          <caret line="132" column="5" lean-forward="true" selection-start-line="123" selection-start-column="4" selection-end-line="132" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="90" column="46" selection-start-line="90" selection-start-column="40" selection-end-line="90" selection-end-column="46" />
+          <folding>
+            <element signature="e#5388#5404#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
-          <caret line="20" column="25" lean-forward="true" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+          <caret line="161" column="29" lean-forward="true" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <last-edited>Jenga:war</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-                <option value="0.5" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>Spring</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>Jenga</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-                <option value="0.6" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>Maven: ch.qos.logback:logback-classic:1.2.3</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

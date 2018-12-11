@@ -48,11 +48,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="writeViewBlock">
 		INSERT INTO
     		tbl_block
-				(bl_uid, bl_writer, bl_title, bl_description, bl_mainCtg, bl_smCtg, bl_date, bl_objId)
+				(bl_uid, bl_writer, bl_title, bl_introduce, bl_description, bl_mainCtg, bl_smCtg, bl_date, bl_objId)
 		VALUES
-				(#{boardDTO.bl_uid}, #{session_iuid}, #{boardDTO.bl_title}, #{boardDTO.bl_description}, #{boardDTO.bl_mainCtg}, #{boardDTO.bl_smCtg}, SYSDATE, #{boardDTO.bl_objId})
+				(#{bl_uid}, #{bl_writer}, #{bl_title}, #{bl_introduce}, #{bl_description}, #{bl_mainCtg}, #{bl_smCtg}, #{bl_date}, #{bl_objId})
 	</insert>
-
 
 	<insert id="writeViewThumbImg">
 		INSERT INTO
@@ -195,6 +194,95 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			bl_uid = #{bl_uid}
 	</delete>
+
+	<select id="mCtgAllUids" resultType="String">
+		SELECT
+			mctg_uid
+		FROM
+			tbl_mCategory
+	</select>
+
+	<select id="mCtgAllNames" resultType="String">
+		SELECT
+			mctg_name
+		FROM
+			tbl_mCategory
+		WHERE
+			mctg_uid = #{uid}
+	</select>
+	
+	<select id="sCtgAllNames" resultType="String">
+		SELECT
+			sctg_name
+		FROM
+			tbl_sCategory
+		WHERE
+			sctg_ref = #{uid}
+	</select>
+
+	<select id="sctgUID" resultType="String">
+		SELECT
+			SCTG_UID
+		FROM
+		    tbl_SCATEGORY
+		WHERE
+		    SCTG_NAME = #{bl_smCtg}
+	</select>
+
+	<select id="mctgUID" resultType="String">
+		SELECT
+			MCTG_UID
+		FROM
+		    tbl_MCATEGORY
+		WHERE
+		    MCTG_NAME = #{bl_smCtg}
+	</select>
+
+	<select id="selectName" resultType="hi.im.jenga.board.dto.BoardDTO">
+		SELECT
+			*
+		FROM
+			tbl_block
+		where
+		    BL_WRITER = (SELECT
+		                      MEM_IUID
+		                 FROM
+		                      TBL_MEMINFO
+		                 WHERE
+		                      MEM_NICK LIKE '%'||#{search}||'%'
+		                )
+	</select>
+
+	<select id="selectTag" resultType="hi.im.jenga.board.dto.BoardDTO">
+		SELECT DISTINCT
+			*
+		FROM
+			tbl_block
+		where
+		    BL_UID = (SELECT
+		    				BT_REF
+		    		  FROM
+		    		        TBL_BLOCKTAGS
+		    		  WHERE
+		    		        BT_NAME LIKE '%'||#{search}||'%'
+		    )
+	</select>
+
+	<select id="selectTitle" resultType="hi.im.jenga.board.dto.BoardDTO">
+		SELECT
+			*
+		FROM
+			tbl_block
+		where
+		    bl_title LIKE '%'||#{search}||'%'
+	</select>
+
+	<insert id="setSearchKeyword">
+		INSERT INTO
+			 tbl_keyword
+		values
+		     (#{search},#{session_iuid},sysdate)
+	</insert>
 </mapper>
 
 

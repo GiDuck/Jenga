@@ -6,8 +6,8 @@
 		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd">
 
 
-	<mongo:mongo-client id="jenga"  host="localhost" port="27017">
-	<!--<mongo:mongo-client id="jengamaster"  host="172.22.238.192" port="27017" credentials="jengamaster:jenga@jenga">-->
+	<!--<mongo:mongo-client id="jenga"  host="localhost" port="27017">-->
+	<mongo:mongo-client id="jengamaster"  host="localhost" port="27017" credentials="jengamaster:jenga@jenga">
 
 		<mongo:client-options
 				connect-timeout="1000"
@@ -22,10 +22,10 @@
 	</mongo:mongo-client>
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg ref="jenga"/>
-		<constructor-arg name="databaseName" value="jengayujun"/>
-		<!--<constructor-arg ref="jengamaster"/>-->
-		<!--<constructor-arg name="databaseName" value="jenga"/>-->
+		<!--<constructor-arg ref="jenga"/>
+		<constructor-arg name="databaseName" value="jengayujun"/>-->
+		<constructor-arg ref="jengamaster"/>
+		<constructor-arg name="databaseName" value="jenga"/>
 	</bean>
 
 

@@ -9,7 +9,13 @@ public interface MongoService {
 
     MongoDTO modifyViewGET(String key, String bl_uid);
 
-    void writeViewBmks(String bl_uid);
+    void writeViewBmks(String bl_uid, String bl_bookmarks);
 
     MongoDTO getView(String key, String bl_uid);
+
+    String getObjId(String key, String bl_uid);
+
+    void modifyViewPOST(String key, String bl_uid, String bl_bookmarks);
+
+    void deleteBlock(String refBoardId, String bl_uid);
 }
