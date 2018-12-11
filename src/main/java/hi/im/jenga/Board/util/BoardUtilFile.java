@@ -55,7 +55,10 @@ public class BoardUtilFile {
 
                 // yyyy/MM/dd 폴더를 만듬
                 if(uploadPath.exists() == false){
+                    logger.info("==========================================================================");
+                    logger.info("생성합니다....");
                     uploadPath.mkdirs();
+                    logger.info("생성완료");
                 }
 
                 logger.info("BoardUtilFile fileUpload fileName : " + fileName);

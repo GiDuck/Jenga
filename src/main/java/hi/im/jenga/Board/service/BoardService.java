@@ -26,4 +26,8 @@ public interface BoardService {
     String getBookMarkFromHTML(String session_iuid);
 
     Map<String, List<String>> getCategoryName();
+
+    String transCtgUID(String bl_smCtg, String flag);
+
+    List<BoardDTO> search(String search, String search_check, String session_iuid);
 }

@@ -56,10 +56,32 @@ public class BoardController {
     /*
     * 검색창 하나만 띄우는 페이지
     * */
-    @RequestMapping
-    public String boardSearch(){
+    @RequestMapping("/search")
+    public String boardSearch(String search, String search_check,HttpSession session){
+            String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+            boardService.search(search,search_check, session_iuid);
 
         return "/search";
+    }
+
+
+    @GetMapping(value="/boardView")
+    public String getBoardList() {
+
+        return "stackBoard/boardView";
+    }
+
+    @GetMapping(value="/boardDetail")
+    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model) {
+
+        Map<String, String[]> map = boardService.getView(bl_uid);
+//        String resultHTML = boardService.getBookMarkFromHTML(map.get());    // writer 줘야함
+//        mongoDTO = mongoService.getView("_refBoardId", bl_uid);
+//
+//        model.addAttribute("map", map);
+//        model.addAttribute("mongoDTO", mongoDTO);
+//        model.addAttribute("resultHTML", resultHTML);
+        return "stackBoard/boardDetailView";
     }
 
 
@@ -186,7 +208,12 @@ public class BoardController {
        }
 //        service에서 디폴트이미지 처리
 
+        String flag = "s";
+        boardDTO.setBl_smCtg(boardService.transCtgUID(boardDTO.getBl_smCtg(),flag));
+        flag = "m";
+        boardDTO.setBl_mainCtg(boardService.transCtgUID(boardDTO.getBl_mainCtg(),flag));
 
+        logger.info("DTO"+boardDTO.getBl_uid()+"/스몰/"+boardDTO.getBl_smCtg()+"/메인/"+boardDTO.getBl_mainCtg());
 
         boardService.writeViewBlock(boardDTO, uploadName, bl_bookmarks);
 

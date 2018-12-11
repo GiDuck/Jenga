@@ -44,8 +44,11 @@ public class BoardServiceImpl implements BoardService {
 		if(uploadName.equals("")){
 			// 디폴트 이미지를 넣어준다
 			uploadName = "default.jpg";
+			dao.writeViewThumbImg(boardDTO.getBl_uid(), "없음");
+		}else{
+
+			dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 		}
-		dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 
 
 
@@ -113,6 +116,21 @@ public class BoardServiceImpl implements BoardService {
 
 	public Map<String, List<String>> getCategoryName() {
 		return dao.getCategoryName();
+	}
+
+	public String transCtgUID(String bl_smCtg, String flag) {
+		return dao.transCtgUID(bl_smCtg, flag);
+	}
+
+	public List<BoardDTO> search(String search, String search_check, String session_iuid) {
+		dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
+		if(search_check.equals("name")){
+			return dao.searchName(search);
+		}else if(search_check.equals("tag")){
+			return dao.searchTag(search);
+		}else{
+			return dao.searchContents(search);
+		}
 	}
 
 

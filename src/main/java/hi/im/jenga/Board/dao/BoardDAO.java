@@ -42,4 +42,14 @@ public interface BoardDAO {
     void modifyViewThumbImg(BoardDTO boardDTO, String uploadName);
 
     void modifyViewTag(BoardDTO boardDTO);
+
+    String transCtgUID(String bl_smCtg, String flag);
+
+    List<BoardDTO> searchName(String search);
+
+    List<BoardDTO> searchTag(String search);
+
+    List<BoardDTO> searchContents(String search);
+
+    void setSearchKeyword(String search, String session_iuid);
 }

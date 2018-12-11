@@ -31,6 +31,7 @@ public class BoardDAOImpl implements BoardDAO {
     public void writeViewBlock(BoardDTO boardDTO) { sqlSession.insert("board.writeViewBlock", boardDTO); }
 
     public void writeViewReadCount(String bl_uid) {
+        logger.info("유아이이디디디디"+bl_uid);
         sqlSession.insert("board.writeViewReadCount", bl_uid);
     }
 
@@ -175,7 +176,30 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     public String transCtgUID(String bl_smCtg, String flag) {
-        return null;
+        String trans;
+        if(flag.equals("s")){
+            return sqlSession.selectOne("board.sctgUID", bl_smCtg);
+        }
+        return sqlSession.selectOne("board.mctgUID", bl_smCtg);
+    }
+
+    public List<BoardDTO> searchName(String search) {
+        return sqlSession.selectList("board.selectName",search);
+    }
+
+    public List<BoardDTO> searchTag(String search) {
+        return sqlSession.selectList("board.selectTag",search);
+    }
+
+    public List<BoardDTO> searchContents(String search) {
+        return sqlSession.selectList("board.selectTitle",search);
+    }
+
+    public void setSearchKeyword(String search, String session_iuid) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("search",search);
+        map.put("session_iuid",session_iuid);
+        sqlSession.insert("board.setSearchKeyword",map);
     }
 
 
@@ -219,12 +243,31 @@ public class BoardDAOImpl implements BoardDAO {
     public HashMap getView(String bl_uid) {
         Map<String, String> map = new HashMap();
 
-        sqlSession.update("board.addReadCount", bl_uid);    // 조회수를 올림
+        sqlSession.update("board.addReadCount", bl_uid);    // 조회수를 올림              //나누기
 
         map = sqlSession.selectOne("board.getView1", bl_uid);
 
+//        for(int i =0; i< map.size(); i++){
+//            logger.info(map.get(i));
+//        }
+//        B.bl_description, B.bl_introduce, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
+//                I.bti_url, R.blrc_count, (SELECT COUNT(L.blk_writer) FROM tbl_blockLikes) AS likes
+        logger.info(map.toString());
+                logger.info(map.get("BL_WRITER"));  // 대문자로 뽑아야함
+                logger.info(map.get("BL_TITLE"));
+                logger.info(map.get("BL_DESCRIPTION"));
+                logger.info(map.get("BL_INTRODUCE"));
+                logger.info(map.get("BL_MAINCTG"));
+                logger.info(map.get("BL_SMCTG"));
+                logger.info(map.get("BL_DATE"));
+                logger.info(map.get("BL_OBJID"));
+                logger.info(map.get("BTI_URL"));
+                logger.info(map.get("BLRC_COUNT"));
+                logger.info(map.get("LIKES"));
+
         List<String> list = sqlSession.selectList("board.getView2", bl_uid);   // 태그 뽑음
         for (int i = 0; i < list.size(); i++) {
+            logger.info(list.get(i));
             map.put("tag" + i, list.get(i));
         }
 
