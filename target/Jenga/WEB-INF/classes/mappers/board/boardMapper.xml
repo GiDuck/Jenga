@@ -237,7 +237,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 		    MCTG_NAME = #{bl_smCtg}
 	</select>
-	
+
+	<select id="selectName" resultType="hi.im.jenga.board.dto.BoardDTO">
+		SELECT
+			*
+		FROM
+			tbl_block
+		where
+		    BL_WRITER = (SELECT
+		                      MEM_IUID
+		                 FROM
+		                      TBL_MEMINFO
+		                 WHERE
+		                      MEM_NICK LIKE '%'||#{search}||'%'
+		                )
+	</select>
+
+	<select id="selectTag" resultType="hi.im.jenga.board.dto.BoardDTO">
+		SELECT DISTINCT
+			*
+		FROM
+			tbl_block
+		where
+		    BL_UID = (SELECT
+		    				BT_REF
+		    		  FROM
+		    		        TBL_BLOCKTAGS
+		    		  WHERE
+		    		        BT_NAME LIKE '%'||#{search}||'%'
+		    )
+	</select>
+
+	<select id="selectTitle" resultType="hi.im.jenga.board.dto.BoardDTO">
+		SELECT
+			*
+		FROM
+			tbl_block
+		where
+		    bl_title LIKE '%'||#{search}||'%'
+	</select>
+
+	<insert id="setSearchKeyword">
+		INSERT INTO
+			 tbl_keyword
+		values
+		     (#{search},#{session_iuid},sysdate)
+	</insert>
 </mapper>
 
 

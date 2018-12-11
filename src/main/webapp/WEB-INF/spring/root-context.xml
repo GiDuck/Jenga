@@ -21,7 +21,7 @@
 		    <!--<property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl" />-->
 		 	<!--<property name="url" value="jdbc:oracle:thin:@192.168.0.77:1521:orcl"></property>-->
 		 	<!--<property name="url" value="jdbc:oracle:thin:@172.22.234.218:1521:orcl"></property>-->
-		 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+		 	<property name="url" value="jdbc:oracle:thin:@jenga-bookmark.cylttnybnrq0.ap-northeast-2.rds.amazonaws.com:1521:orcl"></property>
 			<!--<property name="username" value="jengayujun" />-->
 			<!--<property name="password" value="jenga" />-->
 			<property name="username" value="#{data['oracle.username']}" />
