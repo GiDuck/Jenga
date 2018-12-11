@@ -65,6 +65,32 @@
             <version>${org.springframework-version}</version>
         </dependency>
 
+       <!-- &lt;!&ndash;  Spring Security  181208 &ndash;&gt;
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>3.2.10.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>3.2.10.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>3.2.10.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>3.2.10.RELEASE</version>
+        </dependency>-->
+
         <!-- Thumbnail 추가-->
         <dependency>
             <groupId>net.coobird</groupId>

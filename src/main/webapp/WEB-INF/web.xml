@@ -43,6 +43,18 @@
     <error-code>500</error-code>
     <location>/WEB-INF/views/error/error500.jsp</location>
   </error-page>
+<!--
+  &lt;!&ndash; SPRING SECURITY FILTER CHAIN &ndash;&gt;
+  
+  <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>-->
 
   <!-- 한글 처리를 위한 필터 처리 -->
   <filter>

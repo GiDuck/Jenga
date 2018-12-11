@@ -13,25 +13,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			blrc_ref = #{bl_uid}
 	</update>
-<!-- TODO 수정 중 -->
+<!-- TODO 수정 중      introduce추가 / mainCtg, smCtg 변환하기 -->
 	<select id="getView1" resultType="Map">
 		SELECT
-			B.bl_writer, B.bl_title, B.bl_description, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
-			I.bti_url, R.blrc_count, L.blk_
+			B.bl_writer, B.bl_title, B.bl_description, B.bl_introduce, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
+			I.bti_url, R.blrc_count, (SELECT COUNT(blk_writer) FROM tbl_blockLikes) AS likes
 		FROM
 			tbl_block B
 			INNER JOIN
 				tbl_thumbImg I
 			ON
-				B.bl_uid = I.bti_ref
+				I.bti_ref = B.bl_uid
 			INNER JOIN
 				tbl_blockReadCount R
 			ON
 				R.blrc_ref = B.bl_uid
-			INNER JOIN
-				tbl_blockLikes L
-			ON
-				L.
 		WHERE
 			B.bl_uid = #{bl_uid} AND R.blrc_ref = #{bl_uid}
 	</select>

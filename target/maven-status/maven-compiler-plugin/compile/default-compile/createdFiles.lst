@@ -45,4 +45,5 @@ hi\im\jenga\board\dto\BlockPathDTO.class
 hi\im\jenga\member\util\login\KakaoLoginUtil.class
 hi\im\jenga\member\dto\AuthMemberDTO.class
 hi\im\jenga\board\service\FileIO.class
+hi\im\jenga\interceptor\AuthInterceptor.class
 hi\im\jenga\board\service\MongoServiceImpl.class

@@ -122,13 +122,13 @@
                 $.ajax({
                     url: "/logincheck",
                     type: "post",
+                    datatype: "json",
                     data: {
                         "em_id": inputEmail,
                         "em_pwd": inputPw
                     },
 
                     success: function (responseData){
-                        console.log(responseData);
                         if (responseData.indexOf('iderror') != -1) {
                             alert("존재하지 않는 아이디 입니다. 다시 확인해 주세요!");
                             $('#login_em_id').val("");
@@ -152,6 +152,14 @@
                             location.replace("/");
 
                         }
+                    }, error: function(xhs, status, error){
+                        console.log(status);
+                        console.log(xhs.statusText);
+                        console.log(xhs.responseText);
+                        console.log(error);
+
+
+
                     }
 
                 })

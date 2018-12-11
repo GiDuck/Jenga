@@ -16,6 +16,7 @@ Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\member\util\login\LoginUti
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\member\controller\MemberController.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\member\dao\MemberDAO.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\member\util\mail\MailHandler.java
+Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\interceptor\AuthInterceptor.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\board\dao\MongoDAOImpl.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\board\service\BoardService.java
 Y:\go\SPRING\Intellij\Jenga\src\main\java\hi\im\jenga\board\service\BoardServiceImpl.java
