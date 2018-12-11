@@ -71,36 +71,32 @@ public class BoardController {
         return "stackBoard/boardView";
     }
 
+    /*
+     * 글 조회 GET
+     * 조회수, 좋아요 표시
+     * @param bl_uid : 글 UID
+     * */
     @GetMapping(value="/boardDetail")
-    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model) {
+    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) {
 
         Map<String, String[]> map = boardService.getView(bl_uid);
-//        String resultHTML = boardService.getBookMarkFromHTML(map.get());    // writer 줘야함
-//        mongoDTO = mongoService.getView("_refBoardId", bl_uid);
-//
-//        model.addAttribute("map", map);
-//        model.addAttribute("mongoDTO", mongoDTO);
-//        model.addAttribute("resultHTML", resultHTML);
+        String bl_writer = String.valueOf(map.get("BL_WRITER"));
+        logger.info(bl_writer);
+        String resultHTML = boardService.getBookMarkFromHTML(bl_writer);    // writer 줘야함
+        mongoDTO = mongoService.getView("_refBoardId", bl_uid);
+
+        logger.info(resultHTML);
+        logger.info(mongoDTO.get_value().toString());
+
+        model.addAttribute("map", map);
+        model.addAttribute("mongoDTO", mongoDTO);
+        model.addAttribute("resultHTML", resultHTML);
         return "stackBoard/boardDetailView";
     }
 
 
-    /*
-    * 글 조회 GET
-    * 조회수, 좋아요 표시
-    * @param bl_uid : 글 UID
-    * */
-    @RequestMapping(value = "/{bl_uid}", method = RequestMethod.GET)
-    public String getView(@PathVariable String bl_uid, Model model, MongoDTO mongoDTO){
 
-        Map<String, String[]> map = boardService.getView(bl_uid);
-        mongoDTO = mongoService.getView("_refBoardId", bl_uid);
 
-        model.addAttribute("map", map);
-        model.addAttribute("mongoDTO", mongoDTO);
-
-        return ""; // 수정페이지/{bl_uid}
-    }
 
 
 
@@ -118,7 +114,7 @@ public class BoardController {
 
             String categoryJSON = mapper.writeValueAsString(category);
 
-            String resultHTML = boardService.getBookMarkFromHTML(session_iuid);
+            String resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
 
             logger.info(resultHTML);
 
@@ -192,7 +188,7 @@ public class BoardController {
         */
 
     // 글쓰는페이지 POST / 작성
-    @RequestMapping(value="/stackBlock", method = RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
+    @RequestMapping(value="/uploadBlock", method = RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
     public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
                                               @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
 
@@ -382,3 +378,18 @@ public class BoardController {
 
     }
 */
+
+/*
+    @RequestMapping(value = "/{bl_uid}", method = RequestMethod.GET)
+    public String getView(@PathVariable String bl_uid, Model model, MongoDTO mongoDTO){
+
+        Map<String, String[]> map = boardService.getView(bl_uid);
+        mongoDTO = mongoService.getView("_refBoardId", bl_uid);
+
+        model.addAttribute("map", map);
+        model.addAttribute("mongoDTO", mongoDTO);
+
+        return ""; // 수정페이지/{bl_uid}
+    }
+
+    */

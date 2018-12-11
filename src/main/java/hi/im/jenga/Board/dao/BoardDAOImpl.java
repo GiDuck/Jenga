@@ -255,15 +255,15 @@ public class BoardDAOImpl implements BoardDAO {
         logger.info(map.toString());
                 logger.info(map.get("BL_WRITER"));  // 대문자로 뽑아야함
                 logger.info(map.get("BL_TITLE"));
-                logger.info(map.get("BL_DESCRIPTION"));
+                logger.info(String.valueOf(map.get("BL_DESCRIPTION")));
                 logger.info(map.get("BL_INTRODUCE"));
                 logger.info(map.get("BL_MAINCTG"));
                 logger.info(map.get("BL_SMCTG"));
-                logger.info(map.get("BL_DATE"));
+                logger.info(String.valueOf(map.get("BL_DATE")));
                 logger.info(map.get("BL_OBJID"));
                 logger.info(map.get("BTI_URL"));
-                logger.info(map.get("BLRC_COUNT"));
-                logger.info(map.get("LIKES"));
+                logger.info(String.valueOf(map.get("BLRC_COUNT")));
+                logger.info(String.valueOf(map.get("LIKES")));
 
         List<String> list = sqlSession.selectList("board.getView2", bl_uid);   // 태그 뽑음
         for (int i = 0; i < list.size(); i++) {
