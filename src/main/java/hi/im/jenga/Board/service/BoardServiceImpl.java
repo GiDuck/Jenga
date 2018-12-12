@@ -133,5 +133,13 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+	public void follow(String bl_writer, String session_iuid) {
+		dao.follow(bl_writer, session_iuid);
+	}
+
+	public void unfollow(String bl_writer, String session_iuid) {
+		dao.unfollow(bl_writer, session_iuid);
+	}
+
 
 }

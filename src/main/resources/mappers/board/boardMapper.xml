@@ -279,6 +279,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values
 		     (#{search},#{session_iuid},sysdate)
 	</insert>
+
+	<insert id="follow">
+		INSERT INTO
+			tbl_follow
+		VALUES
+		 	(#{bl_writer}, #{session_iuid})
+	</insert>
+
+	<delete id="unfollow">
+		DELETE FROM
+			tbl_follow
+		WHERE
+			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
+	</delete>
 </mapper>
 
 

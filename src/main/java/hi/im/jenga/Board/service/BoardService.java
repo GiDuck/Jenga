@@ -30,4 +30,8 @@ public interface BoardService {
     String transCtgUID(String bl_smCtg, String flag);
 
     List<BoardDTO> search(String search, String search_check, String session_iuid);
+
+    void follow(String bl_writer, String session_iuid);
+
+    void unfollow(String bl_writer, String session_iuid);
 }

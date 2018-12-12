@@ -52,4 +52,8 @@ public interface BoardDAO {
     List<BoardDTO> searchContents(String search);
 
     void setSearchKeyword(String search, String session_iuid);
+
+    void follow(String bl_writer, String session_iuid);
+
+    void unfollow(String bl_writer, String session_iuid);
 }

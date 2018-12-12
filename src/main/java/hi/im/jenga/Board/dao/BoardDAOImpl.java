@@ -202,6 +202,20 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.insert("board.setSearchKeyword",map);
     }
 
+    public void follow(String bl_writer, String session_iuid) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("bl_writer", bl_writer);
+        map.put("session_iuid",session_iuid);
+        sqlSession.insert("board.follow,",map);
+    }
+
+    public void unfollow(String bl_writer, String session_iuid) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("bl_writer", bl_writer);
+        map.put("session_iuid",session_iuid);
+        sqlSession.delete("board.unfollow,",map);
+    }
+
 
     public String getUploadName(String bl_uid) {
         return sqlSession.selectOne("board.getUploadName", bl_uid);
@@ -255,15 +269,15 @@ public class BoardDAOImpl implements BoardDAO {
         logger.info(map.toString());
                 logger.info(map.get("BL_WRITER"));  // 대문자로 뽑아야함
                 logger.info(map.get("BL_TITLE"));
-                logger.info(map.get("BL_DESCRIPTION"));
+                logger.info(String.valueOf(map.get("BL_DESCRIPTION")));
                 logger.info(map.get("BL_INTRODUCE"));
                 logger.info(map.get("BL_MAINCTG"));
                 logger.info(map.get("BL_SMCTG"));
-                logger.info(map.get("BL_DATE"));
+                logger.info(String.valueOf(map.get("BL_DATE")));
                 logger.info(map.get("BL_OBJID"));
                 logger.info(map.get("BTI_URL"));
-                logger.info(map.get("BLRC_COUNT"));
-                logger.info(map.get("LIKES"));
+                logger.info(String.valueOf(map.get("BLRC_COUNT")));
+                logger.info(String.valueOf(map.get("LIKES")));
 
         List<String> list = sqlSession.selectList("board.getView2", bl_uid);   // 태그 뽑음
         for (int i = 0; i < list.size(); i++) {

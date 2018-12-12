@@ -25,7 +25,9 @@ import java.lang.reflect.Member;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -243,6 +245,10 @@ public class MemberServiceImpl implements MemberService {
 
     public MemberDTO testParam() {
         return dao.testParam();
+    }
+
+    public List<Map<String,String>> getCategory() {
+        return dao.getCategory();
     }
 
 
