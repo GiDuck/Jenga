@@ -61,7 +61,6 @@ public class MemberController {
     public String hi(HttpSession session) {
         logger.info("세션은 "+(MemberDTO)session.getAttribute("Member"));
 //        logger.info("세션의 iuid는 "+((MemberDTO) session.getAttribute("Member")).getMem_iuid());
-        System.out.println("호호호호");
         return "main/main";
     }
 
@@ -88,7 +87,7 @@ public class MemberController {
 
         String check = memberService.checkEmail(emailMemberDTO);
 
-        logger.info("체크"+check);
+        logger.info("체크 "+check);
 
 //        model.addAttribute("check", check);
         request.setAttribute("check", check);       //
@@ -97,6 +96,7 @@ public class MemberController {
 //            model.addAttribute("Member", Member);
             request.setAttribute("Member", Member);
             logger.info("if문 들어옴");
+            logger.info(Member.getMem_iuid());
             return;
         }
         logger.info("if문 안들어감");
@@ -128,9 +128,11 @@ public class MemberController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session, Model model) {
 
+        logger.info(": : : : login : : session 은 " + session);
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
-        logger.info("session 은 " + session);
+//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+
         util = facebookLoginUtil;
         String FacebookAuthUrl = util.getAuthorizationUrl(session);
 
@@ -197,7 +199,7 @@ public class MemberController {
         } else if (result.equals("N")) {
             logger.info("N이다");  // N 이니까 UPDATE를 해야해서 N으로 구분해줌
             emailMemberDTO.setEm_acheck("N");
-            System.out.println(emailMemberDTO.getEm_id());
+            logger.info(emailMemberDTO.getEm_id());
         }
 //        N이거나 null이거나 무조건 들어옴 service에서 구분
         check = memberService.sendKey(emailMemberDTO);
@@ -346,7 +348,7 @@ public class MemberController {
        /* logger.info(": : regMemberInfoPOST : : uploadFile : " + uploadFile);                                    // 2단계에서 넣은 이미지
         logger.info(": : regMemberInfoPOST : : mem_nick : " + mem_nick);                                        // 2단계에서 입력한 닉네임*/
 
-        System.out.println(favor.length);
+        logger.info(""+favor.length);
 
         logger.info(favor[0]);
 
@@ -432,8 +434,14 @@ public class MemberController {
     // 로그아웃
     @RequestMapping("logout")
     public String logOut(HttpSession session){
+        if(session.getAttribute("Member") != null){
+            session.invalidate();
+            return "redirect:/";
+            // TODO 여기도 로그아웃 이전 페이지 url 저장해서 redirect 해줘야하나 음
+        }
+
         String getSes = (String)session.getAttribute("access_token");
-        System.out.println(getSes);
+        logger.info(getSes);
         String[] check =getSes.split("%&");
 
         if(check[0].equals("kakao")){
@@ -473,7 +481,7 @@ public class MemberController {
         JSONParser jsonParser = new JSONParser();
         JSONObject json = (JSONObject) jsonParser.parse(apiResult);
         String id = (String) json.get("id");
-        System.out.println(id);
+        logger.info(id);
 
         String aes_id = aes256Cipher.AES_Encode(id);
         result = memberService.isSMExist(aes_id);

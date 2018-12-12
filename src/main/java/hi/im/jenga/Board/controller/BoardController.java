@@ -24,12 +24,12 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
+// TODO  검색      (테스트) / 회원정보수정 / 댓글 / 팔로우
 /**
  *
- * 글 조회 GET
+ * 글 조회 GET / 글 수정 GET (/stackBlock?stack=stack, modify)
  * 글 작성 GET / POST
- * 글 수정 GET / POST (PATCCH)
+ * POST (PATCH)
  * 글 삭제 DELETE
  *
  * 검색
@@ -103,7 +103,7 @@ public class BoardController {
 
     // 글쓰는 페이지 GET, 글 수정 페이지 GET
     @RequestMapping(value = "/stackBlock", method = RequestMethod.GET)
-    public String getWriteView(HttpSession session, Model model, String status, MongoDTO mongoDTO, @RequestParam (value = "bl_uid", required = false)String bl_uid) throws JsonProcessingException {
+    public String getWriteView(HttpSession session, Model model, String status, MongoDTO mongoDTO, @RequestParam (value = "bl_uid", required = false) String bl_uid) throws JsonProcessingException {
 //  TODO  status 없이 그냥 url로 접근하면 잘못된 페이지 띄우기 -> 임시로 / 로 감
         if(status == null) return "redirect:/";
         if(status.equals("stack")) {

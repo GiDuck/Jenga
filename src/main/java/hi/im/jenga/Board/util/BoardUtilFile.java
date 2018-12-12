@@ -40,10 +40,7 @@ public class BoardUtilFile {
         try {
 
             fileName = uploadFile.getOriginalFilename();
-//            logger.info("들어오자마자 " + fileName);
 
-
-//          Image가 들어오면
             if(type.equals("image")) {
 //          파일이름이 ""면 (파일을 올리지 않았으면 ""로 들어옴)
                 if (fileName.equals("")) {
@@ -53,10 +50,8 @@ public class BoardUtilFile {
 
                 File uploadPath = new File(BLOCK_IMAGE_PATH, getFolder());
 
-                // yyyy/MM/dd 폴더를 만듬
                 if(uploadPath.exists() == false){
-                    logger.info("==========================================================================");
-                    logger.info("생성합니다....");
+                    logger.info("yyyy/MM/dd 폴더를 생성");
                     uploadPath.mkdirs();
                     logger.info("생성완료");
                 }
@@ -80,6 +75,8 @@ public class BoardUtilFile {
 
                 logger.info("BoardUtilFile fileUpload final fileName : " + fileName);
                 logger.info("BoardUtilFile fileUpload final path : " + BLOCK_IMAGE_PATH);
+
+                BLOCK_FINAL_PATH = uploadPath.getPath()+"\\"+fileName;
             }
 
 
@@ -141,7 +138,7 @@ public class BoardUtilFile {
 
         if(type.equals("image")) {
             logger.info("image입니다");
-            return fileName;
+            return BLOCK_FINAL_PATH;
         }
         logger.info("그냥입니다");
         return BLOCK_FINAL_PATH;
