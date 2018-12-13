@@ -25,6 +25,7 @@ import org.springsource.loaded.ri.Exceptions;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -243,7 +244,7 @@ public class BoardController {
 
 //  TODO 테스트 mongo update도 함
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
-    @RequestMapping(value = "/modView", method = RequestMethod.POST)
+    @RequestMapping(value = "/modView", method = RequestMethod.PATCH)
     public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
 
         String uploadName;
@@ -379,6 +380,22 @@ public class BoardController {
     @RequestMapping(value = "/followerboard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
     public String followerboard(HttpSession session){
         String My_iuid = ((MemberDTO)session.getAttribute("member")).getMem_iuid();
+        return ""; //임시 리턴
+    }
+
+
+
+
+    //TODO 수정 필요함 일단 만들어둠...!
+    @RequestMapping(value = "/myBlock")
+    public String myBlock(HttpSession session){
+
+        String my_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+
+
+        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
+
+
         return ""; //임시 리턴
     }
 

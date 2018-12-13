@@ -73,6 +73,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				(#{bl_uid})
 	</insert>
 
+	<!-- 좋아요 체크 -->
+	<select id="likeCheck" resultType="String">
+		SELECT
+			blk_writer
+		from
+			tbl_blocklikes
+		where
+			blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
+
+	</select>
+
     <!-- 좋아요 증가 -->
 	<insert id="addLike">
 		INSERT INTO
@@ -89,6 +100,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             blrc_ref = #{bl_uid}
     </delete>
+
+	<!-- 좋아요 카운트-->
 
 	<select id="modifyViewGET" resultType="Map">
 		SELECT
@@ -293,6 +306,112 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
 	</delete>
+
+	<select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
+			select
+				*
+			from
+			 	tbl_block
+			where
+			 	bl_writer = (select
+			 		 			fl_iuid
+			 		 		 from
+			 		 		  	tbl_follow
+			 		 		 where
+			 		 		 	fl_follower = #{my_iuid})
+			 		 		 ORDER by
+			 		 		     BL_WRITER
+			 		 		 DESC;
+	</select>
+
+
+	<!-- 좋아요 갯수 -->
+	<select id="likeCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tbl_blockLikes
+		where
+			 blk_ref = #{bl_iuid}
+	</select>
+
+
+	<!-- 내 블록 가져오기-->
+	<select id="getMyBlock" resultType="hi.im.jenga.board.dto.BoardDTO">
+		SELECT
+			*
+		FROM
+			TBL_BLOCK
+		WHERE
+			BL_WRITER = #{my_iuid}
+	</select>
+
+	<!-- 인기 블록 뽑기 -->
+	<select id="getPopBlock" resultType="hi.im.jenga.board.dto.BoardDTO">
+		select
+		 	 b.BL_TITLE,b.BL_INTRODUCE,b.BL_UID,b.BL_mainctg,b.BL_SMCTG,th.bti_url,b.bl_date,bl.bl_like,rc.BLRC_COUNT,mi.MEM_PROFILE,mi.MEM_NICK
+		from
+			 tbl_block b
+		inner join
+		 	 (select
+		 	  		BLK_REF, count(*) bl_like
+		 	  from
+		 	   		tbl_blocklikes
+		 	  group by
+		 	  		(blk_ref)
+		 	  Having
+		 	   		count(*) > 1) bl
+		 	  on
+		 	   		b.BL_UID = bl.blk_REF
+		 	  			inner join
+		 	   					tbl_THUMBIMG th
+		 	 			on
+		 	   					b.BL_UID = th.bti_ref
+		 	   					 		inner join
+		 	   					 		 		tbl_blockreadcount rc
+		 	   					 		on
+		 	   					 		 		b.BL_UID = rc.BLRC_REF
+		 	   					 		 		 		inner join
+		 	   					 		 		 		 		tbl_meminfo mi
+		 	   					 		 		 		on
+		 	   					 		 		 		 		b.BL_WRITER = mi.MEM_IUID
+	</select>
+
+
+	<!-- 내가 좋아요한 board 뽑기 -->
+	<select id="">
+		select
+		 		b.BL_DATE,b.BL_DESCRIPTION,b.BL_INTRODUCE,b.BL_MAINCTG,b.BL_OBJID,b.BL_SMCTG,b.BL_TITLE,b.BL_UID,b.bl_writer
+		from
+		 		tbl_blocklikes bl
+		inner join
+		 		tbl_block b
+		 		 	on
+		 		 	 	bl.BLK_REF = b.bl_uid
+		where
+		 	bl.blk_writer = #{my_iuid}
+
+	</select>
+	
+	<!--<select id="getPopReadCountBlock" resultType="hi.im.jenga.board.dto.BoardDTO">
+		SELECT
+			*
+		FROM
+			TBL_BLOCK
+		WHERE
+			BL_UID = (SELECT
+							BLRC_REF
+					  FROM
+					  		TBL_BLOCKREADCOUNT
+					  WHERE
+					  		10 <![CDATA[ < (SELECT
+					  							BLRC_COUNT
+
+
+
+					  		]]
+							)
+	</select>-->
 </mapper>
 
 

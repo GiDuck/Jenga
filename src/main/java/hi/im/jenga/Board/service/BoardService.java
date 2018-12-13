@@ -3,6 +3,7 @@ package hi.im.jenga.board.service;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,4 +39,6 @@ public interface BoardService {
     List<BoardDTO> getFollowerBoard(String my_iuid);
 
     int likeCount(String bl_iuid);
+
+    List<BoardDTO> getMyBlock(String my_iuid);
 }

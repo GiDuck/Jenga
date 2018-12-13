@@ -275,7 +275,7 @@ public class MemberController {
 
 
 
-    @RequestMapping(value ="/modMemInfo", method = RequestMethod.POST)
+    @RequestMapping(value ="/modMemInfo", method = RequestMethod.PATCH)
     public String modMemberInfoPOST(@RequestParam String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile,  MultipartHttpServletRequest request,
                                     @RequestParam String em_pwd, @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
         String s_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
