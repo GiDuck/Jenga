@@ -293,6 +293,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
 	</delete>
+
+	<select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
+			select
+				*
+			from
+			 	tbl_block
+			where
+			 	bl_writer = (select
+			 		 			fl_iuid
+			 		 		 from
+			 		 		  	tbl_follow
+			 		 		 where
+			 		 		 	fl_follower = #{my_iuid})
+			 		 		 ORDER by
+			 		 		     BL_WRITER
+			 		 		 DESC;
+	</select>
 </mapper>
 
 

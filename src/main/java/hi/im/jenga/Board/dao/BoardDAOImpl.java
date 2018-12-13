@@ -216,6 +216,10 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("board.unfollow,",map);
     }
 
+    public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
+        return sqlSession.selectList("board.getFollowerBoard",my_iuid);
+    }
+
 
     public String getUploadName(String bl_uid) {
         return sqlSession.selectOne("board.getUploadName", bl_uid);

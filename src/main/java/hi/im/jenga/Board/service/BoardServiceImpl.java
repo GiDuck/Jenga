@@ -141,5 +141,9 @@ public class BoardServiceImpl implements BoardService {
 		dao.unfollow(bl_writer, session_iuid);
 	}
 
+	public List<BoardDTO> getFollowerBoard(String my_iuid) {
+		return dao.getFollowerBoard(my_iuid);
+	}
+
 
 }

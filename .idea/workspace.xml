@@ -8,135 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9ab63b07-fe58-4f5c-b4f0-d2dcddfa96c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/controller/BoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dao/BoardDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dao/BoardDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dao/BoardDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dao/BoardDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/BoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/BoardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/BoardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/BoardServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/stackBlock.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga.war" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/controller/BoardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/controller/BoardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/BoardDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/dao/BoardDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/BoardServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/BoardServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/FileIO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/FileIO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/util/BoardUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/util/BoardUtilFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/controller/MemberController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/MemberUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/MemberUtilFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/mappers/board/boardMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/mappers/board/boardMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/mongoConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/mongoConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/stackBlock.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/stackBlock.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ar-AR.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ar-AR.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ar-AR.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ar-AR.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-bg-BG.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-bg-BG.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-bg-BG.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-bg-BG.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ca-ES.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ca-ES.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ca-ES.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ca-ES.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-cs-CZ.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-cs-CZ.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-cs-CZ.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-cs-CZ.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-da-DK.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-da-DK.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-da-DK.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-da-DK.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-de-DE.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-de-DE.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-de-DE.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-de-DE.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-el-GR.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-el-GR.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-el-GR.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-el-GR.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-ES.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-ES.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-ES.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-ES.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-EU.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-EU.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-EU.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-EU.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fa-IR.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fa-IR.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fa-IR.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fa-IR.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fi-FI.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fi-FI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fi-FI.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fi-FI.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fr-FR.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fr-FR.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fr-FR.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fr-FR.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-gl-ES.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-gl-ES.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-gl-ES.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-gl-ES.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-he-IL.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-he-IL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-he-IL.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-he-IL.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hr-HR.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hr-HR.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hr-HR.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hr-HR.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hu-HU.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hu-HU.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hu-HU.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hu-HU.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-id-ID.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-id-ID.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-id-ID.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-id-ID.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-it-IT.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-it-IT.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-it-IT.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-it-IT.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ja-JP.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ja-JP.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ja-JP.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ja-JP.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ko-KR.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ko-KR.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ko-KR.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ko-KR.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LT.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LT.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LT.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LT.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LV.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LV.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LV.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-mn-MN.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-mn-MN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-mn-MN.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-mn-MN.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nb-NO.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nb-NO.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nb-NO.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nb-NO.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nl-NL.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nl-NL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nl-NL.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nl-NL.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pl-PL.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pl-PL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pl-PL.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pl-PL.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-BR.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-BR.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-BR.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-BR.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-PT.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-PT.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-PT.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-PT.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ro-RO.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ro-RO.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ro-RO.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ro-RO.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ru-RU.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ru-RU.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ru-RU.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ru-RU.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sk-SK.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sk-SK.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sk-SK.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sk-SK.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sl-SI.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sl-SI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sl-SI.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sl-SI.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS-Latin.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS-Latin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS-Latin.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS-Latin.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sv-SE.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sv-SE.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sv-SE.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sv-SE.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ta-IN.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ta-IN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ta-IN.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ta-IN.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-th-TH.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-th-TH.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-th-TH.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-th-TH.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-tr-TR.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-tr-TR.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-tr-TR.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-tr-TR.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-uk-UA.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-uk-UA.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-uk-UA.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-uk-UA.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-vi-VN.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-vi-VN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-vi-VN.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-vi-VN.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-CN.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-CN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-CN.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-CN.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-TW.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-TW.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-TW.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-TW.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-bs4.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-bs4.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-bs4.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-bs4.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-lite.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-lite.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/BoardDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/dao/BoardDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/BoardServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/BoardServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/FileIO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/FileIO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/util/BoardUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/util/BoardUtilFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/controller/MemberController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/MemberUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/MemberUtilFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mappers/board/boardMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappers/board/boardMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -149,55 +22,123 @@
     <session id="376303195">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.14" value="1" />
+          <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.22" value="1" />
           <entry key="project.open.time.29" value="1" />
           <entry key="project.open.time.31" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="1" />
-          <entry key="java" value="8" />
+          <entry key="java" value="13" />
           <entry key="jsp" value="4" />
-          <entry key="xml" value="8" />
+          <entry key="xml" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
-          <entry key="JAVA" value="8" />
+          <entry key="JAVA" value="13" />
           <entry key="JSP" value="4" />
-          <entry key="XML" value="8" />
+          <entry key="XML" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1303" />
+          <entry key="java" value="1772" />
           <entry key="jsp" value="1" />
-          <entry key="xml" value="162" />
+          <entry key="xml" value="244" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1303" />
+          <entry key="JAVA" value="1772" />
           <entry key="JSP" value="1" />
-          <entry key="SQL" value="5" />
-          <entry key="XML" value="157" />
+          <entry key="SQL" value="34" />
+          <entry key="XML" value="210" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="615" column="9" selection-start-line="615" selection-start-column="9" selection-end-line="615" selection-end-column="9" />
+            <state relative-caret-position="232">
+              <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="227">
+              <caret line="377" column="44" selection-start-line="377" selection-start-column="44" selection-end-line="377" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="37" column="18" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="403">
+              <caret line="144" column="40" lean-forward="true" selection-start-line="144" selection-start-column="40" selection-end-line="144" selection-end-column="40" />
+              <folding>
+                <element signature="e#3902#3903#0" expanded="true" />
+                <element signature="e#3940#3941#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="448">
+              <caret line="59" column="18" selection-start-line="59" selection-start-column="4" selection-end-line="59" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="538">
+              <caret line="264" column="51" selection-start-line="264" selection-start-column="51" selection-end-line="264" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="311" column="13" lean-forward="true" selection-start-line="311" selection-start-column="13" selection-end-line="311" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="403">
+              <caret line="211" column="65" lean-forward="true" selection-start-line="211" selection-start-column="65" selection-end-line="211" selection-end-column="65" />
             </state>
           </provider>
         </entry>
@@ -205,7 +146,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3180">
+            <state relative-caret-position="403">
               <caret line="249" column="19" selection-start-line="249" selection-start-column="19" selection-end-line="249" selection-end-column="19" />
             </state>
           </provider>
@@ -214,53 +155,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
+            <state relative-caret-position="538">
               <caret line="58" column="12" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="50" column="12" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2760">
-              <caret line="200" selection-start-line="200" selection-end-line="200" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3960">
-              <caret line="264" column="51" selection-start-line="264" selection-start-column="51" selection-end-line="264" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" column="87" selection-start-line="31" selection-start-column="87" selection-end-line="31" selection-end-column="87" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -278,6 +174,8 @@
       <find>state</find>
       <find>status</find>
       <find>getcate</find>
+      <find>follow</find>
+      <find>iuid</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -296,6 +194,12 @@
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" />
       </list>
     </option>
   </component>
@@ -344,7 +248,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -538,6 +441,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="mappers" type="462c0819:PsiDirectoryNode" />
+              <item name="board" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="mappers" type="462c0819:PsiDirectoryNode" />
               <item name="member" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -616,12 +528,13 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544621094425" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544675470928" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -722,18 +635,28 @@
       <workItem from="1544600324825" duration="454000" />
       <workItem from="1544600836621" duration="868000" />
       <workItem from="1544609721327" duration="8019000" />
-      <workItem from="1544629617032" duration="1686000" />
+      <workItem from="1544629617032" duration="3623000" />
+      <workItem from="1544665234830" duration="5734000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14337000" />
+    <option name="totallyTimeSpent" value="22008000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26174498" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26439232" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -747,10 +670,10 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3995657" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" visible="true" weight="0.32899022" />
       <window_info anchor="bottom" id="Application Servers" order="7" weight="0.32899022" />
       <window_info anchor="bottom" id="Spring" order="8" weight="0.32899022" />
-      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32899022" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32899022" />
       <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
@@ -826,62 +749,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="182" column="44" lean-forward="true" selection-start-line="182" selection-start-column="44" selection-end-line="182" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="615" column="9" selection-start-line="615" selection-start-column="9" selection-end-line="615" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3180">
-          <caret line="249" column="19" selection-start-line="249" selection-start-column="19" selection-end-line="249" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="58" column="12" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="50" column="12" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2760">
-          <caret line="200" selection-start-line="200" selection-end-line="200" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3960">
-          <caret line="264" column="51" selection-start-line="264" selection-start-column="51" selection-end-line="264" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
@@ -893,6 +760,94 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAOImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="200" selection-start-line="200" selection-end-line="200" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="50" column="12" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/dao/MemberDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="58" column="12" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/service/MemberServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="249" column="19" selection-start-line="249" selection-start-column="19" selection-end-line="249" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="144" column="40" lean-forward="true" selection-start-line="144" selection-start-column="40" selection-end-line="144" selection-end-column="40" />
+          <folding>
+            <element signature="e#3902#3903#0" expanded="true" />
+            <element signature="e#3940#3941#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="37" column="18" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="59" column="18" selection-start-line="59" selection-start-column="4" selection-end-line="59" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/member/memberMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="264" column="51" selection-start-line="264" selection-start-column="51" selection-end-line="264" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="211" column="65" lean-forward="true" selection-start-line="211" selection-start-column="65" selection-end-line="211" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mappers/board/boardMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="311" column="13" lean-forward="true" selection-start-line="311" selection-start-column="13" selection-end-line="311" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="377" column="44" selection-start-line="377" selection-start-column="44" selection-end-line="377" selection-end-column="44" />
         </state>
       </provider>
     </entry>

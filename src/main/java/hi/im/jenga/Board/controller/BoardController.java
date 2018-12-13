@@ -374,6 +374,14 @@ public class BoardController {
     }
 
 
+    //TODO 일단 팔로워한 사람 글 뽑느거 했는데 필요하면 쓰셈
+    @RequestMapping(value = "/followerboard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
+    public String followerboard(HttpSession session){
+        String My_iuid = ((MemberDTO)session.getAttribute("member")).getMem_iuid();
+        return ""; //임시 리턴
+    }
+
+
 
 
 }
