@@ -232,11 +232,12 @@ public class BoardController {
 
         boardService.likeCheck(bl_iuid, session_mem_iuid);
 
+        int likeCount = boardService.likeCount(bl_iuid);
+
 //      optional
 
         return new ResponseEntity<Void>(HttpStatus.OK);
 //      return new ResponseEntity<Void>(Http.Status.BAD_REQUEST);
-
     }
 
 
@@ -380,6 +381,7 @@ public class BoardController {
         String My_iuid = ((MemberDTO)session.getAttribute("member")).getMem_iuid();
         return ""; //임시 리턴
     }
+
 
 
 

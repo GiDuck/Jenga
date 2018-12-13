@@ -73,6 +73,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				(#{bl_uid})
 	</insert>
 
+	<!-- 좋아요 체크 -->
+	<select id="likeCheck" resultType="String">
+		SELECT
+			blk_writer
+		from
+			tbl_blocklikes
+		where
+			blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
+
+	</select>
+
     <!-- 좋아요 증가 -->
 	<insert id="addLike">
 		INSERT INTO
@@ -89,6 +100,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             blrc_ref = #{bl_uid}
     </delete>
+
+	<!-- 좋아요 카운트-->
 
 	<select id="modifyViewGET" resultType="Map">
 		SELECT
@@ -309,6 +322,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 		 		 ORDER by
 			 		 		     BL_WRITER
 			 		 		 DESC;
+	</select>
+
+
+	<!-- 좋아요 갯수 -->
+	<select id="likeCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tbl_blockLikes
+		where
+			 blk_ref = #{bl_iuid}
 	</select>
 </mapper>
 

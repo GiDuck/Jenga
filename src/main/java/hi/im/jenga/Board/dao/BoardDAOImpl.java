@@ -220,6 +220,10 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getFollowerBoard",my_iuid);
     }
 
+    public int likeCount(String bl_iuid) {
+        return sqlSession.selectOne("board.likeCount",bl_iuid);
+    }
+
 
     public String getUploadName(String bl_uid) {
         return sqlSession.selectOne("board.getUploadName", bl_uid);

@@ -145,5 +145,9 @@ public class BoardServiceImpl implements BoardService {
 		return dao.getFollowerBoard(my_iuid);
 	}
 
+	public int likeCount(String bl_iuid) {
+		return dao.likeCount(bl_iuid);
+	}
+
 
 }

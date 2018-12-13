@@ -58,4 +58,6 @@ public interface BoardDAO {
     void unfollow(String bl_writer, String session_iuid);
 
     List<BoardDTO> getFollowerBoard(String my_iuid);
+
+    int likeCount(String bl_iuid);
 }
