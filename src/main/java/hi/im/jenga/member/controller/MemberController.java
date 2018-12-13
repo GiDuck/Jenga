@@ -9,7 +9,9 @@ import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.MemberUtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.login.*;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -328,9 +330,6 @@ public class MemberController {
 
 
 
-
-
-
     // 추가정보페이지에 있는 submit 버튼
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
@@ -604,11 +603,15 @@ public class MemberController {
     // 취향 선택 IN setMemberInfo
     @ResponseBody
     @RequestMapping(value = "/getCategory", method = RequestMethod.GET)
-    public List<Map<String, String>> getCategory() {
+    public String getCategory() throws Exception {
 
         List<Map<String, String>> params = new ArrayList<Map<String, String>>();
 
-        Map<String, String> map = new HashMap<String, String>();
+        params = memberService.getCategory();
+        ObjectMapper mapper = new ObjectMapper();
+        String res = mapper.writeValueAsString(params);
+        /*Map<String, String> map = new HashMap<String, String>();
+
 
         map.put("name", "문화/예술");
         map.put("image",
@@ -643,8 +646,8 @@ public class MemberController {
         map4.put("image", "https://thumb.ad.co.kr/article/54/12/e8/92/i/459922.png");
 
         params.add(map4);
-
-        return params;
+*/
+        return res;
 
     }
 

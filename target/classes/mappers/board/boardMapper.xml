@@ -13,11 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			blrc_ref = #{bl_uid}
 	</update>
-<!-- TODO 수정 중      introduce추가 / mainCtg, smCtg 변환하기 -->
-	<select id="getView1" resultType="Map">
+<!-- TODO 수정 중      introduce추가 -->
+	<select id="getBoardDetailBlock" resultType="Map">
 		SELECT
-			B.bl_writer, B.bl_title, B.bl_description, B.bl_introduce, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
-			I.bti_url, R.blrc_count, (SELECT COUNT(blk_writer) FROM tbl_blockLikes) AS likes
+			B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description", B.bl_introduce AS "bl_introduce", B.bl_mainCtg AS "bl_mainCtg", B.bl_smCtg AS "bl_smCtg", B.bl_date AS "bl_date", B.bl_objId AS "bl_objId",
+			I.bti_url AS "bti_url", R.blrc_count AS "blrc_count", (SELECT COUNT(blk_writer) FROM tbl_blockLikes) AS likes
 		FROM
 			tbl_block B
 			INNER JOIN
@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			B.bl_uid = #{bl_uid} AND R.blrc_ref = #{bl_uid}
 	</select>
 
-	<select id="getView2" resultType="String">
+	<select id="getBoardDetailTags" resultType="String">
 		SELECT
 			bt_name
 		FROM
@@ -73,6 +73,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				(#{bl_uid})
 	</insert>
 
+	<!-- 좋아요 체크 -->
+	<select id="likeCheck" resultType="String">
+		SELECT
+			blk_writer
+		from
+			tbl_blocklikes
+		where
+			blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
+
+	</select>
+
     <!-- 좋아요 증가 -->
 	<insert id="addLike">
 		INSERT INTO
@@ -89,6 +100,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             blrc_ref = #{bl_uid}
     </delete>
+
+	<!-- 좋아요 카운트-->
 
 	<select id="modifyViewGET" resultType="Map">
 		SELECT
@@ -279,6 +292,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values
 		     (#{search},#{session_iuid},sysdate)
 	</insert>
+
+	<insert id="follow">
+		INSERT INTO
+			tbl_follow
+		VALUES
+		 	(#{bl_writer}, #{session_iuid})
+	</insert>
+
+	<delete id="unfollow">
+		DELETE FROM
+			tbl_follow
+		WHERE
+			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
+	</delete>
+
+	<select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
+			select
+				*
+			from
+			 	tbl_block
+			where
+			 	bl_writer = (select
+			 		 			fl_iuid
+			 		 		 from
+			 		 		  	tbl_follow
+			 		 		 where
+			 		 		 	fl_follower = #{my_iuid})
+			 		 		 ORDER by
+			 		 		     BL_WRITER
+			 		 		 DESC;
+	</select>
+
+
+	<!-- 좋아요 갯수 -->
+	<select id="likeCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tbl_blockLikes
+		where
+			 blk_ref = #{bl_iuid}
+	</select>
 </mapper>
 
 

@@ -12,10 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO{
@@ -198,6 +195,19 @@ public class MemberDAOImpl implements MemberDAO{
 
     public MemberDTO testParam() {
         return null;
+    }
+
+
+
+    /***카테고리 뽑는중***/
+    public List<Map<String,String>> getCategory() {
+        /*System.out.println(sqlSession.selectList("member.getCategory"));*/
+        List<Map<String,String>> list  = sqlSession.selectList("member.getCategory");
+       /* for(HashMap<String,String> map :  list){
+            System.out.println(map.get("MCTG_NAME"));
+            System.out.println(map.get("MCTG_IMG"));
+        }*/
+       return list;
     }
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {

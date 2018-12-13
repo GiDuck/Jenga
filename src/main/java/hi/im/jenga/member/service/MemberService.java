@@ -4,7 +4,10 @@ package hi.im.jenga.member.service;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
     void addMemberInfo(MemberDTO memberDTO) throws Exception;
@@ -44,5 +47,7 @@ public interface MemberService {
     List<String> getMemFavor(String member);
 
     MemberDTO testParam();
+
+    List<Map<String,String>> getCategory();
 }
 

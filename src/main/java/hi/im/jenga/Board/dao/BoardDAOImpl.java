@@ -203,6 +203,28 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.insert("board.setSearchKeyword",map);
     }
 
+    public void follow(String bl_writer, String session_iuid) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("bl_writer", bl_writer);
+        map.put("session_iuid",session_iuid);
+        sqlSession.insert("board.follow,",map);
+    }
+
+    public void unfollow(String bl_writer, String session_iuid) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("bl_writer", bl_writer);
+        map.put("session_iuid",session_iuid);
+        sqlSession.delete("board.unfollow,",map);
+    }
+
+    public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
+        return sqlSession.selectList("board.getFollowerBoard",my_iuid);
+    }
+
+    public int likeCount(String bl_iuid) {
+        return sqlSession.selectOne("board.likeCount",bl_iuid);
+    }
+
 
     public String getUploadName(String bl_uid) {
         return sqlSession.selectOne("board.getUploadName", bl_uid);

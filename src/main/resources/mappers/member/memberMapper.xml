@@ -262,6 +262,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		mem_iuid = #{s_iuid}
 	</select>
 
+	<select id="getCategory" resultType="java.util.Map">
+	SELECT
+	    mctg_name, mctg_img
+	from
+		tbl_mcategory
+	</select>
+
 </mapper>
 
 

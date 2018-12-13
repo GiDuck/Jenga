@@ -21,7 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -89,7 +91,12 @@ public class BoardController {
     public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) {
 
         Map<String, Object> map = boardService.getView(bl_uid);
-        model.addAttribute("map", map);
+
+        JSONObject jsonObject = new JSONObject(map);
+        logger.info("map은 " + map.toString());
+        logger.info("jsonObject.toJSONString() " + jsonObject.toJSONString());
+        logger.info("jsonObject.toString() " + jsonObject.toString());
+        model.addAttribute("map", jsonObject);
 
         return "stackBoard/boardDetailView";
     }
@@ -228,11 +235,12 @@ public class BoardController {
 
         boardService.likeCheck(bl_iuid, session_mem_iuid);
 
+        int likeCount = boardService.likeCount(bl_iuid);
+
 //      optional
 
         return new ResponseEntity<Void>(HttpStatus.OK);
 //      return new ResponseEntity<Void>(Http.Status.BAD_REQUEST);
-
     }
 
 
@@ -340,6 +348,46 @@ public class BoardController {
 //        mongoService.getAnyway(member,json);
         return "/mongo";
     }
+
+
+
+    @RequestMapping(value = "/follow", method=RequestMethod.POST)
+    @ResponseBody
+    public void follower(String bl_writer, HttpSession session, HttpServletResponse response) throws IOException {
+        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+
+        try {
+            boardService.follow(bl_writer,session_iuid);
+            response.getWriter().println("success");
+        }catch (Exception e){
+            response.getWriter().println("error");
+        }
+    }
+
+    @RequestMapping(value = "/unfollow", method=RequestMethod.POST)
+    @ResponseBody
+    public void unfollower(String bl_writer, HttpSession session, HttpServletResponse response) throws IOException {
+        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+
+        try {
+            boardService.unfollow(bl_writer,session_iuid);
+            response.getWriter().println("success");
+        }catch (Exception e){
+            response.getWriter().println("error");
+        }
+    }
+
+
+    //TODO 일단 팔로워한 사람 글 뽑느거 했는데 필요하면 쓰셈
+    @RequestMapping(value = "/followerboard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
+    public String followerboard(HttpSession session){
+        String My_iuid = ((MemberDTO)session.getAttribute("member")).getMem_iuid();
+        return ""; //임시 리턴
+    }
+
+
+
+
 
 }
 

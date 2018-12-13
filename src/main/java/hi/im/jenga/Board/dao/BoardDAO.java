@@ -56,4 +56,13 @@ public interface BoardDAO {
     Map<String, Object> getBoardDetailBlock(String bl_uid);
 
     List<String> getBoardDetailTags(String bl_uid);
+
+    void follow(String bl_writer, String session_iuid);
+
+    void unfollow(String bl_writer, String session_iuid);
+
+    List<BoardDTO> getFollowerBoard(String my_iuid);
+
+    int likeCount(String bl_iuid);
+
 }

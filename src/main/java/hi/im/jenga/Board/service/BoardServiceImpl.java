@@ -165,5 +165,21 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+	public void follow(String bl_writer, String session_iuid) {
+		dao.follow(bl_writer, session_iuid);
+	}
+
+	public void unfollow(String bl_writer, String session_iuid) {
+		dao.unfollow(bl_writer, session_iuid);
+	}
+
+	public List<BoardDTO> getFollowerBoard(String my_iuid) {
+		return dao.getFollowerBoard(my_iuid);
+	}
+
+	public int likeCount(String bl_iuid) {
+		return dao.likeCount(bl_iuid);
+	}
+
 
 }
