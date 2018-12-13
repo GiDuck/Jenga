@@ -1467,7 +1467,7 @@ Chrome, Firefox 사용 가능
         setCategory(category);
         setComponentEventListener();
 
-        let statusToken = '${status}';
+        let statusToken = '${param.status}';
         console.log(statusToken);
 
         //사용자가 업로드 했던 북마크 목록을 가져온다
@@ -1476,6 +1476,7 @@ Chrome, Firefox 사용 가능
 
         //북마크 목록 화면에 나타낸다
         refreshBookMark(bookmarkElements, "left");
+
 
         if(statusToken == "stack"){
 

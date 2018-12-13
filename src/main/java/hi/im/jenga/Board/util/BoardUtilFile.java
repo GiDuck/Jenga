@@ -76,7 +76,7 @@ public class BoardUtilFile {
                 logger.info("BoardUtilFile fileUpload final fileName : " + fileName);
                 logger.info("BoardUtilFile fileUpload final path : " + BLOCK_IMAGE_PATH);
 
-                BLOCK_FINAL_PATH = uploadPath.getPath()+"\\"+fileName;
+                BLOCK_IMAGE_PATH = uploadPath.getPath()+"\\"+fileName;
             }
 
 
@@ -138,7 +138,8 @@ public class BoardUtilFile {
 
         if(type.equals("image")) {
             logger.info("image입니다");
-            return BLOCK_FINAL_PATH;
+            logger.info(BLOCK_IMAGE_PATH);
+            return BLOCK_IMAGE_PATH;
         }
         logger.info("그냥입니다");
         return BLOCK_FINAL_PATH;

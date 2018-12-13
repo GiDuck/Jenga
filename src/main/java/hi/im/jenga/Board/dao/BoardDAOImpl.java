@@ -83,9 +83,11 @@ public class BoardDAOImpl implements BoardDAO {
 
         if (result == null) {
             sqlSession.insert("board.addLike", map);
+            logger.info("좋아요 insert");
             return;
         }
         sqlSession.delete("board.cancelLike", map);
+        logger.info("좋아요 delete");
 
     }
 
@@ -210,11 +212,11 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.insert("board.follow,",map);
     }
 
-    public void unfollow(String bl_writer, String session_iuid) {
+    public void unFollow(String bl_writer, String session_iuid) {
         Map<String,String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
         map.put("session_iuid",session_iuid);
-        sqlSession.delete("board.unfollow,",map);
+        sqlSession.delete("board.unFollow,",map);
     }
 
     public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글

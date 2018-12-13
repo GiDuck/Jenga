@@ -8,12 +8,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 2차 페이지에서 입력 후 임시로 저장한 정보들을 새로 UPDATE하는 -->
 	<!-- 개인정보 (주) -->
-	<insert id="addMemberInfo">
+	<update id="addEMemberInfo">
 	UPDATE
 		tbl_MemInfo
 	SET
 		mem_nick = #{mem_nick}, mem_profile = #{mem_profile}, mem_joinDate = sysdate
-	WHERE mem_iuid = #{mem_iuid}
+	WHERE
+		mem_iuid = #{mem_iuid}
+	</update>
+
+	<insert id="addSMemberInfo">
+	INSERT INTO
+		tbl_MemInfo
+		(mem_nick, mem_profile , mem_joinDate)
+		VALUES
+		(#{mem_nick}, #{mem_profile}, sysdate)
+	WHERE
+		mem_iuid = #{mem_iuid}
+
 	</insert>
 
 	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 날짜로 그날 날짜로 바꾸고 완전 회원가입 완료 -->

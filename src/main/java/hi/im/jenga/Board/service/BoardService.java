@@ -33,7 +33,7 @@ public interface BoardService {
 
     void follow(String bl_writer, String session_iuid);
 
-    void unfollow(String bl_writer, String session_iuid);
+    void unFollow(String bl_writer, String session_iuid);
 
     List<BoardDTO> getFollowerBoard(String my_iuid);
 

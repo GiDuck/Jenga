@@ -5,16 +5,15 @@ import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface MemberService {
-    void addMemberInfo(MemberDTO memberDTO) throws Exception;
+    void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String key) throws Exception;
 
     void addEMember(String aes_iuid);
 
-    void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
+    void addSMember(SocialMemberDTO socialMemberDTO, String sMem_iuid);
 
     boolean isSMExist(String aes_sid);
 

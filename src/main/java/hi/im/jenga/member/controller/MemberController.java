@@ -1,7 +1,7 @@
 package hi.im.jenga.member.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import hi.im.jenga.board.dto.BoardDTO;
+import com.google.gson.Gson;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
@@ -9,29 +9,26 @@ import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.MemberUtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.login.*;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberController {
@@ -148,6 +145,8 @@ public class MemberController {
         model.addAttribute("n", naverAuthUrl);
         model.addAttribute("f", FacebookAuthUrl);
         model.addAttribute("g", GoogleAuthUrl);
+
+
 
         return "member/login";
     }
@@ -344,16 +343,20 @@ public class MemberController {
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_id : " + socialMemberDTO.getSm_id());        // 1단계에서 고유아이디
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_type : " + socialMemberDTO.getSm_type());    // 1단계에서 소셜 타입
 
-       /* logger.info(": : regMemberInfoPOST : : uploadFile : " + uploadFile);                                    // 2단계에서 넣은 이미지
-        logger.info(": : regMemberInfoPOST : : mem_nick : " + mem_nick);                                        // 2단계에서 입력한 닉네임*/
+        logger.info("선택한 취향 개수 "+favor.length);
 
-        logger.info(""+favor.length);
-
-        logger.info(favor[0]);
+//        logger.info(favor[0]);
 
 //      UtilFile 객체 생성
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
-        String uploadName = memberUtilFile.fileUpload(request, uploadFile);
+        logger.info(uploadFile.getOriginalFilename());
+        String uploadName;
+        if(uploadFile != null){
+            uploadName = memberUtilFile.fileUpload(request, uploadFile);
+        }else {
+            uploadName = "";    //바꾸기
+        }
+
 
 
         /*** 다시
@@ -361,25 +364,24 @@ public class MemberController {
          * service에서 암호화, iuid 생성
          *
          * ***/
-
-//        이메일을 이용해서 임시로 넣음 iuid를 찾아야함
-
-        String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (ref)를 가져옴
-
-        logger.info("aes_iuid는 " + aes_iuid);
-
         memberDTO.setMem_profile(uploadName);
-        memberDTO.setMem_nick(mem_nick);
-        memberDTO.setMem_iuid(aes_iuid);
+//        이메일을 이용해서 임시로 넣음 iuid를 찾아야함
+        if(emailMemberDTO.getEm_id().equals("")) {
+            logger.info("이메일은 여기서 다 처리");
+//            String em_ref = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
 
-        memberService.addMemberInfo(memberDTO);
-        memberService.addMemberFavor(aes_iuid,favor);
 
-        session.setAttribute("Member",memberDTO);       // 입력된 정보를 세션에 넣어줌
+            memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, "email");
+            logger.info("이메일1");
+            memberService.addMemberFavor(memberDTO.getMem_iuid(), favor);
+            logger.info("이메일2");
+            memberService.addEMember(memberDTO.getMem_iuid());
+            logger.info("이메일3");
+            return "redirect:/";
 
-        /*** 다시 ***/
-        // if 이메일 회원가입이면
-        // 인증여부 Y로 바꿔야함
+//            session.setAttribute("Member", memberDTO);       // 입력된 정보를 세션에 넣어줌 -> 왜 넣더라 바로 로그인 된 상태로 하려고 세션에 넣는거였나 일단 주석
+        }
+    /*    // 인증여부 Y로 바꿔야함
         // update로 iuid, 닉네임, 파일경로, level, date)바꿔주기   IN tbl_memInfo
         // update로 이메일, 비밀번호, 인증여부 'Y' emember  WHERE
 
@@ -390,18 +392,20 @@ public class MemberController {
             memberService.addEMember(aes_iuid);
 
             return "redirect:/";
-        }
+        }*/
 
         logger.info("소셜 " + socialMemberDTO.getSm_type() + " 회원가입입니다.");
-        // 아니고 소셜로그인이면 소셜고유아이디, iuid, type
 
+        memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, "social");
+
+        logger.info("2222222");
         socialMemberDTO.setSm_id(socialMemberDTO.getSm_id());
         socialMemberDTO.setSm_type(socialMemberDTO.getSm_type());
 
         logger.info("id는 " + socialMemberDTO.getSm_id());
         logger.info("type은 " + socialMemberDTO.getSm_type());
 
-        memberService.addSMember(socialMemberDTO, aes_iuid);
+        memberService.addSMember(socialMemberDTO, memberDTO.getMem_iuid());
 
 
         return "redirect:/";
@@ -489,8 +493,8 @@ public class MemberController {
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_id);                   // 네이버 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));              // 소셜 타입 직접 정의 "naver"를 암호화
+        socialMemberDTO.setSm_id(aes_id);                   // facebook 고유아이디를 암호화
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));              // 소셜 타입 직접 정의 "facebook"를 암호화
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -522,8 +526,8 @@ public class MemberController {
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_id);                   // 네이버 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));              // 소셜 타입 직접 정의 "naver"를 암호화
+        socialMemberDTO.setSm_id(aes_id);                   // kakao 고유아이디를 암호화
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));              // 소셜 타입 직접 정의 "kakao"를 암호화
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -584,8 +588,8 @@ public class MemberController {
             logger.info("존재하는 소셜 ID 입니다");
             return "redirect:/";
         }
-        socialMemberDTO.setSm_id(aes_id);                   // 네이버 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));              // 소셜 타입 직접 정의 "naver"를 암호화
+        socialMemberDTO.setSm_id(aes_id);                   // google 고유아이디를 암호화
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));              // 소셜 타입 직접 정의 "google"를 암호화
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -603,14 +607,24 @@ public class MemberController {
     // 취향 선택 IN setMemberInfo
     @ResponseBody
     @RequestMapping(value = "/getCategory", method = RequestMethod.GET)
-    public String getCategory() throws Exception {
+    public ResponseEntity<String> getCategory() throws Exception {
+        HttpHeaders httpHeaders = new HttpHeaders();
 
         List<Map<String, String>> params = new ArrayList<Map<String, String>>();
 
         params = memberService.getCategory();
-        ObjectMapper mapper = new ObjectMapper();
-        String res = mapper.writeValueAsString(params);
+
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+//        httpHeaders.add("Content-Type", "Application/xml"); 로 해도됨
+        String json = new Gson().toJson(params);
+
+        logger.info(json);
+
+        return new ResponseEntity<String>(json,httpHeaders, HttpStatus.OK);
+
+
         /*Map<String, String> map = new HashMap<String, String>();
+
 
 
         map.put("name", "문화/예술");
@@ -647,8 +661,6 @@ public class MemberController {
 
         params.add(map4);
 */
-        return res;
-
     }
 
 }

@@ -61,7 +61,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             session.setAttribute("Member",request.getAttribute("Member"));
         }
 
-        logger.info(dest);
+        logger.info("null이면 AuthInterceptor 안거친거 "+dest);
         logger.info("@@@ dest는 LoginInterceptor " + dest);
 
         map.put("dest", dest != null ? dest : "/");
