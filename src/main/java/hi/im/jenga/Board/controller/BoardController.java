@@ -9,6 +9,7 @@ import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,23 +75,22 @@ public class BoardController {
     /*
      * 글 조회 GET
      * 조회수, 좋아요 표시
-     * @param bl_uid : 글 UID
+     *
+     * 블록
+     * map.get("BL_SMCTG");
+     *
+     * 태그
+     * map.get("tag")  List<String> 을 넣음
+     *
+     * 북마크
+     * map.get("bookmarks");
      * */
     @GetMapping(value="/boardDetail")
     public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) {
 
-        Map<String, String[]> map = boardService.getView(bl_uid);
-        String bl_writer = String.valueOf(map.get("BL_WRITER"));
-        logger.info(bl_writer);
-        String resultHTML = boardService.getBookMarkFromHTML(bl_writer);    // writer 줘야함
-        mongoDTO = mongoService.getView("_refBoardId", bl_uid);
-
-        logger.info(resultHTML);
-        logger.info(mongoDTO.get_value().toString());
-
+        Map<String, Object> map = boardService.getView(bl_uid);
         model.addAttribute("map", map);
-        model.addAttribute("mongoDTO", mongoDTO);
-        model.addAttribute("resultHTML", resultHTML);
+
         return "stackBoard/boardDetailView";
     }
 

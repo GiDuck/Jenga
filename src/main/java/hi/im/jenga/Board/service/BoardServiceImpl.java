@@ -100,7 +100,39 @@ public class BoardServiceImpl implements BoardService {
 		return dao.deleteBlock(bl_uid);
 	}
 
-	public HashMap getView(String bl_uid) { return dao.getView(bl_uid); }
+
+
+
+
+
+
+
+	@Transactional
+	public Map<String, Object> getView(String bl_uid) {
+		dao.getAddReadCount(bl_uid);	// 조회수 up
+		Map<String, Object> map = dao.getBoardDetailBlock(bl_uid);
+
+		System.out.println(map.get("bl_description"));
+		System.out.println(map.get("bl_date"));
+		System.out.println(map.get("blrc_count"));
+		System.out.println(map.get("likes"));
+
+		List<String> list = dao.getBoardDetailTags(bl_uid);
+		map.put("tag", list);
+
+		String bookmarks = mongoService.getView("_refBoardId", bl_uid);
+		map.put("bookmarks", bookmarks);
+
+
+		return map;
+	}
+
+
+
+
+
+
+
 
 	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 

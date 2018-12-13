@@ -19,7 +19,7 @@ public interface BoardService {
 
     int deleteBlock(String bl_uid);
 
-    HashMap getView(String bl_uid);
+    Map<String, Object> getView(String bl_uid);
 
     void likeCheck(String bl_iuid, String session_mem_iuid);
 
