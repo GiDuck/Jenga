@@ -39,7 +39,7 @@
           <li class="dropdown nav-item">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">Block</a>
             <div class="dropdown-menu dropdown-menu-right dropdown-warning">
-              <a href="#" class="dropdown-item"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
+              <a href="/board/boardView" class="dropdown-item"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
               <a href="#" class="dropdown-item"><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
               <a href="#" class="dropdown-item loginService"><i class="nc-icon nc-app"></i>블록 쌓기</a>
               <a href="#" class="dropdown-item loginService"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
@@ -66,11 +66,11 @@
          <!-- 세션 존재여부에 따라 로그인, 로그아웃 여부가 다르게 보임 -->
          <c:choose>
             <c:when test="${sessionScope.Member ne null}">
-            <a class="nav-link">LOGOUT</a>
+            <a class="nav-link" name="loginBtn" value="1">LOGOUT</a>
             </c:when>
             
             <c:otherwise>
-             <a class="nav-link">LOGIN</a>
+             <a class="nav-link" name="loginBtn" value="0">LOGIN</a>
             
             </c:otherwise>
           </c:choose>
@@ -105,24 +105,74 @@
 	  
 	  
 	  $(".loginService").on('click', function(e){
-		  
-		  let success = function(){
-			  
-			location.href= "/join";			  
-		  }
-		  
-		  let fail = function(){ 
-				console.log("fail");
-		  };
-		  		
-		  let modal = makeCheckableModal('', '로그인이 필요한 서비스 입니다.' ,'로그인을 먼저 해 주세요. 페이지로 이동할까요?', success, fail);
-		  
+          e.preventDefault();
+
+	      //세션체크
+
+          console.log("sessionScope");
+          console.log("${sessionScope}");
+
+          let session = $.isEmptyObject("${sessionScope}");
+          console.log(session);
+
+          if(session){
+
+		  swal({
+              text : "로그인이 필요한 서비스 입니다. 로그인 페이지로 이동하시겠습니까?",
+              type : "warning",
+              showCancelButton : true,
+              confirmButtonText: "이동"
+          }).then(function(result){
+
+              window.location.href="/login";
+
+          });
 		 
-		  e.preventDefault();
-		  
+
+          }else{
+
+              window.location.href="/board/stackBlock?status=stack";
+
+          }
 		  
 	  });
-	  
+
+
+	  $("a[name='loginBtn']").on('click', function(e){
+          let validLogin = $(e.target).attr("value");
+
+          if(validLogin == 0){
+
+              window.location.href = "/login";
+
+
+          }else if(validLogin == 1){
+
+              $.ajax({
+
+                  url : "/logout",
+                  type : "GET",
+                  data : null,
+                  error : function(error){
+
+                      swal({
+
+                          text : "로그아웃에 실패하였습니다.",
+                          type : "error"
+
+                      });
+
+                  }
+
+              });
+
+          }
+
+
+
+      });
+
+
 	  
   });
  
