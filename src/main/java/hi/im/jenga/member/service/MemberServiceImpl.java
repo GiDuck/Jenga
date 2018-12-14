@@ -69,7 +69,7 @@ public class MemberServiceImpl implements MemberService {
         dao.addSMember(socialMemberDTO, sMem_iuid);
     }
 
-    public boolean isSMExist(String aes_sid) {
+    public MemberDTO isSMExist(String aes_sid) {
         return dao.isSMExist(aes_sid);
     }
 

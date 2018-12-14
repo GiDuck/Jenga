@@ -103,29 +103,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 좋아요 카운트-->
 
-	<select id="modifyViewGET" resultType="Map">
+	<select id="getModifyBlock" resultType="Map">
 		SELECT
-			B.bl_writer, B.bl_title, B.bl_description, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
-			I.bti_url
+			B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description",  B.bl_introduce AS "bl_introduce", B.bl_mainCtg AS "bl_mainCtg", B.bl_smCtg AS "bl_smCtg", B.bl_objId AS "bl_objId",
+			I.bti_url AS "bti_url"
 		FROM
 			tbl_block B
 			INNER JOIN
 				tbl_thumbImg I
 			ON
-				B.bl_uid = I.bti_ref
+				I.bti_ref = B.bl_uid
 		WHERE
 			B.bl_uid = #{bl_uid}
 	</select>
 
-	<select id="modifyViewGET2" resultType="String">
-		SELECT
-			bt_name
-		FROM
-			tbl_blockTags
-		WHERE
-			bt_ref = #{bl_uid}
-	</select>
-	
 	<select id="getUploadName" resultType="String">
 		SELECT
 			bti_url

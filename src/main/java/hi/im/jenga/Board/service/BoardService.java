@@ -11,7 +11,7 @@ public interface BoardService {
 
     void writeViewBlock(BoardDTO boardDTO, String uploadName, String bl_bookmarks) throws Exception;
 
-    HashMap modifyViewGET(String bl_uid);
+    Map<String, Object> getModifyBlock(String bl_uid);
 
     void modifyViewPOST(BoardDTO boardDTO, String uploadName, String bl_bookmarks);
 

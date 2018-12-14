@@ -45,9 +45,8 @@ public class MemberDAOImpl implements MemberDAO{
         sqlSession.insert("member.addSMember", map);
     }
 
-    public boolean isSMExist(String aes_sid) {
-        String result = sqlSession.selectOne("member.isSMExist", aes_sid);
-        return result == null? false : true;
+    public MemberDTO isSMExist(String aes_sid) {
+        return sqlSession.selectOne("member.isSMExist", aes_sid);
     }
 
     public String isEMExist(String aes_eid) throws Exception {

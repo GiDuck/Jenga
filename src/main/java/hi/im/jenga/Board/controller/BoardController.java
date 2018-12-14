@@ -55,17 +55,21 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String SearchGET(){
 
-    /*
-    * 검색창 하나만 띄우는 페이지
-    * */
-    @RequestMapping("/search")
-    public String boardSearch(String search, String search_check, HttpSession session){
+        return "/board/stackBoard/boardSearch";
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String SearchPOST(String search, String search_check, HttpSession session){
             String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
             boardService.search(search,search_check, session_iuid);
 
-        return "/search";
+        return "/search";   // 임시
     }
+
+
 
     /*
      * 글 조회 GET
@@ -104,7 +108,7 @@ public class BoardController {
 
     // 글쓰는 페이지 GET, 글 수정 페이지 GET
     @RequestMapping(value = "/stackBlock", method = RequestMethod.GET)
-    public String getWriteView(HttpSession session, Model model, String status, MongoDTO mongoDTO, @RequestParam (value = "bl_uid", required = false) String bl_uid) throws JsonProcessingException {
+    public String getWriteView(HttpSession session, Model model, String status, @RequestParam (value = "bl_uid", required = false) String bl_uid) throws JsonProcessingException {
 //  TODO  status 없이 그냥 url로 접근하면 잘못된 페이지 띄우기 -> 임시로 / 로 감
         if(status == null) return "redirect:/";
         if(status.equals("stack")) {
@@ -127,16 +131,12 @@ public class BoardController {
         }else if(status.equals("modify")) {         //  service 나누기
 
 
-            Map<String, String[]> map = boardService.modifyViewGET(bl_uid);
+            Map<String, Object> map = boardService.getModifyBlock(bl_uid);
 
-            mongoDTO = mongoService.modifyViewGET("_refBoardId", bl_uid);
-
-            logger.info(mongoDTO.get_value().toString());
             logger.info("컨트롤러 맵은 " + map);
 
             JSONObject jsonObject = new JSONObject(map);
             model.addAttribute("map", jsonObject);
-            model.addAttribute("mongoDTO", mongoDTO);
 
             return "editor/stackBoard/stackBlock";
 

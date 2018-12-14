@@ -22,7 +22,7 @@ public class MemberUtilFile {
     * DB에는 업로드 된 전체 경로명으로만 지정되기 때문에 (업로드 한 파일 자체는 경로에 저장됨)
     * fileUpload() 메소드에서 전체 경로를 리턴받아 DB에 경로 그대로 저장
     */
-    public String fileUpload(MultipartHttpServletRequest request, MultipartFile uploadFile) {
+    public String fileUpload(MultipartFile uploadFile) {
 
         String fileName = "";
 
@@ -32,14 +32,12 @@ public class MemberUtilFile {
         try {
             fileName = uploadFile.getOriginalFilename();
 
-/*
 
 //          파일이름이 ""면 (파일을 올리지 않았으면 ""로 들어옴)
             if(fileName.equals("")){
                 logger.info(": : : UtilFile 빈 파일이 들어왔습니다. 이름을 공백으로 반환");
                 return "";
             }
-*/
 
             byte[] bytes = uploadFile.getBytes();
             //path = getSaveLocation(request);

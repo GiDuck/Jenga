@@ -43,13 +43,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES (#{socialMemberDTO.sm_id}, #{iuid}, #{socialMemberDTO.sm_type})
 	</insert>
 
-	<select id="isSMExist" resultType="String">
+	<!-- SELECT sm_id FROM tbl_SMember WHERE sm_id = #{aes_sid}-->
+	<select id="isSMExist" resultType="hi.im.jenga.member.dto.MemberDTO">
 	SELECT
-		sm_id
+		*
 	FROM
-		tbl_SMember
-	WHERE
-		sm_id = #{aes_sid}
+		TBL_MEMINFO
+	WHERE MEM_IUID = (SELECT
+	 				  		SM_REF
+					  FROM
+					  		TBL_SMEMBER
+					  WHERE SM_ID = #{aes_sid})
 	</select>
 
 	<!-- 이메일 회원가입 할 때 입력된 이메일을 암호화 한 후 EMember에 존재하는지 여부를 ‘Y’, ‘N’, null 로 알려줌 -->
