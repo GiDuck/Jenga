@@ -7,154 +7,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf17c4be-e81d-408d-90d2-191a48bddfcf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Jenga.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Spring_4_3_18_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/elephant.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/no_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/no_image2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/no_image4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/no_image_rectangle.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/assets/img/sections/elephant.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dao/BoardDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dao/BoardDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/BoardDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dao/MongoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dao/MongoDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dao/MongoDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dto/BlockPathDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BlockPathDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dto/BoardDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/BoardDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/dto/MongoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/MongoDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/BoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/BoardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/FileIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/FileIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/MongoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/service/MongoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/MongoServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/Board/util/BoardUtilFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/board/util/BoardUtilFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/im/jenga/vo/BoardDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/im/jenga/vo/BoardDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/mongoConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/layout/basicTemplate.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/boardDetailView.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/boardDetailView.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/boardView.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/boardView.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/controller/BoardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/controller/BoardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/FileIO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/service/FileIO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/util/BoardUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/board/util/BoardUtilFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/MemberUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/MemberUtilFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/vo/BoardDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/classes/hi/im/jenga/vo/BoardDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/mongoConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/mongoConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/component/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/component/navbar.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/layout/basicTemplate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/tiles/layout/basicTemplate.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/main/main.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/boardDetailView.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/boardDetailView.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/assets/css/paper-kit.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/resources/assets/css/paper-kit.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/font/summernote.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/font/summernote.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/font/summernote.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ar-AR.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ar-AR.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-bg-BG.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-bg-BG.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ca-ES.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ca-ES.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-cs-CZ.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-cs-CZ.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-da-DK.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-da-DK.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-de-DE.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-de-DE.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-el-GR.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-el-GR.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-ES.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-ES.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-EU.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-es-EU.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fa-IR.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fa-IR.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fi-FI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fi-FI.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fr-FR.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-fr-FR.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-gl-ES.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-gl-ES.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-he-IL.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-he-IL.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hr-HR.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hr-HR.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hu-HU.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-hu-HU.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-id-ID.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-id-ID.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-it-IT.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-it-IT.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ja-JP.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ja-JP.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ko-KR.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ko-KR.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LT.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LT.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LV.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-lt-LV.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-mn-MN.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-mn-MN.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nb-NO.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nb-NO.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nl-NL.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-nl-NL.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pl-PL.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pl-PL.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-BR.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-BR.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-PT.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-pt-PT.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ro-RO.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ro-RO.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ru-RU.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ru-RU.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sk-SK.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sk-SK.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sl-SI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sl-SI.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS-Latin.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS-Latin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sr-RS.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sv-SE.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-sv-SE.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ta-IN.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-ta-IN.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-th-TH.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-th-TH.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-tr-TR.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-tr-TR.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-uk-UA.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-uk-UA.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-vi-VN.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-vi-VN.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-CN.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-CN.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-TW.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/lang/summernote-zh-TW.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-bs4.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-bs4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-bs4.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-bs4.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-lite.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-lite.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote-lite.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Jenga/resources/summernote-master/dist/summernote.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/controller/BoardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/FileIO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/service/FileIO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/util/BoardUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/board/util/BoardUtilFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/MemberUtilFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/MemberUtilFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/member/util/login/KakaoLoginUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hi/im/jenga/vo/BoardDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hi/im/jenga/vo/BoardDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/boardView.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Jenga/WEB-INF/views/stackBoard/boardView.jsp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -164,54 +29,60 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="PARALLEL_COMPILATION" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="Jenga" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="67" column="33" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="25" column="18" lean-forward="true" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/boardView.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1501">
-              <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+            <state relative-caret-position="-627">
+              <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/no_image2.svg">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/assets/img/image_placeholder.jpg">
+          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/FileIO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1884">
+            <state relative-caret-position="665">
               <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
             </state>
           </provider>
@@ -220,7 +91,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-207">
+            <state relative-caret-position="1843">
               <caret line="110" selection-start-line="110" selection-end-line="110" />
             </state>
           </provider>
@@ -238,17 +109,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1762">
-              <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
+            <state relative-caret-position="2546">
+              <caret line="134" selection-start-line="134" selection-end-line="134" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="418" lean-forward="true" selection-start-line="418" selection-end-line="418" />
+            <state relative-caret-position="247">
+              <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -256,7 +127,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/MongoDTO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-199">
+            <state>
               <caret column="30" selection-start-column="30" selection-end-column="30" />
             </state>
           </provider>
@@ -269,15 +140,38 @@
       <find>mongo</find>
       <find>OAuth2AccessToken</find>
       <find>search</find>
+      <find>logout</find>
+      <find>carousel-Indicators-Wrappe</find>
+      <find>pageContext.request.contextPath</find>
+      <find>setDefault-image</find>
+      <find>carousel-indicators-Inner</find>
+      <find>carousel-inner</find>
+      <find>default-image</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="front" />
       </map>
     </option>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="front" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -296,6 +190,7 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/boardView.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" />
+        <option value="$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions" />
       </list>
     </option>
   </component>
@@ -323,8 +218,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-47" />
-    <option name="y" value="178" />
+    <option name="x" value="-48" />
+    <option name="y" value="177" />
     <option name="width" value="1890" />
     <option name="height" value="960" />
   </component>
@@ -336,7 +231,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -450,6 +344,75 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+              <item name="default" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+              <item name="demo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+              <item name="sections" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="image" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -477,37 +440,7 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-              <item name="tiles" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Jenga" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="stackBoard" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jenga" type="b2602c69:ProjectViewProjectNode" />
@@ -517,6 +450,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -524,12 +458,21 @@
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544690651816" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544782019548" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gdtbg\IdeaProjects\Jenga\src\main\webapp\resources\assets\img\default" />
+      <recent name="C:\Users\gdtbg\IdeaProjects\Jenga\src\main\webapp\resources\assets\img\sections" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\gdtbg\IdeaProjects\Jenga\src\main\webapp\resources\assets\img\default" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -548,6 +491,7 @@
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/" />
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
       <option name="START_JAVASCRIPT_DEBUGGER" value="true" />
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="Jenga:war exploded">
@@ -763,6 +707,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Tomcat Server.navbar.jsp" />
+        <item itemvalue="Tomcat Server.navbar.jsp" />
       </list>
     </recent_temporary>
   </component>
@@ -782,19 +727,24 @@
       <workItem from="1544607292877" duration="163000" />
       <workItem from="1544607581727" duration="11869000" />
       <workItem from="1544624671146" duration="2088000" />
-      <workItem from="1544675631374" duration="14163000" />
+      <workItem from="1544675631374" duration="24556000" />
+      <workItem from="1544704697145" duration="597000" />
+      <workItem from="1544705495040" duration="4079000" />
+      <workItem from="1544779700801" duration="1683000" />
+      <workItem from="1544781628126" duration="213000" />
     </task>
-    <task id="LOCAL-00001" summary="fetched master">
-      <created>1544604411112</created>
+    <task id="LOCAL-00001" summary="181223&#10;전반적인 뷰 작업중...">
+      <created>1544690731453</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1544604411112</updated>
+      <updated>1544690731454</updated>
     </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31150000" />
+    <option name="totallyTimeSpent" value="48115000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -807,10 +757,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4939394" visible="true" weight="0.27044535" />
-      <window_info active="true" id="Structure" order="1" sideWeight="0.5060606" side_tool="true" visible="true" weight="0.27044535" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7935943" visible="true" weight="0.27611336" />
+      <window_info id="Structure" order="1" sideWeight="0.2064057" side_tool="true" visible="true" weight="0.27611336" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Capture Tool" order="4" />
@@ -818,8 +767,8 @@
       <window_info id="Favorites" order="6" sideWeight="0.50581396" side_tool="true" weight="0.27044535" />
       <window_info id="Web" order="7" sideWeight="0.50581396" side_tool="true" weight="0.27044535" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49959514" visible="true" weight="0.4128114" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.3291815" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49959514" weight="0.4128114" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38790035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -840,13 +789,17 @@
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="right" id="Preview" order="6" weight="0.32955465" />
-      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="right" id="Database" order="7" weight="0.32955465" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Theme Preview" order="9" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="181223&#10;전반적인 뷰 작업중..." />
+    <option name="LAST_COMMIT_MESSAGE" value="181223&#10;전반적인 뷰 작업중..." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.idea/encodings.xml">
@@ -968,51 +921,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/header.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/MongoDTO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-199">
-          <caret column="30" selection-start-column="30" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/FileIO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1884">
-          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-207">
-          <caret line="110" selection-start-line="110" selection-end-line="110" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/controller/BoardController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
+        <state relative-caret-position="836">
           <caret line="67" column="33" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1762">
-          <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
+        <state relative-caret-position="475">
           <caret line="25" column="18" lean-forward="true" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1022,22 +940,79 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/stackBoard/boardView.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
+        <state relative-caret-position="209">
           <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/no_image.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/assets/img/banks.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1501">
-          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+        <state relative-caret-position="-627">
+          <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/no_image_rectangle.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/assets/img/default/no_image2.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/assets/img/image_placeholder.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/FileIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="665">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/service/BoardServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1843">
+          <caret line="110" selection-start-line="110" selection-end-line="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/header.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tiles/component/navbar.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2546">
+          <caret line="134" selection-start-line="134" selection-end-line="134" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/member/controller/MemberController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="418" lean-forward="true" selection-start-line="418" selection-end-line="418" />
+        <state relative-caret-position="247">
+          <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hi/im/jenga/board/dto/MongoDTO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="30" selection-start-column="30" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -1047,10 +1022,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>Jenga:war</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -1106,6 +1083,17 @@
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
           <last-edited>Spring-4.3.18.RELEASE</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -8,10 +8,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 col-12 ml-auto mr-auto text-center">
-                        <h2 class="discover-title">
-                            <small>북마크 검색</small>
-                        </h2>
-                        <br>
+
                         <div class="row text-center">
 
                             <div class="col-md-10"><input type="text" class="form-control border-input w-100 h-100" placeholder="Search...">&nbsp;&nbsp;</div>
