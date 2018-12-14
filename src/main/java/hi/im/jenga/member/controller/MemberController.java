@@ -58,7 +58,8 @@ public class MemberController {
 
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
-        logger.info("세션은 "+(MemberDTO)session.getAttribute("Member"));
+        logger.info("이메일 세션은 "+(MemberDTO)session.getAttribute("Member"));
+        logger.info("소셜 세션은 "+ (SocialMemberDTO)session.getAttribute("Social"));
 //        logger.info("세션의 iuid는 "+((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         return "main/main";
     }
@@ -359,14 +360,11 @@ public class MemberController {
 
 
 
-        /*** 다시
-         *
-         * service에서 암호화, iuid 생성
-         *
-         * ***/
         memberDTO.setMem_profile(uploadName);
+        memberDTO.setMem_nick(mem_nick);
 //        이메일을 이용해서 임시로 넣음 iuid를 찾아야함
-        if(emailMemberDTO.getEm_id().equals("")) {
+//        TODO 여기부터 다시
+        if(!emailMemberDTO.getEm_id().equals("")) {
             logger.info("이메일은 여기서 다 처리");
 //            String em_ref = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
 
@@ -450,14 +448,17 @@ public class MemberController {
         if(check[0].equals("kakao")){
             LoginUtil util = kakaoLoginUtil;
             util.logOut(check[1]);
+            logger.info("kakao 세션 제거");
         }else if(check[0].equals("google")){
-
+            logger.info("google 세션 제거");
         }else if(check[0].equals("facebook")){
-
+            logger.info("facebook 세션 제거");
         }else if(check[0].equals("naver")){
             LoginUtil util = naverLoginUtil;
             util.logOut("");
+            logger.info("naver 세션 제거");
         }
+        logger.info("제거완료");
         session.invalidate();
         return "redirect:/";
 

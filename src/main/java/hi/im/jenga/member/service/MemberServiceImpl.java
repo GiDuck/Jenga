@@ -52,7 +52,8 @@ public class MemberServiceImpl implements MemberService {
             dao.addEMemberInfo(memberDTO);
         }else if(key.equals("social")){
             logger.info("addSMemberInfo 소셜 입니다");
-            memberDTO.setMem_iuid(UUID.randomUUID().toString());
+            iuid = aes256Cipher.AES_Encode(UUID.randomUUID().toString());
+            logger.info(iuid);
             memberDTO.setMem_iuid(iuid);
 
             dao.addSMemberInfo(memberDTO);

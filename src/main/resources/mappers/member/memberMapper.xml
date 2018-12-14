@@ -20,12 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="addSMemberInfo">
 	INSERT INTO
 		tbl_MemInfo
-		(mem_nick, mem_profile , mem_joinDate)
-		VALUES
-		(#{mem_nick}, #{mem_profile}, sysdate)
-	WHERE
-		mem_iuid = #{mem_iuid}
-
+		(mem_iuid, mem_nick, mem_profile, mem_joinDate)
+	VALUES
+		(#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate)
 	</insert>
 
 	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 날짜로 그날 날짜로 바꾸고 완전 회원가입 완료 -->
