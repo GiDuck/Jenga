@@ -54,8 +54,20 @@ public class BoardServiceImpl implements BoardService {
 
 	}
 
-	public HashMap modifyViewGET(String bl_uid) {
-		return dao.modifyViewGET(bl_uid);
+	@Transactional
+	public Map<String, Object> getModifyBlock(String bl_uid) {
+
+		Map<String, Object> map = dao.getModifyBlock(bl_uid);
+
+		List<String> list = dao.getBoardDetailTags(bl_uid);
+		map.put("tag", list);
+
+		String bookmarks = mongoService.getView("_refBoardId", bl_uid);
+		map.put("bookmarks", bookmarks);
+
+		map.put("bti_url", dao.getUploadName(bl_uid));
+
+		return map;
 	}
 
 	@Transactional

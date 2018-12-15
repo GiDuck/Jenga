@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -107,53 +106,9 @@ public class BoardDAOImpl implements BoardDAO {
 
 
 
-    public HashMap modifyViewGET(String bl_uid) {
-        Map<String, String> map = new HashMap();
-
-        // tbl_Block (작성자, 제목, 설명, 대분류, 소분류, 날짜, 북마크id), tbl_thumbImg(url)
-        map = sqlSession.selectOne("board.modifyViewGET", bl_uid);
-
-        logger.info("맵은 " + map);
-        logger.info("그게 왜 " + map.get("BL_WRITER"));
-
-        List<String> list2 = sqlSession.selectList("board.modifyViewGET2", bl_uid);
-
-        for (int i = 0; i < list2.size(); i++) {
-            logger.info(list2.get(i));
-            map.put("tag" + i, list2.get(i));
+    public Map<String, Object> getModifyBlock(String bl_uid) {
+        return sqlSession.selectOne("board.getModifyBlock", bl_uid);
         }
-
-
-
-/*
-        //       List를 배열로 변환
-        //방법1
-        String[] info2 = list2.toArray(new String[list2.size()]);
-
-        logger.info("배여루 "+ info2[0]);
-        logger.info("배여루 "+ info2[1]);
-        logger.info("배여루 "+ info2[2]);
-
-        //방법 2
-        String [] info2 = new String[list2.size()];
-
-        for(int i = 0; i < list2.size(); i++){
-            info2[i] = list2.get(i);
-        }
-*/
-
-        logger.info("모야모야 " + map.get("BTI_URL"));
-        logger.info("탴태탴 " + map.get("tag1"));
-        logger.info("탴태탴 " + map.get("tag2"));
-
-        return (HashMap) map;
-
-    }
-
-
-
-
-
 
 
     public void modifyViewBoard(BoardDTO boardDTO) {

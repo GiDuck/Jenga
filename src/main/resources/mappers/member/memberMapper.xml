@@ -20,12 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="addSMemberInfo">
 	INSERT INTO
 		tbl_MemInfo
-		(mem_nick, mem_profile , mem_joinDate)
-		VALUES
-		(#{mem_nick}, #{mem_profile}, sysdate)
-	WHERE
-		mem_iuid = #{mem_iuid}
-
+		(mem_iuid, mem_nick, mem_profile, mem_joinDate)
+	VALUES
+		(#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate)
 	</insert>
 
 	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 날짜로 그날 날짜로 바꾸고 완전 회원가입 완료 -->
@@ -46,13 +43,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES (#{socialMemberDTO.sm_id}, #{iuid}, #{socialMemberDTO.sm_type})
 	</insert>
 
-	<select id="isSMExist" resultType="String">
+	<!-- SELECT sm_id FROM tbl_SMember WHERE sm_id = #{aes_sid}-->
+	<select id="isSMExist" resultType="hi.im.jenga.member.dto.MemberDTO">
 	SELECT
-		sm_id
+		*
 	FROM
-		tbl_SMember
-	WHERE
-		sm_id = #{aes_sid}
+		TBL_MEMINFO
+	WHERE MEM_IUID = (SELECT
+	 				  		SM_REF
+					  FROM
+					  		TBL_SMEMBER
+					  WHERE SM_ID = #{aes_sid})
 	</select>
 
 	<!-- 이메일 회원가입 할 때 입력된 이메일을 암호화 한 후 EMember에 존재하는지 여부를 ‘Y’, ‘N’, null 로 알려줌 -->

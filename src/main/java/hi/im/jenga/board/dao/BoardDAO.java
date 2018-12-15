@@ -3,7 +3,6 @@ package hi.im.jenga.board.dao;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public interface BoardDAO {
 
     void writeViewTag(String bl_uid, String[] bt_name);
 
-    HashMap modifyViewGET(String bl_uid);
+    Map<String, Object> getModifyBlock(String bl_uid);
 
     String getUploadName(String bl_uid);
 

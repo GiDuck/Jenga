@@ -15,7 +15,7 @@ public interface MemberService {
 
     void addSMember(SocialMemberDTO socialMemberDTO, String sMem_iuid);
 
-    boolean isSMExist(String aes_sid);
+    MemberDTO isSMExist(String aes_sid);
 
     String isEMExist(String em_id) throws Exception;
 
