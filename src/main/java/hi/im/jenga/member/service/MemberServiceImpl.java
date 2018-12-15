@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
@@ -36,13 +37,25 @@ public class MemberServiceImpl implements MemberService {
     private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 
 
-    public void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO,  String key) throws Exception {
+    public void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String uploadName, String key) throws Exception {
         // String iuid = UUID.randomUUID().toString(); // iuid 생성
         // 이메일을 이용해서 조건에 넣을 iuid를 찾아야함
         // 암호화 iuid, 닉네임, 파일경로, level
         // 암호화된 iuid는 컨트롤러에서 넣음
+        logger.info("addEMemberInfo 서비스");
         String iuid = "";
+
         memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick()));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(memberDTO.getMem_introduce()));
+
+        if(uploadName.equals("")){
+            logger.info("addEMemberInfo 서비스 디폴트이미지로 변경");
+            memberDTO.setMem_profile("Y:\\go\\Jenga\\profiles\\jenga_profile_default.jpg");
+        }else {
+            logger.info("프로필사진 있고 uploadName은 " + uploadName);
+            memberDTO.setMem_profile(uploadName);
+        }
+
         memberDTO.setMem_profile(aes256Cipher.AES_Encode(memberDTO.getMem_profile()));
         if(key.equals("email")){
             logger.info("addEMemberInfo 이메일 입니다");
@@ -197,26 +210,26 @@ public class MemberServiceImpl implements MemberService {
         memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
         logger.info("DAO에서 받은 member dto.. " + memberDTO.toString());
 
-        logger.info("암호화 결과... 닉네임 " + aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
-        logger.info("암호화 결과... 닉네임 " + aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
-
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
         memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
         memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
 
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_nick());
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_profile());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_introduce());
         logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
 
         return memberDTO;
 
     }
 
-    public MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception {
+    @Transactional
+    public MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String mem_introduce, String uploadName, String[] favor) throws Exception {
         logger.info("MemberServiceImpl 1 "+s_iuid);
         logger.info("MemberServiceImpl 2 "+mem_nick);
         logger.info("MemberServiceImpl 3 "+uploadName);
-        logger.info("MemberServiceImpl 4 "+em_pwd);
+        logger.info("MemberServiceImpl 4 "+mem_introduce);
         for(String s:favor){
             logger.info("MemberServiceImpl 5 "+s);
         }
@@ -236,10 +249,13 @@ public class MemberServiceImpl implements MemberService {
         memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadName));  // 파일이름 암호화 후 DTO에 넣음
 
 
-        if(!em_pwd.equals("")) {
+        /* 비번은 따로 처리함. 임시로 놔둠 나중에 써먹자
+         if(!em_pwd.equals("")) {
             logger.info("MemberServiceImpl 비밀번호 공백아니고 "+ em_pwd);
             aes_em_pwd = sha256Cipher.getEncSHA256(em_pwd);
-        }
+        }*/
+        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(mem_introduce));     // 소개 암호화 후 DTO에 넣음
+
 
         return dao.modMemberInfoPOST(s_iuid, memberDTO, aes_em_pwd, favor);
 

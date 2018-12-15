@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface MemberService {
-    void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String key) throws Exception;
+    void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String uploadName, String key) throws Exception;
 
     void addEMember(String aes_iuid);
 
@@ -37,7 +37,7 @@ public interface MemberService {
 
     MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
 
-    MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception;
+    MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String mem_introduce, String uploadName, String[] favor) throws Exception;
 
     void updMemInfo(MemberDTO memberDTO);
 

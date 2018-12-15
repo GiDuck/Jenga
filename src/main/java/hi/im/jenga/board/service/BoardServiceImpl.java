@@ -144,6 +144,10 @@ public class BoardServiceImpl implements BoardService {
 
 		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 
+		if(fileFullName == null){
+			return "";
+		}
+
 		FileIO fileIO = new FileIO(fileFullName);
 		String result = fileIO.InputHTMLBookMark();
 

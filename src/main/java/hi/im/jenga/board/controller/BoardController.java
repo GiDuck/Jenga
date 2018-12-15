@@ -121,10 +121,12 @@ public class BoardController {
 
             String resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
 
-            logger.info(resultHTML);
+            logger.info("resultHTML 는 "+resultHTML);
 
             model.addAttribute("category", categoryJSON);
-            model.addAttribute("resultHTML", resultHTML);
+            if(!resultHTML.equals("")) {
+                model.addAttribute("resultHTML", resultHTML);
+            }
 
             return "editor/stackBoard/stackBlock";
 
@@ -222,7 +224,7 @@ public class BoardController {
 
         logger.info("글작성 성공");
 
-        return "success";
+        return boardDTO.getBl_uid();
     }
 
 

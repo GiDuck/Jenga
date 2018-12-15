@@ -97,7 +97,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public void delMemInfo(String session_mem_iuid) {
         logger.info("DaoImpl  |  delMemInfo 에 들어옴");
-        sqlSession.delete("member.delMemInfo",session_mem_iuid);
+        sqlSession.delete("member.delMemInfo", session_mem_iuid);
         logger.info("나가라");
         logger.info("나가라 했다");
 //        logger.info("n은 "+n);
@@ -169,17 +169,18 @@ public class MemberDAOImpl implements MemberDAO{
 
         sqlSession.update("member.modMemberInfoPOST_MemInfo", map);
 
-        logger.info("비번 공백이면 뒤에 음따 "+aes_em_pwd+"음제");
+       /* 비번 처리
+       logger.info("비번 공백이면 뒤에 음따 "+aes_em_pwd+"음제");
         if(!aes_em_pwd.equals("")) {
             map.put("aes_em_pwd", aes_em_pwd);
             sqlSession.update("member.modMemberInfoPOST_EMember", map);
-        }
+        }*/
 
 //        sqlSession.delete("member.delMemberFavor", s_iuid);
+        sqlSession.delete("member.delMemberFavor", s_iuid);
         for(String fav : favor) {
             map.put("fav",fav);
             try {
-                sqlSession.delete("member.delMemberFavor", s_iuid);
                 sqlSession.insert("member.addMemberFavor", map);
             }catch (Exception e){
                 // 무결성 제약 조건에 위배됩니다.

@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.util.*;
 
 @Controller
@@ -263,16 +264,16 @@ public class MemberController {
         logger.info(": : : modMemberInfoGET 들어옴");
         logger.info("바뀌기 전 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
         logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+        logger.info("바뀌기 전 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
         MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
-        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
-        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+        logger.info("복호화 한 파일경로 "+memberDTO.getMem_profile());
+        logger.info("복호화 한 닉네임 "+memberDTO.getMem_nick());
+        logger.info("복호화 한 소개 "+memberDTO.getMem_introduce());
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
-        logger.info("컨트롤러 페버"+favor.get(0));
-        logger.info("컨트롤러 페버"+favor.get(0).toString());
         model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
         model.addAttribute("favor", favor);      // 선택한 favor 가져옴
 
@@ -284,22 +285,26 @@ public class MemberController {
 
 
     @RequestMapping(value ="/modMemInfo", method = RequestMethod.POST)
-    public String modMemberInfoPOST(@RequestParam String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile, @RequestParam String em_pwd,
+    public String modMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, @RequestParam(value = "mem_profile", required = false) MultipartFile uploadFile ,
                                     @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
         String s_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         logger.info(": : : modMemberInfoPOST 들어옴");
         logger.info("Session에서 뽑아온 iuid " + s_iuid);
         logger.info("수정 후 받아온 닉네임 " + mem_nick);                          //tbl_memInfo
         logger.info("수정 후 받아온 파일이름 " + uploadFile);                      //tbl_memInfo
+        logger.info("수정 후 받아온 소개 " + mem_introduce);                      //tbl_memInfo
 
 
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
 //      프사 새로 안올렸으면 utilFile에서 return ""임
-        String uploadName = memberUtilFile.fileUpload(uploadFile);
+        String uploadName;
+        if(uploadFile != null){
+            uploadName = memberUtilFile.fileUpload(uploadFile);
+        }else {
+            uploadName = "";    //바꾸기
+        }
 
         logger.info("수정 후 받아온 파일이름 " + uploadName);                  //tbl_memInfo
-
-        logger.info("수정 후 받아온 비밀번호 " + em_pwd);                       //tbl_Emember
 
         logger.info("수정 후 받아온 취향 선택된 개수 " + favor.length);         //tbl_mfavor
 
@@ -307,7 +312,7 @@ public class MemberController {
             logger.info("수정 후 받아온 취향 선택된 카테고리 " + s);
         }
 
-        MemberDTO memberDTO = memberService.modMemberInfoPOST(s_iuid, mem_nick, uploadName, em_pwd, favor);
+        MemberDTO memberDTO = memberService.modMemberInfoPOST(s_iuid, mem_nick, mem_introduce, uploadName, favor);
         session.setAttribute("Member", memberDTO);
 
         return "redirect:/";
@@ -340,10 +345,10 @@ public class MemberController {
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
-    public String regMemberInfoPOST(@RequestParam String mem_nick, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO,
+    public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO,
                                     @RequestParam("mem_profile") MultipartFile uploadFile, HttpSession session) throws Exception {
-        MemberDTO memberDTO = new MemberDTO();
 
+        MemberDTO memberDTO = new MemberDTO();
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : "+ emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
 //       이미 암호화 후 받아온 고유아이디, 소셜 타입
@@ -351,6 +356,9 @@ public class MemberController {
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_type : " + socialMemberDTO.getSm_type());    // 1단계에서 소셜 타입
 
         logger.info("선택한 취향 개수 "+favor.length);
+        logger.info(favor[0]);
+        logger.info("닉은"+ mem_nick);
+        logger.info("소개는"+ mem_introduce);
 
 //        logger.info(favor[0]);
 
@@ -364,10 +372,11 @@ public class MemberController {
             uploadName = "";    //바꾸기
         }
 
-
-
-        memberDTO.setMem_profile(uploadName);
         memberDTO.setMem_nick(mem_nick);
+        memberDTO.setMem_introduce(mem_introduce);
+
+        logger.info("uploadName은 " +uploadName);
+//        memberDTO.setMem_profile(uploadName);
 //        이메일을 이용해서 임시로 넣음 iuid를 찾아야함
 //        TODO 여기부터 다시
         if(!emailMemberDTO.getEm_id().equals("")) {
@@ -375,7 +384,7 @@ public class MemberController {
 //            String em_ref = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
 
 
-            memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, "email");
+            memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName,  "email");
             logger.info("이메일1");
             memberService.addMemberFavor(memberDTO.getMem_iuid(), favor);
             logger.info("이메일2");
@@ -400,7 +409,7 @@ public class MemberController {
 
         logger.info("소셜 " + socialMemberDTO.getSm_type() + " 회원가입입니다.");
 
-        memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, "social");
+        memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName, "social");
 
         logger.info("2222222");
         socialMemberDTO.setSm_id(socialMemberDTO.getSm_id());
@@ -440,10 +449,11 @@ public class MemberController {
 
     // 로그아웃
     @RequestMapping("logout")
-    public String logOut(HttpSession session){
+    public @ResponseBody void logOut(HttpSession session){
         if(session.getAttribute("Member") != null){
             session.invalidate();
-            return "redirect:/";
+            logger.info("로그아웃 완료");
+            return ;
             // TODO 여기도 로그아웃 이전 페이지 url 저장해서 redirect 해줘야하나 음
         }
 
@@ -466,7 +476,7 @@ public class MemberController {
         }
         logger.info("제거완료");
         session.invalidate();
-        return "redirect:/";
+        return ;
 
     }
 
@@ -500,8 +510,8 @@ public class MemberController {
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_id);                   // facebook 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));              // 소셜 타입 직접 정의 "facebook"를 암호화
+        socialMemberDTO.setSm_id(aes_id);
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -534,8 +544,8 @@ public class MemberController {
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_id);                   // kakao 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));              // 소셜 타입 직접 정의 "kakao"를 암호화
+        socialMemberDTO.setSm_id(aes_id);
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -557,7 +567,7 @@ public class MemberController {
         JSONObject json = (JSONObject) jsonParser.parse(apiResult);
         JSONObject json2 = (JSONObject) json.get("response");                                               // 뭐지 response가
 
-        String id = (String) json2.get("id");           // 네이버 고유아이디
+        String id = (String) json2.get("id");
 
         String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
@@ -567,8 +577,8 @@ public class MemberController {
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_id);                                               // 네이버 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));              // 소셜 타입 직접 정의 "naver"를 암호화
+        socialMemberDTO.setSm_id(aes_id);
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
         // 타입은 우리가 줘야함
@@ -595,8 +605,8 @@ public class MemberController {
             session.setAttribute("Member",memberDTO);
             return "redirect:/";
         }
-        socialMemberDTO.setSm_id(aes_id);                   // google 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));              // 소셜 타입 직접 정의 "google"를 암호화
+        socialMemberDTO.setSm_id(aes_id);
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
