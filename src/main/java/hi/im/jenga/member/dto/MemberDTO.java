@@ -6,19 +6,9 @@ public class MemberDTO {
     private String mem_iuid;
     private String mem_nick;
     private String mem_profile;
+    private String mem_introduce;
     private int mem_level;
     private Date mem_joinDate;
-
-    @Override
-    public String toString() {
-        return "MemberDTO{" +
-                "mem_iuid='" + mem_iuid + '\'' +
-                ", mem_nick='" + mem_nick + '\'' +
-                ", mem_profile='" + mem_profile + '\'' +
-                ", mem_level=" + mem_level +
-                ", mem_joinDate=" + mem_joinDate +
-                '}';
-    }
 
     public String getMem_iuid() {
         return mem_iuid;
@@ -42,6 +32,14 @@ public class MemberDTO {
 
     public void setMem_profile(String mem_profile) {
         this.mem_profile = mem_profile;
+    }
+
+    public String getMem_introduce() {
+        return mem_introduce;
+    }
+
+    public void setMem_introduce(String mem_introduce) {
+        this.mem_introduce = mem_introduce;
     }
 
     public int getMem_level() {

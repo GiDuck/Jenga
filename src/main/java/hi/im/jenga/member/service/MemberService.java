@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface MemberService {
-    void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String key) throws Exception;
+    void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String uploadName, String key) throws Exception;
 
     void addEMember(String aes_iuid);
 

@@ -59,12 +59,12 @@ Form-data parameter
                                     <input type="text" class="form-control border-input" placeholder="NickName" name="mem_nick" id="mem_nick">
                                 </div>
                             </div>
-                            <%--<div class="col-md-6 col-12">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control border-input" placeholder="Email" id="mem_email">
+                                    <label>Introduce</label>
+                                    <input type="text" class="form-control border-input" placeholder="Introduce" name="mem_introduce" id="mem_introduce">
                                 </div>
-                            </div>--%>
+                            </div>
                         </div>
 
                         <div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의
@@ -217,13 +217,15 @@ Form-data parameter
 
                     index = response[i];
 
-                    console.log(index);
+                    // console.log(index);
+                    console.log(index["MCTG_NAME"]);
+                    console.log(index.MCTG_NAME);
                     let $cardItem = $("#cardItem").clone();
 
                     //display : none 처리 되어있는 카드를 show 해준다.
                     $cardItem.css('display', 'block');
                     $cardItem.find(".card").css("background-image", "url('"+ index.image +"')" );
-                    $cardItem.find("h3").html(index.name);
+                    $cardItem.find("h3").html(index["MCTG_NAME"]);
 
                     $cardItem.on('click', (e) => {
 

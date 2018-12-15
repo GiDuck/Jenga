@@ -97,7 +97,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public void delMemInfo(String session_mem_iuid) {
         logger.info("DaoImpl  |  delMemInfo 에 들어옴");
-        sqlSession.delete("member.delMemInfo",session_mem_iuid);
+        sqlSession.delete("member.delMemInfo", session_mem_iuid);
         logger.info("나가라");
         logger.info("나가라 했다");
 //        logger.info("n은 "+n);

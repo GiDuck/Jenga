@@ -36,13 +36,25 @@ public class MemberServiceImpl implements MemberService {
     private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 
 
-    public void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO,  String key) throws Exception {
+    public void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String uploadName, String key) throws Exception {
         // String iuid = UUID.randomUUID().toString(); // iuid 생성
         // 이메일을 이용해서 조건에 넣을 iuid를 찾아야함
         // 암호화 iuid, 닉네임, 파일경로, level
         // 암호화된 iuid는 컨트롤러에서 넣음
+        logger.info("addEMemberInfo 서비스");
         String iuid = "";
+
         memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick()));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(memberDTO.getMem_introduce()));
+
+        if(uploadName.equals("")){
+            logger.info("addEMemberInfo 서비스 디폴트이미지로 변경");
+            memberDTO.setMem_profile("Y:\\go\\Jenga\\profiles\\jenga_profile_default.jpg");
+        }else {
+            logger.info("프로필사진 있고 uploadName은 " + uploadName);
+            memberDTO.setMem_profile(uploadName);
+        }
+
         memberDTO.setMem_profile(aes256Cipher.AES_Encode(memberDTO.getMem_profile()));
         if(key.equals("email")){
             logger.info("addEMemberInfo 이메일 입니다");

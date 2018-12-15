@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE
 		tbl_MemInfo
 	SET
-		mem_nick = #{mem_nick}, mem_profile = #{mem_profile}, mem_joinDate = sysdate
+		mem_nick = #{mem_nick}, mem_profile = #{mem_profile}, mem_joinDate = sysdate, mem_introduce = #{mem_introduce}
 	WHERE
 		mem_iuid = #{mem_iuid}
 	</update>
@@ -20,9 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="addSMemberInfo">
 	INSERT INTO
 		tbl_MemInfo
-		(mem_iuid, mem_nick, mem_profile, mem_joinDate)
+		(mem_iuid, mem_nick, mem_profile, mem_joinDate, mem_introduce)
 	VALUES
-		(#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate)
+		(#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate, #{mem_introduce})
 	</insert>
 
 	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 날짜로 그날 날짜로 바꾸고 완전 회원가입 완료 -->
@@ -119,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 멤버 지움 -->
 	<delete id="delMemInfo">
 	DELETE FROM tbl_MemInfo
-	WHERE mem_iuid = #{aes_iuid}
+	WHERE mem_iuid = #{session_mem_iuid}
 	</delete>
 
 	<!-- 멤버 정보 수정-->
@@ -200,11 +200,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES
 		(#{aes_iuid}, (SELECT
 		               		mctg_uid
-		          	 FROM
+		          	 	FROM
                     		tbl_mCategory
-                  	 WHERE
+                  	 	WHERE
                      		mctg_name = #{fav})
-					)
+						)
 	</insert>
 
 
