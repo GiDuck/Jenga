@@ -152,7 +152,11 @@
                   url : "/logout",
                   type : "GET",
                   data : null,
-                  error : function(error){
+                  success : function(response){
+                      window.location.href = "/";
+
+                  },
+                  error : function(xhs, status, error){
 
                       swal({
 
@@ -160,6 +164,10 @@
                           type : "error"
 
                       });
+
+                      console.log("로그아웃 실패.. " + status);
+
+                      window.location.href = "/";
 
                   }
 

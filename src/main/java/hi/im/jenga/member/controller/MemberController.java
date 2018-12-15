@@ -268,12 +268,14 @@ public class MemberController {
 
         MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
-        logger.info("복호화 한 파일경로 "+memberDTO.getMem_profile());
-        logger.info("복호화 한 닉네임 "+memberDTO.getMem_nick());
-        logger.info("복호화 한 소개 "+memberDTO.getMem_introduce());
+        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
+        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+        logger.info("복호화 한 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
+        logger.info("컨트롤러 페버"+favor.get(0));
+        logger.info("컨트롤러 페버"+favor.get(0).toString());
         model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
         model.addAttribute("favor", favor);      // 선택한 favor 가져옴
 
@@ -285,26 +287,22 @@ public class MemberController {
 
 
     @RequestMapping(value ="/modMemInfo", method = RequestMethod.POST)
-    public String modMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, @RequestParam(value = "mem_profile", required = false) MultipartFile uploadFile ,
+    public String modMemberInfoPOST(@RequestParam String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile, @RequestParam String em_pwd,
                                     @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
         String s_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         logger.info(": : : modMemberInfoPOST 들어옴");
         logger.info("Session에서 뽑아온 iuid " + s_iuid);
         logger.info("수정 후 받아온 닉네임 " + mem_nick);                          //tbl_memInfo
         logger.info("수정 후 받아온 파일이름 " + uploadFile);                      //tbl_memInfo
-        logger.info("수정 후 받아온 소개 " + mem_introduce);                      //tbl_memInfo
 
 
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
 //      프사 새로 안올렸으면 utilFile에서 return ""임
-        String uploadName;
-        if(uploadFile != null){
-            uploadName = memberUtilFile.fileUpload(uploadFile);
-        }else {
-            uploadName = "";    //바꾸기
-        }
+        String uploadName = memberUtilFile.fileUpload(uploadFile);
 
         logger.info("수정 후 받아온 파일이름 " + uploadName);                  //tbl_memInfo
+
+        logger.info("수정 후 받아온 비밀번호 " + em_pwd);                       //tbl_Emember
 
         logger.info("수정 후 받아온 취향 선택된 개수 " + favor.length);         //tbl_mfavor
 
@@ -312,7 +310,7 @@ public class MemberController {
             logger.info("수정 후 받아온 취향 선택된 카테고리 " + s);
         }
 
-        MemberDTO memberDTO = memberService.modMemberInfoPOST(s_iuid, mem_nick, mem_introduce, uploadName, favor);
+        MemberDTO memberDTO = memberService.modMemberInfoPOST(s_iuid, mem_nick, uploadName, em_pwd, favor);
         session.setAttribute("Member", memberDTO);
 
         return "redirect:/";
@@ -449,34 +447,41 @@ public class MemberController {
 
     // 로그아웃
     @RequestMapping("logout")
-    public @ResponseBody void logOut(HttpSession session){
-        if(session.getAttribute("Member") != null){
+    @ResponseBody
+    public boolean logOut(HttpSession session){
+
+        try {
+            if (session.getAttribute("Member") != null) {
+                session.invalidate();
+                return true;
+                // TODO 여기도 로그아웃 이전 페이지 url 저장해서 redirect 해줘야하나 음
+            }
+
+            String getSes = (String) session.getAttribute("access_token");
+            logger.info(getSes);
+            String[] check = getSes.split("%&");
+
+            if (check[0].equals("kakao")) {
+                LoginUtil util = kakaoLoginUtil;
+                util.logOut(check[1]);
+                logger.info("kakao 세션 제거");
+            } else if (check[0].equals("google")) {
+                logger.info("google 세션 제거");
+            } else if (check[0].equals("facebook")) {
+                logger.info("facebook 세션 제거");
+            } else if (check[0].equals("naver")) {
+                LoginUtil util = naverLoginUtil;
+                util.logOut("");
+                logger.info("naver 세션 제거");
+            }
+            logger.info("제거완료");
             session.invalidate();
-            logger.info("로그아웃 완료");
-            return ;
-            // TODO 여기도 로그아웃 이전 페이지 url 저장해서 redirect 해줘야하나 음
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
-        String getSes = (String)session.getAttribute("access_token");
-        logger.info(getSes);
-        String[] check =getSes.split("%&");
+        return false;
 
-        if(check[0].equals("kakao")){
-            LoginUtil util = kakaoLoginUtil;
-            util.logOut(check[1]);
-            logger.info("kakao 세션 제거");
-        }else if(check[0].equals("google")){
-            logger.info("google 세션 제거");
-        }else if(check[0].equals("facebook")){
-            logger.info("facebook 세션 제거");
-        }else if(check[0].equals("naver")){
-            LoginUtil util = naverLoginUtil;
-            util.logOut("");
-            logger.info("naver 세션 제거");
-        }
-        logger.info("제거완료");
-        session.invalidate();
-        return ;
 
     }
 

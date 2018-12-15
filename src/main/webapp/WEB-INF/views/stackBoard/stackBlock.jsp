@@ -32,7 +32,7 @@ Chrome, Firefox 사용 가능
 
     .bookMarkItem:hover{
 
-        background-color : green;
+        background-color : Lavender;
 
     }
 
@@ -266,6 +266,8 @@ Chrome, Firefox 사용 가능
 
     var prevNodeLeft = new Array();
     var prevNodeRight = new Array();
+
+    var outBoundCheck = false;
 
 
     //만약 필드에 다른 선택된 요소가 있으면 선택 취소 해 주는 클래스.
@@ -1469,12 +1471,13 @@ Chrome, Firefox 사용 가능
 
         setNavType("blue");
 
-        //배열에 마지막을 알아보는 last함수를 prototype으로 선언하여 사용
-        if (!Array.prototype.last){
-            Array.prototype.last = function(){
-                return this[this.length - 1];
-            };
-        };
+        $(window).on("beforeunload", function(e){
+
+            e.preventDefault();
+            return "페이지에서 벗어나시겠습니까? 저장된 정보는 변하지 않습니다.";
+
+
+        });
 
         attachBtnEvent();
         let category = '${category}';
@@ -1489,6 +1492,16 @@ Chrome, Firefox 사용 가능
         let parsedHTMLVar =  parseHTML('${resultHTML}');
         bookmarkElements = parsedHTMLVar.getChildren();
 
+        if(bookmarkElements.length == 0){
+
+            swal({
+
+               text : "현재 동기화 된 북마크가 없습니다. 내 정보 수정 페이지에서 북마크를 동기화 시키세요.",
+               type : "warning"
+
+            });
+        }
+
         //북마크 목록 화면에 나타낸다
         refreshBookMark(bookmarkElements, "left");
 
@@ -1502,7 +1515,6 @@ Chrome, Firefox 사용 가능
             setModifyPage();
 
         }
-
 
         //Drop을 가능하도록 설정, 오른쪽 패널
         setDroppable($("#editBookMark"), "right");

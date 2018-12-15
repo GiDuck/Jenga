@@ -58,7 +58,7 @@ public class BoardController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(){
 
-        return "/board/stackBoard/boardSearch";
+        return "stackBoard/boardSearch";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -113,20 +113,28 @@ public class BoardController {
         if(status == null) return "redirect:/";
         if(status.equals("stack")) {
             String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            String resultHTML = null;
+            Map<String, List<String>> category = null;
+            try{
+                category = boardService.getCategoryName();
 
-            Map<String, List<String>> category = boardService.getCategoryName();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
             ObjectMapper mapper = new ObjectMapper();
-
             String categoryJSON = mapper.writeValueAsString(category);
+            try {
+                resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
+            }catch(Exception e){
+                e.printStackTrace();
+            }
 
-            String resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
 
-            logger.info("resultHTML 는 "+resultHTML);
+            logger.info(resultHTML);
 
             model.addAttribute("category", categoryJSON);
-            if(!resultHTML.equals("")) {
-                model.addAttribute("resultHTML", resultHTML);
-            }
+            model.addAttribute("resultHTML", resultHTML);
 
             return "editor/stackBoard/stackBlock";
 
@@ -224,7 +232,7 @@ public class BoardController {
 
         logger.info("글작성 성공");
 
-        return boardDTO.getBl_uid();
+        return "success";
     }
 
 
