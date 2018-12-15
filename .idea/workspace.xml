@@ -56,8 +56,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/common.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="32" lean-forward="true" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+            <state relative-caret-position="114">
+              <caret line="6" column="67" selection-start-line="6" selection-start-column="67" selection-end-line="6" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -152,8 +152,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-14" />
-    <option name="y" value="7" />
+    <option name="x" value="-15" />
+    <option name="y" value="6" />
     <option name="width" value="1890" />
     <option name="height" value="960" />
   </component>
@@ -603,7 +603,7 @@
       <workItem from="1544859818406" duration="447000" />
       <workItem from="1544860360243" duration="1382000" />
       <workItem from="1544861988054" duration="343000" />
-      <workItem from="1544862407070" duration="2818000" />
+      <workItem from="1544862407070" duration="3215000" />
     </task>
     <task id="LOCAL-00001" summary="181223&#10;전반적인 뷰 작업중...">
       <created>1544690731453</created>
@@ -647,11 +647,18 @@
       <option name="project" value="LOCAL" />
       <updated>1544867692359</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="181215&#10;&#10;로그인 뷰 작업중..&#10;회원정보 수정 작업중..">
+      <created>1544869435707</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1544869435707</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54533000" />
+    <option name="totallyTimeSpent" value="54930000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -664,7 +671,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.76363635" visible="true" weight="0.42267206" />
       <window_info id="Structure" order="1" sideWeight="0.23636363" side_tool="true" visible="true" weight="0.42267206" />
@@ -676,7 +682,7 @@
       <window_info id="Web" order="7" sideWeight="0.50581396" side_tool="true" weight="0.27044535" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.3291815" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49635628" visible="true" weight="0.4128114" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49635628" weight="0.4128114" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38790035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -940,8 +946,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/common.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="32" lean-forward="true" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+        <state relative-caret-position="114">
+          <caret line="6" column="67" selection-start-line="6" selection-start-column="67" selection-end-line="6" selection-end-column="67" />
         </state>
       </provider>
     </entry>
