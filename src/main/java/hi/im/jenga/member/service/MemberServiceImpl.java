@@ -207,14 +207,20 @@ public class MemberServiceImpl implements MemberService {
         logger.info("복호화한 있는 iuid는 "+notAes_iuid);*/
 
         memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
+        logger.info("DAO에서 받은 member dto.. " + memberDTO.toString());
 
+        logger.info("암호화 결과... 닉네임 " + aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
+        logger.info("암호화 결과... 경로 " + aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        logger.info("암호화 결과... 소개 " + aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
 
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
         memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
         memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
 
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_nick());
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_profile());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_introduce());
         logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
 
         return memberDTO;

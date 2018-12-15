@@ -264,11 +264,13 @@ public class MemberController {
         logger.info(": : : modMemberInfoGET 들어옴");
         logger.info("바뀌기 전 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
         logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+        logger.info("바뀌기 전 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
         MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
         logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
         logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+        logger.info("복호화 한 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
@@ -448,6 +450,7 @@ public class MemberController {
     public String logOut(HttpSession session){
         if(session.getAttribute("Member") != null){
             session.invalidate();
+            logger.info("로그아웃 완료");
             return "redirect:/";
             // TODO 여기도 로그아웃 이전 페이지 url 저장해서 redirect 해줘야하나 음
         }

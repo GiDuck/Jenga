@@ -16,7 +16,7 @@ Form-data parameter
 
 <div class="wrapper">
     <div class="profile-content section">
-        <form class="settings-form" enctype="multipart/form-data" action="/modMemInfo" method="POST" onsubmit="return onFormReq();">
+        <form class="settings-form" onsubmit="return false;">
 
             <div class="row">
                 <div class="col-12 text-center"><h2>회원 정보 수정</h2><br><br></div>
@@ -24,14 +24,14 @@ Form-data parameter
                 <div class="profile-picture">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new img-no-padding">
-                            <img name="profile" id="profile" src="profiles/${DTO.mem_profile}" alt="프로필 사진">
+                            <img name="profile" id="profile" src="profiles/${DTO.mem_profile}" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
                         </div>
                         <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                         <div>
                                 <span class="btn btn-outline-default btn-file btn-round">
                                   <span class="fileinput-new">Change Photo</span>
                                   <span class="fileinput-exists">Change</span>
-                                  <input type="file" name="mem_profile" id="mem_profile">
+                                  <input type="file" id="mem_profile">
                                 </span>
                             <br/>
                             <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
@@ -49,16 +49,26 @@ Form-data parameter
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label>NickName</label>
-                                <input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}" onchange="nickChange()">
+                                <input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}">
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
-                                <label>PassWord</label>
-                                <input type="password" id = "em_pwd" name="em_pwd" class="form-control border-input" placeholder="Password" value="">
+                                <label>Password</label>
+                                <input type="password" id = "em_pwd" name="em_pwd" class="form-control border-input" placeholder="Password" value="" disabled>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="col-12">
+
+                            <label>Introduce</label>
+                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5"></textarea>
+
+                        </div>
+
+                        </div>
+
+
 
                     <div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의
                         취향을 선택해 주세요!</h3></div>
@@ -83,27 +93,32 @@ Form-data parameter
 
                         </ul>
 
-                        <%--<div class="row" style="margin-top : 20px">--%>
+                        <div class="row" style="margin-top : 20px">
 
-                            <%--<div class="col-12">--%>
-                                <%--<label style="font-weight : bold">Bookmarks</label>--%>
-                            <%--</div>--%>
-                            <%--<div class="col-12 md-6">--%>
-                                <%--<div class="btn btn-danger w-100 text-center"  id="btnSyncWithGoogleBK"><i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크와 동기화</div>--%>
-                            <%--</div>--%>
-                            <%--<div class="col-12 md-6">--%>
-                                <%--<div class="btn btn-primary w-100 text-center"  id="btnSyncWithExploreBK">익스플로러 북마크와 동기화</div>--%>
-                            <%--</div>--%>
+                            <div class="col-12">
+                                <label style="font-weight : bold">Bookmarks</label>
+                            </div>
+                            <div class="col-12">
+                                <div class="btn btn-danger w-50 text-center" id="btnSyncWithGoogleBK"><i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크와 동기화</div>
+                                &nbsp&nbsp<span>최근 동기화 : <p name="chromeSyncDate"></p></span>
+                            </div>
+                            <div class="col-12">
+                                <br>
+                                <div class="btn btn-primary w-50 text-center"  id="btnSyncWithExploreBK">익스플로러 북마크와 동기화</div>
+                                &nbsp&nbsp<span>최근 동기화 : <p name="exploreSyncDate"></p></span>
 
-                        <%--</div>--%>
+                            </div>
+                        </div>
+                    </div>
+
+
                         <br><br>
                         <div class="row text-center" style="padding : 8px">
-                            <button type="submit" id="saveBtn" class="col-sm-6 btn btn-info btn-round">Save</button>
+                            <button id="saveBtn" class="col-sm-6 btn btn-info btn-round">Save</button>
                             <button id="retireBtn" class="col-sm-6 btn btn-danger btn-round">회원 탈퇴</button>
                         </div>
                     </div>
                 </div>
-            </div>
         </form>
         <div class="container">
         </div>
@@ -152,12 +167,15 @@ Form-data parameter
         setNavType("blue");
         initFavorForm();
 
-        /*$("#saveBtn").on('click', function (e) {
+        console.log("${DTO}");
+
+
+        $("#saveBtn").on('click', function (e) {
             e.preventDefault();
-            getSelectedCard();
+            onFormReq();
 
         });
-*/
+
         // 회원 탈퇴
         $("#retireBtn").on('click', function (e) {
 
@@ -218,21 +236,56 @@ Form-data parameter
         //사용자가 선택한 취향 카드 목록을 들고온다.
         let selectCard = getSelectedCard();
 
-        //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
-        for (let i = 0; i < selectCard.length; ++i) {
-            $inputNode = $("<input>").attr("type", "hidden").attr("name", "favor").val(selectCard[i]);
-            $(".settings-form").append($inputNode);
+        let nickname = $("input[name='mem_nick']").val(); // 냥
+        //let introduce = $("textarea[name='mem_introduce']").val();
+        let profile = $("#mem_profile").prop("files");
 
-        }
-        alert(userFavor);           // 받아온 문학/예술, 경제/경영
-        alert($("#profile").val());
-        alert($("#profile").value);
-        alert(document.getElementsByName('mem_nick')[0].value); // 냥
-        alert(document.getElementsByName('mem_profile')[0].value); //  C:\fakepath\about2.jpg
-        alert(document.getElementsByName('profile')[0].value);  // asdfasdf1
+        console.log("검증");
+        console.log(nickname);
+        console.log(selectCard);
 
-        //초기화 절차가 끝나면 true를 리턴하여 form submit 수행
-        return true;
+        let params = new FormData();
+        params.append("mem_nick", nickname);
+        params.append("mem_profile", profile[0]);
+        params.append("em_pwd", "godqhrgkek93@");
+        params.append("favor", selectCard);
+
+        $.ajax({
+
+            url : "/modMemInfo",
+            method : "POST",
+            contentType: false,
+            cache: false,
+            processData:false,
+            data : params,
+            type : "POST",
+            success : function(response){
+
+                swal({
+
+                    text : "회원정보 수정 성공하였습니다.",
+                    type : "success"
+
+                }).then(function(result){
+
+                    window.location.replace("/");
+                });
+
+            },
+            error : function(error){
+
+                swal({
+
+                    text : "회원정보 수정 실패하였습니다.",
+                    type : "error"
+
+                });
+
+            }
+
+
+        });
+
 
 
     }
@@ -278,7 +331,8 @@ Form-data parameter
                 //div 필드를 초기화
                 let $selectFavorField = $("#selectFavorField");
 
-                //Request Scope로 넘긴 배열 리스트들을
+
+               //Request Scope로 넘긴 배열 리스트들을
                 let index;
                 for (let i = 0; i < response.length; ++i) {
                     index = response[i];
@@ -286,13 +340,12 @@ Form-data parameter
 
                     //display : none 처리 되어있는 카드를 show 해준다.
                     $cardItem.css('display', 'block');
-                    $cardItem.find(".card").css("background-image", "url('" + index.image + "')");
-                    $cardItem.find("h3").html(index.name);
+                    $cardItem.find(".card").css("background-image", "url('" + index.MCTG_IMG + "')");
+                    $cardItem.find("h3").html(index.MCTG_NAME);
 
-                    if (userFavor.includes(index.name)) {
+                    if (userFavor.includes(index.MCTG_NAME)) {
 
                         $cardItem.find(".card").css('opacity', '0.2');
-
 
                     }
 

@@ -14,18 +14,18 @@
                     <div class="col-md-5 col-sm-5">
                         <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                             <div class="fileinput-new thumbnail img-no-padding" style="max-width: 370px; max-height: 250px;">
-                                <img src="${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg" alt="...">
+                                <img id="thumbnail_image" src="${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg" alt="...">
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail img-no-padding" style="max-width: 370px; max-height: 250px;"></div>
 
                         </div>
                         <h6>Tags</h6>
                         <div id="tags">
-                            <input class="tagsinput" data-color="success" type="text" value="Minimal, Light, New, Friends" data-role="tagsinput" disabled="disabled"/>
+                            <input id="tags_inputField" class="tagsinput" data-color="success" type="text" value="" data-role="tagsinput" disabled="disabled"/>
                         </div>
                         <br>
                         <h6>Categories</h6>
-                        <div class="form-control border-input" style="visibility:hidden"></div>
+                        <div id="bd_category" class="form-control border-input" style="visibility:hidden"></div>
 
                     </div>
                     <div class="col-md-7 col-sm-7">
@@ -61,13 +61,12 @@
                         <div class="media">
                             <a class="pull-left" href="#paper-kit">
                                 <div class="avatar big-avatar">
-                                    <img class="media-object" alt="64x64" src="${pageContext.request.contextPath}/resources/assets/img/faces/kaci-baum-2.jpg">
+                                    <img id="writer_image" class="media-object" alt="64x64" src="${pageContext.request.contextPath}/resources/assets/img/faces/kaci-baum-2.jpg">
                                 </div>
                             </a>
                             <div class="media-body">
-                                <h4 class="media-heading">부산 언니</h4>
-                                <p>부산 맛집 전문 블로거</p>
-                                <p>부산만 15년, 맛집만 찾아다닌 숨은 고수</p>
+                                <h4 id="writer_name" class="media-heading"></h4>
+                                <span id="writer_description"/>
                                 <div class="pull-right">
                                     <div id="writerPanel" style="display : none">
                                         <a href="#" class="btn btn-info btn-round "> <i class="nc-icon nc-ruler-pencil"></i>&nbsp Modify</a>&nbsp
@@ -84,8 +83,6 @@
 
                     </div>
 
-
-
                     <div class="form-group col-sm-12">
                         <h6>Description</h6>
                         <section id="editor">
@@ -100,6 +97,84 @@
 
 
 <script>
+
+    let blockObj = undefined;
+
+    function setData(){
+
+        //json으로 넘어온 map object를 js에서 사용할 수 있는 object 형식으로 파싱
+        blockObj = JSON.parse("${map}");
+
+        //작성자 이름
+        $("#writer_name").html(blockObj.BL_WRITER);
+        //작성자 소개
+        $("#writer_description").html("소개는 추가 예정입니다...");
+        //작성자 이미지
+        $("#writer_image").attr("src", blockObj.BTI_URL);
+        //선택한 태그들
+        $("#tags_inputField").val(blockObj.TAGS);
+        //블록 썸네일 이미지
+        $("#thumbnail_image").attr("src", blockObj.BTI_URL);
+        //블록 제목
+        $("#bd_title").val(blockObj.BL_TITLE);
+        //블록 소개
+        $("#bd_introduce").val(blockObj.BL_INTRODUCE);
+        //블록 내용
+        $("#bd_description").val(blockObj.BL_DESCRIPTION);
+
+        //카테고리
+        let categoryStr = blockObj.BL_MAINCTG + " > "  + blockObj.BL_SMCTG;
+        $("#bd_category").val(categoryStr);
+
+        //날짜
+        let dateObj = new Date(blockObj.BL_DATE);
+        let dateStr = dateObj.getFullYear() + "년 " + (dateObj.getMonth()+1) + " 월" + dateObj.getDate() + " 일 "
+            + dateObj.getHours() + ":" + dateObj.getMinutes();
+        $("#bd_date").val(dateStr);
+
+
+        //비동기로 북마크 로딩
+        (function(){
+
+            setBookmarks(blockObj.BL_BOOKMARKS);
+
+        }());
+
+
+    }
+
+    function setBookmarks(bookmarkElements){
+
+
+        let jsonTreeSource = new Array();
+
+        for(let i = 0 ; i < bookmarkElements.length; ++i){
+
+            recursiveToJsonTreeFormat(bookmarkElements[i],jsonTreeSource);
+
+        }
+
+        let data = new Object();
+        data.text = "북마크 목록";
+        data.children = jsonTreeSource;
+
+        $('#bd_bookmarks').jstree({
+            'core' : {
+                'data' : data
+            }
+        }).on("dblclick.jstree", function(e){
+
+            e.preventDefault();
+            let url = $(e.target).attr("value");
+
+            if(url){
+                window.open(url);
+            }
+        });
+
+
+
+    }
 
     function recursiveToJsonTreeFormat(nowNode, jsonTreeSource){
 
@@ -143,37 +218,7 @@
     $(document).ready(function(){
 
         setNavType("blue");
-        let parsedHTML =  parseHTML('${resultHTML}');
-        let bookmarkElements = parsedHTML.getChildren();
-
-
-
-        let jsonTreeSource = new Array();
-
-        for(let i = 0 ; i < bookmarkElements.length; ++i){
-
-            recursiveToJsonTreeFormat(bookmarkElements[i],jsonTreeSource);
-
-        }
-
-        let data = new Object();
-        data.text = "북마크 목록";
-        data.children = jsonTreeSource;
-
-
-        $('#bd_bookmarks').jstree({
-            'core' : {
-                'data' : data
-            }
-        }).on("dblclick.jstree", function(e){
-
-            e.preventDefault();
-            let url = $(e.target).attr("value");
-
-            if(url){
-                window.open(url);
-            }
-        });
+        setData();
 
     });
 

@@ -4,10 +4,7 @@
 
 <style>
 
-.loginService{
-
-
-}
+.loginService{}
 
 </style>
     
@@ -39,11 +36,11 @@
           <li class="dropdown nav-item">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">Block</a>
             <div class="dropdown-menu dropdown-menu-right dropdown-warning">
-              <a href="#" class="dropdown-item"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
-              <a href="#" class="dropdown-item"><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
-              <a href="#" class="dropdown-item loginService"><i class="nc-icon nc-app"></i>블록 쌓기</a>
-              <a href="#" class="dropdown-item loginService"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
-              <a href="#" class="dropdown-item loginService"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>          
+              <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
+              <a class="dropdown-item"  href="#" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
+              <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
+              <a class="dropdown-item loginService" href="#"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
+              <a class="dropdown-item loginService" href="#"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -51,7 +48,7 @@
              My Info
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-warning" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" data-scroll="true" data-id="#headers" href="#">
+              <a class="dropdown-item loginService" data-scroll="true" data-id="#headers" href="/modMemInfo">
                 <i class="nc-icon nc-paper loginService"></i> 내 정보 관리
               </a>
               <a class="dropdown-item" data-scroll="true" data-id="#features" href="#">
@@ -66,11 +63,11 @@
          <!-- 세션 존재여부에 따라 로그인, 로그아웃 여부가 다르게 보임 -->
          <c:choose>
             <c:when test="${sessionScope.Member ne null}">
-            <a class="nav-link">LOGOUT</a>
+            <a class="nav-link" name="loginBtn" value="1">LOGOUT</a>
             </c:when>
             
             <c:otherwise>
-             <a class="nav-link">LOGIN</a>
+             <a class="nav-link" name="loginBtn" value="0">LOGIN</a>
             
             </c:otherwise>
           </c:choose>
@@ -105,24 +102,76 @@
 	  
 	  
 	  $(".loginService").on('click', function(e){
-		  
-		  let success = function(){
-			  
-			location.href= "/join";			  
-		  }
-		  
-		  let fail = function(){ 
-				console.log("fail");
-		  };
-		  		
-		  let modal = makeCheckableModal('', '로그인이 필요한 서비스 입니다.' ,'로그인을 먼저 해 주세요. 페이지로 이동할까요?', success, fail);
-		  
+          e.preventDefault();
+
+	      //세션체크
+          let session = "${sessionScope.Member}";
+          let dest = $(e.target).attr("href");
+
+          if(!session){
+
+		  swal({
+              text : "로그인이 필요한 서비스 입니다. 로그인 페이지로 이동하시겠습니까?",
+              type : "warning",
+              showCancelButton : true,
+              confirmButtonText: "이동"
+          }).then(function(result){
+
+              if(result.dismiss == 'cancel'){
+                  return;
+              }
+              else{
+                  window.location.href="/login";
+
+              }
+          });
 		 
-		  e.preventDefault();
-		  
+
+          }else{
+
+              window.location.href= dest;
+
+          }
 		  
 	  });
-	  
+
+
+	  $("a[name='loginBtn']").on('click', function(e){
+
+	      let validLogin = $(e.target).attr("value");
+
+          if(validLogin == 0){
+
+              window.location.href = "/login";
+
+
+          }else if(validLogin == 1){
+
+              $.ajax({
+
+                  url : "/logout",
+                  type : "GET",
+                  data : null,
+                  error : function(error){
+
+                      swal({
+
+                          text : "로그아웃에 실패하였습니다.",
+                          type : "error"
+
+                      });
+
+                  }
+
+              });
+
+          }
+
+
+
+      });
+
+
 	  
   });
  

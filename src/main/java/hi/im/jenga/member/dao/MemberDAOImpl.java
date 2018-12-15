@@ -159,7 +159,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public List<String> getMemFavor(String member) { return sqlSession.selectList("member.getMemFavor",member); }
 
-    public MemberDTO modMemberInfoGET(String aes_iuid) { return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
+    public MemberDTO modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
 
     public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String aes_em_pwd, String[] favor){
         Map<String, Object> map = new HashMap();

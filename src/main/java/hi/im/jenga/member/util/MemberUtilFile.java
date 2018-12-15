@@ -40,8 +40,7 @@ public class MemberUtilFile {
             }
 
             byte[] bytes = uploadFile.getBytes();
-            //path = getSaveLocation(request);
-            /*path = "Y:\\go\\Jenga\\profiles\\";*/
+
 
             logger.info("UtilFile fileUpload fileName : " + fileName);
             logger.info("UtilFile fileUpload path : " + PROFILE_PATH);
