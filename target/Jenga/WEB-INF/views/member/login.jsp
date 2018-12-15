@@ -38,7 +38,7 @@
 
   <video autoplay muted loop id="backgroundVideo" style="object-fit: fill;">
 
-    <source src="${pageContext.request.contextPath}/resources/assets/video/fireworks.mp4" type="video/mp4">
+    <source src="${pageContext.request.contextPath}/resources/assets/video/jenga.mp4" type="video/mp4">
 
   </video>
 
@@ -87,10 +87,10 @@
 
     //비밀번호 찾기 버튼 클릭시 Action
     $("#findPWBtn").on('click', function(e){
+      e.preventDefault();
 
         //모달 초기화 및 이벤트 캡쳐링 방지
         makePWModal();
-        e.preventDefault();
 
     });
 
@@ -130,34 +130,48 @@
                     },
 
                     success: function (responseData){
-                        console.log(responseData)
-                        console.log(responseData["dest"])
-                        console.log(responseData["check"])
+
                         if (responseData["check"] == 'iderror') {
-                            alert("존재하지 않는 아이디 입니다. 다시 확인해 주세요!");
+                          swal({
+                            text : "존재하지 않는 아이디 입니다. 다시 확인 해 주세요!",
+                            type : "warning"
+                          });
                             $('#login_em_id').val("");
                             $('#login_em_id').focus();
                             return false;
 
                         } else if (responseData["check"] == 'pwderror') {
-                            alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
-                            $('#login_em_pwd').val("");
-                            $('#login_em_pwd').focus();
+                          swal({
+                            text : "잘못된 비밀번호 입니다. 다시 확인 해 주세요!",
+                            type : "warning"
+                          });
+                          $('#login_em_pwd').val("");
+                          $('#login_em_pwd').focus();
                             return false;
-                        } else if (responseData["check"] == 'noauth' ){
-                            alert("추가정보 입력이 필요합니다. 입력페이지로 이동합니다.");
-                            let d = document.getElementById("passform");
-                            console.log(d);
-                            d.method="post";
-                            d.action="/setMemInfo";
-                            d.submit();
-                        }
-                        else {
+                        } else if (responseData["check"] == 'noauth' ) {
+                          swal({
+                            text: "추가 정보 입력이 필요합니다. 입력 페이지로 이동합니다.",
+                            type: "error"
+                          });
+
+                          let d = $("#passform");
+                          console.log(d);
+                          d.method = "post";
+                          d.action = "/setMemInfo";
+                          d.submit();
+
+
+                        }else {
 
                             location.replace(responseData["dest"]);
 
                         }
                     }, error: function(xhs, status, error){
+
+                    swal({
+                      text : "로그인에 실패하였습니다.",
+                      type : "error"
+                    });
                         console.log(status);
                         console.log(xhs.statusText);
                         console.log(xhs.responseText);
@@ -207,75 +221,33 @@
 
         });
 
-        //로그인 버튼 클릭시 Action
-        $btn_comp.find("#login-check").on('click', function(e){
-            e.preventDefault();
-            let inputEmail = $btn_comp.find("input[type=email]").html();
-            let inputPw = $btn_comp.find("input[type=password]").html();
-            /*e.preventDefault();
-            console.log(e);
-            if ($('#login_em_id').val() == "") {
-                alert('이메일을 입력해주세요');
-                $('#lgoin_em_id').focus();
-                return false;
-            } else if ($('#login_em_pwd').val() == "") {
-                alert('비밀번호를 입력해주세요');
-                $('#login_em_pwd').focus();
-                return false;
-            } else {
-                $.ajax({
-                    url: "/logincheck",
-                    type: "post",
-                    data: {
-                        "em_id": $('#login_em_id').val(),
-                        "em_pwd": $('#login_em_pwd').val()
-                    },
-                    success: function (responseData) {
-
-                        if (responseData.indexOf('iderror') != -1) {
-                            alert("존재하지 않는 아이디 입니다. 다시 확인해 주세요!");
-                            $('#em_id').val("");
-                            $('#em_id').focus();
-                            return false;
-
-                        } else if (responseData.indexOf('pwderror') != -1) {
-                            alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
-                            $('#em_pwd').val("");
-                            $('#em_pwd').focus();
-                        } else {
-                            location.replace("/");
-
-                        }
-                    }
-                });
-            }
-
-        });*/
-
-        });
     });
 
 
 
     $(document).ready(function(){
+
+      let $email = $("input[type=email]");
+      let $checkbox = $("input[type=checkbox]");
+      let emailVal = $email.val();
+
         let em_id = getCookie("saveid");
-        $("input[type=email]").val(em_id);
-        if($("input[type=email]").val() != ""){
-            $("input[type=checkbox]").attr("checked", true);
+        $email.val(em_id);
+
+        if(!emailVal){
+          $checkbox.attr("checked", true);
         }
-        $("input[type=checkbox]").on("switchChange.bootstrapSwitch",function () {
-            alert("체크박스 변경됨");
-            $("input[type=checkbox]");
-            if($("input[type=checkbox]").is(":checked")){
-                let saveid = $("input[type=email]").val();
+        $checkbox.on("switchChange.bootstrapSwitch",function () {
+            if($checkbox.is(":checked")){
+                let saveid = $email.val();
                 setCookie("saveid",saveid,7);
             }else{
                 deleteCookie("saveid");
             }
         });
-        $("input[type=email]").keyup(function () {
-            if($("input[type=checkbox]").is(":checked")){
-                let saveid = $("input[type=email]").val();
+      $email.keyup(function () {
+            if($checkbox.is(":checked")){
+                let saveid = $email.val();
                 setCookie("saveid",saveid,7);
             }
         })

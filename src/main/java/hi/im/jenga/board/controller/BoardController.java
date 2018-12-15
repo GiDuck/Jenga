@@ -9,6 +9,7 @@ import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -60,18 +61,29 @@ public class BoardController {
     * 검색창 하나만 띄우는 페이지
     * */
     @RequestMapping("/search")
-    public String boardSearch(String search, String search_check, HttpSession session){
-            String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-            boardService.search(search,search_check, session_iuid);
+    public String boardSearch(){
+        return "stackBoard/boardSearch";
+    }
 
-        return "/search";
+
+    /*
+     * 검색 수행
+     * */
+    @RequestMapping("/searchAction")
+    @ResponseBody
+    public List<BoardDTO> boardSearchAction(@RequestParam("keyword") String keyword, @RequestParam("check") String check,HttpSession session, Model model){
+
+        String iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+        List<BoardDTO> container = boardService.search(keyword, iuid, check);
+
+        return container;
     }
 
     /*
      * 글 조회 GET
      * 조회수, 좋아요 표시
-     *
      * 블록
+     *
      * map.get("BL_SMCTG");
      *
      * 태그
@@ -94,12 +106,6 @@ public class BoardController {
 
         return "stackBoard/boardDetailView";
     }
-
-
-
-
-
-
 
 
     // 글쓰는 페이지 GET, 글 수정 페이지 GET
@@ -222,7 +228,8 @@ public class BoardController {
 
         logger.info("글작성 성공");
 
-        return "success";
+        //게시글 번호를 리턴.. 기덕
+        return boardDTO.getBl_uid();
     }
 
 
@@ -244,7 +251,7 @@ public class BoardController {
 //  TODO 테스트 mongo update도 함
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
     @RequestMapping(value = "/modView", method = RequestMethod.POST)
-    public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
+    @ResponseBody public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
 
         String uploadName;
         // 수정을 안하면 원래 이미지를 줘야함
@@ -258,7 +265,7 @@ public class BoardController {
 
         boardService.modifyViewPOST(boardDTO, uploadName, bl_bookmarks);
 
-        return "/board/boardView?bl_uid="+boardDTO.getBl_uid();
+        return boardDTO.getBl_uid();
     }
 
 //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트

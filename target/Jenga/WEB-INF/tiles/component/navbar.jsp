@@ -4,10 +4,7 @@
 
 <style>
 
-.loginService{
-
-
-}
+.loginService{}
 
 </style>
     
@@ -39,11 +36,11 @@
           <li class="dropdown nav-item">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">Block</a>
             <div class="dropdown-menu dropdown-menu-right dropdown-warning">
-              <a href="/board/boardView" class="dropdown-item"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
-              <a href="#" class="dropdown-item"><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
-              <a href="#" class="dropdown-item loginService"><i class="nc-icon nc-app"></i>블록 쌓기</a>
-              <a href="#" class="dropdown-item loginService"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
-              <a href="#" class="dropdown-item loginService"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>          
+              <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
+              <a class="dropdown-item"  href="#" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
+              <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
+              <a class="dropdown-item loginService" href="#"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
+              <a class="dropdown-item loginService" href="#"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -51,7 +48,7 @@
              My Info
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-warning" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" data-scroll="true" data-id="#headers" href="#">
+              <a class="dropdown-item loginService" data-scroll="true" data-id="#headers" href="/modMemInfo">
                 <i class="nc-icon nc-paper loginService"></i> 내 정보 관리
               </a>
               <a class="dropdown-item" data-scroll="true" data-id="#features" href="#">
@@ -108,14 +105,10 @@
           e.preventDefault();
 
 	      //세션체크
+          let session = "${sessionScope.Member}";
+          let dest = $(e.target).attr("href");
 
-          console.log("sessionScope");
-          console.log("${sessionScope}");
-
-          let session = $.isEmptyObject("${sessionScope}");
-          console.log(session);
-
-          if(session){
+          if(!session){
 
 		  swal({
               text : "로그인이 필요한 서비스 입니다. 로그인 페이지로 이동하시겠습니까?",
@@ -124,14 +117,19 @@
               confirmButtonText: "이동"
           }).then(function(result){
 
-              window.location.href="/login";
+              if(result.dismiss == 'cancel'){
+                  return;
+              }
+              else{
+                  window.location.href="/login";
 
+              }
           });
 		 
 
           }else{
 
-              window.location.href="/board/stackBlock?status=stack";
+              window.location.href= dest;
 
           }
 		  
@@ -139,7 +137,8 @@
 
 
 	  $("a[name='loginBtn']").on('click', function(e){
-          let validLogin = $(e.target).attr("value");
+
+	      let validLogin = $(e.target).attr("value");
 
           if(validLogin == 0){
 

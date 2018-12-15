@@ -235,7 +235,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM
 		tbl_MemInfo
 	WHERE
-		mem_iuid = #{aes_iuid}
+		mem_iuid = <![CDATA[#{aes_iuid}]]>
 	</select>
 
 	<update id="modMemberInfoPOST_MemInfo">

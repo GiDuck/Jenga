@@ -14,6 +14,7 @@
       <entry name="!?*.jpg" />
       <entry name="!?*.jpeg" />
       <entry name="!?*.svg" />
+      <entry name="!?*.mp4" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">

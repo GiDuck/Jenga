@@ -33,7 +33,8 @@
   }
   
 
-  
+
+  //이메일 로그인 검증 함수
   function validCheckAuth(id, pwd){
 	  
 	  
@@ -47,20 +48,13 @@
 		if(!vaildPwd ||  !vaildId || idIsVoid || pwdIsVoid){
 				
 				let miss = undefined;
-				
-				console.log(idIsVoid + "..." + pwdIsVoid + "..." + vaildPwd + "..." + vaildId);
-				
+
 				if(idIsVoid || pwdIsVoid){
 								 						
 				miss = "이메일 혹은 비밀번호가 공백입니다.";
 				passport = false;
 					
-				/*}
-				else if(!vaildPwd){
-					
-					miss = "비밀번호는 영문자와 특수문자를 1개 이상 포함하여야 합니다.";
-					passport = false;	
-					*/
+
 				}else if (!vaildId){
 					
 					miss = "이메일이 정확하지 않습니다. 확인 해 주세요.";
@@ -69,14 +63,18 @@
 				}
 				
 				if(!passport){
-				
-					makeSimpleNotifyModal('입력 정보가 정확하지 않습니다', miss ,  function(){});
-				
+
+					swal({
+
+						text : miss,
+						type : "warning"
+
+					});
+
 				}
 				
 			}
-			console.log(passport);
-	  
+
 	  return passport;
 	  
 	  

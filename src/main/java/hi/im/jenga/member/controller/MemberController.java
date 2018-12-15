@@ -59,7 +59,6 @@ public class MemberController {
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
         logger.info("세션은 "+(MemberDTO)session.getAttribute("Member"));
-//        logger.info("세션의 iuid는 "+((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         return "main/main";
     }
 
@@ -251,24 +250,20 @@ public class MemberController {
 
 
     @RequestMapping(value ="/modMemInfo", method = RequestMethod.GET)
-    public String modMemberInfoGET(HttpSession session, Model model) throws Exception {
-//        List<MemberDTO> list = new ArrayList<MemberDTO>();
-        logger.info(": : : modMemberInfoGET 들어옴");
-        logger.info("바뀌기 전 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
-        logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+    public String modMemberInfoGET(HttpSession session, Model model) {
 
-        MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
+        try {
+            logger.info("member info " + ((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+            MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO) session.getAttribute("Member"));
+            List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
 
-        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
-        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+            logger.info("user " + memberDTO.toString());
+            model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+            model.addAttribute("favor", favor);      // 선택한 favor 가져옴
 
-        List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
-        logger.info("컨트롤러 페버"+favor);
-        logger.info("컨트롤러 페버"+favor.get(0));
-        logger.info("컨트롤러 페버"+favor.get(0).toString());
-        model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
-        model.addAttribute("favor", favor);      // 선택한 favor 가져옴
-
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "member/modMemInfo";
     }
 
@@ -277,32 +272,37 @@ public class MemberController {
 
 
     @RequestMapping(value ="/modMemInfo", method = RequestMethod.POST)
-    public String modMemberInfoPOST(@RequestParam String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile,  MultipartHttpServletRequest request,
-                                    @RequestParam String em_pwd, @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
-        String s_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-        logger.info(": : : modMemberInfoPOST 들어옴");
-        logger.info("Session에서 뽑아온 iuid " + s_iuid);
-        logger.info("수정 후 받아온 닉네임 " + mem_nick);                          //tbl_memInfo
-        logger.info("수정 후 받아온 파일이름 " + uploadFile);                      //tbl_memInfo
+    public String modMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile,  MultipartHttpServletRequest request,
+                                    @RequestParam("em_pwd") String em_pwd, @RequestParam("favor") String[] favor, HttpSession session, Model model) throws Exception {
+        try {
+            String s_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            logger.info(": : : modMemberInfoPOST 들어옴");
+            logger.info("Session에서 뽑아온 iuid " + s_iuid);
+            logger.info("수정 후 받아온 닉네임 " + mem_nick);                          //tbl_memInfo
+            logger.info("수정 후 받아온 파일이름 " + uploadFile);                      //tbl_memInfo
+            logger.info("수정 후 취향 " + favor);                          //tbl_memInfo
 
 
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
 //      프사 새로 안올렸으면 utilFile에서 return ""임
-        String uploadName = memberUtilFile.fileUpload(request, uploadFile);
+            String uploadName = memberUtilFile.fileUpload(request, uploadFile);
 
-        logger.info("수정 후 받아온 파일이름 " + uploadName);                  //tbl_memInfo
+            logger.info("수정 후 받아온 파일이름 " + uploadName);                  //tbl_memInfo
 
-        logger.info("수정 후 받아온 비밀번호 " + em_pwd);                       //tbl_Emember
+            logger.info("수정 후 받아온 비밀번호 " + em_pwd);                       //tbl_Emember
 
-        logger.info("수정 후 받아온 취향 선택된 개수 " + favor.length);         //tbl_mfavor
+            logger.info("수정 후 받아온 취향 선택된 개수 " + favor.length);         //tbl_mfavor
 
-        for (String s : favor) {
-            logger.info("수정 후 받아온 취향 선택된 카테고리 " + s);
+            for (String s : favor) {
+                logger.info("수정 후 받아온 취향 선택된 카테고리 " + s);
+            }
+
+            MemberDTO memberDTO = memberService.modMemberInfoPOST(s_iuid, mem_nick, uploadName, em_pwd, favor);
+            session.setAttribute("Member", memberDTO);
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
-
-        MemberDTO memberDTO = memberService.modMemberInfoPOST(s_iuid, mem_nick, uploadName, em_pwd, favor);
-        session.setAttribute("Member", memberDTO);
-
         return "redirect:/";
     }
 
@@ -615,52 +615,12 @@ public class MemberController {
         params = memberService.getCategory();
 
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-//        httpHeaders.add("Content-Type", "Application/xml"); 로 해도됨
         String json = new Gson().toJson(params);
 
         logger.info(json);
 
         return new ResponseEntity<String>(json,httpHeaders, HttpStatus.OK);
 
-
-        /*Map<String, String> map = new HashMap<String, String>();
-
-
-
-        map.put("name", "문화/예술");
-        map.put("image",
-                "https://cdn20.patchcdn.com/users/22924509/20180619/041753/styles/T800x600/public/processed_images/jag_cz_movie_theater_retro_shutterstock_594132752-1529438777-6045.jpg");
-
-        params.add(map);
-
-        Map<String, String> map1 = new HashMap<String, String>();
-
-        map1.put("name", "경제/경영");
-        map1.put("image", "https://lajoyalink.com/wp-content/uploads/2018/03/Movie.jpg");
-        params.add(map1);
-
-        Map<String, String> map2 = new HashMap<String, String>();
-
-        map2.put("name", "IT");
-        map2.put("image",
-                "https://www.moma.org/d/assets/W1siZiIsIjIwMTUvMTAvMjEvaWJ3dmJmanIyX3N0YXJyeW5pZ2h0LmpwZyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDIwMDB4MjAwMFx1MDAzZSJdXQ/starrynight.jpg?sha=161d3d1fb5eb4b23");
-
-        params.add(map2);
-
-        Map<String, String> map3 = new HashMap<String, String>();
-
-        map3.put("name", "스포츠");
-        map3.put("image", "https://www.indiewire.com/wp-content/uploads/2017/08/it-trailer-2-938x535.jpg?w=780");
-
-        params.add(map3);
-
-        Map<String, String> map4 = new HashMap<String, String>();
-
-        map4.put("name", "라이프");
-        map4.put("image", "https://thumb.ad.co.kr/article/54/12/e8/92/i/459922.png");
-
-        params.add(map4);
-*/
     }
 
 }

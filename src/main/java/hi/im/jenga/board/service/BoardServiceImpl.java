@@ -43,7 +43,7 @@ public class BoardServiceImpl implements BoardService {
 		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
 		if(uploadName.equals("")) {
 			// 디폴트 이미지를 넣어준다
-			uploadName = "Y:\\go\\Jenga\\block\\jenga_block_default.jpg";
+			uploadName = "D:\\jengaResource\\default\\noImage.png";
 		}
 			dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 
@@ -96,12 +96,6 @@ public class BoardServiceImpl implements BoardService {
 
 		return dao.deleteBlock(bl_uid);
 	}
-
-
-
-
-
-
 
 
 	@Transactional

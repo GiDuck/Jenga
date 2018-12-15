@@ -13,4 +13,5 @@
   
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.28.11/dist/sweetalert2.all.min.js"></script>
    <link href="${pageContext.request.contextPath}/resources/assets/css/paper-kit.css?v=2.2.1" rel="stylesheet" />
+  <link href="${pageContext.request.contextPath}/resources/Loading-Mask-Plugin-jQuery-Busy-Load/dist/app.css" rel="stylesheet">
 

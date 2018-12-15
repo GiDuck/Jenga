@@ -23,3 +23,5 @@
 <script src="${pageContext.request.contextPath}/resources/assets/js/plugins/presentation-page/main.js"></script>
 <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/htmlParser.js"></script>
+
+<script src="${pageContext.request.contextPath}/resources/Loading-Mask-Plugin-jQuery-Busy-Load/dist/app.min.js"></script>

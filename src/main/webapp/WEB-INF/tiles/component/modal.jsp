@@ -349,7 +349,7 @@
 			.append($("<input>").attr("id","em_akey").attr("type", "text").attr("placeholder", "인증문자를 입력하세요.").addClass("form-control"))
  			.append($("<br>"))
  			.append($("<input>").attr("type", "button").addClass("btn btn-info w-100 text-center").val("인증하기").on('click', function(e){
- 				
+
  				
  				e.preventDefault();
                 alert("클릭됐다");
@@ -368,7 +368,6 @@
 
                             simpleModal.unbind('hide.bs.modal');
                             let ad = document.form_setMemInfo;
-                            console.log("테스트로 뽑음...");
                             console.log(ad);
                             console.log(simpleModal.find("input[type=email]").val());
                             console.log(simpleModal.find("input[type=password]").val());
@@ -527,15 +526,28 @@
 	// 북마크파일 업로드
     function makeUploadBookMarkFileModal(type){
 
-        let uploadPath = "/";
+        let $syncDateField;
 
         if(type == "chrome"){
 
+            $syncDateField = $("p[name='chromeSyncDate']");
 
 
         }else if(type == "explore"){
 
+            $syncDateField =  $("p[name='exploreSyncDate']");
 
+
+        }else{
+
+            swal({
+
+                text : "지원되지 않는 북마크 입니다.",
+                type : "error"
+
+            });
+
+            return;
 
         }
 
@@ -561,25 +573,24 @@
                 formData.append('bp_booktype', 'html')
                 console.log('fixed');
 
-                console.log(upFile);
-                console.dir(formData);
-
-
-                // console.log(type);
-                // console.log(document.getElementsByName("bp_booktype")[0].value);
-                // console.log(document.getElementsByName("bp_path")[0].value);
 
                 if(upFile.size > 10485760 ){
 
-                    swal('파일 업로드 실패', '파일의 크기는 10MB를 초과할 수 없습니다.', '');
+                    swal('파일 업로드 실패', '파일의 크기는 10MB를 초과할 수 없습니다.', 'error');
                     return;
 
                 }else if(upFile.size < 10){
 
 
-                    swal('파일 업로드 실패', '파일이 없거나 크기가 너무 작습니다.', '');
+                    swal('파일 업로드 실패', '파일이 없거나 크기가 너무 작습니다.', 'error');
                     return;
-                }
+
+                }else if(upFile.type != "text/html"){
+
+					swal('파일 업로드 실패', '가져오기는 html 파일만 가능합니다.', 'error');
+					return;
+
+				}
 
                 $.ajax({
 
@@ -591,11 +602,16 @@
                     contentType : false,
                     success : function(){
                         swal('동기화 성공', '북마크가 성공적으로 업로드 되었습니다.', 'success');
+                        let syncDate = new Date();
+                        let syncComDateStr = syncDate.getFullYear() + "/" + (syncDate.getMonth()+1)+"/" + syncDate.getDate()
+                        + " " + syncDate.getHours()+":"+syncDate.getMinutes();
+                        $syncDateField.html(syncComDateStr);
 
                     },
                     error : function(xhs, status, error){
 
-                        swal('동기화 실패', '북마크 동기화에 실패하였습니다.', 'fail');
+                        swal('동기화 실패', '북마크 동기화에 실패하였습니다.', 'error');
+                        console.log("북마크 동기화 실패..." + status);
 
                     }
 

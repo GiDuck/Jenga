@@ -844,6 +844,21 @@ Chrome, Firefox 사용 가능
     function uploadBlock(){
 
         let valid = boardValidate();
+        let dest = undefined;
+        let statusToken = "${param.status}";
+        let token = undefined;
+
+        if(statusToken == "stack"){
+
+            dest = "/board/uploadBlock";
+            token = "등록";
+
+        }else if(statusToken == "modify"){
+
+            dest = "/board/modView";
+            token = "삭제";
+
+        }
 
         if(!valid) return;
 
@@ -905,18 +920,18 @@ Chrome, Firefox 사용 가능
                             success : function(response){
 
                                 swal({
-                                    title : "블록 등록 성공",
-                                    text : "블록이 성공적으로 등록되었습니다.",
+                                    title : "블록 "+token+" 성공",
+                                    text : "블록이 성공적으로 "+token+" 되었습니다.",
                                     type : "success"
                                 }).then(function(){
-                                    location.replace("/");
+                                    location.replace("/board/boardView?bl_uid="+response);
 
                                 });
 
                             },
                             error : function(xhs, status, error){
 
-                                swal('블록 등록 실패', '블록을 등록하는데 실패 하였습니다.', 'error');
+                                swal('블록 '+token+ '실패', '블록을 '+ token +'하는데 실패 하였습니다.', 'error');
                                 return;
 
                             }
