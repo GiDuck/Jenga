@@ -4,10 +4,13 @@ package hi.im.jenga.member.dao;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface MemberDAO {
-    int addMemberInfo(MemberDTO memberDTO);
+    int addEMemberInfo(MemberDTO memberDTO);
 
     void addEMember(String aes_iuid);
 
@@ -52,4 +55,8 @@ public interface MemberDAO {
     String getMemProfile(String s_iuid);
 
     MemberDTO testParam();
+
+    List<Map<String,String>> getCategory();
+
+    void addSMemberInfo(MemberDTO memberDTO);
 }

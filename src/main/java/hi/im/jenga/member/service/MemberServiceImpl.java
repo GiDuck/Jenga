@@ -14,18 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Member;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -42,21 +36,36 @@ public class MemberServiceImpl implements MemberService {
     private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 
 
-    public void addMemberInfo(MemberDTO memberDTO) throws Exception {
+    public void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO,  String key) throws Exception {
         // String iuid = UUID.randomUUID().toString(); // iuid 생성
         // 이메일을 이용해서 조건에 넣을 iuid를 찾아야함
         // 암호화 iuid, 닉네임, 파일경로, level
         // 암호화된 iuid는 컨트롤러에서 넣음
+        String iuid = "";
         memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick()));
         memberDTO.setMem_profile(aes256Cipher.AES_Encode(memberDTO.getMem_profile()));
+        if(key.equals("email")){
+            logger.info("addEMemberInfo 이메일 입니다");
+            iuid = findIuid(emailMemberDTO);   // 암호화 한 임시 meminfo uid를 찾아옴
+            memberDTO.setMem_iuid(iuid);
 
-        dao.addMemberInfo(memberDTO);
+            dao.addEMemberInfo(memberDTO);
+        }else if(key.equals("social")){
+            logger.info("addSMemberInfo 소셜 입니다");
+            memberDTO.setMem_iuid(UUID.randomUUID().toString());
+            memberDTO.setMem_iuid(iuid);
+
+            dao.addSMemberInfo(memberDTO);
+        }
+
+
+
     }
 
     public void addEMember(String aes_iuid) { dao.addEMember(aes_iuid); }
 
-    public void addSMember(SocialMemberDTO socialMemberDTO, String iuid) {
-        dao.addSMember(socialMemberDTO, iuid);
+    public void addSMember(SocialMemberDTO socialMemberDTO, String sMem_iuid) {
+        dao.addSMember(socialMemberDTO, sMem_iuid);
     }
 
     public boolean isSMExist(String aes_sid) {
@@ -243,6 +252,10 @@ public class MemberServiceImpl implements MemberService {
 
     public MemberDTO testParam() {
         return dao.testParam();
+    }
+
+    public List<Map<String,String>> getCategory() {
+        return dao.getCategory();
     }
 
 

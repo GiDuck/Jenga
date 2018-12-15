@@ -19,7 +19,7 @@ public interface BoardService {
 
     int deleteBlock(String bl_uid);
 
-    HashMap getView(String bl_uid);
+    Map<String, Object> getView(String bl_uid);
 
     void likeCheck(String bl_iuid, String session_mem_iuid);
 
@@ -30,4 +30,12 @@ public interface BoardService {
     String transCtgUID(String bl_smCtg, String flag);
 
     List<BoardDTO> search(String search, String search_check, String session_iuid);
+
+    void follow(String bl_writer, String session_iuid);
+
+    void unFollow(String bl_writer, String session_iuid);
+
+    List<BoardDTO> getFollowerBoard(String my_iuid);
+
+    int likeCount(String bl_iuid);
 }

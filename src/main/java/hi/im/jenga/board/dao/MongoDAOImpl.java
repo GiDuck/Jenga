@@ -35,14 +35,14 @@ public class MongoDAOImpl implements MongoDAO {
 
     }
 
-    public MongoDTO getView(String key, String bl_uid) {
+    public String getView(String key, String bl_uid) {
 
         Criteria criteria = new Criteria(key);
         criteria.is(bl_uid);
 
         Query query = new Query(criteria);
 
-        return mongoTemplate.findOne(query, MongoDTO.class, "c_block");
+        return mongoTemplate.findOne(query, String.class, "c_block");
     }
 
     public String getObjId(String key, String bl_uid) {
