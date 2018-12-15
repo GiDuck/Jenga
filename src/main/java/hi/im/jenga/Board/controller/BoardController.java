@@ -9,7 +9,7 @@ import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
-import org.apache.http.HttpResponse;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springsource.loaded.ri.Exceptions;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,12 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
+// TODO  검색      (테스트) / 회원정보수정 / 댓글 / 팔로우
 /**
  *
- * 글 조회 GET
+ * 글 조회 GET / 글 수정 GET (/stackBlock?stack=stack, modify)
  * 글 작성 GET / POST
- * 글 수정 GET / POST (PATCCH)
+ * POST (PATCH)
  * 글 삭제 DELETE
  *
  * 검색
@@ -62,40 +61,38 @@ public class BoardController {
     * 검색창 하나만 띄우는 페이지
     * */
     @RequestMapping("/search")
-    public String boardSearch(String search, String search_check,HttpSession session){
+    public String boardSearch(String search, String search_check, HttpSession session){
             String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
             boardService.search(search,search_check, session_iuid);
 
         return "/search";
     }
 
-
-    @GetMapping(value="/boardView")
-    public String getBoardList() {
-
-        return "stackBoard/boardView";
-    }
-
     /*
      * 글 조회 GET
      * 조회수, 좋아요 표시
-     * @param bl_uid : 글 UID
+     *
+     * 블록
+     * map.get("BL_SMCTG");
+     *
+     * 태그
+     * map.get("tag")  List<String> 을 넣음
+     *
+     * 북마크
+     * map.get("bookmarks");
      * */
-    @GetMapping(value="/boardDetail")
+    @GetMapping(value="/boardView")
     public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) {
 
-        Map<String, String[]> map = boardService.getView(bl_uid);
-        String bl_writer = String.valueOf(map.get("BL_WRITER"));
-        logger.info(bl_writer);
-        String resultHTML = boardService.getBookMarkFromHTML(bl_writer);    // writer 줘야함
-        mongoDTO = mongoService.getView("_refBoardId", bl_uid);
+        Map<String, Object> map = boardService.getView(bl_uid);
 
-        logger.info(resultHTML);
-        logger.info(mongoDTO.get_value().toString());
+        JSONObject jsonObject = new JSONObject(map);
 
-        model.addAttribute("map", map);
-        model.addAttribute("mongoDTO", mongoDTO);
-        model.addAttribute("resultHTML", resultHTML);
+        logger.info("map은 " + map.toString());
+        logger.info("jsonObject.toJSONString() " + jsonObject.toJSONString());
+        logger.info("jsonObject.toString() " + jsonObject.toString());
+        model.addAttribute("map", jsonObject);
+
         return "stackBoard/boardDetailView";
     }
 
@@ -108,7 +105,7 @@ public class BoardController {
 
     // 글쓰는 페이지 GET, 글 수정 페이지 GET
     @RequestMapping(value = "/stackBlock", method = RequestMethod.GET)
-    public String getWriteView(HttpSession session, Model model, String status, MongoDTO mongoDTO, @RequestParam (value = "bl_uid", required = false)String bl_uid) throws JsonProcessingException {
+    public String getWriteView(HttpSession session, Model model, String status, MongoDTO mongoDTO, @RequestParam (value = "bl_uid", required = false) String bl_uid) throws JsonProcessingException {
 //  TODO  status 없이 그냥 url로 접근하면 잘못된 페이지 띄우기 -> 임시로 / 로 감
         if(status == null) return "redirect:/";
         if(status.equals("stack")) {
@@ -128,7 +125,7 @@ public class BoardController {
 
             return "editor/stackBoard/stackBlock";
 
-        }else if(status.equals("modify")) {
+        }else if(status.equals("modify")) {         //  service 나누기
 
 
             Map<String, String[]> map = boardService.modifyViewGET(bl_uid);
@@ -137,14 +134,9 @@ public class BoardController {
 
             logger.info(mongoDTO.get_value().toString());
             logger.info("컨트롤러 맵은 " + map);
-            /*
-             * 뽑는 예시
-             * map.get("BL_WRITER")
-             * map.get("tag1")
-             * map.get("tag2")
-             */
 
-            model.addAttribute("map", map);
+            JSONObject jsonObject = new JSONObject(map);
+            model.addAttribute("map", jsonObject);
             model.addAttribute("mongoDTO", mongoDTO);
 
             return "editor/stackBoard/stackBlock";
@@ -202,11 +194,22 @@ public class BoardController {
 
         boardDTO.setBl_writer(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         String uploadName;
+
+//        logger.info("uploadFile.getOriginalFilename()은 ? "+ uploadFile.getOriginalFilename());
+        if(uploadFile == null){
+            logger.info("null!");
+        }
+
        if(uploadFile != null){
+           uploadFile.getOriginalFilename();
            uploadName = boardUtilFile.fileUpload(uploadFile, "image");
+           logger.info("이미지 파일이 있네 이름은 ?" + uploadName);
        }else{
            uploadName = "";
        }
+
+       logger.info("이미지 파일은 ?" + uploadName);
+
 //        service에서 디폴트이미지 처리
 
         String flag = "s";
@@ -227,7 +230,7 @@ public class BoardController {
     // TODO  like 상태값으로 비교   이거먼저하자
     // block iuid를 조건으로 insert mem_iuid(session에 있는)
     @RequestMapping(value = "/like/{bl_iuid}")
-    public ResponseEntity<Void> like(@PathVariable String bl_iuid, HttpSession session){
+    public @ResponseBody int like(@PathVariable String bl_iuid, HttpSession session){
 
         String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
 
@@ -235,10 +238,7 @@ public class BoardController {
 
         int likeCount = boardService.likeCount(bl_iuid);
 
-//      optional
-
-        return new ResponseEntity<Void>(HttpStatus.OK);
-//      return new ResponseEntity<Void>(Http.Status.BAD_REQUEST);
+        return likeCount;
     }
 
 
@@ -259,7 +259,7 @@ public class BoardController {
 
         boardService.modifyViewPOST(boardDTO, uploadName, bl_bookmarks);
 
-        return "";
+        return "/board/boardView?bl_uid="+boardDTO.getBl_uid();
     }
 
 //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트
@@ -322,30 +322,6 @@ public class BoardController {
 
     }
 
-    @PostMapping(value="/uploadBookmarks")
-    public void uploadBookmark (@RequestPart("bookmark") String bookmark) {
-
-
-
-
-
-
-    }
-
-                                  /***   임시   ***/
-
-
-    @RequestMapping(value = "/mongo")
-    public String mongo(HttpSession session) throws ParseException {
-
-//        MemberDTO member = (MemberDTO)session.getAttribute("Member");
-//        JSONParser jsonParser = new JSONParser();
-//        System.out.println(boardService.getBookMark().length());
-//        JSONObject json = (JSONObject)jsonParser.parse(boardService.getBookMark());
-//
-//        mongoService.getAnyway(member,json);
-        return "/mongo";
-    }
 
 
 
@@ -362,13 +338,13 @@ public class BoardController {
         }
     }
 
-    @RequestMapping(value = "/unfollow", method=RequestMethod.POST)
+    @RequestMapping(value = "/unFollow", method=RequestMethod.POST)
     @ResponseBody
     public void unfollower(String bl_writer, HttpSession session, HttpServletResponse response) throws IOException {
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
 
         try {
-            boardService.unfollow(bl_writer,session_iuid);
+            boardService.unFollow(bl_writer,session_iuid);
             response.getWriter().println("success");
         }catch (Exception e){
             response.getWriter().println("error");
@@ -377,7 +353,7 @@ public class BoardController {
 
 
     //TODO 일단 팔로워한 사람 글 뽑느거 했는데 필요하면 쓰셈
-    @RequestMapping(value = "/followerboard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
+    @RequestMapping(value = "/followerBoard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
     public String followerboard(HttpSession session){
         String My_iuid = ((MemberDTO)session.getAttribute("member")).getMem_iuid();
         return ""; //임시 리턴
@@ -400,6 +376,23 @@ public class BoardController {
     }
 
 
+
+
+
+    /***   임시   ***/
+
+
+    @RequestMapping(value = "/mongo")
+    public String mongo(HttpSession session) throws ParseException {
+
+//        MemberDTO member = (MemberDTO)session.getAttribute("Member");
+//        JSONParser jsonParser = new JSONParser();
+//        System.out.println(boardService.getBookMark().length());
+//        JSONObject json = (JSONObject)jsonParser.parse(boardService.getBookMark());
+//
+//        mongoService.getAnyway(member,json);
+        return "/mongo";
+    }
 
 
 

@@ -41,14 +41,11 @@ public class BoardServiceImpl implements BoardService {
 
 
 		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
-		if(uploadName.equals("")){
+		if(uploadName.equals("")) {
 			// 디폴트 이미지를 넣어준다
-			uploadName = "default.jpg";
-			dao.writeViewThumbImg(boardDTO.getBl_uid(), "없음");
-		}else{
-
-			dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
+			uploadName = "Y:\\go\\Jenga\\block\\jenga_block_default.jpg";
 		}
+			dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 
 
 
@@ -100,7 +97,40 @@ public class BoardServiceImpl implements BoardService {
 		return dao.deleteBlock(bl_uid);
 	}
 
-	public HashMap getView(String bl_uid) { return dao.getView(bl_uid); }
+
+
+
+
+
+
+
+	@Transactional
+	public Map<String, Object> getView(String bl_uid) {
+		dao.getAddReadCount(bl_uid);	// 조회수 + 1
+		Map<String, Object> map = dao.getBoardDetailBlock(bl_uid);
+
+		System.out.println(map.get("bl_description"));
+		System.out.println(map.get("bl_date"));
+		System.out.println(map.get("blrc_count"));
+
+		List<String> list = dao.getBoardDetailTags(bl_uid);
+		map.put("tag", list);
+
+		map.put("likes", dao.likeCount(bl_uid));
+
+		String bookmarks = mongoService.getView("_refBoardId", bl_uid);
+		map.put("bookmarks", bookmarks);
+
+
+		return map;
+	}
+
+
+
+
+
+
+
 
 	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
@@ -137,8 +167,8 @@ public class BoardServiceImpl implements BoardService {
 		dao.follow(bl_writer, session_iuid);
 	}
 
-	public void unfollow(String bl_writer, String session_iuid) {
-		dao.unfollow(bl_writer, session_iuid);
+	public void unFollow(String bl_writer, String session_iuid) {
+		dao.unFollow(bl_writer, session_iuid);
 	}
 
 	public List<BoardDTO> getFollowerBoard(String my_iuid) {

@@ -118,6 +118,7 @@
             e.preventDefault();
             let inputEmail = $(this).parent().find("input[type=email]").val();
             let inputPw = $(this).parent().find("input[type=password]").val();
+
             if(validCheckAuth(inputEmail, inputPw)){
                 $.ajax({
                     url: "/logincheck",
@@ -129,18 +130,21 @@
                     },
 
                     success: function (responseData){
-                        if (responseData.indexOf('iderror') != -1) {
+                        console.log(responseData)
+                        console.log(responseData["dest"])
+                        console.log(responseData["check"])
+                        if (responseData["check"] == 'iderror') {
                             alert("존재하지 않는 아이디 입니다. 다시 확인해 주세요!");
                             $('#login_em_id').val("");
                             $('#login_em_id').focus();
                             return false;
 
-                        } else if (responseData.indexOf('pwderror') != -1) {
+                        } else if (responseData["check"] == 'pwderror') {
                             alert("잘못된 비밀번호입니다. 다시 확인해 주세요!");
                             $('#login_em_pwd').val("");
                             $('#login_em_pwd').focus();
                             return false;
-                        } else if (responseData.indexOf('noauth') != -1){
+                        } else if (responseData["check"] == 'noauth' ){
                             alert("추가정보 입력이 필요합니다. 입력페이지로 이동합니다.");
                             let d = document.getElementById("passform");
                             console.log(d);
@@ -149,7 +153,8 @@
                             d.submit();
                         }
                         else {
-                            location.replace("/");
+
+                            location.replace(responseData["dest"]);
 
                         }
                     }, error: function(xhs, status, error){

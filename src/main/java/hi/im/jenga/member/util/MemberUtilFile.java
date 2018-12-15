@@ -32,12 +32,14 @@ public class MemberUtilFile {
         try {
             fileName = uploadFile.getOriginalFilename();
 
+/*
 
 //          파일이름이 ""면 (파일을 올리지 않았으면 ""로 들어옴)
             if(fileName.equals("")){
                 logger.info(": : : UtilFile 빈 파일이 들어왔습니다. 이름을 공백으로 반환");
                 return "";
             }
+*/
 
             byte[] bytes = uploadFile.getBytes();
             //path = getSaveLocation(request);
@@ -81,20 +83,8 @@ public class MemberUtilFile {
                 e.printStackTrace();
             }
         }
-        return fileName;
-    }
-
-//  업로드 파일 저장 경로 얻는 메소드
-//  업로드한 파일의 경로가 도메인 별로 달라야 했기 때문에 도메인의 형을 비교하여 파일 저장 경로를 다르게 지정
-    private String getSaveLocation(MultipartHttpServletRequest request) {
-
-        String uploadPath = request.getSession().getServletContext().getRealPath("/");
-        String attachPath = "resources\\profiles\\";
-
-        logger.info("UtilFile getSaveLocation path : " + uploadPath + attachPath);
-
-        return uploadPath + attachPath;
-
+        logger.info("파일 경로 + 이름은? "+PROFILE_PATH + fileName);
+        return PROFILE_PATH + fileName;
     }
 
 }

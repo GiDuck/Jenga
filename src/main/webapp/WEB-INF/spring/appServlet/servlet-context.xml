@@ -81,7 +81,7 @@
 		</interceptor>
 
 		<interceptor>
-			<mapping path="/board/stackBoard"/>
+			<mapping path="/board/stackBlock"/>
 			<mapping path="/board/modView"/>
 			<mapping path="/board/delBlock"/>
 

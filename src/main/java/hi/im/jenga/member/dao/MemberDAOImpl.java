@@ -23,12 +23,16 @@ public class MemberDAOImpl implements MemberDAO{
     @Autowired
     AES256Cipher aes256Cipher;
 
-    public int addMemberInfo(MemberDTO memberDTO) {
+    public int addEMemberInfo(MemberDTO memberDTO) {
         /*HashMap<String,Object> map = new HashMap();
         map.put("memberDTO", memberDTO);
         map.put("uploadPath", uploadPath);*/
 
-        return sqlSession.update("member.addMemberInfo", memberDTO);
+        return sqlSession.update("member.addEMemberInfo", memberDTO);
+    }
+
+    public void addSMemberInfo(MemberDTO memberDTO) {
+        sqlSession.insert("member.addSMemberInfo", memberDTO);
     }
 
     public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }
@@ -209,6 +213,8 @@ public class MemberDAOImpl implements MemberDAO{
         }*/
        return list;
     }
+
+
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
         return sqlSession.selectOne("member.getMemInfo",emailMemberDTO);

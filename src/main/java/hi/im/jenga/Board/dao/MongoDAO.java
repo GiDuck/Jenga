@@ -12,7 +12,7 @@ public interface MongoDAO {
 
     void writeViewBmks(String bl_uid, String bl_bookmarks);
 
-    MongoDTO getView(String key, String bl_uid);
+    String getView(String key, String bl_uid);
 
     String getObjId(String key, String bl_uid);
 

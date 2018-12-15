@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface MemberDAO {
-    int addMemberInfo(MemberDTO memberDTO);
+    int addEMemberInfo(MemberDTO memberDTO);
 
     void addEMember(String aes_iuid);
 
@@ -57,4 +57,6 @@ public interface MemberDAO {
     MemberDTO testParam();
 
     List<Map<String,String>> getCategory();
+
+    void addSMemberInfo(MemberDTO memberDTO);
 }

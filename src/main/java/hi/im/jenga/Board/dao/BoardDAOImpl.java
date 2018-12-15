@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -82,9 +83,11 @@ public class BoardDAOImpl implements BoardDAO {
 
         if (result == null) {
             sqlSession.insert("board.addLike", map);
+            logger.info("좋아요 insert");
             return;
         }
         sqlSession.delete("board.cancelLike", map);
+        logger.info("좋아요 delete");
 
     }
 
@@ -209,11 +212,11 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.insert("board.follow,",map);
     }
 
-    public void unfollow(String bl_writer, String session_iuid) {
+    public void unFollow(String bl_writer, String session_iuid) {
         Map<String,String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
         map.put("session_iuid",session_iuid);
-        sqlSession.delete("board.unfollow,",map);
+        sqlSession.delete("board.unFollow,",map);
     }
 
     public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
@@ -258,47 +261,32 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     //    경로+파일이름 return
+
     public String getBookMarkFromHTML(String session_iuid) {
         return sqlSession.selectOne("board.getBookMarkFromHTML", session_iuid);
     }
-
     public int deleteBlock(String bl_uid) {
         return sqlSession.delete("board.deleteBlock", bl_uid);
     }
 
-    public HashMap getView(String bl_uid) {
-        Map<String, String> map = new HashMap();
-
-        sqlSession.update("board.addReadCount", bl_uid);    // 조회수를 올림              //나누기
-
-        map = sqlSession.selectOne("board.getView1", bl_uid);
-
-//        for(int i =0; i< map.size(); i++){
-//            logger.info(map.get(i));
-//        }
-//        B.bl_description, B.bl_introduce, B.bl_mainCtg, B.bl_smCtg, B.bl_date, B.bl_objId,
-//                I.bti_url, R.blrc_count, (SELECT COUNT(L.blk_writer) FROM tbl_blockLikes) AS likes
-        logger.info(map.toString());
-                logger.info(map.get("BL_WRITER"));  // 대문자로 뽑아야함
-                logger.info(map.get("BL_TITLE"));
-                logger.info(String.valueOf(map.get("BL_DESCRIPTION")));
-                logger.info(map.get("BL_INTRODUCE"));
-                logger.info(map.get("BL_MAINCTG"));
-                logger.info(map.get("BL_SMCTG"));
-                logger.info(String.valueOf(map.get("BL_DATE")));
-                logger.info(map.get("BL_OBJID"));
-                logger.info(map.get("BTI_URL"));
-                logger.info(String.valueOf(map.get("BLRC_COUNT")));
-                logger.info(String.valueOf(map.get("LIKES")));
-
-        List<String> list = sqlSession.selectList("board.getView2", bl_uid);   // 태그 뽑음
-        for (int i = 0; i < list.size(); i++) {
-            logger.info(list.get(i));
-            map.put("tag" + i, list.get(i));
-        }
 
 
-        return (HashMap) map;
+
+
+
+
+
+
+    public void getAddReadCount(String bl_uid) {
+        sqlSession.update("board.addReadCount", bl_uid);    // 조회수 + 1
+    }
+
+    public Map<String, Object> getBoardDetailBlock(String bl_uid) {
+        return sqlSession.selectOne("board.getBoardDetailBlock", bl_uid);
+    }
+
+    public List<String> getBoardDetailTags(String bl_uid) {
+        return sqlSession.selectList("board.getBoardDetailTags", bl_uid);   // 태그 뽑음
     }
 }
 
