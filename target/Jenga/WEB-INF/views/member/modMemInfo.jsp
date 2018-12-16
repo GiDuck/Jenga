@@ -11,7 +11,7 @@ Form-data parameter
 사용자 취향 설정 (String 배열) - favor
 -->
 
-<script src="${pageContext.request.contextPath}/resources/js/mem_js.js"> alert(${DTO.mem_profile}</script>
+<script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>
 <jsp:include page="./mem_components.jsp"/>
 
 <div class="wrapper">
@@ -24,7 +24,7 @@ Form-data parameter
                 <div class="profile-picture">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new img-no-padding">
-                            <img name="profile" id="profile" src="${DTO.mem_profile}" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
+                            <img name="profile" id="profile" src="profiles/${DTO.mem_profile}" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
                         </div>
                         <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                         <div>
@@ -55,14 +55,14 @@ Form-data parameter
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" id = "em_pwd" class="form-control border-input" placeholder="Password" value="" disabled>
+                                <input type="password" id = "em_pwd" name="em_pwd" class="form-control border-input" placeholder="Password" value="" disabled>
                             </div>
                         </div>
 
                         <div class="col-12">
 
                             <label>Introduce</label>
-                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5">${DTO.mem_introduce}</textarea>
+                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5"></textarea>
 
                         </div>
 
@@ -237,7 +237,7 @@ Form-data parameter
         let selectCard = getSelectedCard();
 
         let nickname = $("input[name='mem_nick']").val(); // 냥
-        let introduce = $("textarea[name='mem_introduce']").val();
+        //let introduce = $("textarea[name='mem_introduce']").val();
         let profile = $("#mem_profile").prop("files");
 
         console.log("검증");
@@ -247,7 +247,7 @@ Form-data parameter
         let params = new FormData();
         params.append("mem_nick", nickname);
         params.append("mem_profile", profile[0]);
-        params.append("mem_introduce", introduce);
+        params.append("em_pwd", "godqhrgkek93@");
         params.append("favor", selectCard);
 
         $.ajax({

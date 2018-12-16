@@ -27,7 +27,7 @@
 	        
 	        <div class="nav-link">
 		       	 <div class="profile-photo-small" style="width:40px; height:40px; "> 
-		        	<img src="http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-hi.png" style="" alt="User Profile" class="img-circle img-responsive img-no-padding text-center">
+		        	<img id="nav_user_profile" src="" style="" alt="User Profile" class="img-circle img-responsive img-no-padding text-center" onerror="this.src='http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-hi.png'">
 		        </div>
 	       	 </div>
         </li>
@@ -99,9 +99,18 @@
    
    
   $(document).ready(function(){
-	  
-	  
-	  $(".loginService").on('click', function(e){
+
+      $(window).on('unload', function(){
+
+          $.busyLoadFull("hide", {});
+
+      });
+
+
+      $("#nav_user_profile").attr("src", "${sessionScope.Member.mem_profile}");
+
+
+      $(".loginService").on('click', function(e){
           e.preventDefault();
 
 	      //세션체크
@@ -129,7 +138,15 @@
 
           }else{
 
+              $.busyLoadFull("show", {
+
+                  fontawesome: "fa fa-cog fa-spin fa-3x fa-fw",
+                  text : "페이지를 불러오고 있습니다..."
+
+              });
+
               window.location.href= dest;
+
 
           }
 		  
@@ -152,7 +169,11 @@
                   url : "/logout",
                   type : "GET",
                   data : null,
-                  error : function(error){
+                  success : function(response){
+                      window.location.href = "/";
+
+                  },
+                  error : function(xhs, status, error){
 
                       swal({
 
@@ -160,6 +181,10 @@
                           type : "error"
 
                       });
+
+                      console.log("로그아웃 실패.. " + status);
+
+                      window.location.href = "/";
 
                   }
 

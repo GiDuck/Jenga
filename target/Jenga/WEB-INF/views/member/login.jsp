@@ -163,7 +163,10 @@
 
                         }else {
 
-                            location.replace(responseData["dest"]);
+                          location.replace(responseData["dest"]);
+
+
+
 
                         }
                     }, error: function(xhs, status, error){
