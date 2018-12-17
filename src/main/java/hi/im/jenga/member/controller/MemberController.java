@@ -22,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,7 +59,8 @@ public class MemberController {
 
     @RequestMapping(value = "/")
     public String hi(HttpSession session) {
-        logger.info("세션은 "+(MemberDTO)session.getAttribute("Member"));
+        logger.info("이메일 세션은 "+(MemberDTO)session.getAttribute("Member"));
+        logger.info("소셜 세션은 "+ (SocialMemberDTO)session.getAttribute("Social"));
 //        logger.info("세션의 iuid는 "+((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         return "main/main";
     }
@@ -106,7 +106,8 @@ public class MemberController {
 
     }
 //    기존 로그인 POST
-/*    @RequestMapping(value = "/logincheck", method = RequestMethod.POST)
+/*
+    @RequestMapping(value = "/logincheck", method = RequestMethod.POST)
     public void logincheck(EmailMemberDTO emailMemberDTO, HttpSession session, HttpServletResponse response)throws Exception{
         logger.info("아이디"+emailMemberDTO.getEm_id());
         logger.info("비밀번호"+emailMemberDTO.getEm_pwd());
@@ -133,7 +134,7 @@ public class MemberController {
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
 //        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
-
+        logger.info(naverAuthUrl);
         util = facebookLoginUtil;
         String FacebookAuthUrl = util.getAuthorizationUrl(session);
 
@@ -142,6 +143,11 @@ public class MemberController {
 
         util = kakaoLoginUtil;
         String KakaoAuthUrl = util.getAuthorizationUrl(session);
+
+        logger.info(naverAuthUrl);
+        logger.info(KakaoAuthUrl);
+        logger.info(FacebookAuthUrl);
+        logger.info(GoogleAuthUrl);
 
         model.addAttribute("k", KakaoAuthUrl);
         model.addAttribute("n", naverAuthUrl);
@@ -258,11 +264,13 @@ public class MemberController {
         logger.info(": : : modMemberInfoGET 들어옴");
         logger.info("바뀌기 전 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
         logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+        logger.info("바뀌기 전 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
         MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
         logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
         logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
+        logger.info("복호화 한 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
@@ -278,9 +286,10 @@ public class MemberController {
 
 
 
-    @RequestMapping(value ="/modMemInfo", method = RequestMethod.PATCH)
-    public String modMemberInfoPOST(@RequestParam String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile,  MultipartHttpServletRequest request,
-                                    @RequestParam String em_pwd, @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
+
+    @RequestMapping(value ="/modMemInfo", method = RequestMethod.POST)
+    public String modMemberInfoPOST(@RequestParam String mem_nick, @RequestParam("mem_profile") MultipartFile uploadFile, @RequestParam String em_pwd,
+                                    @RequestParam String[] favor, HttpSession session, Model model) throws Exception {
         String s_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         logger.info(": : : modMemberInfoPOST 들어옴");
         logger.info("Session에서 뽑아온 iuid " + s_iuid);
@@ -290,7 +299,7 @@ public class MemberController {
 
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)
 //      프사 새로 안올렸으면 utilFile에서 return ""임
-        String uploadName = memberUtilFile.fileUpload(request, uploadFile);
+        String uploadName = memberUtilFile.fileUpload(uploadFile);
 
         logger.info("수정 후 받아온 파일이름 " + uploadName);                  //tbl_memInfo
 
@@ -335,10 +344,10 @@ public class MemberController {
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
-    public String regMemberInfoPOST(@RequestParam String mem_nick, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO, @RequestParam("mem_profile") MultipartFile uploadFile,
-                                    MultipartHttpServletRequest request, HttpSession session) throws Exception {
-        MemberDTO memberDTO = new MemberDTO();
+    public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO,
+                                    @RequestParam("mem_profile") MultipartFile uploadFile, HttpSession session) throws Exception {
 
+        MemberDTO memberDTO = new MemberDTO();
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : "+ emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
 //       이미 암호화 후 받아온 고유아이디, 소셜 타입
@@ -346,6 +355,9 @@ public class MemberController {
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 sm_type : " + socialMemberDTO.getSm_type());    // 1단계에서 소셜 타입
 
         logger.info("선택한 취향 개수 "+favor.length);
+        logger.info(favor[0]);
+        logger.info("닉은"+ mem_nick);
+        logger.info("소개는"+ mem_introduce);
 
 //        logger.info(favor[0]);
 
@@ -354,26 +366,24 @@ public class MemberController {
         logger.info(uploadFile.getOriginalFilename());
         String uploadName;
         if(uploadFile != null){
-            uploadName = memberUtilFile.fileUpload(request, uploadFile);
+            uploadName = memberUtilFile.fileUpload(uploadFile);
         }else {
             uploadName = "";    //바꾸기
         }
 
+        memberDTO.setMem_nick(mem_nick);
+        memberDTO.setMem_introduce(mem_introduce);
 
-
-        /*** 다시
-         *
-         * service에서 암호화, iuid 생성
-         *
-         * ***/
-        memberDTO.setMem_profile(uploadName);
+        logger.info("uploadName은 " +uploadName);
+//        memberDTO.setMem_profile(uploadName);
 //        이메일을 이용해서 임시로 넣음 iuid를 찾아야함
-        if(emailMemberDTO.getEm_id().equals("")) {
+//        TODO 여기부터 다시
+        if(!emailMemberDTO.getEm_id().equals("")) {
             logger.info("이메일은 여기서 다 처리");
 //            String em_ref = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
 
 
-            memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, "email");
+            memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName,  "email");
             logger.info("이메일1");
             memberService.addMemberFavor(memberDTO.getMem_iuid(), favor);
             logger.info("이메일2");
@@ -398,7 +408,7 @@ public class MemberController {
 
         logger.info("소셜 " + socialMemberDTO.getSm_type() + " 회원가입입니다.");
 
-        memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, "social");
+        memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName, "social");
 
         logger.info("2222222");
         socialMemberDTO.setSm_id(socialMemberDTO.getSm_id());
@@ -441,6 +451,7 @@ public class MemberController {
     public String logOut(HttpSession session){
         if(session.getAttribute("Member") != null){
             session.invalidate();
+            logger.info("로그아웃 완료");
             return "redirect:/";
             // TODO 여기도 로그아웃 이전 페이지 url 저장해서 redirect 해줘야하나 음
         }
@@ -452,14 +463,17 @@ public class MemberController {
         if(check[0].equals("kakao")){
             LoginUtil util = kakaoLoginUtil;
             util.logOut(check[1]);
+            logger.info("kakao 세션 제거");
         }else if(check[0].equals("google")){
-
+            logger.info("google 세션 제거");
         }else if(check[0].equals("facebook")){
-
+            logger.info("facebook 세션 제거");
         }else if(check[0].equals("naver")){
             LoginUtil util = naverLoginUtil;
             util.logOut("");
+            logger.info("naver 세션 제거");
         }
+        logger.info("제거완료");
         session.invalidate();
         return "redirect:/";
 
@@ -475,7 +489,6 @@ public class MemberController {
     @RequestMapping(value = "/facebookcallback", method = {RequestMethod.GET, RequestMethod.POST})
     public String facebookcallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
         SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
-        boolean result = false;
         OAuth2AccessToken oauthToken;
         LoginUtil util = facebookLoginUtil;
         oauthToken = util.getAccessToken(session, code, state);
@@ -489,14 +502,15 @@ public class MemberController {
         logger.info(id);
 
         String aes_id = aes256Cipher.AES_Encode(id);
-        result = memberService.isSMExist(aes_id);
-        if (result) {
+        MemberDTO memberDTO = memberService.isSMExist(aes_id);
+        if (memberDTO != null) {
             logger.info("존재하는 소셜 ID 입니다");
+            session.setAttribute("Member",memberDTO);
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_id);                   // facebook 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));              // 소셜 타입 직접 정의 "facebook"를 암호화
+        socialMemberDTO.setSm_id(aes_id);
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -506,7 +520,7 @@ public class MemberController {
     @RequestMapping(value = "/kakaocallback", method = {RequestMethod.GET, RequestMethod.POST})
     public String kakaocallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
         SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
-        boolean result = false;
+
         String oauthToken;
         String oauthToken1;
         LoginUtil util = kakaoLoginUtil;
@@ -522,14 +536,15 @@ public class MemberController {
         String id = String.valueOf(json1.get("id"));
 
         String aes_id = aes256Cipher.AES_Encode(id);
-        result = memberService.isSMExist(aes_id);
-        if (result) {
+        MemberDTO memberDTO = memberService.isSMExist(aes_id);
+        if (memberDTO != null) {
             logger.info("존재하는 소셜 ID 입니다");
+            session.setAttribute("Member",memberDTO);
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_id);                   // kakao 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));              // 소셜 타입 직접 정의 "kakao"를 암호화
+        socialMemberDTO.setSm_id(aes_id);
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -538,7 +553,6 @@ public class MemberController {
 
     @RequestMapping(value = "/navercallback", method = {RequestMethod.GET, RequestMethod.POST})
     public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, SocialMemberDTO socialMemberDTO) throws Exception {
-        boolean result = false;
         OAuth2AccessToken oauthToken;
         LoginUtil util = naverLoginUtil;
         oauthToken = util.getAccessToken(session, code, state);
@@ -552,18 +566,18 @@ public class MemberController {
         JSONObject json = (JSONObject) jsonParser.parse(apiResult);
         JSONObject json2 = (JSONObject) json.get("response");                                               // 뭐지 response가
 
-        String id = (String) json2.get("id");           // 네이버 고유아이디
+        String id = (String) json2.get("id");
 
         String aes_id = aes256Cipher.AES_Encode(id);
-        result = memberService.isSMExist(aes_id);
-        if (result) {
+        MemberDTO memberDTO = memberService.isSMExist(aes_id);
+        if (memberDTO != null) {
             logger.info("존재하는 소셜 ID 입니다");
-
+            session.setAttribute("Member",memberDTO);
             return "redirect:/";
         }
 
-        socialMemberDTO.setSm_id(aes_id);                                               // 네이버 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));              // 소셜 타입 직접 정의 "naver"를 암호화
+        socialMemberDTO.setSm_id(aes_id);
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
         // 타입은 우리가 줘야함
@@ -575,7 +589,6 @@ public class MemberController {
     @RequestMapping(value = "/googlecallback", method = {RequestMethod.GET, RequestMethod.POST})
     public String googlecallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
         SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
-        boolean result = false;
         OAuth2AccessToken oauthToken;
         oauthToken = googleLoginUtil.getAccessToken(session, code, state);
         apiResult = googleLoginUtil.getUserProfile(oauthToken);
@@ -585,13 +598,14 @@ public class MemberController {
         String id = (String)json.get("id");
 
         String aes_id = aes256Cipher.AES_Encode(id);
-        result = memberService.isSMExist(aes_id);
-        if (result) {
+        MemberDTO memberDTO = memberService.isSMExist(aes_id);
+        if (memberDTO != null) {
             logger.info("존재하는 소셜 ID 입니다");
+            session.setAttribute("Member",memberDTO);
             return "redirect:/";
         }
-        socialMemberDTO.setSm_id(aes_id);                   // google 고유아이디를 암호화
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));              // 소셜 타입 직접 정의 "google"를 암호화
+        socialMemberDTO.setSm_id(aes_id);
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -623,46 +637,5 @@ public class MemberController {
         logger.info(json);
 
         return new ResponseEntity<String>(json,httpHeaders, HttpStatus.OK);
-
-
-        /*Map<String, String> map = new HashMap<String, String>();
-
-
-
-        map.put("name", "문화/예술");
-        map.put("image",
-                "https://cdn20.patchcdn.com/users/22924509/20180619/041753/styles/T800x600/public/processed_images/jag_cz_movie_theater_retro_shutterstock_594132752-1529438777-6045.jpg");
-
-        params.add(map);
-
-        Map<String, String> map1 = new HashMap<String, String>();
-
-        map1.put("name", "경제/경영");
-        map1.put("image", "https://lajoyalink.com/wp-content/uploads/2018/03/Movie.jpg");
-        params.add(map1);
-
-        Map<String, String> map2 = new HashMap<String, String>();
-
-        map2.put("name", "IT");
-        map2.put("image",
-                "https://www.moma.org/d/assets/W1siZiIsIjIwMTUvMTAvMjEvaWJ3dmJmanIyX3N0YXJyeW5pZ2h0LmpwZyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDIwMDB4MjAwMFx1MDAzZSJdXQ/starrynight.jpg?sha=161d3d1fb5eb4b23");
-
-        params.add(map2);
-
-        Map<String, String> map3 = new HashMap<String, String>();
-
-        map3.put("name", "스포츠");
-        map3.put("image", "https://www.indiewire.com/wp-content/uploads/2017/08/it-trailer-2-938x535.jpg?w=780");
-
-        params.add(map3);
-
-        Map<String, String> map4 = new HashMap<String, String>();
-
-        map4.put("name", "라이프");
-        map4.put("image", "https://thumb.ad.co.kr/article/54/12/e8/92/i/459922.png");
-
-        params.add(map4);
-*/
     }
-
 }

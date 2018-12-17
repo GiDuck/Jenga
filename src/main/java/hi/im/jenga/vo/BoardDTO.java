@@ -1,10 +1,10 @@
 package hi.im.jenga.vo;
 
+
 import java.util.Arrays;
 
 public class BoardDTO {
-	
-	
+
 	String title;
 	String bookmarks;
 	String introduce;

@@ -59,6 +59,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if(request.getAttribute("Member") != null){    // success, noauth 시에 member 넣음
             logger.info("@@ success니까 들어와서 세션에 request에 있는거를 넣음");
             session.setAttribute("Member",request.getAttribute("Member"));
+            logger.info("########## LoginInterceptor 로그인 완료 세션에 넣었습니다.");
         }
 
         logger.info("null이면 AuthInterceptor 안거친거 "+dest);

@@ -36,13 +36,25 @@ public class MemberServiceImpl implements MemberService {
     private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 
 
-    public void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO,  String key) throws Exception {
+    public void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String uploadName, String key) throws Exception {
         // String iuid = UUID.randomUUID().toString(); // iuid 생성
         // 이메일을 이용해서 조건에 넣을 iuid를 찾아야함
         // 암호화 iuid, 닉네임, 파일경로, level
         // 암호화된 iuid는 컨트롤러에서 넣음
+        logger.info("addEMemberInfo 서비스");
         String iuid = "";
+
         memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick()));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(memberDTO.getMem_introduce()));
+
+        if(uploadName.equals("")){
+            logger.info("addEMemberInfo 서비스 디폴트이미지로 변경");
+            memberDTO.setMem_profile("Y:\\go\\Jenga\\profiles\\jenga_profile_default.jpg");
+        }else {
+            logger.info("프로필사진 있고 uploadName은 " + uploadName);
+            memberDTO.setMem_profile(uploadName);
+        }
+
         memberDTO.setMem_profile(aes256Cipher.AES_Encode(memberDTO.getMem_profile()));
         if(key.equals("email")){
             logger.info("addEMemberInfo 이메일 입니다");
@@ -52,7 +64,8 @@ public class MemberServiceImpl implements MemberService {
             dao.addEMemberInfo(memberDTO);
         }else if(key.equals("social")){
             logger.info("addSMemberInfo 소셜 입니다");
-            memberDTO.setMem_iuid(UUID.randomUUID().toString());
+            iuid = aes256Cipher.AES_Encode(UUID.randomUUID().toString());
+            logger.info(iuid);
             memberDTO.setMem_iuid(iuid);
 
             dao.addSMemberInfo(memberDTO);
@@ -68,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
         dao.addSMember(socialMemberDTO, sMem_iuid);
     }
 
-    public boolean isSMExist(String aes_sid) {
+    public MemberDTO isSMExist(String aes_sid) {
         return dao.isSMExist(aes_sid);
     }
 
@@ -194,14 +207,20 @@ public class MemberServiceImpl implements MemberService {
         logger.info("복호화한 있는 iuid는 "+notAes_iuid);*/
 
         memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
+        logger.info("DAO에서 받은 member dto.. " + memberDTO.toString());
 
+        logger.info("암호화 결과... 닉네임 " + aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
+        logger.info("암호화 결과... 경로 " + aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        logger.info("암호화 결과... 소개 " + aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
 
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
         memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
         memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
 
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_nick());
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_profile());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_introduce());
         logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
 
         return memberDTO;

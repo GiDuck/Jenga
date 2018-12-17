@@ -45,9 +45,8 @@ public class MemberDAOImpl implements MemberDAO{
         sqlSession.insert("member.addSMember", map);
     }
 
-    public boolean isSMExist(String aes_sid) {
-        String result = sqlSession.selectOne("member.isSMExist", aes_sid);
-        return result == null? false : true;
+    public MemberDTO isSMExist(String aes_sid) {
+        return sqlSession.selectOne("member.isSMExist", aes_sid);
     }
 
     public String isEMExist(String aes_eid) throws Exception {
@@ -98,7 +97,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public void delMemInfo(String session_mem_iuid) {
         logger.info("DaoImpl  |  delMemInfo 에 들어옴");
-        sqlSession.delete("member.delMemInfo",session_mem_iuid);
+        sqlSession.delete("member.delMemInfo", session_mem_iuid);
         logger.info("나가라");
         logger.info("나가라 했다");
 //        logger.info("n은 "+n);
@@ -160,7 +159,9 @@ public class MemberDAOImpl implements MemberDAO{
 
     public List<String> getMemFavor(String member) { return sqlSession.selectList("member.getMemFavor",member); }
 
-    public MemberDTO modMemberInfoGET(String aes_iuid) { return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
+    public MemberDTO modMemberInfoGET(String aes_iuid) {
+        logger.info("aes_iuid ==??"+aes_iuid);
+        return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
 
     public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String aes_em_pwd, String[] favor){
         Map<String, Object> map = new HashMap();
