@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -88,18 +90,17 @@ public class BoardController {
     public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) {
 
         Map<String, Object> map = boardService.getView(bl_uid);
+        logger.info((String)map.get("bookmarks"));
+       /* try {
+            map.put("bookmarks", URLEncoder.encode((String) map.get("bookmarks"), "utf-8"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
+        model.addAttribute("map", map);
 
-        JSONObject jsonObject = new JSONObject(map);
-
-        logger.info("map은 " + map.toString());
-        logger.info("jsonObject.toJSONString() " + jsonObject.toJSONString());
-        logger.info("jsonObject.toString() " + jsonObject.toString());
-        model.addAttribute("map", jsonObject);
 
         return "stackBoard/boardDetailView";
     }
-
-
 
 
 
@@ -192,7 +193,7 @@ public class BoardController {
         logger.info(boardDTO.getBl_date().toString());
         logger.info(boardDTO.getBl_writer());           // mem_iuid
         */
-
+    //TODO ResponseBody로 board_uid 리턴해줘
     // 글쓰는페이지 POST / 작성
     @RequestMapping(value="/uploadBlock", method = RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
     public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
@@ -232,7 +233,7 @@ public class BoardController {
 
         logger.info("글작성 성공");
 
-        return "success";
+        return boardDTO.getBl_uid();
     }
 
 

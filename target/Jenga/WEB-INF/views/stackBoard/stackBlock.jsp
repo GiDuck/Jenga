@@ -50,7 +50,6 @@ Chrome, Firefox 사용 가능
 
     .selectedElementRight{
 
-
     }
 
     .contextMenu{
@@ -238,23 +237,23 @@ Chrome, Firefox 사용 가능
     */
 
     //서버로 부터 전해받은 북마크 원본 파일.
-    var bookmarks;
+    let bookmarks;
 
     //북마크 원본 파일에서 실질적인 북마크 JSON 파일을 뽑아낸 것.
-    var bookmarkElements;
+    let bookmarkElements;
 
 
     //사용자가 편집한 북마크 목록.
-    var editedBKElements = new Array();
+    let editedBKElements = new Array();
 
     //상위 폴더로 가기를 위한 배열
     //.. preNodeLeft : 현재까지 탐색한 왼쪽 패널의 하위 객체의 id(timeStamp)를 저장하는 배열
     //.. preNodeRight : 현재까지 탐색한 왼쪽 패널의 하위 객체의 id(timeStamp)를 저장하는 배열
 
-    var prevNodeLeft = new Array();
-    var prevNodeRight = new Array();
+    let prevNodeLeft = new Array();
+    let prevNodeRight = new Array();
 
-    var outBoundCheck = false;
+    let outBoundCheck = false;
 
 
     //만약 필드에 다른 선택된 요소가 있으면 선택 취소 해 주는 클래스.
@@ -414,8 +413,10 @@ Chrome, Firefox 사용 가능
                 removeOtherClass("right");
                 $selected = $("#editBookMark").find(".selectedElementRight");
                 $selected.removeClass("selectedElementRight");
-                $selected.removeAttr("background-color", "");
+                $selected.css("background-color", "");
                 $element.addClass("selectedElementRight");
+                $element.css("background-color", "#fa6362");
+
 
                 //왼쪽 노드가 선택되면, 다른 선택된 요소의 클래스를 모두 지우고 해당 요소에게만 '선택 클래스(selectedElementLeft)'를 적용한다.
             }else if(panelType === "left"){
@@ -905,6 +906,7 @@ Chrome, Firefox 사용 가능
         $("#saveBtn").on('click', function(e){
 
             e.preventDefault();
+            $(window).unbind("beforeunload");
             uploadBlock();
 
         });
@@ -1487,7 +1489,6 @@ Chrome, Firefox 사용 가능
         $("#today").val(todayStr);
 
 
-
     }
 
     //컴포넌트에 붙는 이벤트 리스너 초기화
@@ -1499,7 +1500,7 @@ Chrome, Firefox 사용 가능
             let files =  $(e.target).prop("files");
             let file = files[0];
             let fileName = file.name;
-            let extend = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            let extend = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
 
             if(extend != "jpg" && extend != "jpeg" &&extend != "png" && extend != "gif"){
 

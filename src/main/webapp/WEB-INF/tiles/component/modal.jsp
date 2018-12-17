@@ -407,8 +407,6 @@
 	
 	
 
-	
-	
 	//복구용 계정 모달
 	function makeRecoverModal(){
 		
