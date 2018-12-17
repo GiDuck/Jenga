@@ -108,8 +108,6 @@
         blockJson = ${map.bookmarks};
         blockObj = JSON.parse(blockJson['_value']);
         console.log(blockObj);
-
-        <%--alert(${map.tag});--%>
         //작성자 이름
         $("#writer_name").html('${map.mem_nick}');
         //작성자 소개
@@ -117,7 +115,7 @@
         //작성자 이미지
         $("#writer_image").attr("src", "${map.mem_profile}");
         //선택한 태그들
-        $("#tags_inputField").html('${map.tag.get(0)}');
+        $("#tags_inputField").val(${map.tag});
         //블록 썸네일 이미지
         $("#thumbnail_image").attr("src", '${map.bti_url}');
         //블록 제목

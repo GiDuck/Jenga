@@ -92,7 +92,7 @@ public class BoardController {
      * map.get("bookmarks");
      * */
     @GetMapping(value="/boardView")
-    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, JsonProcessingException {
 
         Map<String, Object> map = boardService.getView(bl_uid);
         logger.info((String)map.get("bookmarks"));

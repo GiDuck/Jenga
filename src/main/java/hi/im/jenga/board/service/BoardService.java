@@ -1,5 +1,6 @@
 package hi.im.jenga.board.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 
@@ -25,7 +26,7 @@ public interface BoardService {
 
     int deleteBlock(String bl_uid);
 
-    Map<String, Object> getView(String bl_uid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+    Map<String, Object> getView(String bl_uid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException;
 
     void likeCheck(String bl_iuid, String session_mem_iuid);
 
