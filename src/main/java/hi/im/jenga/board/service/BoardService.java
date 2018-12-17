@@ -10,7 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,4 +44,6 @@ public interface BoardService {
     List<BoardDTO> getFollowerBoard(String my_iuid);
 
     int likeCount(String bl_iuid);
+
+    List<BoardDTO> getMyBlock(String my_iuid);
 }

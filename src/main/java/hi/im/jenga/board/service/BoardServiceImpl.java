@@ -200,5 +200,9 @@ public class BoardServiceImpl implements BoardService {
 		return dao.likeCount(bl_iuid);
 	}
 
+	public List<BoardDTO> getMyBlock(String my_iuid) {
+		return dao.getMyBlock(my_iuid);
+	}
+
 
 }

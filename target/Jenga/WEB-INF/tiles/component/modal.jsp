@@ -317,7 +317,7 @@
 
                         // 이미 가입한 이메일 일 때
                     } else if (responseData.indexOf('isExist') != -1) {
-                        makeSimpleNotifyModal('이메일로 회원가입', '인증이 실패하였습니다. 이메일이 정확한 지 확인하세요.', function () {
+                        makeSimpleNotifyModal('이메일로 회원가입', '이메일 형식이 잘못되었거나 존재하는 이메일입니다. 다시 확인해 주세요.', function () { //수정함
                         });
                         $("#em_id").val("");
                         $("#em_pwd").val("");

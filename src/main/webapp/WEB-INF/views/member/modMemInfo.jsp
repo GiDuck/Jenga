@@ -62,7 +62,7 @@ Form-data parameter
                         <div class="col-12">
 
                             <label>Introduce</label>
-                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5"></textarea>
+                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5">${DTO.mem_introduce}</textarea>
 
                         </div>
 
@@ -237,17 +237,19 @@ Form-data parameter
         let selectCard = getSelectedCard();
 
         let nickname = $("input[name='mem_nick']").val(); // 냥
-        //let introduce = $("textarea[name='mem_introduce']").val();
+        let introduce = $("textarea[name='mem_introduce']").val();
         let profile = $("#mem_profile").prop("files");
 
         console.log("검증");
         console.log(nickname);
         console.log(selectCard);
+        console.log(introduce);
 
         let params = new FormData();
         params.append("mem_nick", nickname);
         params.append("mem_profile", profile[0]);
-        params.append("em_pwd", "godqhrgkek93@");
+        params.append("mem_introduce", introduce);
+        // params.append("em_pwd", "godqhrgkek93@");
         params.append("favor", selectCard);
 
         $.ajax({

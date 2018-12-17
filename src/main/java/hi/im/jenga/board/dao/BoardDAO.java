@@ -64,4 +64,6 @@ public interface BoardDAO {
 
     int likeCount(String bl_iuid);
 
+    List<BoardDTO> getMyBlock(String my_iuid);
+
 }
