@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
-import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.dto.MongoDTO;
+import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -59,7 +58,7 @@ public class BoardController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(){
 
-        return "/board/stackBoard/boardSearch";
+        return "stackBoard/boardSearch";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -89,18 +88,17 @@ public class BoardController {
     public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) {
 
         Map<String, Object> map = boardService.getView(bl_uid);
+        logger.info((String)map.get("bookmarks"));
+       /* try {
+            map.put("bookmarks", URLEncoder.encode((String) map.get("bookmarks"), "utf-8"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
+        model.addAttribute("map", map);
 
-        JSONObject jsonObject = new JSONObject(map);
-
-        logger.info("map은 " + map.toString());
-        logger.info("jsonObject.toJSONString() " + jsonObject.toJSONString());
-        logger.info("jsonObject.toString() " + jsonObject.toString());
-        model.addAttribute("map", jsonObject);
 
         return "stackBoard/boardDetailView";
     }
-
-
 
 
 
@@ -114,13 +112,23 @@ public class BoardController {
         if(status == null) return "redirect:/";
         if(status.equals("stack")) {
             String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            String resultHTML = null;
+            Map<String, List<String>> category = null;
+            try{
+                category = boardService.getCategoryName();
 
-            Map<String, List<String>> category = boardService.getCategoryName();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
             ObjectMapper mapper = new ObjectMapper();
-
             String categoryJSON = mapper.writeValueAsString(category);
+            try {
+                resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
+            }catch(Exception e){
+                e.printStackTrace();
+            }
 
-            String resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
 
             logger.info(resultHTML);
 
@@ -183,7 +191,7 @@ public class BoardController {
         logger.info(boardDTO.getBl_date().toString());
         logger.info(boardDTO.getBl_writer());           // mem_iuid
         */
-
+    //TODO ResponseBody로 board_uid 리턴해줘
     // 글쓰는페이지 POST / 작성
     @RequestMapping(value="/uploadBlock", method = RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
     public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
@@ -223,7 +231,7 @@ public class BoardController {
 
         logger.info("글작성 성공");
 
-        return "success";
+        return boardDTO.getBl_uid();
     }
 
 

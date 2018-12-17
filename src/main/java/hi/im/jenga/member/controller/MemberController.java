@@ -448,34 +448,41 @@ public class MemberController {
 
     // 로그아웃
     @RequestMapping("logout")
-    public String logOut(HttpSession session){
-        if(session.getAttribute("Member") != null){
+    @ResponseBody
+    public boolean logOut(HttpSession session){
+
+        try {
+            if (session.getAttribute("Member") != null) {
+                session.invalidate();
+                return true;
+                // TODO 여기도 로그아웃 이전 페이지 url 저장해서 redirect 해줘야하나 음
+            }
+
+            String getSes = (String) session.getAttribute("access_token");
+            logger.info(getSes);
+            String[] check = getSes.split("%&");
+
+            if (check[0].equals("kakao")) {
+                LoginUtil util = kakaoLoginUtil;
+                util.logOut(check[1]);
+                logger.info("kakao 세션 제거");
+            } else if (check[0].equals("google")) {
+                logger.info("google 세션 제거");
+            } else if (check[0].equals("facebook")) {
+                logger.info("facebook 세션 제거");
+            } else if (check[0].equals("naver")) {
+                LoginUtil util = naverLoginUtil;
+                util.logOut("");
+                logger.info("naver 세션 제거");
+            }
+            logger.info("제거완료");
             session.invalidate();
-            logger.info("로그아웃 완료");
-            return "redirect:/";
-            // TODO 여기도 로그아웃 이전 페이지 url 저장해서 redirect 해줘야하나 음
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
-        String getSes = (String)session.getAttribute("access_token");
-        logger.info(getSes);
-        String[] check =getSes.split("%&");
+        return false;
 
-        if(check[0].equals("kakao")){
-            LoginUtil util = kakaoLoginUtil;
-            util.logOut(check[1]);
-            logger.info("kakao 세션 제거");
-        }else if(check[0].equals("google")){
-            logger.info("google 세션 제거");
-        }else if(check[0].equals("facebook")){
-            logger.info("facebook 세션 제거");
-        }else if(check[0].equals("naver")){
-            LoginUtil util = naverLoginUtil;
-            util.logOut("");
-            logger.info("naver 세션 제거");
-        }
-        logger.info("제거완료");
-        session.invalidate();
-        return "redirect:/";
 
     }
 

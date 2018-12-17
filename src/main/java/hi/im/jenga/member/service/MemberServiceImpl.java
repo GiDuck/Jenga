@@ -208,6 +208,8 @@ public class MemberServiceImpl implements MemberService {
 
         memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
         logger.info("DAO에서 받은 member dto.. " + memberDTO.toString());
+        logger.info("memberdto 뽑기"+ memberDTO.getMem_introduce());
+
 
         logger.info("암호화 결과... 닉네임 " + aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
         logger.info("암호화 결과... 경로 " + aes256Cipher.AES_Decode(memberDTO.getMem_profile()));

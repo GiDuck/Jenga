@@ -232,7 +232,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id = "modMemberInfoGET" resultType="hi.im.jenga.member.dto.MemberDTO">
 	SELECT
-		mem_nick, mem_profile
+		mem_nick, mem_profile, mem_introduce
 	FROM
 		tbl_MemInfo
 	WHERE
@@ -243,7 +243,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE
 		tbl_MemInfo
 	SET
-		mem_nick = #{memberDTO.mem_nick}, mem_profile = #{memberDTO.mem_profile}
+		mem_nick = #{memberDTO.mem_nick}, mem_profile = #{memberDTO.mem_profile}, mem_introduce = #{memberDTO.mem_introduce}
 	WHERE
 		mem_iuid = #{s_iuid}
 	</update>

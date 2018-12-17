@@ -4,6 +4,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		<!-- MyBatis의 경우 작성된 XML Mapper는 상단의 파일에서 사용하는 태그들에 대한 정보가 기록된 DTD를 추가 -->
 
 <mapper namespace="board">
+    
+    
+
+    
 
 	<update id="addReadCount">
 		UPDATE
@@ -14,7 +18,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			blrc_ref = #{bl_uid}
 	</update>
 
-	<select id="getBoardDetailBlock" resultType="Map">
+
+    <resultMap id="boardMap" type="HashMap">
+
+        <result property="bl_writer" column="bl_writer"/>
+        <result property="bl_title" column="bl_title"/>
+        <result property="bl_description" column="bl_description" jdbcType="CLOB" javaType="java.lang.String"/>
+        <result property="bl_introduce" column="bl_introduce"/>
+        <result property="bti_url" column="bti_url"/>
+        <result property="bl_mainCtg" column="bl_mainCtg"/>
+        <result property="bl_smCtg" column="bl_smCtg"/>
+        <result property="bl_date" column="bl_date" javaType="java.lang.Long"/>
+        <result property="bl_objId" column="bl_objId"/>
+        <result property="blrc_count" column="blrc_count" javaType="java.lang.Long"/>
+
+
+    </resultMap>
+
+	<select id="getBoardDetailBlock" resultType="Map" resultMap="boardMap">
 		SELECT
 			B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description", B.bl_introduce AS "bl_introduce", B.bl_mainCtg AS "bl_mainCtg", B.bl_smCtg AS "bl_smCtg", B.bl_date AS "bl_date", B.bl_objId AS "bl_objId",
 			I.bti_url AS "bti_url", R.blrc_count AS "blrc_count"

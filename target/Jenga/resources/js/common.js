@@ -1,3 +1,13 @@
+
+$.busyLoadSetup({ animation: "slide", background: "rgba(255, 152, 0, 0.86)" });
+
+//배열에 마지막을 알아보는 last함수를 prototype으로 선언하여 사용
+if (!Array.prototype.last){
+    Array.prototype.last = function(){
+        return this[this.length - 1];
+    };
+};
+
 /**
  *  로딩 이미지
  * */
