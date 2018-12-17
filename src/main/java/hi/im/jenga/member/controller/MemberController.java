@@ -491,11 +491,11 @@ public class MemberController {
 
 
 
-
+//까미바보 쫄보
 
     /******************************** 소셜별 콜백 매핑 *********************************/
 
-    @RequestMapping(value = "/facebookcallback", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/facebookcallback", method = RequestMethod.GET)
     public String facebookcallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
         SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
         OAuth2AccessToken oauthToken;
@@ -526,7 +526,7 @@ public class MemberController {
         return "member/setMemInfo";
     }
 
-    @RequestMapping(value = "/kakaocallback", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/kakaocallback", method = RequestMethod.GET)
     public String kakaocallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
         SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
 
@@ -560,7 +560,7 @@ public class MemberController {
         return "member/setMemInfo";
     }
 
-    @RequestMapping(value = "/navercallback", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/navercallback", method = RequestMethod.GET)
     public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, SocialMemberDTO socialMemberDTO) throws Exception {
         OAuth2AccessToken oauthToken;
         LoginUtil util = naverLoginUtil;
@@ -595,7 +595,7 @@ public class MemberController {
         return "member/setMemInfo";
     }
 
-    @RequestMapping(value = "/googlecallback", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/googlecallback", method = RequestMethod.GET)
     public String googlecallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
         SocialMemberDTO socialMemberDTO = new SocialMemberDTO();
         OAuth2AccessToken oauthToken;

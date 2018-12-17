@@ -50,21 +50,7 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     public String isEMExist(String aes_eid) throws Exception {
-    logger.info("오이잉 daoimpl "+aes_eid);
         String result= sqlSession.selectOne("member.isEMExist", aes_eid);
-        logger.info("빠져나와라 "+result);
-
-        /*if(result.equals("Y ")){
-            logger.info(result+" 로 나왔다");
-            return "Y";
-        }else if(result.equals("N ")){
-            logger.info(result+" 로 나왔다2");
-            return "N";
-        }
-        // null 일 때
-        logger.info(result+" 로 나왔다3");
-
-        return "notexist";*/
         return result != null ? (result.equals("Y") ? "Y" : "N") : "notexist";
     }
 
@@ -75,9 +61,6 @@ public class MemberDAOImpl implements MemberDAO{
         map.put("sha_key", sha_key);
 
         int n = sqlSession.update("member.findEPwd",map);
-
-        logger.info(": : : n은 "+n);
-        logger.info(": : : findEPwd 나감 ");
     }
 
     public void tempIns(String iuid) {
