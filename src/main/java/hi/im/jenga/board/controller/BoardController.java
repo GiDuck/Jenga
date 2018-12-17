@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -157,6 +158,30 @@ public class BoardController {
 
     }
 
+
+  /*  @RequestMapping("/getUserInfo")
+    @ResponseBody
+    public Map<String, String> getUserInfo(@RequestParam("params") List<String> params){
+
+        Map<String ,String> result = new HashMap<String, String>();
+
+        if(params.contains("profile")){
+            //result.put(K,V)
+        }
+
+        if(params.contains("nickname")){
+            //result.put(K,V)
+
+        }
+
+        if(params.contains("introduce")){
+            //result.put(K,V)
+
+        }
+
+        return result;
+
+    }*/
     /*
     * stackBlock에서 작성한 북마크, 글, 사진을 업로드하는 메서드(POST)
     *

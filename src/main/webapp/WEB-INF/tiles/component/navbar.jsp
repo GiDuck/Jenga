@@ -106,6 +106,8 @@
 
       });
 
+      $(document).find("a").css('cursor', 'pointer');
+
 
       $("#nav_user_profile").attr("src", "${sessionScope.Member.mem_profile}");
 
