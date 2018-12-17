@@ -274,8 +274,8 @@ public class MemberController {
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
-        logger.info("컨트롤러 페버"+favor.get(0));
-        logger.info("컨트롤러 페버"+favor.get(0).toString());
+        /*logger.info("컨트롤러 페버"+favor);
+        logger.info("컨트롤러 페버"+favor.get(0).toString());*/
         model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
         model.addAttribute("favor", favor);      // 선택한 favor 가져옴
 

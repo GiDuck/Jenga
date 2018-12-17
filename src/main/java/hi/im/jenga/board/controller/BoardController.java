@@ -55,18 +55,18 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(){
 
         return "stackBoard/boardSearch";
-    }
+    }*/
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String SearchPOST(String search, String search_check, HttpSession session){
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public List<BoardDTO> SearchPOST(String search, String search_check, HttpSession session){
             String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-            boardService.search(search,search_check, session_iuid);
+            logger.info("테스트 뽑기"+boardService.search(search,search_check, session_iuid).get(0).getBl_title());
 
-        return "/search";   // 임시
+        return boardService.search(search,search_check, session_iuid);  // 임시
     }
 
 
