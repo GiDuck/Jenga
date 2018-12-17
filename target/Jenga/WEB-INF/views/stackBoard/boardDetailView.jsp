@@ -14,7 +14,7 @@
                     <div class="col-md-5 col-sm-5">
                         <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                             <div class="fileinput-new thumbnail img-no-padding" style="max-width: 370px; max-height: 250px;">
-                                <img id="thumbnail_image" src="${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg" alt="...">
+                                <img id="thumbnail_image" src="" alt="..." onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg'">
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail img-no-padding" style="max-width: 370px; max-height: 250px;"></div>
 
@@ -61,7 +61,7 @@
                         <div class="media">
                             <a class="pull-left" href="#paper-kit">
                                 <div class="avatar big-avatar">
-                                    <img id="writer_image" class="media-object" alt="64x64" src="${pageContext.request.contextPath}/resources/assets/img/faces/kaci-baum-2.jpg">
+                                    <img id="writer_image" class="media-object" alt="64x64" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/faces/kaci-baum-2.jpg'">
                                 </div>
                             </a>
                             <div class="media-body">
@@ -99,44 +99,48 @@
 <script>
 
     let blockObj = undefined;
+    let blockJson = undefined;
+
 
     function setData(){
 
         //json으로 넘어온 map object를 js에서 사용할 수 있는 object 형식으로 파싱
-        blockObj = JSON.parse("${map}");
+        blockJson = ${map.bookmarks};
+        blockObj = JSON.parse(blockJson['_value']);
+        console.log(blockObj);
 
         //작성자 이름
-        $("#writer_name").html(blockObj.BL_WRITER);
+        $("#writer_name").html();
         //작성자 소개
-        $("#writer_description").html("소개는 추가 예정입니다...");
+        $("#writer_description").html();
         //작성자 이미지
-        $("#writer_image").attr("src", blockObj.BTI_URL);
+        $("#writer_image").attr("src", "");
         //선택한 태그들
-        $("#tags_inputField").val(blockObj.TAGS);
+        $("#tags_inputField").val();
         //블록 썸네일 이미지
-        $("#thumbnail_image").attr("src", blockObj.BTI_URL);
+        $("#thumbnail_image").attr("src", '${map.bti_url}');
         //블록 제목
-        $("#bd_title").val(blockObj.BL_TITLE);
+        $("#bd_title").html('${map.bl_title}');
         //블록 소개
-        $("#bd_introduce").val(blockObj.BL_INTRODUCE);
+        $("#bd_introduce").html();
         //블록 내용
-        $("#bd_description").val(blockObj.BL_DESCRIPTION);
+        $("#bd_description").html('${map.bl_description}');
 
         //카테고리
         let categoryStr = blockObj.BL_MAINCTG + " > "  + blockObj.BL_SMCTG;
         $("#bd_category").val(categoryStr);
 
         //날짜
-        let dateObj = new Date(blockObj.BL_DATE);
+        let dateObj = new Date(parseInt('${map.bl_date}'));
         let dateStr = dateObj.getFullYear() + "년 " + (dateObj.getMonth()+1) + " 월" + dateObj.getDate() + " 일 "
             + dateObj.getHours() + ":" + dateObj.getMinutes();
-        $("#bd_date").val(dateStr);
+        $("#bd_date").html(dateStr);
 
 
         //비동기로 북마크 로딩
         (function(){
 
-            setBookmarks(blockObj.BL_BOOKMARKS);
+            setBookmarks(blockObj);
 
         }());
 
@@ -184,7 +188,7 @@
         tempObj.add_date = nowNode.add_date;
 
 
-        if(nowNode instanceof Folder){
+        if(nowNode.children){
 
             let children = nowNode.children;
             tempObj.children = new Array();
@@ -196,7 +200,7 @@
 
             }
 
-        }else if(nowNode instanceof BookMark){
+        }else{
             let icon = nowNode.icon;
             if(!icon){
                 tempObj.icon = "nc-icon nc-paper";

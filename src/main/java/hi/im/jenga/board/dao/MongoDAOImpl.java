@@ -39,8 +39,10 @@ public class MongoDAOImpl implements MongoDAO {
 
         Criteria criteria = new Criteria(key);
         criteria.is(bl_uid);
-
         Query query = new Query(criteria);
+        query.fields().include("_value");
+        query.fields().exclude("_id");
+        //query.fields().exclude("_refBoardId");
 
         return mongoTemplate.findOne(query, String.class, "c_block");
     }

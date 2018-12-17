@@ -142,12 +142,9 @@ public class BoardServiceImpl implements BoardService {
 
 	public String getBookMarkFromHTML(String session_iuid) {
 
-		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
+		//String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 
-		if(fileFullName == null){
-			return "";
-		}
-
+		String fileFullName  = "C:\\Users\\gdtbg\\Documents\\Stoarge\\bookmarks_18. 11. 29..html";
 		FileIO fileIO = new FileIO(fileFullName);
 		String result = fileIO.InputHTMLBookMark();
 
