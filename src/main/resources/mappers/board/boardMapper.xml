@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getBoardDetailBlock" resultType="Map" resultMap="boardMap">
 		SELECT
 			B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description", B.bl_introduce AS "bl_introduce", B.bl_mainCtg AS "bl_mainCtg", B.bl_smCtg AS "bl_smCtg", B.bl_date AS "bl_date", B.bl_objId AS "bl_objId",
-			I.bti_url AS "bti_url", R.blrc_count AS "blrc_count"
+			I.bti_url AS "bti_url", R.blrc_count AS "blrc_count", M.mem_nick AS "mem_nick", M.mem_introduce AS "mem_introduce", M.mem_profile AS "mem_profile"
 		FROM
 			tbl_block B
 			INNER JOIN
@@ -49,8 +49,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				tbl_blockReadCount R
 			ON
 				R.blrc_ref = B.bl_uid
+			INNER JOIN
+				tbl_memInfo M
+			ON
+				M.mem_iuid = B.bl_writer
 		WHERE
-			B.bl_uid = #{bl_uid} AND R.blrc_ref = #{bl_uid}
+			B.bl_uid = #{bl_uid} AND R.blrc_ref = #{bl_uid} AND M.mem_iuid = B.bl_writer
 	</select>
 
 	<select id="getBoardDetailTags" resultType="String">
