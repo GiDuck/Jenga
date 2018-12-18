@@ -1,9 +1,16 @@
 package hi.im.jenga.board.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 
-import java.util.HashMap;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +26,7 @@ public interface BoardService {
 
     int deleteBlock(String bl_uid);
 
-    Map<String, Object> getView(String bl_uid);
+    Map<String, Object> getView(String bl_uid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException;
 
     void likeCheck(String bl_iuid, String session_mem_iuid);
 
@@ -38,4 +45,6 @@ public interface BoardService {
     List<BoardDTO> getFollowerBoard(String my_iuid);
 
     int likeCount(String bl_iuid);
+
+    List<BoardDTO> getMyBlock(String my_iuid);
 }

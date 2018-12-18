@@ -2,7 +2,6 @@
          pageEncoding="UTF-8"%>
 <jsp:include page="./mem_components.jsp"/>
 
-<script src="/resources/js/common.js"></script>
 <style>
 
   video
@@ -149,16 +148,19 @@
                           $('#login_em_pwd').focus();
                             return false;
                         } else if (responseData["check"] == 'noauth' ) {
+
                           swal({
                             text: "추가 정보 입력이 필요합니다. 입력 페이지로 이동합니다.",
-                            type: "error"
+                            type: "error"}).then(function(){
+
+                              let $passForm = $("#passform");
+                              $passForm.prop("method", "post");
+                              $passForm.prop("action", "/setMemInfo");
+                              $passForm.submit();
+
                           });
 
-                          let d = $("#passform");
-                          console.log(d);
-                          d.method = "post";
-                          d.action = "/setMemInfo";
-                          d.submit();
+
 
 
                         }else {

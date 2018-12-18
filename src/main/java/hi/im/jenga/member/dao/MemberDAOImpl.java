@@ -50,21 +50,7 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     public String isEMExist(String aes_eid) throws Exception {
-    logger.info("오이잉 daoimpl "+aes_eid);
         String result= sqlSession.selectOne("member.isEMExist", aes_eid);
-        logger.info("빠져나와라 "+result);
-
-        /*if(result.equals("Y ")){
-            logger.info(result+" 로 나왔다");
-            return "Y";
-        }else if(result.equals("N ")){
-            logger.info(result+" 로 나왔다2");
-            return "N";
-        }
-        // null 일 때
-        logger.info(result+" 로 나왔다3");
-
-        return "notexist";*/
         return result != null ? (result.equals("Y") ? "Y" : "N") : "notexist";
     }
 
@@ -75,9 +61,6 @@ public class MemberDAOImpl implements MemberDAO{
         map.put("sha_key", sha_key);
 
         int n = sqlSession.update("member.findEPwd",map);
-
-        logger.info(": : : n은 "+n);
-        logger.info(": : : findEPwd 나감 ");
     }
 
     public void tempIns(String iuid) {
@@ -161,7 +144,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public MemberDTO modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
 
-    public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String aes_em_pwd, String[] favor){
+    public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor){
         Map<String, Object> map = new HashMap();
 
         map.put("memberDTO", memberDTO);
@@ -169,18 +152,22 @@ public class MemberDAOImpl implements MemberDAO{
 
         sqlSession.update("member.modMemberInfoPOST_MemInfo", map);
 
-        logger.info("비번 공백이면 뒤에 음따 "+aes_em_pwd+"음제");
+       /* 비번 처리
+       logger.info("비번 공백이면 뒤에 음따 "+aes_em_pwd+"음제");
         if(!aes_em_pwd.equals("")) {
             map.put("aes_em_pwd", aes_em_pwd);
             sqlSession.update("member.modMemberInfoPOST_EMember", map);
-        }
+        }*/
 
 //        sqlSession.delete("member.delMemberFavor", s_iuid);
+        sqlSession.delete("member.delMemberFavor", s_iuid);
+        logger.info("delete이다");
         for(String fav : favor) {
             map.put("fav",fav);
             try {
-                sqlSession.delete("member.delMemberFavor", s_iuid);
+
                 sqlSession.insert("member.addMemberFavor", map);
+                logger.info("태그넣는ㄷ이다");
             }catch (Exception e){
                 // 무결성 제약 조건에 위배됩니다.
             }

@@ -50,7 +50,7 @@ public interface MemberDAO {
 
     MemberDTO modMemberInfoGET(String aes_iuid);
 
-    MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String aes_em_pwd, String[] favor) throws Exception;
+    MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor) throws Exception;
 
     String getMemProfile(String s_iuid);
 

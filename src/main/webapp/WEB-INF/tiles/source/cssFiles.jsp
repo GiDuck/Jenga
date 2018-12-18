@@ -16,4 +16,5 @@
   <link href="${pageContext.request.contextPath}/resources/assets/css/paper-kit.css?v=2.2.1" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/resources/Loading-Mask-Plugin-jQuery-Busy-Load/dist/app.css" rel="stylesheet">
   <script src="${pageContext.request.contextPath}/resources/Loading-Mask-Plugin-jQuery-Busy-Load/dist/app.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 

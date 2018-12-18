@@ -182,6 +182,10 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectOne("board.likeCount",bl_iuid);
     }
 
+    public List<BoardDTO> getMyBlock(String my_iuid) {
+        return sqlSession.selectList("board.getMyBlock",my_iuid);
+    }
+
 
     public String getUploadName(String bl_uid) {
         return sqlSession.selectOne("board.getUploadName", bl_uid);

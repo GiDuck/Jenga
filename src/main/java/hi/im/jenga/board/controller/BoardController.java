@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
-import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.dto.MongoDTO;
+import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
@@ -21,12 +21,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.HashMap;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -88,7 +92,7 @@ public class BoardController {
      * map.get("bookmarks");
      * */
     @GetMapping(value="/boardView")
-    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) {
+    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) throws Exception {
 
         Map<String, Object> map = boardService.getView(bl_uid);
         logger.info((String)map.get("bookmarks"));
@@ -158,30 +162,6 @@ public class BoardController {
 
     }
 
-
-  /*  @RequestMapping("/getUserInfo")
-    @ResponseBody
-    public Map<String, String> getUserInfo(@RequestParam("params") List<String> params){
-
-        Map<String ,String> result = new HashMap<String, String>();
-
-        if(params.contains("profile")){
-            //result.put(K,V)
-        }
-
-        if(params.contains("nickname")){
-            //result.put(K,V)
-
-        }
-
-        if(params.contains("introduce")){
-            //result.put(K,V)
-
-        }
-
-        return result;
-
-    }*/
     /*
     * stackBlock에서 작성한 북마크, 글, 사진을 업로드하는 메서드(POST)
     *
@@ -279,7 +259,7 @@ public class BoardController {
 
 //  TODO 테스트 mongo update도 함
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
-    @RequestMapping(value = "/modView", method = RequestMethod.POST)
+    @RequestMapping(value = "/modView", method = RequestMethod.PATCH)
     public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
 
         String uploadName;
@@ -300,7 +280,7 @@ public class BoardController {
 //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트
 //    View에서 받는거 테스트해야함
 //    삭제페이지 POST
-    @RequestMapping(value = "/delBlock", method=RequestMethod.DELETE)
+    @RequestMapping(value = "/delBlock", method=RequestMethod.GET)
     public ResponseEntity deleteBlock(@RequestParam String bl_uid){
 
         int result = boardService.deleteBlock(bl_uid);
@@ -391,6 +371,22 @@ public class BoardController {
     @RequestMapping(value = "/followerBoard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
     public String followerboard(HttpSession session){
         String My_iuid = ((MemberDTO)session.getAttribute("member")).getMem_iuid();
+        return ""; //임시 리턴
+    }
+
+
+
+
+    //TODO 수정 필요함 일단 만들어둠...!
+    @RequestMapping(value = "/myBlock")
+    public String myBlock(HttpSession session){
+
+        String my_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+
+
+        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
+
+
         return ""; //임시 리턴
     }
 
