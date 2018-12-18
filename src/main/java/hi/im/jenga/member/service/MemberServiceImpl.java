@@ -15,8 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -200,30 +206,29 @@ public class MemberServiceImpl implements MemberService {
 
     // 회원정보 수정
     // 세션에 있는 회원정보를 조건으로 출력  session memberDTO
-    public MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception {
+    public Map<String, String> modMemberInfoGET(MemberDTO memberDTO) throws Exception {
         // 복호화 한 후 비교 후 현재 세션에 있는 사용자의 정보를 받아옴
         logger.info(": : : ServiceImpl에 modMemberInfo 들어옴");
         logger.info("세션에 있는 iuid는 " + memberDTO.getMem_iuid());
         /*String  notAes_iuid = aes256Cipher.AES_Decode(memberDTO.getMem_iuid());
         logger.info("복호화한 있는 iuid는 "+notAes_iuid);*/
 
-        memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
-        logger.info("DAO에서 받은 member dto.. " + memberDTO.toString());
+        Map<String, String> map = dao.modMemberInfoGET(memberDTO.getMem_iuid());
 
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
-        memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
+        map.put("mem_nick",aes256Cipher.AES_Decode(map.get("mem_nick")));
         logger.info("아시발");
-        memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        map.put("mem_profile",aes256Cipher.AES_Decode(map.get("mem_profile")));
         logger.info("아시발2");
-        memberDTO.setMem_introduce(aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
+        map.put("mem_introduce",aes256Cipher.AES_Decode(map.get("mem_introduce")));
         logger.info("아시발3");
 
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_nick());
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_profile());
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_introduce());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_nick"));
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_profile"));
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_introduce"));
         logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
 
-        return memberDTO;
+        return map;
 
     }
 
@@ -277,6 +282,13 @@ public class MemberServiceImpl implements MemberService {
 
     public List<Map<String, String>> getCategory() {
         return dao.getCategory();
+    }
+
+    public String getUserInfo(String mem_iuid, String param) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        MemberDTO memberDTO = dao.getUserInfo(mem_iuid);
+        if(param.equals("profile")){ return aes256Cipher.AES_Decode(memberDTO.getMem_profile()); }
+        if(param.equals("nick")){ return aes256Cipher.AES_Decode(memberDTO.getMem_nick()); }
+        return aes256Cipher.AES_Decode(memberDTO.getMem_introduce());
     }
 
 

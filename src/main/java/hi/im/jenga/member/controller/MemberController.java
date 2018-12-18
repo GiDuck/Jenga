@@ -23,11 +23,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -266,15 +274,11 @@ public class MemberController {
         logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
         logger.info("바뀌기 전 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
-        MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
-
-        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
-        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
-        logger.info("복호화 한 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
+        Map<String, String> map = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
-        model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+        model.addAttribute("map", map);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
         model.addAttribute("favor", favor);      // 선택한 favor 가져옴
 
         return "member/modMemInfo";
@@ -444,6 +448,21 @@ public class MemberController {
     }
 
 
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+    public @ResponseBody Map<String, String> getUserInfo(HttpSession session, @RequestParam(value = "profile", required = false) String profile, @RequestParam(value = "nick", required = false) String nick,
+                                                         @RequestParam(value = "introduce", required = false) String introduce) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        Map<String, String> result = new HashMap();
+        String param = "";
+        if(profile!=null){ param = "profile"; }
+        if(nick!=null){ param = "nick"; }
+        if(introduce!=null){ param = "introduce"; }
+        String decode_param = memberService.getUserInfo(mem_iuid, param);
+        result.put(param, decode_param);
+
+        return result;
+
+    }
 
 
 
