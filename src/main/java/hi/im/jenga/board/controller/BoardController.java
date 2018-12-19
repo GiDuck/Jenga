@@ -21,9 +21,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -55,28 +62,36 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-   /* @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String SearchGET(){
+    /*@RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String SearchGET(String search, String search_check, HttpSession session){
+        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+        List<BoardDTO> result = boardService.search(search, search_check, session_iuid);
+        boardService.searchImg(search,search_check);
+        boardService.searchMemInfo(search,search_check);
+        boardService.searchLike(search,search_check);
+
+
 
         return "stackBoard/boardSearch";
     }*/
 
                 @RequestMapping(value = "/search", method = RequestMethod.GET)
-                public String SearchPOST(String search, String search_check, HttpSession session){
+                public String SearchPOST(String search, String search_check, HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 
-                    if(((MemberDTO)session.getAttribute("Member")).getMem_iuid() != null) {
+
+                    logger.info("뽑아옴?"+boardService.search(search, search_check, "").size());
+
+                   /* if(((MemberDTO)session.getAttribute("Member")).getMem_iuid() != null) {
                         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
                         if (boardService.search(search, search_check, session_iuid) != null) {
-                            /*logger.info("테스트 뽑기" + boardService.search(search, search_check, session_iuid).get(0).getBl_title());*/
+                            logger.info("테스트 뽑기" + boardService.search(search, search_check, session_iuid).get(0).getBl_title());
                             logger.info("잘들어감");
                         }
             }else{
                 return "bad";
-            }
+            }*/
         return "good";
     }
-
-
 
     /*
      * 글 조회 GET

@@ -36,7 +36,7 @@ public interface BoardService {
 
     String transCtgUID(String bl_smCtg, String flag);
 
-    List<BoardDTO> search(String search, String search_check, String session_iuid);
+    List<BoardDTO> search(String search, String search_check, String session_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
     void follow(String bl_writer, String session_iuid);
 
@@ -47,4 +47,6 @@ public interface BoardService {
     int likeCount(String bl_iuid);
 
     List<BoardDTO> getMyBlock(String my_iuid);
+
+    void searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 }

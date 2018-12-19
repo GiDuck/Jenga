@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -175,14 +176,23 @@ public class BoardServiceImpl implements BoardService {
 		return dao.transCtgUID(bl_smCtg, flag);
 	}
 
-	public List<BoardDTO> search(String search, String search_check, String session_iuid) {
-		dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
+	public List<BoardDTO> search(String search, String search_check, String session_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+		//dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
 		if(search_check.equals("name")){
-			return dao.searchName(search);
+			search = aes256Cipher.AES_Encode(search);
+			return dao.search(search,search_check);
 		}else if(search_check.equals("tag")){
-			return dao.searchTag(search);
+			return dao.search(search,search_check);
 		}else{
-			return dao.searchContents(search);
+			String[] splitsearch = search.split(" ");
+			logger.info("서치 뽑는중"+splitsearch[0]);
+			logger.info("서치 뽑는중"+splitsearch[1]);
+			List<String> list = new ArrayList<String>();
+			for(int i = 0; i<splitsearch.length; i++){
+				list.add(splitsearch[i]);
+				logger.info("add 했음");
+			}
+			return dao.searchContents(list);
 		}
 	}
 
@@ -204,6 +214,18 @@ public class BoardServiceImpl implements BoardService {
 
 	public List<BoardDTO> getMyBlock(String my_iuid) {
 		return dao.getMyBlock(my_iuid);
+	}
+
+	public void searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+		if(search_check.equals("name")){
+			search = aes256Cipher.AES_Encode(search);
+			dao.searchImgName(search);
+		}else if(search_check.equals("tag")){
+			dao.searchImgTag(search);
+		}else{
+
+			dao.searchImgContents(search);
+		}
 	}
 
 
