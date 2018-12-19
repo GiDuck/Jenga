@@ -7,6 +7,7 @@
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+
 	<util:properties id="data" location="file:D:\data\tests.properties" />
 	<!--<util:properties id="data" location="file:///Y:\go\Jenga\tests.properties" />-->
 

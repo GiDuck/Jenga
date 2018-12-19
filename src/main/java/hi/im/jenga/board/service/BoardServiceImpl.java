@@ -1,5 +1,7 @@
 package hi.im.jenga.board.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.board.dao.BoardDAO;
@@ -121,7 +123,7 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Transactional
-	public Map<String, Object> getView(String bl_uid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+	public Map<String, Object> getView(String bl_uid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
 		dao.getAddReadCount(bl_uid);	// 조회수 + 1
 		Map<String, Object> map = dao.getBoardDetailBlock(bl_uid);
 
@@ -133,7 +135,9 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println(map.get("blrc_count"));
 
 		List<String> list = dao.getBoardDetailTags(bl_uid);
-		map.put("tag", list);
+		ObjectMapper mapper = new ObjectMapper();
+		String tagJSON = mapper.writeValueAsString(list);
+		map.put("tag", tagJSON);
 
 		map.put("likes", dao.likeCount(bl_uid));
 

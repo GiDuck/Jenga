@@ -6,6 +6,7 @@ import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,8 @@ public class MemberDAOImpl implements MemberDAO{
         sqlSession.insert("member.addSMemberInfo", memberDTO);
     }
 
+    public MemberDTO getUserInfo(String mem_iuid) { return sqlSession.selectOne("member.getUserInfo", mem_iuid); }
+
     public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }
 
     public void addSMember(SocialMemberDTO socialMemberDTO, String iuid) {
@@ -50,21 +53,7 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     public String isEMExist(String aes_eid) throws Exception {
-    logger.info("오이잉 daoimpl "+aes_eid);
         String result= sqlSession.selectOne("member.isEMExist", aes_eid);
-        logger.info("빠져나와라 "+result);
-
-        /*if(result.equals("Y ")){
-            logger.info(result+" 로 나왔다");
-            return "Y";
-        }else if(result.equals("N ")){
-            logger.info(result+" 로 나왔다2");
-            return "N";
-        }
-        // null 일 때
-        logger.info(result+" 로 나왔다3");
-
-        return "notexist";*/
         return result != null ? (result.equals("Y") ? "Y" : "N") : "notexist";
     }
 
@@ -75,9 +64,6 @@ public class MemberDAOImpl implements MemberDAO{
         map.put("sha_key", sha_key);
 
         int n = sqlSession.update("member.findEPwd",map);
-
-        logger.info(": : : n은 "+n);
-        logger.info(": : : findEPwd 나감 ");
     }
 
     public void tempIns(String iuid) {
@@ -159,7 +145,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public List<String> getMemFavor(String member) { return sqlSession.selectList("member.getMemFavor",member); }
 
-    public MemberDTO modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
+    public Map<String, String> modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
 
     public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor){
         Map<String, Object> map = new HashMap();

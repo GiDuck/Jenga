@@ -230,11 +230,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                     )
    </select>
 
-	<select id = "modMemberInfoGET" resultType="hi.im.jenga.member.dto.MemberDTO">
+
+	<resultMap id="modifyMap" type="HashMap">
+		<result property="mem_nick" column="mem_nick"></result>
+		<result property="mem_profile" column="mem_profile"></result>
+		<result property="mem_introduce" column="mem_introduce"></result>
+		<result property="bp_date" column="bp_date" javaType="Long"></result>
+	</resultMap>
+
+	<select id = "modMemberInfoGET" resultType="Map" resultMap="modifyMap">
 	SELECT
-		mem_nick, mem_profile, mem_introduce
+		M.mem_nick AS "mem_nick", M.mem_profile AS "mem_profile", M.mem_introduce AS "mem_introduce", B.bp_date AS "bp_date"
 	FROM
-		tbl_MemInfo
+		tbl_MemInfo M
+		INNER JOIN
+			tbl_blpath B
+		ON
+			B.bp_iuid = M.mem_iuid
 	WHERE
 		mem_iuid = <![CDATA[#{aes_iuid}]]>
 	</select>
@@ -273,6 +285,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		tbl_MemInfo
 	WHERE
 		mem_iuid = #{s_iuid}
+	</select>
+
+	<select id="getUserInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
+  	SELECT
+  		mem_nick, mem_profile, mem_introduce
+	FROM
+		tbl_meminfo
+	WHERE
+		mem_iuid = #{mem_iuid}
 	</select>
 
 	<select id="getCategory" resultType="java.util.Map">

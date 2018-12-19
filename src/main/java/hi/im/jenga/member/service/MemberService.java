@@ -5,6 +5,13 @@ import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +42,7 @@ public interface MemberService {
 
     void delMemInfo(String session_mem_iuid) throws Exception;
 
-    MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
+    Map<String, String> modMemberInfoGET(MemberDTO memberDTO) throws Exception;
 
     MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception;
 
@@ -48,5 +55,7 @@ public interface MemberService {
     MemberDTO testParam();
 
     List<Map<String,String>> getCategory();
+
+    String getUserInfo(String mem_iuid, String param) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 }
 

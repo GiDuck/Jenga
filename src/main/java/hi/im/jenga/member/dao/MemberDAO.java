@@ -48,7 +48,7 @@ public interface MemberDAO {
 
     List<String> getMemFavor(String member);
 
-    MemberDTO modMemberInfoGET(String aes_iuid);
+    Map<String, String> modMemberInfoGET(String aes_iuid);
 
     MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor) throws Exception;
 
@@ -59,4 +59,6 @@ public interface MemberDAO {
     List<Map<String,String>> getCategory();
 
     void addSMemberInfo(MemberDTO memberDTO);
+
+    MemberDTO getUserInfo(String mem_iuid);
 }

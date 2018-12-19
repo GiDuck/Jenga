@@ -15,8 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -47,22 +53,22 @@ public class MemberServiceImpl implements MemberService {
         memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick()));
         memberDTO.setMem_introduce(aes256Cipher.AES_Encode(memberDTO.getMem_introduce()));
 
-        if(uploadName.equals("")){
+        if (uploadName.equals("")) {
             logger.info("addEMemberInfo 서비스 디폴트이미지로 변경");
             memberDTO.setMem_profile("Y:\\go\\Jenga\\profiles\\jenga_profile_default.jpg");
-        }else {
+        } else {
             logger.info("프로필사진 있고 uploadName은 " + uploadName);
             memberDTO.setMem_profile(uploadName);
         }
 
         memberDTO.setMem_profile(aes256Cipher.AES_Encode(memberDTO.getMem_profile()));
-        if(key.equals("email")){
+        if (key.equals("email")) {
             logger.info("addEMemberInfo 이메일 입니다");
             iuid = findIuid(emailMemberDTO);   // 암호화 한 임시 meminfo uid를 찾아옴
             memberDTO.setMem_iuid(iuid);
 
             dao.addEMemberInfo(memberDTO);
-        }else if(key.equals("social")){
+        } else if (key.equals("social")) {
             logger.info("addSMemberInfo 소셜 입니다");
             iuid = aes256Cipher.AES_Encode(UUID.randomUUID().toString());
             logger.info(iuid);
@@ -72,10 +78,11 @@ public class MemberServiceImpl implements MemberService {
         }
 
 
-
     }
 
-    public void addEMember(String aes_iuid) { dao.addEMember(aes_iuid); }
+    public void addEMember(String aes_iuid) {
+        dao.addEMember(aes_iuid);
+    }
 
     public void addSMember(SocialMemberDTO socialMemberDTO, String sMem_iuid) {
         dao.addSMember(socialMemberDTO, sMem_iuid);
@@ -102,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
         result = dao.isEMExist(aes_find_pwd);    // 일단 존재하는지 여부
 
 //        인증 N 이고 가입한 메일이 없을때
-        if(result.equals("notexist")){
+        if (result.equals("notexist")) {
             return 0;
         }
 //        ////////////
@@ -130,16 +137,16 @@ public class MemberServiceImpl implements MemberService {
         System.out.println(emailMemberDTO.getEm_id());
         System.out.println(emailMemberDTO.getEm_pwd());
         String idcheck = dao.checkEmail(emailMemberDTO);
-        if(idcheck == null){
+        if (idcheck == null) {
             return "iderror";
         }
         String pwdcheck = dao.checkPwd(emailMemberDTO);
-        if(pwdcheck == null){
+        if (pwdcheck == null) {
             return "pwderror";
         }
         String Acheck = dao.checkAuth(emailMemberDTO);
-        logger.info("||||||||||auth 체크"+Acheck);
-        if(Acheck.equals("N")){
+        logger.info("||||||||||auth 체크" + Acheck);
+        if (Acheck.equals("N")) {
             return "noauth";
         }
         return "success";
@@ -163,14 +170,14 @@ public class MemberServiceImpl implements MemberService {
         String key = new TempKey().getKey(10, false);        // 이메일 인증키
         String emailId = emailMemberDTO.getEm_id();
         // 인증여부가 N이면 메일전송 / 이메일, 비밀번호하고 인증키 UPDATE 해야함
-            emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));        // 암호화 한 후 UPDATE
-            emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));    // 암호화 한 후 UPDATE
-            emailMemberDTO.setEm_akey(key);                                                     // 생성한 인증키를 넣음
-            logger.info("새로 뽑아서 넣어야지 / 넣기전"+ key);
-            logger.info("새로 뽑아서 넣어야지 / 후 "+ emailMemberDTO.getEm_akey());
-            dao.sendKey(emailMemberDTO);
-            sendTempKey(emailId, key);   // 이메일 보낼때는 암호화 안한 이메일과 인증키를 넘김
-            return "sendAuthKey";
+        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));        // 암호화 한 후 UPDATE
+        emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));    // 암호화 한 후 UPDATE
+        emailMemberDTO.setEm_akey(key);                                                     // 생성한 인증키를 넣음
+        logger.info("새로 뽑아서 넣어야지 / 넣기전" + key);
+        logger.info("새로 뽑아서 넣어야지 / 후 " + emailMemberDTO.getEm_akey());
+        dao.sendKey(emailMemberDTO);
+        sendTempKey(emailId, key);   // 이메일 보낼때는 암호화 안한 이메일과 인증키를 넘김
+        return "sendAuthKey";
     }
 
     public boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception {
@@ -199,40 +206,39 @@ public class MemberServiceImpl implements MemberService {
 
     // 회원정보 수정
     // 세션에 있는 회원정보를 조건으로 출력  session memberDTO
-    public MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception{
+    public Map<String, String> modMemberInfoGET(MemberDTO memberDTO) throws Exception {
         // 복호화 한 후 비교 후 현재 세션에 있는 사용자의 정보를 받아옴
         logger.info(": : : ServiceImpl에 modMemberInfo 들어옴");
-        logger.info("세션에 있는 iuid는 "+memberDTO.getMem_iuid());
+        logger.info("세션에 있는 iuid는 " + memberDTO.getMem_iuid());
         /*String  notAes_iuid = aes256Cipher.AES_Decode(memberDTO.getMem_iuid());
         logger.info("복호화한 있는 iuid는 "+notAes_iuid);*/
 
-        memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
-        logger.info("DAO에서 받은 member dto.. " + memberDTO.toString());
+        Map<String, String> map = dao.modMemberInfoGET(memberDTO.getMem_iuid());
 
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
-        memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
+        map.put("mem_nick",aes256Cipher.AES_Decode(map.get("mem_nick")));
         logger.info("아시발");
-        memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        map.put("mem_profile",aes256Cipher.AES_Decode(map.get("mem_profile")));
         logger.info("아시발2");
-        memberDTO.setMem_introduce(aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
+        map.put("mem_introduce",aes256Cipher.AES_Decode(map.get("mem_introduce")));
         logger.info("아시발3");
 
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_nick());
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_profile());
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_introduce());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_nick"));
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_profile"));
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_introduce"));
         logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
 
-        return memberDTO;
+        return map;
 
     }
 
     public MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String mem_introduce, String uploadName, String[] favor) throws Exception {
-        logger.info("MemberServiceImpl 1 "+s_iuid);
-        logger.info("MemberServiceImpl 2 "+mem_nick);
-        logger.info("MemberServiceImpl 3 "+uploadName);
-        logger.info("MemberServiceImpl 4 "+mem_introduce);
-        for(String s:favor){
-            logger.info("MemberServiceImpl 5 "+s);
+        logger.info("MemberServiceImpl 1 " + s_iuid);
+        logger.info("MemberServiceImpl 2 " + mem_nick);
+        logger.info("MemberServiceImpl 3 " + uploadName);
+        logger.info("MemberServiceImpl 4 " + mem_introduce);
+        for (String s : favor) {
+            logger.info("MemberServiceImpl 5 " + s);
         }
         // 공백으로 넘어오면 암호화안하고 daoImpl로 ""로 넘어감
 
@@ -242,8 +248,8 @@ public class MemberServiceImpl implements MemberService {
         memberDTO.setMem_introduce(aes256Cipher.AES_Encode(mem_introduce));       // 닉네임 암호화 후 DTO에 넣음
 
 
-        if(uploadName.equals("")){
-            logger.info("빈파일이면 뒤에 안뜸 "+uploadName);
+        if (uploadName.equals("")) {
+            logger.info("빈파일이면 뒤에 안뜸 " + uploadName);
             uploadName = dao.getMemProfile(s_iuid); // 세션id로 원래 파일이름 가져옴
             uploadName = aes256Cipher.AES_Decode(uploadName);   // 암호화 된채로 왔으니 복호화하고 밑에서 다시 암호화
         }
@@ -261,19 +267,28 @@ public class MemberServiceImpl implements MemberService {
 
 
     public void addMemberFavor(String aes_iuid, String[] favor) {
-        for(String fav : favor){
-            dao.addMemberFavor(aes_iuid,fav);
+        for (String fav : favor) {
+            dao.addMemberFavor(aes_iuid, fav);
         }
     }
 
-    public List<String> getMemFavor(String member) { return dao.getMemFavor(member); }
+    public List<String> getMemFavor(String member) {
+        return dao.getMemFavor(member);
+    }
 
     public MemberDTO testParam() {
         return dao.testParam();
     }
 
-    public List<Map<String,String>> getCategory() {
+    public List<Map<String, String>> getCategory() {
         return dao.getCategory();
+    }
+
+    public String getUserInfo(String mem_iuid, String param) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        MemberDTO memberDTO = dao.getUserInfo(mem_iuid);
+        if(param.equals("profile")){ return aes256Cipher.AES_Decode(memberDTO.getMem_profile()); }
+        if(param.equals("nick")){ return aes256Cipher.AES_Decode(memberDTO.getMem_nick()); }
+        return aes256Cipher.AES_Decode(memberDTO.getMem_introduce());
     }
 
 
@@ -281,8 +296,8 @@ public class MemberServiceImpl implements MemberService {
     private void sendTempKey(String emailId, String key) throws MessagingException, UnsupportedEncodingException {
         MailHandler sendMail = new MailHandler(mailSender);
         sendMail.setSubject("Jenga 인증 번호 입니다.");
-        sendMail.setText(new StringBuffer().append("<h1>이메일 인증</h1><br><br>").append("키는 ").append("<h2><b>"+key+"</b></h2>").append(" 입니다").toString());
-        sendMail.setFrom("jengamaster@gmail.com","젠가관리자");
+        sendMail.setText(new StringBuffer().append("<h1>이메일 인증</h1><br><br>").append("키는 ").append("<h2><b>" + key + "</b></h2>").append(" 입니다").toString());
+        sendMail.setFrom("jengamaster@gmail.com", "젠가관리자");
         sendMail.setTo(emailId);      // 암호화 안한 이메일
         sendMail.send();
     }

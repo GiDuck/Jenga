@@ -99,7 +99,7 @@ public class BoardController {
      * map.get("bookmarks");
      * */
     @GetMapping(value="/boardView")
-    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model,  MongoDTO mongoDTO) throws Exception {
 
         Map<String, Object> map = boardService.getView(bl_uid);
         logger.info((String)map.get("bookmarks"));
@@ -289,11 +289,10 @@ public class BoardController {
 //    삭제페이지 POST
     @RequestMapping(value = "/delBlock", method=RequestMethod.GET)
     public ResponseEntity deleteBlock(@RequestParam String bl_uid){
-        logger.info("delBlock쪽인데 어디서 문제????");
+
         int result = boardService.deleteBlock(bl_uid);
 
         if(result == 0){
-            logger.info("삭제실패");
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity(HttpStatus.OK);

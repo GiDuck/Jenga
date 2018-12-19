@@ -191,6 +191,9 @@
     //Email Join Modal
     function makeJoinEmailModal(){
 
+		let reqTime;
+		let reqSemaphore = false;
+
         let header = $("<h3>").addClass("modal-title text-center")
             .append($("<label>").addClass("form-group").html("이메일로 회원가입"));
 
@@ -199,35 +202,38 @@
             return false;
         })
             .append($("<label>").html("Email"))
-            .append($("<input>").attr("type", "email").attr("placeholder", "Email").attr("name","em_id").attr("id", "em_id").addClass("form-control"))
+            .append($("<input>").attr("type", "email").attr("placeholder", "Email").attr("name","em_id").attr("id", "em_id").addClass("form-control").on('keyup', function(e){
+
+            	e.stopPropagation();
+            	let $email = $(e.target).closest("form").find("#em_id");
+            	setTimeout(function(){
+
+					if(REGEX_EMAIL.test($email.val())){
+						$email.css("background-color", "#BEEFFF");
+					}else{
+						$email.css("background-color", "#FFE6E6");
+					}
+
+
+				}, 100);
+
+			}))
             .append($("<br>"))
             .append($("<label>").html("PW"))
-            .append($("<input>").attr("id", "em_pwd").attr("type", "password").attr("name","em_pwd").attr("placeholder", "영문자와 특수문자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keydown focus', function(e){
-
-
-                let pwd = undefined;
+            .append($("<input>").attr("id", "em_pwd").attr("type", "password").attr("name","em_pwd").attr("placeholder", "영문자와 특수문자가 1개 이상 포함된 8~16자리").addClass("form-control").on('keyup', function(e){
 
                 setTimeout(function(){
-                    console.log($('#em_id').val());
-                    $pwdCheck = $(e.target).parent().find("#pwdCheck");
-                    $pwd = $(e.target);
+                    $pwdCheck = $(e.target).closest("form").find("#em_pwdCheck");
+                    $pwd = $(e.target).closest("form").find("#em_pwd");
 
 
-                    pwd = $(e.target).val();
-
-                    if(REGEX_PASSWORD.test(pwd)){
+                    if(REGEX_PASSWORD.test($pwd.val())){
                         $pwd.css("background-color", "#BEEFFF");
-
-
-
                     }else{
-
                         $pwd.css("background-color", "#FFE6E6");
-
-
                     }
 
-                    if($pwdCheck.val() === pwd && (pwd && $(e.target).val())){
+                    if($pwdCheck.val() == $pwd.val()){
 
                         $pwdCheck.css("background-color", "#BEEFFF");
                     }else{
@@ -237,72 +243,118 @@
                     }
 
 
-                }, 500);
+                }, 100);
 
             }))
             .append($("<br>"))
             .append($("<label>").html("PW CHECK"))
-            .append($("<input>").attr("id", "pwdCheck").attr("type", "password").attr("placeholder", "Password Check").addClass("form-control").on('keydown focus', function(e){
-                let pwd = undefined;
+            .append($("<input>").attr("id", "em_pwdCheck").attr("type", "password").attr("placeholder", "Password Check").addClass("form-control").on('keyup', function(e){
 
                 setTimeout(function(){
 
-                    $pwd = $(e.target).parent().find("#pwd");
+                    $pwd = $(e.target).closest("form").find("#em_pwd");
+					$pwdCheck = $(e.target).closest("form").find("#em_pwdCheck");
 
-                    if($pwd.val() === $(e.target).val() && ($pwd.val() && $(e.target).val())){
 
-                        $(e.target).css("background-color", "#BEEFFF");
+					if($pwd.val() == $pwdCheck.val()){
+
+						$pwdCheck.css("background-color", "#BEEFFF");
                     }else{
 
-                        $(e.target).css("background-color", "#FFE6E6");
+						$pwdCheck.css("background-color", "#FFE6E6");
 
                     }
 
 
-                }, 500);
+                }, 100);
 
 
             }))
             .append($("<br>"))
             .append($("<button>").attr("id", "joinEmailBtn").addClass("btn btn-block btn-round").html("Join").on('click', function(e){
 
+				if(!reqTime){
 
-                setTimeout(function(){
+					reqTime = new Date();
+					reqTime = reqTime.getTime();
 
-                },2000);
+				}
+
+            	let nowTime = new Date();
+            	nowTime = nowTime.getTime();
+
+            	let timeInterval = nowTime - reqTime;
+
+            	console.log(timeInterval);
+
+				if(timeInterval < 5000 || reqSemaphore){
+
+					swal({
+
+						text : "요청이 진행중입니다!",
+						type : "warning"
+
+					});
+
+					return;
+
+				}
 
 
-                let id = $(this).parent().find("input[type=email]").val();
-                console.log(id);
-                let pwd = $(this).parent().find("#em_pwd").val();
-                let checkPwd = $(this).parent().find("#pwdCheck").val();
+                let email = $(this).closest("form").find("#em_id").val();
+                let pwd = $(this).closest("form").find("#em_pwd").val();
+                let checkPwd = $(this).closest("form").find("#em_pwdCheck").val();
 
+                console.log(email + " " + pwd + " " + checkPwd);
 
-                if(!validCheckAuth(id, pwd)){
+                if(!validCheckAuth(email, pwd)){
 
                     return;
 
                 }
 
-                if(pwd !== checkPwd){
+                if(pwd != checkPwd){
 
-                    makeSimpleNotifyModal('이메일로 회원가입', '비밀번호가 동일하지 않습니다. 다시 확인해 주십시오.',  function(){});
-                    return;
+					swal({
+
+						title : "인증실패",
+						text : "비밀번호가 동일하지 않습니다.",
+						type : "warning"
+
+					});
+					return;
 
                 }
 
+				reqSemaphore = true;
 
 
-
-                //Please request on here by AJAX to Server.
+				//Please request on here by AJAX to Server.
                 //.. You can receive token that procedure was fine or bad.
                 $.ajax({
                     url: "/authCheck",
                     type: "post",
                     data: {
-                        "em_id": id,
+                        "em_id": email,
                         "em_pwd": pwd
                     },
+					error : function(xhs, status, error){
+
+                    	swal({
+
+							title : "에러",
+							text : "에러가 발생하였습니다. 잠시후 다시 시도해 주십시오.",
+							type : "error"
+
+						});
+
+                    	$(document).find(".modal").modal("hide");
+
+                    	return;
+
+
+
+					}
 
                 }).done(function (responseData) {
                     console.log(responseData);
@@ -310,20 +362,29 @@
 
                     // 이메일이 존재하지 않을때 / 이메일 O, 인증여부 Y
                     if (responseData.indexOf('sendAuthKey') != -1) {
-                        makeAuthModal(id);
+                        makeAuthModal(email);
                         $("#em_id").prop('readonly', true);
                         $("#em_pwd").prop('readonly', true);
                         $("#em_pwd2").prop('readonly', true);
 
                         // 이미 가입한 이메일 일 때
                     } else if (responseData.indexOf('isExist') != -1) {
-                        makeSimpleNotifyModal('이메일로 회원가입', '이메일 형식이 잘못되었거나 존재하는 이메일입니다. 다시 확인해 주세요.', function () { //수정함
-                        });
-                        $("#em_id").val("");
+
+						swal({
+
+							title : "인증 실패",
+							text : "비밀번호를 다시 확인 해 주세요.",
+							type : "error"
+
+						});
+
+                    	$("#em_id").val("");
                         $("#em_pwd").val("");
                         $("#em_pwd2").val("");
                     }
                     e.preventDefault();
+
+					reqSemaphore = false;
                 })
             }))
             .append($("<br>"));
@@ -350,45 +411,47 @@
  			.append($("<br>"))
  			.append($("<input>").attr("type", "button").addClass("btn btn-info w-100 text-center").val("인증하기").on('click', function(e){
 
- 				
  				e.preventDefault();
-                alert("클릭됐다");
                 $.ajax({
                     url: "/join",
                     type: "post",
                     data: {
                         "em_id" : id,
-                        "em_akey": $(this).parent().find("input[type=text]").val()
+                        "em_akey": $(this).closest("form").find("#em_akey").val()
                     },
                     success : function(responseData){
-                        alert("펑션실행");
-                        alert(responseData);
+
                         if (responseData.indexOf('success') != -1) {
-                            let simpleModal = makeSimpleNotifyModal('', '인증에 성공하였습니다.', '');
 
-                            simpleModal.unbind('hide.bs.modal');
-                            let ad = document.form_setMemInfo;
-                            console.log(ad);
-                            console.log(simpleModal.find("input[type=email]").val());
-                            console.log(simpleModal.find("input[type=password]").val());
+                        	swal({
 
+								title : "인증 성공",
+								text : "인증이 성공적으로 끝났습니다.",
+								showConfirmButton: false,
+								timer : 2000
 
-                            console.log($('#em_id').val());
-                            console.log($('#em_pwd').val());
+							}).then(function(){
 
-                            simpleModal.on('hide.bs.modal',function (e) {
-							console.log("이메일머임?");
-							ad.action = "/setMemInfo";
+								let memberForm = $(document).find("#form_setMemInfo");
+								memberForm.action = "/setMemInfo";
+								memberForm.submit();
+								e.stopImmediatePropagation();
 
-							ad.submit();
-							e.stopImmediatePropagation();
-
-                            });
+							});
 
 
 
                         } else if (responseData.indexOf('error') != -1) {
-                            makeSimpleNotifyModal('', '인증 실패하였습니다.', function(){});
+                            swal({
+
+								title : "인증실패",
+								text : "인증에 실패하였습니다.",
+								type : "error"
+
+							});
+
+                            $(document).find(".modal").modal("hide");
+                            return;
                         }
                     }
                 })
