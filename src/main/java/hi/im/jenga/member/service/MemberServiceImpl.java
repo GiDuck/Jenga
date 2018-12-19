@@ -208,17 +208,14 @@ public class MemberServiceImpl implements MemberService {
 
         memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
         logger.info("DAO에서 받은 member dto.. " + memberDTO.toString());
-        logger.info("memberdto 뽑기"+ memberDTO.getMem_introduce());
-
-
-        logger.info("암호화 결과... 닉네임 " + aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
-        logger.info("암호화 결과... 경로 " + aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
-        logger.info("암호화 결과... 소개 " + aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
 
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
         memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
+        logger.info("아시발");
         memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        logger.info("아시발2");
         memberDTO.setMem_introduce(aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
+        logger.info("아시발3");
 
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_nick());
         logger.info("ServiceImpl에 modMemberInfo    복호화 한 "+memberDTO.getMem_profile());
@@ -229,20 +226,20 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception {
+    public MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String mem_introduce, String uploadName, String[] favor) throws Exception {
         logger.info("MemberServiceImpl 1 "+s_iuid);
         logger.info("MemberServiceImpl 2 "+mem_nick);
         logger.info("MemberServiceImpl 3 "+uploadName);
-        logger.info("MemberServiceImpl 4 "+em_pwd);
+        logger.info("MemberServiceImpl 4 "+mem_introduce);
         for(String s:favor){
             logger.info("MemberServiceImpl 5 "+s);
         }
         // 공백으로 넘어오면 암호화안하고 daoImpl로 ""로 넘어감
-        String aes_em_pwd = "";
 
         MemberDTO memberDTO = new MemberDTO();
 
         memberDTO.setMem_nick(aes256Cipher.AES_Encode(mem_nick));       // 닉네임 암호화 후 DTO에 넣음
+        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(mem_introduce));       // 닉네임 암호화 후 DTO에 넣음
 
 
         if(uploadName.equals("")){
@@ -253,12 +250,12 @@ public class MemberServiceImpl implements MemberService {
         memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadName));  // 파일이름 암호화 후 DTO에 넣음
 
 
-        if(!em_pwd.equals("")) {
+        /*if(!em_pwd.equals("")) {
             logger.info("MemberServiceImpl 비밀번호 공백아니고 "+ em_pwd);
             aes_em_pwd = sha256Cipher.getEncSHA256(em_pwd);
-        }
+        }*/
 
-        return dao.modMemberInfoPOST(s_iuid, memberDTO, aes_em_pwd, favor);
+        return dao.modMemberInfoPOST(s_iuid, memberDTO, favor);
 
     }
 

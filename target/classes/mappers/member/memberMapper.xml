@@ -86,8 +86,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="tempIns">
 	INSERT INTO
 		tbl_MemInfo
-	(mem_iuid, mem_nick, mem_profile,  mem_joindate)
-	VALUES (#{iuid},'temp', 'temp', sysdate)
+	(mem_iuid, mem_nick, mem_profile,  mem_joindate, mem_introduce)
+	VALUES (#{iuid},'temp', 'temp', sysdate, introduce)
 	</insert>
 
 	<!-- 처음 정보들을 INSERT했지만 끄고 다시 들어올때 UPDATE로 -->
@@ -127,7 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE
 		tbl_MemInfo
 	SET
-		mem_nick = ${mem_nick}, mem_profile = #{mem_profile}
+		mem_nick = ${mem_nick}, mem_profile = #{mem_profile}, mem_introduce = #{mem_introduce}
 	WHERE
 		mem_iuid = #{mem_iuid};
 	</update>
@@ -198,7 +198,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	INSERT INTO
 		tbl_mFavor
 	VALUES
-		(#{aes_iuid}, (SELECT
+		(#{s_iuid}, (SELECT
 		               		mctg_uid
 		          	 	FROM
                     		tbl_mCategory

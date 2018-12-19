@@ -3,12 +3,20 @@ package hi.im.jenga.board.service;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.board.dao.BoardDAO;
+import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +28,13 @@ public class BoardServiceImpl implements BoardService {
 
 	private final BoardDAO dao;
 	private final MongoService mongoService;
+	private final AES256Cipher aes256Cipher;
 
 	@Autowired
-	public BoardServiceImpl(BoardDAO dao, MongoService mongoService) {
+	public BoardServiceImpl(BoardDAO dao, MongoService mongoService, AES256Cipher aes256Cipher) {
 		this.dao = dao;
 		this.mongoService = mongoService;
+		this.aes256Cipher = aes256Cipher;
 	}
 
 
@@ -111,11 +121,14 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Transactional
-	public Map<String, Object> getView(String bl_uid) {
+	public Map<String, Object> getView(String bl_uid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
 		dao.getAddReadCount(bl_uid);	// 조회수 + 1
 		Map<String, Object> map = dao.getBoardDetailBlock(bl_uid);
 
-		System.out.println(map.get("bl_description"));
+		map.put("mem_nick", aes256Cipher.AES_Decode(String.valueOf(map.get("mem_nick"))));
+		map.put("mem_introduce", aes256Cipher.AES_Decode(String.valueOf(map.get("mem_introduce"))));
+		map.put("mem_profile", aes256Cipher.AES_Decode(String.valueOf(map.get("mem_profile"))));
+
 		System.out.println(map.get("bl_date"));
 		System.out.println(map.get("blrc_count"));
 
@@ -140,6 +153,7 @@ public class BoardServiceImpl implements BoardService {
 
 	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
+//	요거 빼야할듯 필요없네
 	public String getBookMarkFromHTML(String session_iuid) {
 
 		//String fileFullName = dao.getBookMarkFromHTML(session_iuid);

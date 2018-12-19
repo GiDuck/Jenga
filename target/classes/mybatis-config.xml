@@ -18,6 +18,10 @@
     <package name="main"/>
   </typeAliases>
 
+	<typeHandlers>
+		<typeHandler handler="hi.im.jenga.board.util.CustomDateHandler" javaType="java.util.Date" jdbcType="DATE"/>
+	</typeHandlers>
+
 
 </configuration>
 
