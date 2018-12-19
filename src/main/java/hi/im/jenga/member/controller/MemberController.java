@@ -650,7 +650,7 @@ public class MemberController {
     public ResponseEntity<String> getCategory() throws Exception {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        List<Map<String, String>> params = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> params;
 
         params = memberService.getCategory();
 
