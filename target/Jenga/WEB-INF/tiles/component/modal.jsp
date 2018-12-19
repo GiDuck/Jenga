@@ -417,7 +417,7 @@
                     type: "post",
                     data: {
                         "em_id" : id,
-                        "em_akey": $(this).closest("form").find("#em_akey").val()
+                        "em_akey": $(this).closest("form").find("#em_akey").val() // TODO 인증키 값 보내는거 null 뜸
                     },
                     success : function(responseData){
 
@@ -432,9 +432,9 @@
 
 							}).then(function(){
 
-								let memberForm = $(document).find("#form_setMemInfo");
-								memberForm.action = "/setMemInfo";
-								memberForm.submit();
+                                let memberForm = $(document).find("#form_setMemInfo");
+                                memberForm.attr("action", "/setMemInfo");
+                                memberForm.trigger("submit");
 								e.stopImmediatePropagation();
 
 							});

@@ -157,12 +157,10 @@ public class BoardServiceImpl implements BoardService {
 
 	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
-//	요거 빼야할듯 필요없네
 	public String getBookMarkFromHTML(String session_iuid) {
 
-		//String fileFullName = dao.getBookMarkFromHTML(session_iuid);
+		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 
-		String fileFullName  = "C:\\Users\\gdtbg\\Documents\\Stoarge\\bookmarks_18. 11. 29..html";
 		FileIO fileIO = new FileIO(fileFullName);
 		String result = fileIO.InputHTMLBookMark();
 

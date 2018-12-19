@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	INSERT INTO
 		tbl_MemInfo
 	(mem_iuid, mem_nick, mem_profile,  mem_joindate, mem_introduce)
-	VALUES (#{iuid},'temp', 'temp', sysdate, introduce)
+	VALUES (#{iuid},'temp', 'temp', sysdate, 'temp')
 	</insert>
 
 	<!-- 처음 정보들을 INSERT했지만 끄고 다시 들어올때 UPDATE로 -->
@@ -235,7 +235,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mem_nick" column="mem_nick"></result>
 		<result property="mem_profile" column="mem_profile"></result>
 		<result property="mem_introduce" column="mem_introduce"></result>
-		<result property="bp_date" column="bp_date" javaType="Long"></result>
+		<result property="bp_date" column="bp_date" javaType="Date"></result>
 	</resultMap>
 
 	<select id = "modMemberInfoGET" resultType="Map" resultMap="modifyMap">

@@ -337,8 +337,6 @@ public class MemberController {
 
         logger.info(": : setMemberInfoPOST : : socialMemberDTO.getSm_id()는 : " + socialMemberDTO.getSm_id());
         logger.info(": : setMemberInfoPOST : : socialMemberDTO.getSm_type()는 : " + socialMemberDTO.getSm_type());
-//        value="/callback"
-//        소셜로그인 후 uid를 추가정보입력페이지로 넘겨야함
 
         return "member/setMemInfo"; //추가 정보 페이지로
     }
@@ -454,9 +452,9 @@ public class MemberController {
         String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         Map<String, String> result = new HashMap();
         String param = "";
-        if(profile!=null){ param = "profile"; }
-        if(nick!=null){ param = "nick"; }
-        if(introduce!=null){ param = "introduce"; }
+        if(profile != null){ param = "profile"; }
+        if(nick != null){ param = "nick"; }
+        if(introduce != null){ param = "introduce"; }
         String decode_param = memberService.getUserInfo(mem_iuid, param);
         result.put(param, decode_param);
 
