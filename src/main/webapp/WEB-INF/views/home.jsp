@@ -25,7 +25,6 @@
 <div class="container">
 
 	<div class="row">
-	
 		<div class="col-sm-12 col-md-6" style="background-color : #00FF40">
 		<div class="h4">Hello World!</div>
 		</div>

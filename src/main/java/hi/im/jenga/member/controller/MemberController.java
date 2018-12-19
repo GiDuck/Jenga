@@ -448,12 +448,19 @@ public class MemberController {
                                                          @RequestParam(value = "introduce", required = false) String introduce) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         Map<String, String> result = new HashMap();
-        String param = "";
-        if(profile != null){ param = "profile"; }
-        if(nick != null){ param = "nick"; }
-        if(introduce != null){ param = "introduce"; }
-        String decode_param = memberService.getUserInfo(mem_iuid, param);
-        result.put(param, decode_param);
+        String check_profile = "";
+        String check_nick = "";
+        String check_introduce = "";
+        if(profile != null){
+            check_profile = "profile";
+        }
+        if(nick != null){
+            check_nick = "nick";
+        }
+        if(introduce != null){
+            check_introduce  = "introduce";
+        }
+        result = memberService.getUserInfo(mem_iuid, check_profile, check_nick, check_introduce);
 
         return result;
 
@@ -504,8 +511,6 @@ public class MemberController {
 
 
 
-
-//까미바보 쫄보
 
     /******************************** 소셜별 콜백 매핑 *********************************/
 
@@ -649,7 +654,7 @@ public class MemberController {
     public ResponseEntity<String> getCategory() throws Exception {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        List<Map<String, String>> params = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> params;
 
         params = memberService.getCategory();
 

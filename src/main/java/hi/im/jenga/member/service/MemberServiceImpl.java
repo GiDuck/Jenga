@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -269,11 +270,13 @@ public class MemberServiceImpl implements MemberService {
         return dao.getCategory();
     }
 
-    public String getUserInfo(String mem_iuid, String param) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+    public Map<String, String> getUserInfo(String mem_iuid, String check_profile, String check_nick, String check_introduce) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        Map<String, String> map = new HashMap();
         MemberDTO memberDTO = dao.getUserInfo(mem_iuid);
-        if(param.equals("profile")){ return aes256Cipher.AES_Decode(memberDTO.getMem_profile()); }
-        if(param.equals("nick")){ return aes256Cipher.AES_Decode(memberDTO.getMem_nick()); }
-        return aes256Cipher.AES_Decode(memberDTO.getMem_introduce());
+        if(check_profile.equals("profile")){  map.put("profile", aes256Cipher.AES_Decode(memberDTO.getMem_profile())); }
+        if(check_nick.equals("nick")){ map.put("nick", aes256Cipher.AES_Decode(memberDTO.getMem_nick())); }
+        if(check_introduce.equals("introduce")){ map.put("introduce", aes256Cipher.AES_Decode(memberDTO.getMem_introduce())); }
+        return map;
     }
 
     public String getBmksUploadDate(String session_iuid) { return dao.getBmksUploadDate(session_iuid); }

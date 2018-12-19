@@ -344,7 +344,7 @@ Form-data parameter
 
                     //display : none 처리 되어있는 카드를 show 해준다.
                     $cardItem.css('display', 'block');
-                    $cardItem.find(".card").css("background-image", "url('" + index.MCTG_IMG + "')");
+                    $cardItem.find(".card").css("background-image", "url('/categoryimg/" + index.MCTG_IMG + "')");
                     $cardItem.find("h3").html(index.MCTG_NAME);
 
                     if (userFavor.includes(index.MCTG_NAME)) {
