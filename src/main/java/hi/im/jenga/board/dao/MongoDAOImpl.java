@@ -42,6 +42,7 @@ public class MongoDAOImpl implements MongoDAO {
         Query query = new Query(criteria);
         query.fields().include("_value");
         query.fields().exclude("_id");
+//        TODO 이거 뭐임
         //query.fields().exclude("_refBoardId");
 
         return mongoTemplate.findOne(query, String.class, "c_block");

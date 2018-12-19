@@ -21,16 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -170,19 +163,6 @@ public class BoardController {
     }
 
     /*
-    * stackBlock에서 작성한 북마크, 글, 사진을 업로드하는 메서드(POST)
-    *
-    * session_iuid => sql의 조건   bl_writer -> mem_iuid
-    * objId 생성해서 MongoDB랑 연결해야함
-    *
-    * BoardDTO = bl_writer, bl_title, bl_description, bl_date
-    *
-    * Main Image 받아와야함
-    *
-    * tbl_block, tbl_blockTags, tbl_thumbImg
-    *
-    * Bookmarks 값 json으로 받아야함
-    *
     * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
     * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
     */
