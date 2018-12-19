@@ -24,7 +24,7 @@ Form-data parameter
                 <div class="profile-picture">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new img-no-padding">
-                            <img name="profile" id="profile" src="profiles/${map.mem_profile}" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
+                            <img name="profile" id="profile" src="profiles/${DTO.mem_profile}" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
                         </div>
                         <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                         <div>
@@ -49,7 +49,7 @@ Form-data parameter
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label>NickName</label>
-                                <input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${map.mem_nick}">
+                                <input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}">
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
@@ -62,7 +62,7 @@ Form-data parameter
                         <div class="col-12">
 
                             <label>Introduce</label>
-                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5">${map.mem_introduce}</textarea>
+                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5">${DTO.mem_introduce}</textarea>
 
                         </div>
 
@@ -100,7 +100,7 @@ Form-data parameter
                             </div>
                             <div class="col-12">
                                 <div class="btn btn-danger w-50 text-center" id="btnSyncWithGoogleBK"><i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크와 동기화</div>
-                                &nbsp&nbsp<span>최근 동기화 : <p name="chromeSyncDate">${map.bp_date}</p></span>
+                                &nbsp&nbsp<span>최근 동기화 : <p name="chromeSyncDate"></p></span>
                                 <%-- TODO  날짜 형식 변경하기  현재 출력 Wed Dec 19 00:00:00 KST 2018  --%>
                             </div>
                             <div class="col-12">

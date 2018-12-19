@@ -50,6 +50,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         Map<String, String> map = new HashMap();
 
         String dest = null;
+        String check = (String)request.getAttribute("check");
 
         if(session.getAttribute("dest") != null){               //modMemInfo로 들어오면
             dest = session.getAttribute("dest").toString();
@@ -58,7 +59,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         if(request.getAttribute("Member") != null){    // success, noauth 시에 member 넣음
             logger.info("@@ success니까 들어와서 세션에 request에 있는거를 넣음");
-            session.setAttribute("Member",request.getAttribute("Member"));
+            if(check.equals("success")) {   // TODO  테스트 하기 -> success일때만 세션에 넣고 noauth 시 세션에 안넣음
+                session.setAttribute("Member", request.getAttribute("Member"));
+            }
             logger.info("########## LoginInterceptor 로그인 완료 세션에 넣었습니다.");
         }
 
@@ -67,8 +70,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         map.put("dest", dest != null ? dest : "/");
 
-        String check = (String)request.getAttribute("check");
-        MemberDTO memberDTO = (MemberDTO)request.getAttribute("Member");
+
 
         logger.info("@@@@ check는 "+check);
 /*

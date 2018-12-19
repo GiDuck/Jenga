@@ -252,9 +252,6 @@ public class MemberController {
             return;
         }
         logger.info(check);
-        // 인증여부 Y로 바꿔야함, 테이블에 값 넣어야함
-
-        /*memberService.join(emailMemberDTO);*/
         response.getWriter().println(check);
 
     }
@@ -274,11 +271,11 @@ public class MemberController {
         logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
         logger.info("바뀌기 전 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
-        Map<String, String> map = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
+        MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
-        model.addAttribute("map", map);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+        model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
         model.addAttribute("favor", favor);      // 선택한 favor 가져옴
 
         return "member/modMemInfo";
@@ -384,14 +381,14 @@ public class MemberController {
 //        TODO 여기부터 다시
         if(!emailMemberDTO.getEm_id().equals("")) {
             logger.info("이메일은 여기서 다 처리");
-//            String em_ref = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
-
+            String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
+            logger.info("띠용 "+aes_iuid);
 
             memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName,  "email");
             logger.info("이메일1");
-            memberService.addMemberFavor(memberDTO.getMem_iuid(), favor);
+            memberService.addMemberFavor(aes_iuid, favor);
             logger.info("이메일2");
-            memberService.addEMember(memberDTO.getMem_iuid());
+            memberService.addEMember(aes_iuid);
             logger.info("이메일3");
             return "redirect:/";
 
@@ -663,5 +660,15 @@ public class MemberController {
         logger.info(json);
 
         return new ResponseEntity<String>(json,httpHeaders, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/getBmksUploadDate", method = RequestMethod.GET)
+    public @ResponseBody String getBmksUploadDate(HttpSession session) {
+        String session_iuid  = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+
+        String bmksUploadDate = memberService.getBmksUploadDate(session_iuid);
+
+        return bmksUploadDate;
     }
 }

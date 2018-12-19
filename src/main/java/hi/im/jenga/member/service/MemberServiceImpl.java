@@ -134,34 +134,18 @@ public class MemberServiceImpl implements MemberService {
     public String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception {
         emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
         emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));
-        System.out.println(emailMemberDTO.getEm_id());
-        System.out.println(emailMemberDTO.getEm_pwd());
         String idcheck = dao.checkEmail(emailMemberDTO);
-        if (idcheck == null) {
-            return "iderror";
-        }
+        if (idcheck == null) { return "iderror"; }
         String pwdcheck = dao.checkPwd(emailMemberDTO);
-        if (pwdcheck == null) {
-            return "pwderror";
-        }
+        if (pwdcheck == null) { return "pwderror"; }
         String Acheck = dao.checkAuth(emailMemberDTO);
         logger.info("||||||||||auth 체크" + Acheck);
-        if (Acheck.equals("N")) {
-            return "noauth";
-        }
+        if (Acheck.equals("N")) { return "noauth"; }
         return "success";
     }
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
         return dao.getMemInfo(emailMemberDTO);
-    }
-
-    public void join(EmailMemberDTO emailMemberDTO) {
-
-   /*     aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
-        aes256Cipher.AES_Encode(emailMemberDTO.getEm_pwd());
-
-        dao.join(emailMemberDTO);*/
     }
 
     // iuid는 DAOImpl에서 넣음
@@ -206,29 +190,29 @@ public class MemberServiceImpl implements MemberService {
 
     // 회원정보 수정
     // 세션에 있는 회원정보를 조건으로 출력  session memberDTO
-    public Map<String, String> modMemberInfoGET(MemberDTO memberDTO) throws Exception {
+    public MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception {
         // 복호화 한 후 비교 후 현재 세션에 있는 사용자의 정보를 받아옴
         logger.info(": : : ServiceImpl에 modMemberInfo 들어옴");
         logger.info("세션에 있는 iuid는 " + memberDTO.getMem_iuid());
         /*String  notAes_iuid = aes256Cipher.AES_Decode(memberDTO.getMem_iuid());
         logger.info("복호화한 있는 iuid는 "+notAes_iuid);*/
 
-        Map<String, String> map = dao.modMemberInfoGET(memberDTO.getMem_iuid());
+        memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
         logger.info("시발개시발");
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
-        map.put("mem_nick",aes256Cipher.AES_Decode(map.get("mem_nick")));
+        memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
         logger.info("아시발");
-        map.put("mem_profile",aes256Cipher.AES_Decode(map.get("mem_profile")));
+        memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
         logger.info("아시발2");
-        map.put("mem_introduce",aes256Cipher.AES_Decode(map.get("mem_introduce")));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
         logger.info("아시발3");
 
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_nick"));
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_profile"));
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + map.get("mem_introduce"));
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_nick());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_profile());
+        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_introduce());
         logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
 
-        return map;
+        return memberDTO;
 
     }
 
@@ -267,6 +251,7 @@ public class MemberServiceImpl implements MemberService {
 
 
     public void addMemberFavor(String aes_iuid, String[] favor) {
+        logger.info("addMemberFavor iuid는 "+aes_iuid);
         for (String fav : favor) {
             dao.addMemberFavor(aes_iuid, fav);
         }
@@ -290,6 +275,8 @@ public class MemberServiceImpl implements MemberService {
         if(param.equals("nick")){ return aes256Cipher.AES_Decode(memberDTO.getMem_nick()); }
         return aes256Cipher.AES_Decode(memberDTO.getMem_introduce());
     }
+
+    public String getBmksUploadDate(String session_iuid) { return dao.getBmksUploadDate(session_iuid); }
 
 
     //     이메일 인증번호 보내는 메소드

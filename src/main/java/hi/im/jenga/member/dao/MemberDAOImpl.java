@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Member;
 import java.util.*;
 
 @Repository
@@ -37,6 +38,10 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     public MemberDTO getUserInfo(String mem_iuid) { return sqlSession.selectOne("member.getUserInfo", mem_iuid); }
+
+    public String getBmksUploadDate(String session_iuid) {
+        return sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
+    }
 
     public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }
 
@@ -145,7 +150,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public List<String> getMemFavor(String member) { return sqlSession.selectList("member.getMemFavor",member); }
 
-    public Map<String, String> modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
+    public MemberDTO modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
 
     public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor){
         Map<String, Object> map = new HashMap();

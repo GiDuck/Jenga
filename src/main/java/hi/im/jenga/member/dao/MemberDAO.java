@@ -48,7 +48,7 @@ public interface MemberDAO {
 
     List<String> getMemFavor(String member);
 
-    Map<String, String> modMemberInfoGET(String aes_iuid);
+    MemberDTO modMemberInfoGET(String aes_iuid);
 
     MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor) throws Exception;
 
@@ -61,4 +61,6 @@ public interface MemberDAO {
     void addSMemberInfo(MemberDTO memberDTO);
 
     MemberDTO getUserInfo(String mem_iuid);
+
+    String getBmksUploadDate(String session_iuid);
 }

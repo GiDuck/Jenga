@@ -86,6 +86,7 @@
 			<mapping path="/board/delBlock"/>
 
 			<mapping path="/modMemInfo"/>
+			<mapping path="/logout"/>
 
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
