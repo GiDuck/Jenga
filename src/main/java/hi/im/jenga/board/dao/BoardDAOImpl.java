@@ -141,15 +141,18 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectOne("board.mctgUID", bl_smCtg);
     }
 
-    public List<BoardDTO> searchName(String search) {
-        return sqlSession.selectList("board.selectName",search);
+    public List<BoardDTO> search(String search, String search_check) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("search",search);
+        map.put("search_check",search_check);
+        return sqlSession.selectList("board.selectNameAndTag",map);
     }
 
-    public List<BoardDTO> searchTag(String search) {
+  /*  public List<BoardDTO> searchTag(String search) {
         return sqlSession.selectList("board.selectTag",search);
-    }
+    }*/
 
-    public List<BoardDTO> searchContents(String search) {
+    public List<BoardDTO> searchContents(List<String> search) {
         return sqlSession.selectList("board.selectTitle",search);
     }
 
@@ -184,6 +187,18 @@ public class BoardDAOImpl implements BoardDAO {
 
     public List<BoardDTO> getMyBlock(String my_iuid) {
         return sqlSession.selectList("board.getMyBlock",my_iuid);
+    }
+
+    public void searchImgName(String search) {
+        sqlSession.selectList("board.searchImgName",search);
+    }
+
+    public void searchImgTag(String search) {
+        sqlSession.selectList("board.searchImgTag",search);
+    }
+
+    public void searchImgContents(String search) {
+        sqlSession.selectList("board.searchImgContents",search);
     }
 
 

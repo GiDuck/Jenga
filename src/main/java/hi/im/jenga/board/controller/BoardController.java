@@ -18,19 +18,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -69,11 +68,21 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
-    public String SearchPOST(@RequestParam("search") String search, @RequestParam("search_check")String search_check, HttpSession session){
+    @ResponseBody
+    public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check")String search_check, HttpSession session){
             String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-            boardService.search(search,search_check, session_iuid);
+        List<BoardDTO> container = null;
+        try {
 
-        return "/search";   // 임시
+               container = boardService.search(search, search_check, session_iuid);
+               logger.info("검색시 받아온 data...");
+               System.out.println(container);
+            }catch(Exception e){
+
+                e.printStackTrace();
+            }
+
+        return container;
     }
 
 

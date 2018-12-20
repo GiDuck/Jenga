@@ -20,7 +20,7 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/categoryimg/**" location="/resources/categoryimg/" />
-	<resources mapping="/img/**" location="file:///D:/jengaResource/upload/" />
+	<resources mapping="/img/**" location="file:///D:/jengaResource/upload/img/" />
 
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />

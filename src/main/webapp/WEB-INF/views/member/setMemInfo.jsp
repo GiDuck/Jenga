@@ -210,10 +210,11 @@ Form-data parameter
                     console.log(index["MCTG_NAME"]);
                     console.log(index.MCTG_NAME);
                     let $cardItem = $("#cardItem").clone();
+                    let imgUrl = "/categoryimg/" + index.MCTG_IMG;
 
                     //display : none 처리 되어있는 카드를 show 해준다.
                     $cardItem.css('display', 'block');
-                    $cardItem.find(".card").css("background-image", "url('"+ index.image +"')" );
+                    $cardItem.find(".card").css("background-image", "url('"+ imgUrl + "')");
                     $cardItem.find("h3").html(index["MCTG_NAME"]);
 
                     $cardItem.on('click', (e) => {
