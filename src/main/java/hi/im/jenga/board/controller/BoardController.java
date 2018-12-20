@@ -18,7 +18,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,25 +61,28 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-   /* @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(){
 
         return "stackBoard/boardSearch";
-    }*/
+    }
 
-                @RequestMapping(value = "/search", method = RequestMethod.GET)
-                public String SearchPOST(String search, String search_check, HttpSession session){
+    @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check")String search_check, HttpSession session){
+            String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+        List<BoardDTO> container = null;
+        try {
 
-                    if(((MemberDTO)session.getAttribute("Member")).getMem_iuid() != null) {
-                        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-                        if (boardService.search(search, search_check, session_iuid) != null) {
-                            /*logger.info("테스트 뽑기" + boardService.search(search, search_check, session_iuid).get(0).getBl_title());*/
-                            logger.info("잘들어감");
-                        }
-            }else{
-                return "bad";
+               container = boardService.search(search, search_check, session_iuid);
+               logger.info("검색시 받아온 data...");
+               System.out.println(container);
+            }catch(Exception e){
+
+                e.printStackTrace();
             }
-        return "good";
+
+        return container;
     }
 
 
@@ -172,6 +181,19 @@ public class BoardController {
     }
 
     /*
+    * stackBlock에서 작성한 북마크, 글, 사진을 업로드하는 메서드(POST)
+    *
+    * session_iuid => sql의 조건   bl_writer -> mem_iuid
+    * objId 생성해서 MongoDB랑 연결해야함
+    *
+    * BoardDTO = bl_writer, bl_title, bl_description, bl_date
+    *
+    * Main Image 받아와야함
+    *
+    * tbl_block, tbl_blockTags, tbl_thumbImg
+    *
+    * Bookmarks 값 json으로 받아야함
+    *
     * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
     * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
     */

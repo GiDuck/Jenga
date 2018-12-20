@@ -113,11 +113,11 @@
         //작성자 소개
         $("#writer_description").html('${map.mem_introduce}');
         //작성자 이미지
-        $("#writer_image").attr("src", "${map.mem_profile}");
+        $("#writer_image").attr("src", "/profileimg/**${map.mem_profile}");
         //선택한 태그들
         $("#tags_inputField").val(${map.tag});
         //블록 썸네일 이미지
-        $("#thumbnail_image").attr("src", '${map.bti_url}');
+        $("#thumbnail_image").attr("src", '/blockimg/**${map.bti_url}');
         //블록 제목
         $("#bd_title").html('${map.bl_title}');
         //블록 소개

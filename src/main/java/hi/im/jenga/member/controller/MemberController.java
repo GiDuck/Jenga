@@ -521,6 +521,8 @@ public class MemberController {
 
 
 
+//까미바보 쫄보
+
     /******************************** 소셜별 콜백 매핑 *********************************/
 
     @RequestMapping(value = "/facebookcallback", method = RequestMethod.GET)
@@ -658,7 +660,7 @@ public class MemberController {
     public ResponseEntity<String> getCategory() throws Exception {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        List<Map<String, String>> params;
+        List<Map<String, String>> params = new ArrayList<Map<String, String>>();
 
         params = memberService.getCategory();
 

@@ -58,3 +58,5 @@ public class MemberDTO {
         this.mem_joinDate = mem_joinDate;
     }
 }
+
+

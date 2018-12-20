@@ -147,7 +147,7 @@
 
               });
 
-              window.location.href= "/";
+              window.location.href= dest;
               <%--window.location.href= "${map.dest}";--%>
 
           }

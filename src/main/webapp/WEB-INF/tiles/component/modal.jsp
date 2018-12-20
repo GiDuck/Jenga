@@ -432,7 +432,7 @@
 
 							}).then(function(){
 
-                                let memberForm = $(document).find("#form_setMemInfo");
+                                let memberForm = $("#form_setMemInfo");
                                 memberForm.attr("action", "/setMemInfo");
                                 memberForm.trigger("submit");
 								e.stopImmediatePropagation();
