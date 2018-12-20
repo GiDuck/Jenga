@@ -80,7 +80,7 @@ public class BoardController {
 
 
                     logger.info("뽑아옴?"+boardService.search(search, search_check, "").size());
-
+                    logger.info("이미지 뽑아옴?"+ boardService.searchImg(search,search_check));
                    /* if(((MemberDTO)session.getAttribute("Member")).getMem_iuid() != null) {
                         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
                         if (boardService.search(search, search_check, session_iuid) != null) {
