@@ -292,7 +292,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		tbl_mcategory
 	</select>
 
-	<select id="getBmksUploadDate" resultType="String">
+	<select id="getBmksUploadDate" resultType="Date">
 	SELECT
 		bp_date
 	FROM

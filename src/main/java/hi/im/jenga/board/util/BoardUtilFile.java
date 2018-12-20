@@ -89,7 +89,7 @@ public class BoardUtilFile {
 
                 String filePath = uploadPath.getPath()+"\\"+fileName;
                 logger.info(filePath);
-                IMAGE_BLOCK_PATH += filePath.replace("Y:\\go\\Jenga\\block\\img\\","");
+                IMAGE_BLOCK_PATH = filePath.replace("Y:\\go\\Jenga\\block\\img\\","");     // += / =
                 IMAGE_BLOCK_PATH = IMAGE_BLOCK_PATH.replace("\\","/");
                 logger.info(IMAGE_BLOCK_PATH);
             }
@@ -113,7 +113,7 @@ public class BoardUtilFile {
 
                 String filePath = uploadPath.getPath()+"\\"+fileName;
                 logger.info(filePath);
-                BOOKMARK_PATH += filePath.replace("Y:\\go\\Jenga\\bookmark\\path\\","");
+                BOOKMARK_PATH = filePath.replace("Y:\\go\\Jenga\\bookmark\\path\\","");    // += / =
                 logger.info(BOOKMARK_PATH);
 //                BOOKMARK_PATH = uploadPath.getPath()+"\\"+fileName;
 
