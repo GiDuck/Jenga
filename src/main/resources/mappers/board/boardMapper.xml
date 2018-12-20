@@ -35,6 +35,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </resultMap>
 
+	<resultMap id="infoMap" type="HashMap">
+		<result property="MEM_NICK" column="MEM_NICK"/>
+		<result property="MEM_LEVEL" column="MEM_LEVEL"/>
+		<result property="MEM_PROFILE" column="MEM_PROFILE"/>
+		<result property="BTI_URL" column="BTI_URL"/>
+		<result property="BL_LIKE" column="BL_LIKE"/>
+	</resultMap>
+
 	<select id="getBoardDetailBlock" resultType="Map" resultMap="boardMap">
 		SELECT
 			B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description", B.bl_introduce AS "bl_introduce", B.bl_mainCtg AS "bl_mainCtg", B.bl_smCtg AS "bl_smCtg", B.bl_date AS "bl_date", B.bl_objId AS "bl_objId",
@@ -254,9 +262,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    SCTG_NAME = #{bl_smCtg}
 	</select>
 
-	<select id="selectTitle" resultType="hi.im.jenga.board.dto.BoardDTO" parameterType="java.util.List">
+	<select id="searchTitle" resultType="hi.im.jenga.board.dto.BoardDTO" parameterType="java.util.List">
 
-		SELECT DISTINCT
+		SELECT
 		*
 		FROM
 		tbl_block
@@ -276,14 +284,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    MCTG_NAME = #{bl_smCtg}
 	</select>
 
-	<select id="selectNameAndTag" resultType="hi.im.jenga.board.dto.BoardDTO" parameterType="java.util.HashMap">
-		SELECT DISTINCT
+	<select id="searchName" resultType="hi.im.jenga.board.dto.BoardDTO" parameterType="java.util.HashMap">
+		SELECT
 			*
 		FROM
 			tbl_block
 		where
-		<choose>
-			<when test="search_check eq 'name'">
 				BL_WRITER = (SELECT
 				MEM_IUID
 				FROM
@@ -291,16 +297,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				WHERE
 				MEM_NICK LIKE '%'||#{search}||'%'
 				)
-			</when>
-			<otherwise>
-				BL_UID = (SELECT
-				BT_REF
-				FROM
-				TBL_BLOCKTAGS
-				WHERE
-				BT_NAME LIKE #{search})
-			</otherwise>
-		</choose>
+	</select>
+
+	<select id="searchTag" resultType="hi.im.jenga.board.dto.BoardDTO">
+		select distinct
+		 	*
+		from
+		 	tbl_block b
+		 	 	inner join
+		 	 	 	tbl_blocktags bt
+		 	 	on
+		 	 	 	b.bl_uid = bt.bt_ref
+        where
+         	bt.BT_NAME = #{search}
 
 	</select>
 
@@ -411,17 +420,79 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	<select id="searchImgName" resultType="String">
+	<select id="searchImgTitle" resultType="Map" resultMap="infoMap" parameterType="java.util.List">
+		SELECT
+		m.MEM_NICK,m.MEM_LEVEL,m.MEM_PROFILE, t.BTI_URL,NVL(bl.bl_like,0) as bl_like
+		FROM
+		tbl_block b
+		inner join
+		tbl_thumbimg t
+		on
+		b.bl_uid = t.bti_ref
+		inner join
+		TBL_MEMINFO m
+		on
+		b.BL_WRITER = m.MEM_IUID
+		left outer join
+		(select blk_ref, count(*) bl_like from
+		tbl_blockLikes group by blk_ref) bl
+		on b.bl_uid = bl.blk_ref
+		where
+		<foreach collection="list" item="search" separator="or">
+			bl_title Like '%'||#{search}||'%'
+		</foreach>
+	</select>
+
+	<select id="searchImgName" resultType="Map" resultMap="infoMap">
 		select
-			t.bti_url
+			m.MEM_NICK,m.MEM_LEVEL,m.MEM_PROFILE, t.BTI_URL,NVL(bl.bl_like,0) as bl_like
 		from
 			tbl_block b
 				inner join
 					tbl_thumbimg t
 				on
 					b.bl_uid = t.bti_ref
+                    inner join
+                    tbl_meminfo m
+                    on
+                    b.BL_WRITER = m.MEM_IUID
+                    left outer join
+                     (select blk_ref, count(*) bl_like from
+                     tbl_blockLikes group by blk_ref) bl
+                        on b.bl_uid = bl.blk_ref
 				where
-					b.writer = #{search}
+					b.bl_writer = (SELECT
+										mem_iuid
+								   FROM
+								   		tbl_meminfo
+								   where
+								   		mem_nick = #{search}
+								   )
+	</select>
+
+	<select id="searchImgTag" resultType="Map" resultMap="infoMap">
+		SELECT
+		m.MEM_NICK,m.MEM_LEVEL,m.MEM_PROFILE, t.BTI_URL,NVL(bl.bl_like,0) as bl_like
+		FROM
+		tbl_block b
+			inner join
+				tbl_thumbimg t
+			on
+			 	b.bl_uid = t.bti_ref
+                inner join
+                    TBL_BLOCKTAGS bt
+                    on
+                        b.bl_uid = bt.bt_ref
+                inner join
+                TBL_MEMINFO m
+                on
+                b.BL_WRITER = m.MEM_IUID
+                left outer join
+                     (select blk_ref, count(*) bl_like from
+                     tbl_blockLikes group by blk_ref) bl
+                        on b.bl_uid = bl.blk_ref
+		where
+            bt.BT_NAME = #{search}
 	</select>
 
 

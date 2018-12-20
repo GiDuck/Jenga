@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -176,12 +178,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	public List<BoardDTO> search(String search, String search_check, String session_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-		//dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
+		if(session_iuid != null){
+			dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
+		}
 		if(search_check.equals("name")){
 			search = aes256Cipher.AES_Encode(search);
-			return dao.search(search,search_check);
+			return dao.searchName(search);
 		}else if(search_check.equals("tag")){
-			return dao.search(search,search_check);
+			return dao.searchTag(search);
 		}else{
 			String[] splitsearch = search.split(" ");
 
@@ -213,16 +217,26 @@ public class BoardServiceImpl implements BoardService {
 		return dao.getMyBlock(my_iuid);
 	}
 
-	public void searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+	public List<String> searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
 		if(search_check.equals("name")){
+			logger.info("변경 전" + search);
 			search = aes256Cipher.AES_Encode(search);
-			dao.searchImgName(search);
+			logger.info("변경후 아이디"+search);
+			return dao.searchImgName(search);
 		}else if(search_check.equals("tag")){
 			dao.searchImgTag(search);
 		}else{
-
-			dao.searchImgContents(search);
+			String[] splitsearch = search.split(" ");
+			logger.info("서치 뽑는중"+splitsearch[0]);
+			logger.info("서치 뽑는중"+splitsearch[1]);
+			List<String> list = new ArrayList<String>();
+			for(int i = 0; i<splitsearch.length; i++){
+				list.add(splitsearch[i]);
+				logger.info("add 했음");
+			}
+			dao.searchImgContents(list);
 		}
+		return null;
 	}
 
 

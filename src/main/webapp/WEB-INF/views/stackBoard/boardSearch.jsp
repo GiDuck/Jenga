@@ -233,6 +233,7 @@
                 });
 
                 preLoader.hide();
+                return;
 
             }
 
