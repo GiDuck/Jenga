@@ -184,12 +184,10 @@ public class BoardServiceImpl implements BoardService {
 			return dao.search(search,search_check);
 		}else{
 			String[] splitsearch = search.split(" ");
-			logger.info("서치 뽑는중"+splitsearch[0]);
-			logger.info("서치 뽑는중"+splitsearch[1]);
+
 			List<String> list = new ArrayList<String>();
 			for(int i = 0; i<splitsearch.length; i++){
 				list.add(splitsearch[i]);
-				logger.info("add 했음");
 			}
 			return dao.searchContents(list);
 		}

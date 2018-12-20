@@ -9,6 +9,7 @@ import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
+import org.apache.ibatis.jdbc.Null;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -73,7 +74,6 @@ public class BoardController {
             String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
         List<BoardDTO> container = null;
         try {
-
                container = boardService.search(search, search_check, session_iuid);
                logger.info("검색시 받아온 data...");
                System.out.println(container);

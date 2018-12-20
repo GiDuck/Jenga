@@ -14,6 +14,10 @@ public class MemberUtilFile {
 
     @Value("#{data['image.profile_path']}")
     private String PROFILE_PATH;
+
+    @Value("#{data['image.profile_uploaded']}")
+    private String PROFILE_UPLOADED_PATH;
+
     private static final Logger logger = LoggerFactory.getLogger(MemberUtilFile.class);
     String fileName = "";
 
@@ -80,8 +84,8 @@ public class MemberUtilFile {
                 e.printStackTrace();
             }
         }
-        logger.info("파일 경로 + 이름은? "+PROFILE_PATH + fileName);
-        return PROFILE_PATH + fileName;
+        logger.info("파일 경로 + 이름은? "+PROFILE_UPLOADED_PATH + fileName);
+        return PROFILE_UPLOADED_PATH + fileName;
     }
 
 }

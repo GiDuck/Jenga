@@ -37,15 +37,14 @@
                         <br>
                     </div>
                 </div>
-                <div class="row items-row">
+                <div class="row items-row text-left" id="block_field">
 
-                    <div class="col-md-3 col-sm-4 ml-auto" id="bkCard" style="display : none">
+                    <div class="col-md-3 col-sm-4" id="bkCard" style="display : none">
                         <div class="card card-plain text-center">
                             <div class="card-image">
                                 <a>
-                                    <img name="bk_image"
-                                         onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/sections/pavel-kosov.jpg'"
-                                         alt="Rounded Image" class="img-rounded img-responsive">
+                                    <img name="bk_image" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg'"
+                                        src="" alt="Rounded Image" class="img-rounded img-responsive">
                                 </a>
                                 <br><br>
                                 <div class="text"><p name="bk_title" class="name"></p></div>
@@ -53,12 +52,11 @@
                                 <div class="card-body details-center">
                                     <a>
                                         <div class="author">
-                                            <img
-                                                 onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/faces/joe-gardner-2.jpg'"
+                                            <img src="" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/faces/joe-gardner-2.jpg'"
                                                  alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                             <div class="text">
                                                 <span class="name"></span>
-                                                <div class="meta"><i class="fas fa-heart" name="likeIcon">0</i></div>
+                                                <div class="meta"><i class="fas fa-heart" name="likeIcon"></i>0</div>
                                             </div>
                                         </div>
                                     </a>
@@ -123,6 +121,17 @@
 
         });
 
+        $(window).on('keyup', function(e){
+
+           if(e.keyCode == 13){
+
+               searchAction();
+
+           }
+
+        });
+
+
     });
 
 
@@ -133,7 +142,7 @@
             $(this).on("click", function(e){
                e.stopPropagation();
                let selected = $(this).html();
-               let selectedVal = $(this).val();
+               let selectedVal = $(this).attr("value");
                let $bs_dropdown = $("#bs_dropdown");
                 $bs_dropdown.html(selected);
                 $bs_dropdown.dropdown("toggle");
@@ -150,10 +159,9 @@
 
         preLoader.show();
 
-        let key = $("#bs_dropdown").find("input[name='bs_dropdownSelected']").val();
+        let key = $("input[name='bs_dropdownSelected']").attr("value");
         let keyword = $("input[name='bs_keyword']").val();
 
-        console.log($.trim(keyword));
 
         if($.trim(keyword).length < 2){
 
@@ -182,22 +190,37 @@
             },
             success: function (response) {
 
-                console.log("받아온거..");
-                console.log(response);
+                if(response.length == 0 || !response){
 
-                new Promise(function() {
+                    swal({
+
+                        text : "검색 결과가 존재하지 않습니다!",
+                        type : "warning"
+
+                    });
+
+                    preLoader.hide();
+                    return;
+
+                }
+
+                (function(){
 
                     renderItems(response);
 
-                }).then(function(){
+                    return (function(){
 
-                    setTimeout(function(){
+                        setTimeout(function(){
 
-                        preLoader.hide();
+                            preLoader.hide();
 
-                    }, 1000);
+                        }, 1000);
 
-                });
+                    })()
+
+                })();
+
+
 
             },
             error: function (xhs, status, error) {
@@ -210,7 +233,6 @@
                 });
 
                 preLoader.hide();
-                console.log(error + " " + status);
 
             }
 
@@ -223,27 +245,31 @@
     //ajax 호출을 통해 가져온 데이터를 화면에 전시함
     function renderItems(items) {
 
-        let $cardForm = $(document).find("#bkCard");
+        let $cardForm = $("#bkCard");
+        let $field = $("#block_field");
 
         for (let i = 0; i < items.length; ++i) {
 
-            let blockItem = items[i].block; //boardDTO
-            let blockImg = items[i].blockImg; //block image
-            let writerInfo = items[i].writer; //글쓴이 정보
+            let block = items[i]
+
+            console.log(block);
 
             let $dummy = $cardForm.clone();
             $dummy.attr("id", null);
-            $dummy.find("img[name='bk_image']").attr("src", blockImg);
-            $dummy.find("p[name='bk_title']").attr("src", blockItem.bl_title);
-            $dummy.find(".author > img").attr("src", writerInfo.writerProfile);
-            $dummy.find(".author > .name").attr("src", writerInfo.writerName);
+            $dummy.css("display", "block");
+            //$dummy.find("img[name='bk_image']").attr("src", block.blockImg);
+            $dummy.find("p[name='bk_title']").html(block.bl_title);
+         /*   $dummy.find(".author > img").attr("src", block.writerProfile); */
+            //$dummy.find(".author > .name").attr("src", block.bl_writer);
 
             //클릭시 Datail 보기로 이동
             $dummy.on("click", function (e) {
 
-                location.href="/board/boardView?bl_uid="+blockItem.bl_uid;
+                location.href="/board/boardView?bl_uid="+block.bl_uid;
 
             });
+
+            $field.append($dummy);
 
 
         }
