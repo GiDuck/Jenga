@@ -42,6 +42,13 @@ public class MemberDAOImpl implements MemberDAO{
         return sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
     }
 
+    public void changePwd(String mem_iuid, String aes_pwd) {
+        Map<String, String> map = new HashMap();
+        map.put("mem_iuid", mem_iuid);
+        map.put("aes_pwd", aes_pwd);
+        sqlSession.update("member.changePwd", map);
+    }
+
     public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }
 
     public void addSMember(SocialMemberDTO socialMemberDTO, String iuid) {

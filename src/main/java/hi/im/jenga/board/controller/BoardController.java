@@ -140,19 +140,28 @@ public class BoardController {
             logger.info(resultHTML);
 
             model.addAttribute("category", categoryJSON);
-            model.addAttribute("resultHTML", resultHTML);
+            if(!resultHTML.equals("notExist")) {
+                model.addAttribute("resultHTML", resultHTML);
+            }
 
             return "editor/stackBoard/stackBlock";
 
         }else if(status.equals("modify")) {         //  service 나누기
 
-
             Map<String, Object> map = boardService.getModifyBlock(bl_uid);
-
             logger.info("컨트롤러 맵은 " + map);
 
-            JSONObject jsonObject = new JSONObject(map);
-            model.addAttribute("map", jsonObject);
+            Map<String, List<String>> category = null;
+            try {
+                category = boardService.getCategoryName();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            String categoryJSON = mapper.writeValueAsString(category);
+
+            model.addAttribute("category", categoryJSON);
+            model.addAttribute("map", map);
 
             return "editor/stackBoard/stackBlock";
 

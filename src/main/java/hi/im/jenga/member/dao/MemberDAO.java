@@ -63,4 +63,6 @@ public interface MemberDAO {
     MemberDTO getUserInfo(String mem_iuid);
 
     String getBmksUploadDate(String session_iuid);
+
+    void changePwd(String mem_iuid, String aes_pwd);
 }

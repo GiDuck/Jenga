@@ -67,12 +67,15 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Transactional
-	public Map<String, Object> getModifyBlock(String bl_uid) {
+	public Map<String, Object> getModifyBlock(String bl_uid) throws JsonProcessingException {
 
 		Map<String, Object> map = dao.getModifyBlock(bl_uid);
 
 		List<String> list = dao.getBoardDetailTags(bl_uid);
-		map.put("tag", list);
+		ObjectMapper mapper = new ObjectMapper();
+		String tagJSON = mapper.writeValueAsString(list);
+
+		map.put("tag", tagJSON);
 
 		String bookmarks = mongoService.getView("_refBoardId", bl_uid);
 		map.put("bookmarks", bookmarks);
@@ -161,10 +164,12 @@ public class BoardServiceImpl implements BoardService {
 
 		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 
-		FileIO fileIO = new FileIO(fileFullName);
-		String result = fileIO.InputHTMLBookMark();
-
-		return result;
+		if(fileFullName != null) {
+			FileIO fileIO = new FileIO(fileFullName);
+			String result = fileIO.InputHTMLBookMark();
+			return result;
+		}
+		return "notExist";
 	}
 
 	public Map<String, List<String>> getCategoryName() {

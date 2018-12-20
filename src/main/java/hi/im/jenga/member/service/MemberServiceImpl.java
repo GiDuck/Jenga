@@ -281,6 +281,11 @@ public class MemberServiceImpl implements MemberService {
 
     public String getBmksUploadDate(String session_iuid) { return dao.getBmksUploadDate(session_iuid); }
 
+    public void changePwd(String mem_iuid, String pwd) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        dao.changePwd(mem_iuid, aes256Cipher.AES_Encode(pwd));
+
+    }
+
 
     //     이메일 인증번호 보내는 메소드
     private void sendTempKey(String emailId, String key) throws MessagingException, UnsupportedEncodingException {

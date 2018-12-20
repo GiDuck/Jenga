@@ -466,6 +466,15 @@ public class MemberController {
 
     }
 
+    @RequestMapping(value = "/changePwd", method = RequestMethod.POST)
+    public ResponseEntity<Void> changePwd(HttpSession session, @RequestParam("pwd") String pwd) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+
+        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        memberService.changePwd(mem_iuid, pwd);
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
 
 
 
@@ -531,11 +540,7 @@ public class MemberController {
 
         String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
-        if (memberDTO != null) {
-            logger.info("존재하는 소셜 ID 입니다");
-            session.setAttribute("Member",memberDTO);
-            return "redirect:/";
-        }
+        if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
         socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));
@@ -544,6 +549,8 @@ public class MemberController {
 
         return "member/setMemInfo";
     }
+
+
 
     @RequestMapping(value = "/kakaocallback", method = RequestMethod.GET)
     public String kakaocallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
@@ -565,11 +572,7 @@ public class MemberController {
 
         String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
-        if (memberDTO != null) {
-            logger.info("존재하는 소셜 ID 입니다");
-            session.setAttribute("Member",memberDTO);
-            return "redirect:/";
-        }
+        if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
         socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));
@@ -598,11 +601,7 @@ public class MemberController {
 
         String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
-        if (memberDTO != null) {
-            logger.info("존재하는 소셜 ID 입니다");
-            session.setAttribute("Member",memberDTO);
-            return "redirect:/";
-        }
+        if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
         socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));
@@ -627,11 +626,7 @@ public class MemberController {
 
         String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
-        if (memberDTO != null) {
-            logger.info("존재하는 소셜 ID 입니다");
-            session.setAttribute("Member",memberDTO);
-            return "redirect:/";
-        }
+        if (addSocialSession(model, session, memberDTO)) return "redirect:/";
         socialMemberDTO.setSm_id(aes_id);
         socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));
 
@@ -641,6 +636,15 @@ public class MemberController {
         return "member/setMemInfo";
     }
 
+    private boolean addSocialSession(Model model, HttpSession session, MemberDTO memberDTO) {
+        if (memberDTO != null) {
+            logger.info("존재하는 소셜 ID 입니다");
+            session.setAttribute("Member",memberDTO);
+            model.addAttribute("M_Type", "social");
+            return true;
+        }
+        return false;
+    }
 
     /*******************************************************************************/
 
