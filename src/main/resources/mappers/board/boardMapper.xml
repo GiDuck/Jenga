@@ -289,7 +289,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    		  FROM
 		    		        TBL_BLOCKTAGS
 		    		  WHERE
-		    		        BT_NAME LIKE '%'||#{search}||'%'
+		    		        BT_NAME LIKE #{search}
 		    )
 	</select>
 
@@ -306,7 +306,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO
 			 tbl_keyword
 		values
-		     (#{search},#{session_iuid},sysdate)
+		     (#{search},#{session_iuid},systimestamp)
 	</insert>
 
 	<insert id="follow">

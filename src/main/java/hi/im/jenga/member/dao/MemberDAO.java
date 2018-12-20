@@ -59,4 +59,8 @@ public interface MemberDAO {
     List<Map<String,String>> getCategory();
 
     void addSMemberInfo(MemberDTO memberDTO);
+
+    MemberDTO getUserInfo(String mem_iuid);
+
+    String getBmksUploadDate(String session_iuid);
 }

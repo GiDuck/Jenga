@@ -1,7 +1,6 @@
 package hi.im.jenga.member.dao;
 
 
-
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
@@ -11,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO{
@@ -33,6 +34,12 @@ public class MemberDAOImpl implements MemberDAO{
 
     public void addSMemberInfo(MemberDTO memberDTO) {
         sqlSession.insert("member.addSMemberInfo", memberDTO);
+    }
+
+    public MemberDTO getUserInfo(String mem_iuid) { return sqlSession.selectOne("member.getUserInfo", mem_iuid); }
+
+    public String getBmksUploadDate(String session_iuid) {
+        return sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
     }
 
     public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }

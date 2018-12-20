@@ -5,6 +5,13 @@ import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +31,6 @@ public interface MemberService {
     String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception; //이메일, 패스워드 체크
 
     MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
-
-    void join(EmailMemberDTO emailMemberDTO);
 
     String sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
 
@@ -48,5 +53,9 @@ public interface MemberService {
     MemberDTO testParam();
 
     List<Map<String,String>> getCategory();
+
+    Map<String, String> getUserInfo(String mem_iuid, String check_profile, String check_nick, String check_introduce) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+
+    String getBmksUploadDate(String session_iuid);
 }
 

@@ -31,7 +31,7 @@ Form-data parameter
                                 <span class="btn btn-outline-default btn-file btn-round">
                                   <span class="fileinput-new">Change Photo</span>
                                   <span class="fileinput-exists">Change</span>
-                                  <input type="file" id="mem_profile" name="mem_profile">
+                                  <input type="file" id="mem_profile">
                                 </span>
                             <br/>
                             <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
@@ -217,6 +217,23 @@ Form-data parameter
 
     });
 
+/*    console.log("input file 원래 사진 "+$("#mem_profile").value); //요거 인듯
+    $("#mem_profile").change(function () {
+        alert("사진이 바뀌었습니다.");
+        console.log("input file 원래 사진 "+ $("#mem_profile").value);
+
+    });
+
+
+    $("#mem_nick").change(function () {
+        alert("닉이 바뀌었습니다.");
+        console.log("input file 원래 사진 "+ $("#mem_nick").value);
+
+    });
+
+    function nickChange() {
+        alert("Asdfasdf");
+    }*/
 
     // ---------- Submit시에 Hidden 값을 넣어주는 함수 -----------
 
@@ -331,7 +348,7 @@ Form-data parameter
 
                     //display : none 처리 되어있는 카드를 show 해준다.
                     $cardItem.css('display', 'block');
-                    $cardItem.find(".card").css("background-image", "url('" + index.MCTG_IMG + "')");
+                    $cardItem.find(".card").css("background-image", "url('/categoryimg/" + index.MCTG_IMG + "')");
                     $cardItem.find("h3").html(index.MCTG_NAME);
 
                     if (userFavor.includes(index.MCTG_NAME)) {

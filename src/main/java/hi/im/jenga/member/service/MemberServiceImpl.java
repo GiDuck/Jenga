@@ -15,8 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -128,34 +135,18 @@ public class MemberServiceImpl implements MemberService {
     public String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception {
         emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
         emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));
-        System.out.println(emailMemberDTO.getEm_id());
-        System.out.println(emailMemberDTO.getEm_pwd());
         String idcheck = dao.checkEmail(emailMemberDTO);
-        if (idcheck == null) {
-            return "iderror";
-        }
+        if (idcheck == null) { return "iderror"; }
         String pwdcheck = dao.checkPwd(emailMemberDTO);
-        if (pwdcheck == null) {
-            return "pwderror";
-        }
+        if (pwdcheck == null) { return "pwderror"; }
         String Acheck = dao.checkAuth(emailMemberDTO);
         logger.info("||||||||||auth 체크" + Acheck);
-        if (Acheck.equals("N")) {
-            return "noauth";
-        }
+        if (Acheck.equals("N")) { return "noauth"; }
         return "success";
     }
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
         return dao.getMemInfo(emailMemberDTO);
-    }
-
-    public void join(EmailMemberDTO emailMemberDTO) {
-
-   /*     aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
-        aes256Cipher.AES_Encode(emailMemberDTO.getEm_pwd());
-
-        dao.join(emailMemberDTO);*/
     }
 
     // iuid는 DAOImpl에서 넣음
@@ -208,8 +199,7 @@ public class MemberServiceImpl implements MemberService {
         logger.info("복호화한 있는 iuid는 "+notAes_iuid);*/
 
         memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
-        logger.info("DAO에서 받은 member dto.. " + memberDTO.toString());
-
+        logger.info("시발개시발");
         // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
         memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
         logger.info("아시발");
@@ -262,6 +252,7 @@ public class MemberServiceImpl implements MemberService {
 
 
     public void addMemberFavor(String aes_iuid, String[] favor) {
+        logger.info("addMemberFavor iuid는 "+aes_iuid);
         for (String fav : favor) {
             dao.addMemberFavor(aes_iuid, fav);
         }
@@ -278,6 +269,17 @@ public class MemberServiceImpl implements MemberService {
     public List<Map<String, String>> getCategory() {
         return dao.getCategory();
     }
+
+    public Map<String, String> getUserInfo(String mem_iuid, String check_profile, String check_nick, String check_introduce) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        Map<String, String> map = new HashMap();
+        MemberDTO memberDTO = dao.getUserInfo(mem_iuid);
+        if(check_profile.equals("profile")){  map.put("profile", aes256Cipher.AES_Decode(memberDTO.getMem_profile())); }
+        if(check_nick.equals("nick")){ map.put("nick", aes256Cipher.AES_Decode(memberDTO.getMem_nick())); }
+        if(check_introduce.equals("introduce")){ map.put("introduce", aes256Cipher.AES_Decode(memberDTO.getMem_introduce())); }
+        return map;
+    }
+
+    public String getBmksUploadDate(String session_iuid) { return dao.getBmksUploadDate(session_iuid); }
 
 
     //     이메일 인증번호 보내는 메소드

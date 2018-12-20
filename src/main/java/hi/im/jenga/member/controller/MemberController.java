@@ -23,11 +23,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -244,9 +252,6 @@ public class MemberController {
             return;
         }
         logger.info(check);
-        // 인증여부 Y로 바꿔야함, 테이블에 값 넣어야함
-
-        /*memberService.join(emailMemberDTO);*/
         response.getWriter().println(check);
 
     }
@@ -267,10 +272,6 @@ public class MemberController {
         logger.info("바뀌기 전 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
         MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
-
-        logger.info("복호화 한 파일경로 "+((MemberDTO) session.getAttribute("Member")).getMem_profile());
-        logger.info("복호화 한 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
-        logger.info("복호화 한 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
@@ -326,18 +327,13 @@ public class MemberController {
     // 모달에서 이메일, 비밀번호 넘어옴 / 여기서 uuid 만들어야함
     // 임시 추가정보 페이지 (GET)
     @RequestMapping(value = "/setMemInfo", method = RequestMethod.POST)
-    public String setMemberInfoPOST(@ModelAttribute EmailMemberDTO emailMemberDTO, @ModelAttribute SocialMemberDTO socialMemberDTO, Model model, HttpServletResponse response) throws Exception {
+    public String setMemberInfoPOST(@ModelAttribute EmailMemberDTO emailMemberDTO, @ModelAttribute SocialMemberDTO socialMemberDTO, Model model, HttpServletResponse response) throws IOException {
         logger.info(": : setMemberInfoPOST : : emailMemberDTO.getEm_id()는 : " + emailMemberDTO.getEm_id());
         logger.info(": : setMemberInfoPOST : : emailMemberDTO.getEm_pwd()는 : " + emailMemberDTO.getEm_pwd());
 
 
         logger.info(": : setMemberInfoPOST : : socialMemberDTO.getSm_id()는 : " + socialMemberDTO.getSm_id());
         logger.info(": : setMemberInfoPOST : : socialMemberDTO.getSm_type()는 : " + socialMemberDTO.getSm_type());
-//        value="/callback"
-//        소셜로그인 후 uid를 추가정보입력페이지로 넘겨야함
-        model.addAttribute("emailMemberDTO", emailMemberDTO);
-        model.addAttribute("socialMemberDTO", socialMemberDTO);
-
 
         return "member/setMemInfo"; //추가 정보 페이지로
     }
@@ -349,7 +345,7 @@ public class MemberController {
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
-    public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, @ModelAttribute EmailMemberDTO emailMemberDTO, @RequestParam("favor") String[] favor, @ModelAttribute SocialMemberDTO socialMemberDTO,
+    public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO,
                                     @RequestParam("mem_profile") MultipartFile uploadFile, HttpSession session) throws Exception {
 
         MemberDTO memberDTO = new MemberDTO();
@@ -385,14 +381,14 @@ public class MemberController {
 //        TODO 여기부터 다시
         if(!emailMemberDTO.getEm_id().equals("")) {
             logger.info("이메일은 여기서 다 처리");
-//            String em_ref = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
-
+            String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
+            logger.info("띠용 "+aes_iuid);
 
             memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName,  "email");
             logger.info("이메일1");
-            memberService.addMemberFavor(memberDTO.getMem_iuid(), favor);
+            memberService.addMemberFavor(aes_iuid, favor);
             logger.info("이메일2");
-            memberService.addEMember(memberDTO.getMem_iuid());
+            memberService.addEMember(aes_iuid);
             logger.info("이메일3");
             return "redirect:/";
 
@@ -447,6 +443,28 @@ public class MemberController {
     }
 
 
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+    public @ResponseBody Map<String, String> getUserInfo(HttpSession session, @RequestParam(value = "profile", required = false) String profile, @RequestParam(value = "nick", required = false) String nick,
+                                                         @RequestParam(value = "introduce", required = false) String introduce) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        Map<String, String> result = new HashMap();
+        String check_profile = "";
+        String check_nick = "";
+        String check_introduce = "";
+        if(profile != null){
+            check_profile = "profile";
+        }
+        if(nick != null){
+            check_nick = "nick";
+        }
+        if(introduce != null){
+            check_introduce  = "introduce";
+        }
+        result = memberService.getUserInfo(mem_iuid, check_profile, check_nick, check_introduce);
+
+        return result;
+
+    }
 
 
 
@@ -649,5 +667,15 @@ public class MemberController {
         logger.info(json);
 
         return new ResponseEntity<String>(json,httpHeaders, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/getBmksUploadDate", method = RequestMethod.GET)
+    public @ResponseBody String getBmksUploadDate(HttpSession session) {
+        String session_iuid  = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+
+        String bmksUploadDate = memberService.getBmksUploadDate(session_iuid);
+
+        return bmksUploadDate;
     }
 }
