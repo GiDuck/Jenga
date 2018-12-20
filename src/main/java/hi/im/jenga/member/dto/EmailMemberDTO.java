@@ -1,5 +1,7 @@
 package hi.im.jenga.member.dto;
 
+import org.springframework.lang.Nullable;
+
 public class EmailMemberDTO {
     private String em_id;
     private String em_ref;  //FK -> mem_iuid

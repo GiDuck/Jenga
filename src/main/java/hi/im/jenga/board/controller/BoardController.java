@@ -68,8 +68,8 @@ public class BoardController {
         return "stackBoard/boardSearch";
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String SearchPOST(String search, String search_check, HttpSession session){
+    @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
+    public String SearchPOST(@RequestParam("search") String search, @RequestParam("search_check")String search_check, HttpSession session){
             String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
             boardService.search(search,search_check, session_iuid);
 

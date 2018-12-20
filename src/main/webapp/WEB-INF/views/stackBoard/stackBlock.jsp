@@ -931,15 +931,15 @@ Chrome, Firefox 사용 가능
         }else if(statusToken == "modify"){
 
             dest = "/board/modView";
-            token = "삭제";
+            token = "수정";
 
         }
 
         if(!valid) return;
 
         swal({
-            title: "블록 등록",
-            text: "블록을 등록하시겠습니까?",
+            title: "블록" + " " + token,
+            text: "블록을 " + token + "하시겠습니까?",
             type: "info",
             showCancelButton: true,
             confirmButtonText : "등록",
@@ -958,16 +958,7 @@ Chrome, Firefox 사용 가능
                         let tagsContainer = tags.split(",");
                         let time = new Date().getTime();
 
-                        console.log("작성한 글 내용");
-                        console.log(editedBKElements);
-                        console.log(image);
-                        console.log(title);
-                        console.log(introduce);
-                        console.log(mCategory);
-                        console.log(sCategory);
-                        console.log(content);
-                        console.log(tagsContainer);
-                        console.log(time);
+
 
                         let formData = new FormData();
                         formData.append("bti_url", image[0]);                                       // param
@@ -1423,7 +1414,7 @@ Chrome, Firefox 사용 가능
 
 
 
-        if(title.replace(/\s/gi, "").length < 1){
+        if(title.replace(REGEX_TRIM_VOID, "").length < 1){
 
             error = "제목이 공백입니다. 최소 1자리 이상 작성하여 주십시오.";
 
@@ -1497,24 +1488,7 @@ Chrome, Firefox 사용 가능
         //썸네일 이미지가 업로드 될때마다 유효성 검사 실시 (1MB 이하만 업로드 가능, jpg, jpeg, png, gif 외 확장자 사용 불가)
         $("input[name='thumbnail_Img']").on('change', function(e){
 
-            let files =  $(e.target).prop("files");
-            let file = files[0];
-            let fileName = file.name;
-            let extend = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
-
-            if(extend != "jpg" && extend != "jpeg" &&extend != "png" && extend != "gif"){
-
-                swal("업로드 실패", "이미지 파일의 업로드는 jpg, jpeg, png, gif 파일 확장자만 가능합니다.", "error");
-                $(e.target).val("");
-                return;
-
-            }else if(file.size > 1048576){
-
-                swal("업로드 실패", "파일의 크기는 1MB를 초과할 수 없습니다.", "error");
-                $(e.target).val("");
-                return;
-
-            }
+            checkImageFile(e);
 
         });
 
@@ -1529,8 +1503,8 @@ Chrome, Firefox 사용 가능
 
             for(let i=0; i < tags.length; ++i){
 
-                let removedBlank = tags[i].replace(/\s/gi, "");
-                let regex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]+$/;
+                let removedBlank = tags[i].replace(REGEX_TRIM_VOID, "");
+                let regex = REGEX_ONLY_CHAR_AND_NUM;
                 let regexResult = regex.test(tags[i]);
 
 
@@ -1568,15 +1542,23 @@ Chrome, Firefox 사용 가능
     $(document).ready(function() {
         setNavType("blue");
 
+        $.busyLoadFull("show", {
+
+            spinner : "circle-line",
+            text : "페이지를 초기화 하고 있습니다..."
+
+        });
+
+
         $(document).on('click', function(e){
 
             if($(document).find(".contextMenu").hasClass("show")){
 
                 let $contextMenu =  $(document).find(".contextMenu");
-                let menuX = $contextMenu.css("left").replace(/[^-\d\.]/g, '');
-                let menuY = $contextMenu.css("top").replace(/[^-\d\.]/g, '');
-                let menuW = $contextMenu.css("width").replace(/[^-\d\.]/g, '') + e.pageX;
-                let menuH = $contextMenu.css("height").replace(/[^-\d\.]/g, '') + e.pageY;
+                let menuX = $contextMenu.css("left").replace(REGEX_TRIM_DIM_EXTEND, '');
+                let menuY = $contextMenu.css("top").replace(REGEX_TRIM_DIM_EXTEND, '');
+                let menuW = $contextMenu.css("width").replace(REGEX_TRIM_DIM_EXTEND, '') + e.pageX;
+                let menuH = $contextMenu.css("height").replace(REGEX_TRIM_DIM_EXTEND, '') + e.pageY;
 
                 if(!(e.pageX > menuX && e.pageX < menuW && e.pageY > menuY && e.pageY < menuH)){
                     $(document).find(".contextMenu").removeClass("show").hide();

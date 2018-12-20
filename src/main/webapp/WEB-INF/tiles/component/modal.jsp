@@ -412,12 +412,13 @@
  			.append($("<input>").attr("type", "button").addClass("btn btn-info w-100 text-center").val("인증하기").on('click', function(e){
 
  				e.preventDefault();
-                $.ajax({
+
+				$.ajax({
                     url: "/join",
                     type: "post",
                     data: {
                         "em_id" : id,
-                        "em_akey": $(this).closest("form").find("#em_akey").val()
+                        "em_akey": $(this).closest(".form-group").find("#em_akey").val()
                     },
                     success : function(responseData){
 
@@ -433,8 +434,8 @@
 							}).then(function(){
 
 								let memberForm = $(document).find("#form_setMemInfo");
-								memberForm.action = "/setMemInfo";
-								memberForm.submit();
+								memberForm.attr("action", "/setMemInfo");
+								memberForm.trigger("submit");
 								e.stopImmediatePropagation();
 
 							});
@@ -630,8 +631,8 @@
                 let upFile = $upFile.files[0];
                 let formData = new FormData();
                 formData.append('file', upFile);
-                formData.append('bp_browstype', type)
-                formData.append('bp_booktype', 'html')
+                formData.append('bp_browstype', type);
+                formData.append('bp_booktype', 'html');
                 console.log('fixed');
 
 

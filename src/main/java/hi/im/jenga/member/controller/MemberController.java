@@ -326,7 +326,7 @@ public class MemberController {
     // 모달에서 이메일, 비밀번호 넘어옴 / 여기서 uuid 만들어야함
     // 임시 추가정보 페이지 (GET)
     @RequestMapping(value = "/setMemInfo", method = RequestMethod.POST)
-    public String setMemberInfoPOST(@ModelAttribute EmailMemberDTO emailMemberDTO, @ModelAttribute SocialMemberDTO socialMemberDTO, Model model, HttpServletResponse response) throws IOException {
+    public String setMemberInfoPOST(@ModelAttribute EmailMemberDTO emailMemberDTO, @ModelAttribute SocialMemberDTO socialMemberDTO, Model model, HttpServletResponse response) throws Exception {
         logger.info(": : setMemberInfoPOST : : emailMemberDTO.getEm_id()는 : " + emailMemberDTO.getEm_id());
         logger.info(": : setMemberInfoPOST : : emailMemberDTO.getEm_pwd()는 : " + emailMemberDTO.getEm_pwd());
 
@@ -335,6 +335,9 @@ public class MemberController {
         logger.info(": : setMemberInfoPOST : : socialMemberDTO.getSm_type()는 : " + socialMemberDTO.getSm_type());
 //        value="/callback"
 //        소셜로그인 후 uid를 추가정보입력페이지로 넘겨야함
+        model.addAttribute("emailMemberDTO", emailMemberDTO);
+        model.addAttribute("socialMemberDTO", socialMemberDTO);
+
 
         return "member/setMemInfo"; //추가 정보 페이지로
     }
@@ -346,7 +349,7 @@ public class MemberController {
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
-    public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO,
+    public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, @ModelAttribute EmailMemberDTO emailMemberDTO, @RequestParam("favor") String[] favor, @ModelAttribute SocialMemberDTO socialMemberDTO,
                                     @RequestParam("mem_profile") MultipartFile uploadFile, HttpSession session) throws Exception {
 
         MemberDTO memberDTO = new MemberDTO();

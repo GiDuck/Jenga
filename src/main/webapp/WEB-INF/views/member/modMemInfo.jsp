@@ -31,7 +31,7 @@ Form-data parameter
                                 <span class="btn btn-outline-default btn-file btn-round">
                                   <span class="fileinput-new">Change Photo</span>
                                   <span class="fileinput-exists">Change</span>
-                                  <input type="file" id="mem_profile">
+                                  <input type="file" id="mem_profile" name="mem_profile">
                                 </span>
                             <br/>
                             <a href="#" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
@@ -167,7 +167,13 @@ Form-data parameter
         setNavType("blue");
         initFavorForm();
 
-        console.log("${DTO}");
+        //썸네일 이미지가 업로드 될때마다 유효성 검사 실시 (1MB 이하만 업로드 가능, jpg, jpeg, png, gif 외 확장자 사용 불가)
+        $("input[name='profile']").on('change', function(e){
+
+            checkImageFile(e);
+
+        });
+
 
 
         $("#saveBtn").on('click', function (e) {
@@ -211,23 +217,6 @@ Form-data parameter
 
     });
 
-/*    console.log("input file 원래 사진 "+$("#mem_profile").value); //요거 인듯
-    $("#mem_profile").change(function () {
-        alert("사진이 바뀌었습니다.");
-        console.log("input file 원래 사진 "+ $("#mem_profile").value);
-
-    });
-
-
-    $("#mem_nick").change(function () {
-        alert("닉이 바뀌었습니다.");
-        console.log("input file 원래 사진 "+ $("#mem_nick").value);
-
-    });
-
-    function nickChange() {
-        alert("Asdfasdf");
-    }*/
 
     // ---------- Submit시에 Hidden 값을 넣어주는 함수 -----------
 
@@ -249,7 +238,7 @@ Form-data parameter
         params.append("mem_nick", nickname);
         params.append("mem_profile", profile[0]);
         params.append("mem_introduce", introduce);
-        // params.append("em_pwd", "godqhrgkek93@");
+        // params.append("em_pwd", "");
         params.append("favor", selectCard);
 
         $.ajax({
