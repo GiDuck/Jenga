@@ -141,19 +141,16 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectOne("board.mctgUID", bl_smCtg);
     }
 
-    public List<BoardDTO> search(String search, String search_check) {
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("search",search);
-        map.put("search_check",search_check);
-        return sqlSession.selectList("board.selectNameAndTag",map);
+    public List<BoardDTO> searchName(String search) {
+        return sqlSession.selectList("board.searchName",search);
     }
 
-  /*  public List<BoardDTO> searchTag(String search) {
-        return sqlSession.selectList("board.selectTag",search);
-    }*/
+    public List<BoardDTO> searchTag(String search) {
+        return sqlSession.selectList("board.searchTag",search);
+    }
 
     public List<BoardDTO> searchContents(List<String> search) {
-        return sqlSession.selectList("board.selectTitle",search);
+        return sqlSession.selectList("board.searchTitle",search);
     }
 
     public void setSearchKeyword(String search, String session_iuid) {
@@ -189,16 +186,19 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getMyBlock",my_iuid);
     }
 
-    public void searchImgName(String search) {
-        sqlSession.selectList("board.searchImgName",search);
+    public List<String> searchImgName(String search) {
+        return sqlSession.selectList("board.searchImgName",search);
     }
 
     public void searchImgTag(String search) {
-        sqlSession.selectList("board.searchImgTag",search);
+        logger.info("이미지태그 받기"+sqlSession.selectList("board.searchImgTag",search));
+
     }
 
-    public void searchImgContents(String search) {
-        sqlSession.selectList("board.searchImgContents",search);
+    public void searchImgContents(List<String> search) {
+
+
+        logger.info("서치이미미지지지지"+sqlSession.selectList("board.searchImgTitle",search));
     }
 
 

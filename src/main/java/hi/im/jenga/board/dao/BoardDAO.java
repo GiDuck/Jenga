@@ -42,9 +42,9 @@ public interface BoardDAO {
 
     String transCtgUID(String bl_smCtg, String flag);
 
-    List<BoardDTO> search(String search, String search_check);
+    List<BoardDTO> searchName(String search);
 
-    /*List<BoardDTO> searchTag(String search);*/
+    List<BoardDTO> searchTag(String search);
 
     List<BoardDTO> searchContents(List<String> search);
 
@@ -66,9 +66,9 @@ public interface BoardDAO {
 
     List<BoardDTO> getMyBlock(String my_iuid);
 
-    void searchImgName(String search);
+    List<String> searchImgName(String search);
 
     void searchImgTag(String search);
 
-    void searchImgContents(String search);
+    void searchImgContents(List<String> search);
 }
