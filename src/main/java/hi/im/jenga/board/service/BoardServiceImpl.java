@@ -224,8 +224,6 @@ public class BoardServiceImpl implements BoardService {
 			dao.searchImgTag(search);
 		}else{
 			String[] splitsearch = search.split(" ");
-			logger.info("서치 뽑는중"+splitsearch[0]);
-			logger.info("서치 뽑는중"+splitsearch[1]);
 			List<String> list = new ArrayList<String>();
 			for(int i = 0; i<splitsearch.length; i++){
 				list.add(splitsearch[i]);
