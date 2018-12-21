@@ -292,7 +292,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		tbl_mcategory
 	</select>
 
-	<select id="getBmksUploadDate" resultType="String">
+	<select id="getBmksUploadDate" resultType="Date">
 	SELECT
 		bp_date
 	FROM
@@ -300,6 +300,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE
 		bp_iuid = #{session_iuid}
 	</select>
+
+	<update id="changePwd">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{aes_pwd}
+	WHERE
+		em_iuid = #{mem_iuid}
+	</update>
 </mapper>
 
 

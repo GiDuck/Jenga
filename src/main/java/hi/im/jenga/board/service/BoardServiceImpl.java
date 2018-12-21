@@ -69,12 +69,15 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Transactional
-	public Map<String, Object> getModifyBlock(String bl_uid) {
+	public Map<String, Object> getModifyBlock(String bl_uid) throws JsonProcessingException {
 
 		Map<String, Object> map = dao.getModifyBlock(bl_uid);
 
 		List<String> list = dao.getBoardDetailTags(bl_uid);
-		map.put("tag", list);
+		ObjectMapper mapper = new ObjectMapper();
+		String tagJSON = mapper.writeValueAsString(list);
+
+		map.put("tag", tagJSON);
 
 		String bookmarks = mongoService.getView("_refBoardId", bl_uid);
 		map.put("bookmarks", bookmarks);
@@ -160,13 +163,16 @@ public class BoardServiceImpl implements BoardService {
 	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
 	public String getBookMarkFromHTML(String session_iuid) {
-
+		String attachPath  = "Y:\\go\\Jenga\\";
 		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
-
-		FileIO fileIO = new FileIO(fileFullName);
-		String result = fileIO.InputHTMLBookMark();
-
-		return result;
+//		String 하나 더만들어서 비교
+		if(fileFullName != null) {
+			logger.info("로컬에 있는 북마크 경로는 "+attachPath+fileFullName);
+			FileIO fileIO = new FileIO(attachPath + fileFullName);
+			String result = fileIO.InputHTMLBookMark();
+			return result;
+		}
+		return "notExist";
 	}
 
 	public Map<String, List<String>> getCategoryName() {
@@ -227,8 +233,6 @@ public class BoardServiceImpl implements BoardService {
 			dao.searchImgTag(search);
 		}else{
 			String[] splitsearch = search.split(" ");
-			logger.info("서치 뽑는중"+splitsearch[0]);
-			logger.info("서치 뽑는중"+splitsearch[1]);
 			List<String> list = new ArrayList<String>();
 			for(int i = 0; i<splitsearch.length; i++){
 				list.add(splitsearch[i]);

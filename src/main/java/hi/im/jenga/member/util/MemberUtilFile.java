@@ -15,8 +15,8 @@ public class MemberUtilFile {
     @Value("#{data['image.profile_path']}")
     private String PROFILE_PATH;
 
-    @Value("#{data['image.profile_uploaded']}")
-    private String PROFILE_UPLOADED_PATH;
+    @Value("#{data['image.profile_absolute_path']}")
+    private String PROFILE_ABSOLUTE_PATH;
 
     private static final Logger logger = LoggerFactory.getLogger(MemberUtilFile.class);
     String fileName = "";
@@ -49,7 +49,7 @@ public class MemberUtilFile {
             logger.info("UtilFile fileUpload fileName : " + fileName);
             logger.info("UtilFile fileUpload path : " + PROFILE_PATH);
 
-            File file = new File(PROFILE_PATH); // 찾아보기
+            File file = new File(PROFILE_ABSOLUTE_PATH, fileName);
 
 //          파일명이 중복 && 공백일 경우
             if (fileName != null && !fileName.equals("")) {
@@ -57,12 +57,17 @@ public class MemberUtilFile {
 //                  파일명 앞에 업로드 시간 초 단위로 붙여 파일명 중복을 방지
                     fileName = System.currentTimeMillis() + "_" + fileName;
 
-                    file = new File(PROFILE_PATH + fileName);
+                    file = new File(PROFILE_ABSOLUTE_PATH + fileName);
                 }
             }
 
             logger.info("UtilFile fileUpload final fileName : " + fileName);
             logger.info("UtilFile fileUpload final path : " + PROFILE_PATH);
+
+            logger.info(file.getPath());
+            String filePath = file.getPath();
+            PROFILE_PATH = filePath.replace("Y:\\go\\Jenga\\profiles\\img\\","");
+            PROFILE_PATH = PROFILE_PATH.replace("\\", "/");
 
             out = new FileOutputStream(file);
 
@@ -84,8 +89,8 @@ public class MemberUtilFile {
                 e.printStackTrace();
             }
         }
-        logger.info("파일 경로 + 이름은? "+PROFILE_UPLOADED_PATH + fileName);
-        return PROFILE_UPLOADED_PATH + fileName;
+        logger.info(PROFILE_PATH);
+        return PROFILE_PATH;
     }
 
 }

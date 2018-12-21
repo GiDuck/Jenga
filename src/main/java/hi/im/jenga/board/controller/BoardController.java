@@ -27,9 +27,16 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -70,15 +77,7 @@ public class BoardController {
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
     @ResponseBody
     public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check")String search_check, HttpSession session){
-            String session_iuid = null;
-
-            try{
-
-                session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-
-            }catch(NullPointerException e){
-                e.printStackTrace();
-            }
+            String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
         List<BoardDTO> container = null;
         try {
 
@@ -156,19 +155,28 @@ public class BoardController {
             logger.info(resultHTML);
 
             model.addAttribute("category", categoryJSON);
-            model.addAttribute("resultHTML", resultHTML);
+            if(!resultHTML.equals("notExist")) {
+                model.addAttribute("resultHTML", resultHTML);
+            }
 
             return "editor/stackBoard/stackBlock";
 
         }else if(status.equals("modify")) {         //  service 나누기
 
-
             Map<String, Object> map = boardService.getModifyBlock(bl_uid);
-
             logger.info("컨트롤러 맵은 " + map);
 
-            JSONObject jsonObject = new JSONObject(map);
-            model.addAttribute("map", jsonObject);
+            Map<String, List<String>> category = null;
+            try {
+                category = boardService.getCategoryName();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            String categoryJSON = mapper.writeValueAsString(category);
+
+            model.addAttribute("category", categoryJSON);
+            model.addAttribute("map", map);
 
             return "editor/stackBoard/stackBlock";
 

@@ -18,7 +18,7 @@ public interface BoardService {
 
     void writeViewBlock(BoardDTO boardDTO, String uploadName, String bl_bookmarks) throws Exception;
 
-    Map<String, Object> getModifyBlock(String bl_uid);
+    Map<String, Object> getModifyBlock(String bl_uid) throws JsonProcessingException;
 
     void modifyViewPOST(BoardDTO boardDTO, String uploadName, String bl_bookmarks);
 

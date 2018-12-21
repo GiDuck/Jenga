@@ -10,10 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+
+import java.util.*;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO{
@@ -39,7 +37,15 @@ public class MemberDAOImpl implements MemberDAO{
     public MemberDTO getUserInfo(String mem_iuid) { return sqlSession.selectOne("member.getUserInfo", mem_iuid); }
 
     public String getBmksUploadDate(String session_iuid) {
-        return sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
+        Date date = sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
+        return String.valueOf(date.getTime());
+    }
+
+    public void changePwd(String mem_iuid, String aes_pwd) {
+        Map<String, String> map = new HashMap();
+        map.put("mem_iuid", mem_iuid);
+        map.put("aes_pwd", aes_pwd);
+        sqlSession.update("member.changePwd", map);
     }
 
     public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }

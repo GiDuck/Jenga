@@ -1413,7 +1413,6 @@ Chrome, Firefox 사용 가능
         let error = null;
 
 
-
         if(title.replace(REGEX_TRIM_VOID, "").length < 1){
 
             error = "제목이 공백입니다. 최소 1자리 이상 작성하여 주십시오.";
@@ -1451,18 +1450,18 @@ Chrome, Firefox 사용 가능
     function setModifyPage(){
 
         //EL로 받아온 값 push
-        $("#file_image").attr("src", '${block.thumbnail}');
-        $("input[name='input_title']").val('${block.title}');
-        $("textarea[name='input_introduce']").val('${block.introduce}');
-        $("#editor").contents().find("#summernote").val('${block.content}');
-        $("#mainCategory").html('${block.mainCategory}');
-        $("#subCategory").html('${block.subCategory}');
-        $("#today").val('${block.date}');
-        $("#tagsinput").val('${block.tags}');
+        $("#file_image").attr("src", '${map.bti_url}');
+        $("input[name='input_title']").val('${map.bl_title}');
+        $("textarea[name='input_introduce']").val('${map.bl_introduce}');
+        $("#editor").contents().find("#summernote").val('${map.bl_description}');
+        $("#mainCategory").html('${map.bl_mainCtg}');
+        $("#subCategory").html('${map.bl_smCtg}');
+        $("#today").val('${map.bl_date}');
+        $("#tagsinput").val(${map.tag});
 
 
         //사용자가 업로드 했던 북마크 목록을 가져온다
-        let parsedUploadedHTMLVar =  parseHTML('${block.bookmarks}');
+        let parsedUploadedHTMLVar =  parseHTML('${map.bl_bookmarks}');
         editedBKElements = parsedUploadedHTMLVar.getChildren();
 
         //북마크 목록 화면에 나타낸다
@@ -1602,21 +1601,21 @@ Chrome, Firefox 사용 가능
         let parsedHTMLVar =  parseHTML('${resultHTML}');
         bookmarkElements = parsedHTMLVar.getChildren();
 
-        if(bookmarkElements.length == 0){
-
-            swal({
-
-               text : "현재 동기화 된 북마크가 없습니다. 내 정보 수정 페이지에서 북마크를 동기화 시키세요.",
-               type : "warning"
-
-            });
-        }
 
         //북마크 목록 화면에 나타낸다
         refreshBookMark(bookmarkElements, "left");
 
 
         if(statusToken == "stack"){
+            if(bookmarkElements.length == 0){
+
+                swal({
+
+                    text : "현재 동기화 된 북마크가 없습니다. 내 정보 수정 페이지에서 북마크를 동기화 시키세요.",
+                    type : "warning"
+
+                });
+            }
 
             setStackPage();
 
