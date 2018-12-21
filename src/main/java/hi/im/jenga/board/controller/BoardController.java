@@ -9,7 +9,6 @@ import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
-import org.apache.ibatis.jdbc.Null;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -28,16 +27,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -75,20 +67,29 @@ public class BoardController {
         return "stackBoard/boardSearch";
     }
 
-
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
-    public List<BoardDTO> SearchPOST(String search, String search_check, HttpSession session) throws Exception{
+    @ResponseBody
+    public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check")String search_check, HttpSession session){
+            String session_iuid = null;
 
-        String mem_iuid = null;
+            try{
 
+                session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+
+            }catch(NullPointerException e){
+                e.printStackTrace();
+            }
+        List<BoardDTO> container = null;
         try {
-            mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        List<BoardDTO> container = boardService.search(search, search_check, mem_iuid);
 
-      return container;
+               container = boardService.search(search, search_check, session_iuid);
+
+            }catch(Exception e){
+
+                e.printStackTrace();
+            }
+
+        return container;
     }
 
 
@@ -178,6 +179,19 @@ public class BoardController {
     }
 
     /*
+    * stackBlock에서 작성한 북마크, 글, 사진을 업로드하는 메서드(POST)
+    *
+    * session_iuid => sql의 조건   bl_writer -> mem_iuid
+    * objId 생성해서 MongoDB랑 연결해야함
+    *
+    * BoardDTO = bl_writer, bl_title, bl_description, bl_date
+    *
+    * Main Image 받아와야함
+    *
+    * tbl_block, tbl_blockTags, tbl_thumbImg
+    *
+    * Bookmarks 값 json으로 받아야함
+    *
     * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
     * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
     */

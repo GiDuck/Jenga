@@ -36,47 +36,44 @@
                         </div>
                         <br>
                     </div>
+
                 </div>
+                <br><br>
                 <div class="row items-row text-left" id="block_field">
 
-                    <div class="col-md-3 col-sm-4" id="bkCard" style="display : none">
-                        <div class="card card-plain text-center">
-                            <div class="card-image">
-                                <a>
-                                    <img name="bk_image" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg'"
-                                        src="" alt="Rounded Image" class="img-rounded img-responsive">
-                                </a>
-                                <br><br>
-                                <div class="text"><p name="bk_title" class="name"></p></div>
 
-                                <div class="card-body details-center">
-                                    <a>
-                                        <div class="author">
-                                            <img src="" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/faces/joe-gardner-2.jpg'"
-                                                 alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                            <div class="text">
-                                                <span class="name"></span>
-                                                <div class="meta"><i class="fas fa-heart" name="likeIcon"></i>0</div>
-                                            </div>
+                </div>
+                <div class="w-100 text-center" id="loaderContainer" style="visibility: hidden;">
+                    <div class="preloader">
+                        <div class='uil-reload-css' style=''>
+                            <div></div>
+                        </div>
+                        <h5>Loading More </h5>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-4" id="bkCard" style="display : none">
+                    <div class="card card-plain text-center">
+                        <div class="card-image">
+                                <img name="bk_image" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg'"
+                                     src="" alt="Rounded Image" class="img-rounded img-responsive">
+                            <br><br>
+                            <div class="text"><p name="bk_title" class="name"></p></div>
+
+                            <div class="card-body details-center">
+                                    <div class="author w-50 text-center">
+                                        <img src="" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/faces/joe-gardner-2.jpg'"
+                                             alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                        <div class="text">
+                                            <span class="name"></span>
+                                            <div class="meta"><i class="fas fa-heart" name="likeIcon"></i>0</div>
                                         </div>
-                                    </a>
-                                </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="w-100 text-center" id="loaderContainer" style="visibility: hidden;">
-                            <div class="preloader">
-                                <div class='uil-reload-css' style=''>
-                                    <div></div>
-                                </div>
-                                <h5>Loading More </h5>
-                            </div>
-                    </div>
-
-
                 </div>
+
             </div>
         </div>
     </div>
@@ -123,9 +120,20 @@
 
         $(window).on('keyup', function(e){
 
+            e.stopPropagation();
+
            if(e.keyCode == 13){
 
-               searchAction();
+
+               if(Swal.isVisible()){
+
+                   Swal.close();
+
+               }else{
+
+                   searchAction();
+
+               }
 
            }
 
@@ -214,7 +222,7 @@
 
                             preLoader.hide();
 
-                        }, 1000);
+                        }, 2000);
 
                     })()
 
@@ -249,11 +257,11 @@
         let $cardForm = $("#bkCard");
         let $field = $("#block_field");
 
+        $field.empty();
+
         for (let i = 0; i < items.length; ++i) {
 
-            let block = items[i]
-
-            console.log(block);
+            let block = items[i];
 
             let $dummy = $cardForm.clone();
             $dummy.attr("id", null);
@@ -264,11 +272,11 @@
             //$dummy.find(".author > .name").attr("src", block.bl_writer);
 
             //클릭시 Datail 보기로 이동
-            $dummy.on("click", function (e) {
+                $dummy.on("click", function (e) {
 
-                location.href="/board/boardView?bl_uid="+block.bl_uid;
+                    location.href="/board/boardView?bl_uid="+block.bl_uid;
 
-            });
+                });
 
             $field.append($dummy);
 
@@ -277,6 +285,9 @@
 
 
     }
+
+
+
 
 
 </script>
