@@ -1451,7 +1451,7 @@ Chrome, Firefox 사용 가능
     function setModifyPage(){
 
         //EL로 받아온 값 push
-        $("#file_image").attr("src", '${map.bti_url}');
+        $("#file_image").attr("src", '/blockimg/${map.bti_url}');
         $("input[name='input_title']").val('${map.bl_title}');
         $("textarea[name='input_introduce']").val('${map.bl_introduce}');
         $("#editor").contents().find("#summernote").val('${map.bl_description}');
@@ -1462,11 +1462,15 @@ Chrome, Firefox 사용 가능
 
 
         //사용자가 업로드 했던 북마크 목록을 가져온다
-        let parsedUploadedHTMLVar =  parseHTML('${map.bl_bookmarks}');
-        editedBKElements = parsedUploadedHTMLVar.getChildren();
+        // json형식으로 되어있는 String (map.bookmarks)를 jsonBK 변수에 넣고 JSON.parse
+        let jsonBK = ${map.bookmarks};
+        editedBKElements = JSON.parse(jsonBK['_value']);
+
+        refreshBookMark(editedBKElements, "right");
 
         //북마크 목록 화면에 나타낸다
-        refreshBookMark(editedBKElements, "right");
+       // refreshBookMark(JSON.stringify(editedBKElements), "right");
+
 
 
     }

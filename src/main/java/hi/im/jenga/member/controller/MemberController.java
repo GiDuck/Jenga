@@ -675,11 +675,11 @@ public class MemberController {
 
 
     @RequestMapping(value = "/getBmksUploadDate", method = RequestMethod.GET)
-    public @ResponseBody String getBmksUploadDate(HttpSession session) {
+    public @ResponseBody Map<String, String> getBmksUploadDate(HttpSession session) {
         String session_iuid  = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
 
-        String bmksUploadDate = memberService.getBmksUploadDate(session_iuid);
+        Map<String, String> map = memberService.getBmksUploadDate(session_iuid);
 
-        return bmksUploadDate;
+        return map;
     }
 }

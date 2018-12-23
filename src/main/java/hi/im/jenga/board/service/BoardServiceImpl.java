@@ -9,6 +9,7 @@ import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,9 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardDAO dao;
 	private final MongoService mongoService;
 	private final AES256Cipher aes256Cipher;
+
+	@Value("#{data['bookmark.absolute_path']}")
+	private String BOOKMARK_ABSOLUTE_PATH;
 
 	@Autowired
 	public BoardServiceImpl(BoardDAO dao, MongoService mongoService, AES256Cipher aes256Cipher) {
@@ -55,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
 		if(uploadName.equals("")) {
 			// 디폴트 이미지를 넣어준다
-			uploadName = "D:\\jengaResource\\default\\noImage.png";
+			uploadName = "jenga_profile_default.jpg";
 		}
 			dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 
@@ -161,12 +165,11 @@ public class BoardServiceImpl implements BoardService {
 	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
 	public String getBookMarkFromHTML(String session_iuid) {
-		String attachPath  = "Y:\\go\\Jenga\\";
 		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 //		String 하나 더만들어서 비교
 		if(fileFullName != null) {
-			logger.info("로컬에 있는 북마크 경로는 "+attachPath+fileFullName);
-			FileIO fileIO = new FileIO(attachPath + fileFullName);
+			logger.info("로컬에 있는 북마크 경로는 "+BOOKMARK_ABSOLUTE_PATH + fileFullName);
+			FileIO fileIO = new FileIO(BOOKMARK_ABSOLUTE_PATH + fileFullName);
 			String result = fileIO.InputHTMLBookMark();
 			return result;
 		}

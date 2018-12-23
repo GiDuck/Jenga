@@ -166,7 +166,8 @@ public class BoardController {
             return "editor/stackBoard/stackBlock";
 
         }else if(status.equals("modify")) {         //  service 나누기
-
+            String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            String resultHTML = null;
             Map<String, Object> map = boardService.getModifyBlock(bl_uid);
             logger.info("컨트롤러 맵은 " + map);
 
@@ -179,6 +180,14 @@ public class BoardController {
             ObjectMapper mapper = new ObjectMapper();
             String categoryJSON = mapper.writeValueAsString(category);
 
+            try {
+                resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            if(!resultHTML.equals("notExist")) {
+                model.addAttribute("resultHTML", resultHTML);
+            }
             model.addAttribute("category", categoryJSON);
             model.addAttribute("map", map);
 

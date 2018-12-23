@@ -134,7 +134,6 @@
             blrc_ref = #{bl_uid}
     </delete>
 
-<!-- 좋아요 카운트-->
 
 <select id="getModifyBlock" resultType="Map">
 		SELECT
