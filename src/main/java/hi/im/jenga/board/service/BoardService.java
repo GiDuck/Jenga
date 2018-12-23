@@ -49,4 +49,7 @@ public interface BoardService {
     List<BoardDTO> getMyBlock(String my_iuid);
 
     List<String> searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+
+    public String formattingBK(String bookmarks);
+
 }

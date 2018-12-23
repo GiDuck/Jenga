@@ -9,7 +9,6 @@ import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,17 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -68,6 +59,15 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
+    @RequestMapping(value="/formattingBk", method = RequestMethod.POST)
+    @ResponseBody
+    public String formattingBK(@RequestParam("bookmark") String bookmark){
+
+        return boardService.formattingBK(bookmark);
+
+    }
+
+
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(){
 
@@ -77,7 +77,17 @@ public class BoardController {
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
     @ResponseBody
     public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check")String search_check, HttpSession session){
-            String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+
+        String session_iuid = null;
+
+        try{
+
+            session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
+
         List<BoardDTO> container = null;
         try {
 

@@ -171,3 +171,57 @@ function searchElement($parentNode, $Obj){
     }
 
 }
+
+
+function parseJsonToHTML(bookmarks, title, introduce){
+
+    let $rootDOMElementNode = $("<HTML>").append($("<META>").attr("HTTP-EQUIV", "Content-Type").attr("CONTENT", "text/html; charset=UTF-8"));
+        $rootDOMElementNode.append($("<TITLE>").html(title));
+        $rootDOMElementNode.append($("<H1>").html(introduce));
+        let $bodyNode = $("<DL>").append($("<p>"));
+        $rootDOMElementNode.append($("<p>"));
+
+
+
+    $rootDOMElementNode.append($bodyNode);
+
+        for(let i=0; i<bookmarks.length; ++i){
+
+            let item = bookmarks[i];
+            reculsiveJsonParser($bodyNode, item);
+
+        }
+
+        return $rootDOMElementNode;
+}
+
+function reculsiveJsonParser($nowNode, item){
+
+    if(item.children){
+
+        let $innerNode = $("<DT>").append($("<H3>").attr("add_date", item.add_date).attr("last_modified", item.last_modified).html(item.title));
+        $nowNode.append($innerNode);
+
+        let $children = $("<DL>").append($("<p>"));
+        $innerNode.append($children);
+        $innerNode.append($("<p>"));
+        let innerChild = item.children;
+
+        for(let j=0; j<innerChild.length; ++j){
+
+            reculsiveJsonParser($children, innerChild[j]);
+
+        }
+
+
+    }else{
+
+        let $element = $("<A>").attr("href", item.url).attr("add_date", item.add_date).attr("icon", item.icon).attr("last_modified", item.last_modified).html(item.title);
+        $nowNode.append($("<DT>").append($element));
+        return;
+
+
+    }
+
+
+}

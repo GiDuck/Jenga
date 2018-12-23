@@ -191,9 +191,15 @@ Form-data parameter
                let $syncDateField;
                    $syncDateField = $("#chromeSyncDate");
 
-               let syncDate = new Date(response);
+                   console.log("받아온 날짜...");
+                   console.log(response);
+
+               let syncDate = new Date(parseInt(response));
+               console.log(syncDate);
+
+
                let syncComDateStr = syncDate.getFullYear() + "/" + (syncDate.getMonth()+1)+"/" + syncDate.getDate()
-                   + " " + syncDate.getHours()+":"+syncDate.getMinutes();
+                   + " " + (syncDate.getHours() > 10 ? syncDate.getHours() : "0" + syncDate.getHours()) +":"+ (syncDate.getMinutes() > 10 ? syncDate.getMinutes() : "0" + syncDate.getMinutes());
                $syncDateField.html(syncComDateStr);
 
 

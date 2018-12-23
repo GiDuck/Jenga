@@ -694,6 +694,8 @@
 
     }
 
+
+
     //북마크 혹은 폴더의 내용을 변경하게 하는 모달
     function makeAddOrModifyElementModal($element, isAdd, successFunc)
     {

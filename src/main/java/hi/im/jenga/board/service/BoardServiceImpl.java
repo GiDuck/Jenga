@@ -153,22 +153,23 @@ public class BoardServiceImpl implements BoardService {
 		return map;
 	}
 
+    public String formattingBK(String bookmarks) {
+
+	    FileIO fileIO = new FileIO();
+	    
 
 
+        return null;
+    }
 
-
-
-
-
-	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
+    public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
 	public String getBookMarkFromHTML(String session_iuid) {
-		String attachPath  = "Y:\\go\\Jenga\\";
 		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 //		String 하나 더만들어서 비교
 		if(fileFullName != null) {
-			logger.info("로컬에 있는 북마크 경로는 "+attachPath+fileFullName);
-			FileIO fileIO = new FileIO(attachPath + fileFullName);
+			logger.info("로컬에 있는 북마크 경로는 "+fileFullName);
+			FileIO fileIO = new FileIO(fileFullName);
 			String result = fileIO.InputHTMLBookMark();
 			return result;
 		}

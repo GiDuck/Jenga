@@ -27,6 +27,7 @@ public class FileIO {
 	}
 
 
+
 //  path + fileName을 받아옴
 	public FileIO(String fileFullName){
 
@@ -45,6 +46,33 @@ public class FileIO {
 
 	}
 
+	public String FormattingBK(String bookmarks){
+
+		FileReader reader = null;
+		BufferedReader buffer = null;
+		StringBuilder parsedStr = new StringBuilder();
+		String str = null;
+ 		try {
+			reader = new FileReader(new File(bookmarks));
+			buffer = new BufferedReader(reader);
+
+			while((str = buffer.readLine()) != null){
+
+				parsedStr.append(str.replace(">", ">\n"));
+
+			}
+
+		}catch(Exception e){
+ 			e.printStackTrace();
+
+ 			return null;
+		}
+
+ 		return parsedStr.toString();
+
+
+
+	}
 
 
 	public String InputBookMark() {
