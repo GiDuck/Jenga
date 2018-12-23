@@ -59,14 +59,6 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-    @RequestMapping(value="/formattingBk", method = RequestMethod.POST)
-    @ResponseBody
-    public String formattingBK(@RequestParam("bookmark") String bookmark){
-
-        return boardService.formattingBK(bookmark);
-
-    }
-
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(){

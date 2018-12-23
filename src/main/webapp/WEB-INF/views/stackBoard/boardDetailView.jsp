@@ -33,7 +33,7 @@
                              <div id="likeBtn" class="heart" rel="like"></div>
 
                         </div>
-                        <div id="likeCount col-11" class="likeCount" style="align-items: center; display: flex">30</div>
+                        <div id="likeCount" class="likeCount" style="align-items: center; display: flex">30</div>
                     </div>
                     </div>
                     <div class="col-md-7 col-sm-7">
@@ -70,18 +70,23 @@
                         <div class="media">
                             <a class="pull-left" href="#paper-kit">
                                 <div class="avatar big-avatar">
-                                    <img id="writer_image" class="media-object" alt="64x64" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/faces/kaci-baum-2.jpg'">
+                                    <img id="writer_image" class="media-object" alt="user profile" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/placeholder.jpg'">
                                 </div>
                             </a>
                             <div class="media-body">
                                 <h4 id="writer_name" class="media-heading"></h4>
-                                <span id="writer_description"/>
+                                <span id="writer_description"></span>
+
                                 <div class="pull-right">
-                                    <div id="writerPanel" style="display : none">
+                                    <div id="writerPanel">
+                                        <div id="thisBlockWriterPanel"  style="display : none">
                                         <a href="#" class="btn btn-info btn-round "> <i class="nc-icon nc-ruler-pencil"></i>&nbsp Modify</a>&nbsp
-                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp</div>
-                                    <a href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
+                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp
+                                        </div>
+                                        <a name="following" href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -135,8 +140,9 @@
         $("#bd_description").html('${map.bl_description}');
 
         //카테고리
-        let categoryStr = blockObj.BL_MAINCTG + " > "  + blockObj.BL_SMCTG;
+        let categoryStr = '${map.bl_mainCtg}' + " > "  + '${map.bl_smCtg}';
         $("#bd_category").val(categoryStr);
+
 
         //날짜
         let dateObj = new Date(parseInt('${map.bl_date}'));
@@ -151,6 +157,79 @@
             setBookmarks(blockObj);
 
         }());
+
+        $("a[name='following']").on("click", function(e){
+
+            e.stopPropagation();
+            //Session check
+            //if session exist..
+
+            let $followBtn = $("a[name='following']");
+            let isFollower = false;
+            let endPoint = undefined;
+
+            if($followBtn.html().toUpperCase() == "FOLLOW"){
+
+                isFollower = true;
+                endPoint = "/unFollow";
+
+            }else{
+
+                endPoint = "/follow";
+
+            }
+
+            $.ajax({
+
+               type : "GET",
+               data : { bl_writer : "${map.mem_uid}"},
+               url : endPoint,
+               success : function(type){
+
+                   if(type == "follow"){
+
+                           swal({
+
+                               text : "이제부터 " + '${map.mem_nick}' + " 님의 소식을 받아 보실 수 있습니다.",
+                               type : "success"
+
+                           });
+
+                            $followBtn.html("UNFOLLOW").addClass("btn-danger").removeClass("btn-info");
+
+                   }else if(type == "unFollow"){
+
+                           swal({
+
+                               text : "이제 부터 " + '${map.mem_nick}' + " 님의 소식을 받아 보실 수 없습니다.",
+                               type : "warning"
+
+                           });
+
+                           $followBtn.html("FOLLOW").addClass("btn-info").removeClass("btn-danger");
+
+                   }
+
+
+
+               },
+                error : function(xhs, status, error){
+
+                   swal({
+
+                      text : "팔로잉 요청 중에 에러가 발생하였습니다..",
+                      type : "error"
+
+                   });
+
+                   console.log("팔로잉 요청 에러..." + status);
+
+                }
+
+            });
+
+
+        });
 
 
     }
@@ -255,6 +334,15 @@
 
                 if($(this).attr("value") == "chrome"){
 
+                    (function(){
+                        swal({
+
+                            text : "파일을 저장하고 있습니다..",
+                            type : "info"
+
+                        });
+                    })();
+
 
                     let now = new Date().getTime();
 
@@ -275,17 +363,43 @@
 
                    let bookmarkHTML = parseJsonToHTML(blockObj, '${map.bl_title}', '${map.bl_introduce}');
                    let temp = $("<a>").append(bookmarkHTML);
-                   let htmlRawResource = (temp.html()).replace(/<\/p>|<\/dt>|/gi, '');
-                   let htmlResource = htmlRawResource.replace(/(<html>|<p>|<title>|<\/title>|<\/h1>|<\/h3>|<\/html>|<\/a>)/gi, "\$1\n");
+                   let declearStr = "\<\!DOCTYPE NETSCAPE-Bookmark-file-1>\n" +
+                       "\<!-- This is an automatically generated file.\n" +
+                       "     It will be read and overwritten.\n" +
+                       "     DO NOT EDIT! --> \n\n";
+                   let htmlRawResource = declearStr + (temp.html()).replace(/<\/p>|<\/dt>|/gi, '');
+
+                   let tagRegex =/(<html>|<title>|<h1>|<h3|<dl>|<dt>|<a|<\/html>|<\/a|href\="|add_date\="|icon\="|last_modified\=")/gi;
+
+                   let newLineRegex = /(<p>|<\/title>|<\/h1>|<\/dl>|<\/h3>|<\/a>)/gi;
+
+                   let htmlResource = htmlRawResource.replace(tagRegex, function(x){
+
+                           return x.toUpperCase();
+
+                   });
+
+                   htmlResource = htmlResource.replace(newLineRegex, function(x){
+
+                       return x.toUpperCase() + "\n";
+
+                   });
+
                    let dataURI = "data:attachment/html," +encodeURI(htmlResource);
                    let $tempTag = document.createElement('a');
+                   let fileName = '${map.bl_title}';
+                    fileName = fileName.replace(' ', '');
+                    if(fileName.length > 10){
+
+                       fileName = fileName.slice(0, 10);
+                       fileName += "..";
+
+                   }
                     $tempTag.href = dataURI;
                     $tempTag.target = '_blank';
-                    $tempTag.download = '20181222new.html';
+                    $tempTag.download = fileName + '.html';
                     $tempTag.click();
 
-                    console.log("파일 저장...");
-                    console.log(htmlResource);
 
 
 

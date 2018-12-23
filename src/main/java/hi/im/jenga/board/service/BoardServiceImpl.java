@@ -153,15 +153,6 @@ public class BoardServiceImpl implements BoardService {
 		return map;
 	}
 
-    public String formattingBK(String bookmarks) {
-
-	    FileIO fileIO = new FileIO();
-	    
-
-
-        return null;
-    }
-
     public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
 	public String getBookMarkFromHTML(String session_iuid) {
