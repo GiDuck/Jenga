@@ -46,7 +46,6 @@ public class BoardServiceImpl implements BoardService {
 
 		mongoService.writeViewBmks(boardDTO.getBl_uid(), bl_bookmarks);		// bl_objId가 있어야지 block에 값을 넣을 수 있다.
 		boardDTO.setBl_objId(mongoService.getObjId("_refBoardId",boardDTO.getBl_uid()));
-		logger.info("북마크 블록의 uid "+boardDTO.getBl_objId());
 
 
 		dao.writeViewBlock(boardDTO);
@@ -188,7 +187,6 @@ public class BoardServiceImpl implements BoardService {
 			List<String> list = new ArrayList<String>();
 			for(int i = 0; i<splitsearch.length; i++){
 				list.add(splitsearch[i]);
-				logger.info("add 했음");
 			}
 			return dao.searchContents(list);
 		}
@@ -220,9 +218,7 @@ public class BoardServiceImpl implements BoardService {
 
 	public List<String> searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
 		if(search_check.equals("name")){
-			logger.info("변경 전" + search);
 			search = aes256Cipher.AES_Encode(search);
-			logger.info("변경후 아이디"+search);
 			return dao.searchImgName(search);
 		}else if(search_check.equals("tag")){
 			dao.searchImgTag(search);
@@ -231,7 +227,6 @@ public class BoardServiceImpl implements BoardService {
 			List<String> list = new ArrayList<String>();
 			for(int i = 0; i<splitsearch.length; i++){
 				list.add(splitsearch[i]);
-				logger.info("add 했음");
 			}
 			dao.searchImgContents(list);
 		}
