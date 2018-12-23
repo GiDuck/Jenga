@@ -9,6 +9,7 @@ import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,17 +18,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -59,9 +63,15 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
+    /*@RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String SearchGET(String search, String search_check, HttpSession session){
+        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+        List<BoardDTO> result = boardService.search(search, search_check, session_iuid);
+        boardService.searchImg(search,search_check);
+        boardService.searchMemInfo(search,search_check);
+        boardService.searchLike(search,search_check);
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String SearchGET(){
+
 
         return "stackBoard/boardSearch";
     }
@@ -157,28 +167,19 @@ public class BoardController {
             logger.info(resultHTML);
 
             model.addAttribute("category", categoryJSON);
-            if(!resultHTML.equals("notExist")) {
-                model.addAttribute("resultHTML", resultHTML);
-            }
+            model.addAttribute("resultHTML", resultHTML);
 
             return "editor/stackBoard/stackBlock";
 
         }else if(status.equals("modify")) {         //  service 나누기
 
+
             Map<String, Object> map = boardService.getModifyBlock(bl_uid);
+
             logger.info("컨트롤러 맵은 " + map);
 
-            Map<String, List<String>> category = null;
-            try {
-                category = boardService.getCategoryName();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            ObjectMapper mapper = new ObjectMapper();
-            String categoryJSON = mapper.writeValueAsString(category);
-
-            model.addAttribute("category", categoryJSON);
-            model.addAttribute("map", map);
+            JSONObject jsonObject = new JSONObject(map);
+            model.addAttribute("map", jsonObject);
 
             return "editor/stackBoard/stackBlock";
 
@@ -189,19 +190,6 @@ public class BoardController {
     }
 
     /*
-    * stackBlock에서 작성한 북마크, 글, 사진을 업로드하는 메서드(POST)
-    *
-    * session_iuid => sql의 조건   bl_writer -> mem_iuid
-    * objId 생성해서 MongoDB랑 연결해야함
-    *
-    * BoardDTO = bl_writer, bl_title, bl_description, bl_date
-    *
-    * Main Image 받아와야함
-    *
-    * tbl_block, tbl_blockTags, tbl_thumbImg
-    *
-    * Bookmarks 값 json으로 받아야함
-    *
     * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
     * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
     */
@@ -366,29 +354,32 @@ public class BoardController {
 
 
 
-    @RequestMapping(value = "/follow", method=RequestMethod.POST)
+    @RequestMapping(value = "/follow", method=RequestMethod.GET)
     @ResponseBody
-    public void follower(String bl_writer, HttpSession session, HttpServletResponse response) throws IOException {
-        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+    public String follower(@RequestParam("bl_writer") String bl_writer, HttpSession session, HttpServletResponse response) throws Exception {
 
+        String session_iuid = null;
         try {
+            session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
             boardService.follow(bl_writer,session_iuid);
-            response.getWriter().println("success");
+            return "follow";
         }catch (Exception e){
-            response.getWriter().println("error");
+            return  e.getMessage();
         }
     }
 
-    @RequestMapping(value = "/unFollow", method=RequestMethod.POST)
+    @RequestMapping(value = "/unFollow", method=RequestMethod.GET)
     @ResponseBody
-    public void unfollower(String bl_writer, HttpSession session, HttpServletResponse response) throws IOException {
-        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+    public String unfollower(@RequestParam("bl_writer") String bl_writer, HttpSession session, HttpServletResponse response) throws Exception {
+        String session_iuid = null;
 
         try {
+            session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
             boardService.unFollow(bl_writer,session_iuid);
-            response.getWriter().println("success");
+            return "unFollow";
         }catch (Exception e){
-            response.getWriter().println("error");
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -434,6 +425,26 @@ public class BoardController {
 //        mongoService.getAnyway(member,json);
         return "/mongo";
     }
+
+    @RequestMapping("/followCheck")
+    public @ResponseBody Boolean liketest(@RequestParam("bl_writer") String bl_writer,HttpSession session) throws Exception {
+        if(session.getAttribute("Member") == null){
+            return null;
+        }
+
+        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        logger.info("글쓴사람 iuid"+bl_writer);
+        logger.info("내 iuid"+mem_iuid);
+        //값이 없을 경우 (non following 상태)
+        if(boardService.followCheck(bl_writer,mem_iuid).equals("success")){
+            boardService.follow(bl_writer,mem_iuid);
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
 
 
 

@@ -114,14 +114,20 @@
 
     let blockObj = undefined;
     let blockJson = undefined;
+    let $followBtn = $("a[name='following']");
+    let isFollowing = undefined;
+
 
 
     function setData(){
 
+        console.log("글쓴이 uid...");
+        console.log('${map.bl_writer}');
+
         //json으로 넘어온 map object를 js에서 사용할 수 있는 object 형식으로 파싱
         blockJson = ${map.bookmarks};
         blockObj = JSON.parse(blockJson['_value']);
-        console.log(blockObj);
+
         //작성자 이름
         $("#writer_name").html('${map.mem_nick}');
         //작성자 소개
@@ -158,35 +164,84 @@
 
         }());
 
-        $("a[name='following']").on("click", function(e){
+        let hasSession = '${sessionScope.Member}';
+
+        if(hasSession){
+
+        // 글 Follow 여부 확인...
+        $.ajax({
+
+           url : "/board/followCheck",
+           type : "GET",
+           data : {bl_writer : encodeURI('${map.bl_writer}')},
+           success : function(response){
+               console.log("follow check");
+               console.log(response);
+               isFollowing = response;
+
+               if(isFollowing){
+                   convertToUnFollow();
+
+               }else{
+
+                   convertToFollow();
+
+               }
+
+
+           },
+            error : function(xhs, status, error){
+
+               console.log("following check error...");
+               console.log("status code... " + status);
+
+            }
+
+
+        });
+
+        }
+
+        $followBtn.on("click", function(e){
 
             e.stopPropagation();
-            //Session check
-            //if session exist..
 
-            let $followBtn = $("a[name='following']");
-            let isFollower = false;
+            if(!hasSession){
+
+                swal({
+
+                    text : "로그인이 필요한 서비스 입니다. 먼저 로그인 해 주세요.",
+                    type : "warning"
+
+                });
+
+                return;
+
+            }
+
             let endPoint = undefined;
 
-            if($followBtn.html().toUpperCase() == "FOLLOW"){
+            if(isFollowing){
 
-                isFollower = true;
-                endPoint = "/unFollow";
+                endPoint = "/board/unFollow";
 
             }else{
 
-                endPoint = "/follow";
+                endPoint = "/board/follow";
 
             }
+
+
 
             $.ajax({
 
                type : "GET",
-               data : { bl_writer : "${map.mem_uid}"},
+               data : { bl_writer : encodeURI('${map.bl_writer}')},
                url : endPoint,
-               success : function(type){
+               success : function(response){
 
-                   if(type == "follow"){
+
+                   if(response == "follow"){
 
                            swal({
 
@@ -195,9 +250,10 @@
 
                            });
 
-                            $followBtn.html("UNFOLLOW").addClass("btn-danger").removeClass("btn-info");
+                       convertToUnFollow();
+                       isFollowing = true;
 
-                   }else if(type == "unFollow"){
+                   }else if(response == "unFollow"){
 
                            swal({
 
@@ -206,7 +262,21 @@
 
                            });
 
-                           $followBtn.html("FOLLOW").addClass("btn-info").removeClass("btn-danger");
+                       convertToFollow();
+                       isFollowing = false;
+
+                   }else{
+
+
+                       swal({
+
+                           text : "팔로잉 도중에 에러가 발생 하였습니다.",
+                           type : "error"
+
+                       });
+
+                       console.log("server's error message ... " + response);
+                       return;
 
                    }
 
@@ -231,6 +301,20 @@
 
         });
 
+
+    }
+
+
+    function convertToFollow(){
+
+        $followBtn.html("FOLLOW").addClass("btn-info").removeClass("btn-danger");
+
+
+    }
+
+    function convertToUnFollow(){
+
+        $followBtn.html("UNFOLLOW").addClass("btn-danger").removeClass("btn-info");
 
     }
 

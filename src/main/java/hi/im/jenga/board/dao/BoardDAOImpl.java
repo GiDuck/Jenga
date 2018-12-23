@@ -31,7 +31,6 @@ public class BoardDAOImpl implements BoardDAO {
     public void writeViewBlock(BoardDTO boardDTO) { sqlSession.insert("board.writeViewBlock", boardDTO); }
 
     public void writeViewReadCount(String bl_uid) {
-        logger.info("유아이이디디디디"+bl_uid);
         sqlSession.insert("board.writeViewReadCount", bl_uid);
     }
 
@@ -69,15 +68,6 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
 
-        /*
-        하나의 주소로 들어오고 select해서 있으면 dislike
-                                          없으면 like
-
-        select mem_iuid FROM tbl_blocklike WHERE ref = bl_iuid 해서
-        있으면  delete from
-        없으면  insert into
-
-        */
         result = sqlSession.selectOne("board.likeCheck", map);
 
         if (result == null) {
@@ -161,17 +151,26 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     public void follow(String bl_writer, String session_iuid) {
+        System.out.println(bl_writer);
+        System.out.println(session_iuid);
         Map<String,String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
         map.put("session_iuid",session_iuid);
-        sqlSession.insert("board.follow,",map);
+        sqlSession.insert("board.follow",map);
+    }
+
+    public String followCheck(String bl_writer, String session_iuid){
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("bl_writer",bl_writer);
+        map.put("session_iuid", session_iuid);
+        return sqlSession.selectOne("board.followCheck",map) == null? "success" : "error";
     }
 
     public void unFollow(String bl_writer, String session_iuid) {
         Map<String,String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
         map.put("session_iuid",session_iuid);
-        sqlSession.delete("board.unFollow,",map);
+        sqlSession.delete("board.unFollow",map);
     }
 
     public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글

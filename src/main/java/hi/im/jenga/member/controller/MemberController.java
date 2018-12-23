@@ -139,12 +139,13 @@ public class MemberController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpSession session, Model model) {
+    public String login(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
 
-        logger.info(": : : : login : : session 은 " + session);
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
-//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+        logger.info("header...");
+        logger.info(request.getHeader("referer"));
+
         logger.info(naverAuthUrl);
         util = facebookLoginUtil;
         String FacebookAuthUrl = util.getAuthorizationUrl(session);

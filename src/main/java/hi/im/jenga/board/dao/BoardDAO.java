@@ -58,6 +58,8 @@ public interface BoardDAO {
 
     void follow(String bl_writer, String session_iuid);
 
+    String followCheck(String bl_writer, String session_iuid);
+
     void unFollow(String bl_writer, String session_iuid);
 
     List<BoardDTO> getFollowerBoard(String my_iuid);
