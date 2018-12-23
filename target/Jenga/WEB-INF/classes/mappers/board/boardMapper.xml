@@ -320,12 +320,21 @@
 		     (#{search},#{session_iuid},systimestamp)
 	</insert>
 
-<insert id="follow">
+	<insert id="follow">
 		INSERT INTO
 			tbl_follow
 		VALUES
 		 	(#{bl_writer}, #{session_iuid})
 	</insert>
+
+	<select id="followCheck" resultType="String">
+		SELECT
+			*
+		FROM
+			TBL_FOLLOW
+		WHERE
+			FL_IUID = #{bl_writer} and fl_follower = #{session_iuid}
+	</select>
 
 <delete id="unFollow">
 		DELETE FROM

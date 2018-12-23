@@ -198,6 +198,10 @@ public class BoardServiceImpl implements BoardService {
 		dao.follow(bl_writer, session_iuid);
 	}
 
+	public String followCheck(String bl_writer, String session_iuid){
+		return dao.followCheck(bl_writer,session_iuid);
+	}
+
 	public void unFollow(String bl_writer, String session_iuid) {
 		dao.unFollow(bl_writer, session_iuid);
 	}

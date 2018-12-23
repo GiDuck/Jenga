@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -409,6 +411,31 @@ public class BoardController {
 //
 //        mongoService.getAnyway(member,json);
         return "/mongo";
+    }
+
+    @RequestMapping("followtest")
+    public @ResponseBody String liketest(String bl_writer,HttpSession session) throws UnsupportedEncodingException {
+        if(session.getAttribute("Member") == null){
+            return "/";
+        }
+        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        logger.info("글쓴사람 iuid"+bl_writer);
+        logger.info("내 iuid"+mem_iuid);
+        if(boardService.followCheck(bl_writer,mem_iuid).equals("success")){
+            boardService.follow(bl_writer,mem_iuid);
+            return "success";
+        }
+        else{
+            return "error";
+        }
+    }
+
+    @RequestMapping("unfollowtest")
+    public @ResponseBody String un(String bl_writer,HttpSession session)throws UnsupportedEncodingException{
+        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        bl_writer = URLDecoder.decode(bl_writer,"UTF-8");
+        boardService.unFollow(bl_writer,mem_iuid);
+        return "success";
     }
 
 

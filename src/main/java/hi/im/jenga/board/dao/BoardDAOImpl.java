@@ -161,10 +161,19 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     public void follow(String bl_writer, String session_iuid) {
+        System.out.println(bl_writer);
+        System.out.println(session_iuid);
         Map<String,String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
         map.put("session_iuid",session_iuid);
-        sqlSession.insert("board.follow,",map);
+        sqlSession.insert("board.follow",map);
+    }
+
+    public String followCheck(String bl_writer, String session_iuid){
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("bl_writer",bl_writer);
+        map.put("session_iuid", session_iuid);
+        return sqlSession.selectOne("board.followCheck",map) == null? "success" : "error";
     }
 
     public void unFollow(String bl_writer, String session_iuid) {
