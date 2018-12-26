@@ -9,6 +9,7 @@ import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.MemberUtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.login.*;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class MemberController {
@@ -138,7 +141,7 @@ public class MemberController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session, Model model) {
 
-        logger.info(": : : : login : : session 은 " + session);
+//        logger.info(": : : : login : : session 은 " + ((MemberDTO)(session.getAttribute("Member"))).getMem_nick());
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
 //        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
@@ -275,6 +278,11 @@ public class MemberController {
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
+
+       /* String parsedURL = (memberDTO.getMem_profile()).replace( "D:\\jengaResource\\upload\\",  "");
+        logger.info("사용자 profile... " + parsedURL);*/
+
+       // memberDTO.setMem_profile(parsedURL);
         model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
         model.addAttribute("favor", favor);      // 선택한 favor 가져옴
 

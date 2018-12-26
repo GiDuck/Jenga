@@ -14,6 +14,7 @@ public class MemberUtilFile {
 
     @Value("#{data['image.profile_path']}")
     private String PROFILE_PATH;
+
     @Value("#{data['image.profile_absolute_path']}")
     private String PROFILE_ABSOLUTE_PATH;
 

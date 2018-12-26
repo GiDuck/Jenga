@@ -1413,8 +1413,7 @@ Chrome, Firefox 사용 가능
         let error = null;
 
 
-
-        if(title.replace(/\s/gi, "").length < 1){
+        if(title.replace(REGEX_TRIM_VOID, "").length < 1){
 
             error = "제목이 공백입니다. 최소 1자리 이상 작성하여 주십시오.";
 

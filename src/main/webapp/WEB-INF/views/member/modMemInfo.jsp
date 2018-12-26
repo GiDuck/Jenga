@@ -24,7 +24,7 @@ Form-data parameter
                 <div class="profile-picture">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new img-no-padding">
-                            <img name="profile" id="profile" src="" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
+                            <img src="${DTO.mem_profile}" name="profile" id="profile" src="" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
                         </div>
                         <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                         <div>
@@ -93,23 +93,39 @@ Form-data parameter
 
                         </ul>
 
-                        <div class="row" style="margin-top : 20px">
+                        <div class="row">
 
-                            <div class="col-12">
+                            <div class="col-12" style="margin-top : 20px">
                                 <label style="font-weight : bold">Bookmarks</label>
                             </div>
-                            <div class="col-12">
-                                <div class="btn btn-danger w-50 text-center" id="btnSyncWithGoogleBK"><i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크와 동기화</div>
-                                &nbsp&nbsp<span>최근 동기화 : <p name="chromeSyncDate"></p></span>
-                            </div>
-                            <div class="col-12">
-                                <br>
-                                <div class="btn btn-primary w-50 text-center"  id="btnSyncWithExploreBK">익스플로러 북마크와 동기화</div>
-                                &nbsp&nbsp<span>최근 동기화 : <p name="exploreSyncDate"></p></span>
+                            <div class="col-12 row w-100">
 
+                                <div class="col-5">
+                                    <div class="btn btn-danger w-100 text-center" id="btnSyncWithGoogleBK">
+                                        <i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크 동기화</div>
+                                </div>
+
+                                <div class="col-7">
+                                    <span>최근 동기화 : <p id="chromeSyncDate"></p></span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 row w-100" style="margin-top : 20px">
+
+                                <div class="col-5">
+                                    <div class="btn btn-primary w-100 text-center"  id="btnSyncWithExploreBK">익스플로러 북마크 동기화</div>
+                                </div>
+
+                                <div class="col-7">
+                                    <span>최근 동기화 : <p id="exploreSyncDate"></p></span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+
 
 
                         <br><br>
@@ -158,14 +174,42 @@ Form-data parameter
         setNavType("blue");
         initFavorForm();
 
-        console.log("${DTO.mem_nick}");
-
-
-
         //썸네일 이미지가 업로드 될때마다 유효성 검사 실시 (1MB 이하만 업로드 가능, jpg, jpeg, png, gif 외 확장자 사용 불가)
         $("input[name='profile']").on('change', function(e){
 
             checkImageFile(e);
+
+        });
+
+        $.ajax({
+
+           type : "GET",
+           data : null,
+           url : "/getBmksUploadDate",
+           success : function(response){
+
+               let $syncDateField;
+                   $syncDateField = $("#chromeSyncDate");
+
+                   console.log("받아온 날짜...");
+                   console.log(response);
+
+               let syncDate = new Date(parseInt(response));
+               console.log(syncDate);
+
+
+               let syncComDateStr = syncDate.getFullYear() + "/" + (syncDate.getMonth()+1)+"/" + syncDate.getDate()
+                   + " " + (syncDate.getHours() > 10 ? syncDate.getHours() : "0" + syncDate.getHours()) +":"+ (syncDate.getMinutes() > 10 ? syncDate.getMinutes() : "0" + syncDate.getMinutes());
+               $syncDateField.html(syncComDateStr);
+
+
+
+           },
+           error : function(xhs, status, error){
+
+               console.log("동기화 날짜 받기 실패... " + status);
+
+           }
 
         });
 

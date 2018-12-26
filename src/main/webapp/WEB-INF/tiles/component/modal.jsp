@@ -417,7 +417,7 @@
                     type: "post",
                     data: {
                         "em_id" : id,
-                        "em_akey": $(this).closest(".form-group").find("#em_akey").val() // TODO 인증키 값 보내는거 null 뜸
+                        "em_akey": $(this).closest(".form-group").find("#em_akey").val()
                     },
                     success : function(responseData){
 
@@ -591,12 +591,12 @@
 
         if(type == "chrome"){
 
-            $syncDateField = $("p[name='chromeSyncDate']");
+            $syncDateField = $("#chromeSyncDate");
 
 
         }else if(type == "explore"){
 
-            $syncDateField =  $("p[name='exploreSyncDate']");
+            $syncDateField =  $("#exploreSyncDate");
 
 
         }else{
@@ -668,11 +668,14 @@
                         + " " + syncDate.getHours()+":"+syncDate.getMinutes();
                         $syncDateField.html(syncComDateStr);
 
+                        $(".modal").modal("hide");
+
                     },
                     error : function(xhs, status, error){
 
                         swal('동기화 실패', '북마크 동기화에 실패하였습니다.', 'error');
                         console.log("북마크 동기화 실패..." + status);
+						$(".modal").modal("hide");
 
                     }
 
@@ -690,6 +693,8 @@
 
 
     }
+
+
 
     //북마크 혹은 폴더의 내용을 변경하게 하는 모달
     function makeAddOrModifyElementModal($element, isAdd, successFunc)

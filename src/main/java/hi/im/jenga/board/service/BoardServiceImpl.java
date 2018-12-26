@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -155,14 +157,16 @@ public class BoardServiceImpl implements BoardService {
 		return map;
 	}
 
+    public String formattingBK(String bookmarks) {
+
+	    FileIO fileIO = new FileIO();
+	    
 
 
+        return null;
+    }
 
-
-
-
-
-	public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
+    public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
 
 	public String getBookMarkFromHTML(String session_iuid) {
 		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
@@ -185,7 +189,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	public List<BoardDTO> search(String search, String search_check, String session_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-		//dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
+		if(session_iuid != null){
+			dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
+		}
 		if(search_check.equals("name")){
 			search = aes256Cipher.AES_Encode(search);
 			return dao.searchName(search);
@@ -193,10 +199,10 @@ public class BoardServiceImpl implements BoardService {
 			return dao.searchTag(search);
 		}else{
 			String[] splitsearch = search.split(" ");
+
 			List<String> list = new ArrayList<String>();
 			for(int i = 0; i<splitsearch.length; i++){
 				list.add(splitsearch[i]);
-				logger.info("add 했음");
 			}
 			return dao.searchContents(list);
 		}

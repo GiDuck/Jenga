@@ -25,8 +25,15 @@
                         </div>
                         <br>
                         <h6>Categories</h6>
-                        <div id="bd_category" class="form-control border-input" style="visibility:hidden"></div>
-
+                        <div id="bd_category" class="form-control" style="border : 0"></div>
+                        <br>
+                        <h6>Like</h6>
+                        <div class="row">
+                        <div id="heartContainer" class="feed col-1" >
+                             <div id="likeBtn" class="heart" rel="like"></div>
+                        </div>
+                        <div id="likeCount" class="likeCount" style="align-items: center; display: flex"></div>
+                    </div>
                     </div>
                     <div class="col-md-7 col-sm-7">
                         <div class="form-group">
@@ -44,15 +51,16 @@
 
                         <div class="form-group">
                             <h6>북마크 가져오기</h6>
-                            <a id="saveBookmark" class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">북마크</a>
+                            <div class="dropdown">
+                            <button id="saveBookmark" class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">북마크</button>
 
                             <div id="saveBookmarkType" class="dropdown-menu w-100" aria-labelledby="saveBookmark">
-                                <a class="dropdown-item w-100">Google</a>
-                                <a class="dropdown-item w-100">Firefox</a>
-                                <a class="dropdown-item w-100">IE</a>
+                                <a class="dropdown-item w-100" value="chrome">Chrome</a>
+                                <a class="dropdown-item w-100" value="firefox">Firefox</a>
+                                <a class="dropdown-item w-100" value="explore">IE</a>
                             </div>
                         </div>
-
+                        </div>
                     </div>
 
 
@@ -124,11 +132,13 @@
         $("#bd_introduce").html('${map.bl_introduce}');
         //블록 내용
         $("#bd_description").html('${map.bl_description}');
-
+        //블록 좋아요 개수
+        $("#likeCount").html('${map.likes}');
         //카테고리
         let categoryStr = blockObj.BL_MAINCTG + " > "  + blockObj.BL_SMCTG;
         $("#bd_category").val(categoryStr);
-
+        <%--alert('${map.bl_mainCtg}');--%>
+        <%--alert('${map.bl_smCtg}');--%>
         //날짜
         let dateObj = new Date(parseInt('${map.bl_date}'));
         let dateStr = dateObj.getFullYear() + "년 " + (dateObj.getMonth()+1) + " 월" + dateObj.getDate() + " 일 "
@@ -218,10 +228,132 @@
     }
 
 
+    let $likeBtn = $("#likeBtn");
+    let liker = new TwitterHeart($likeBtn);
+
     $(document).ready(function(){
 
         setNavType("blue");
         setData();
+
+        $likeBtn.on("click", function(e){
+
+            //세션체크
+            let session = "${sessionScope.Member}";
+            let dest = $(e.target).attr("href");
+
+            if(!session){
+
+                swal({
+                    text : "로그인이 필요한 서비스 입니다. 로그인 페이지로 이동하시겠습니까?",
+                    type : "warning",
+                    showCancelButton : true,
+                    confirmButtonText: "이동"
+                }).then(function(result){
+
+                    if(result.dismiss == 'cancel'){
+                        return;
+                    }
+                    else{
+                        ${applicationScope.tempURLcontainer = window.location.href};
+                        alert('${applicationScope.tempURLcontainer}');
+                        window.location.href="/login";
+                    }
+                });
+
+
+            }else{
+
+                $.busyLoadFull("show", {
+
+                    fontawesome: "fa fa-cog fa-spin fa-3x fa-fw",
+                    text : "페이지를 불러오고 있습니다..."
+
+                });
+
+                window.location.href= dest;
+                <%--window.location.href= "${map.dest}";--%>
+
+                $.ajax({
+                    url: "/board/like/${map.bl_uid}",
+                    type: "GET",
+                    success : function (responseCount) {
+                        alert($("#likeCount").val(responseCount));
+                        $("#likeCount").val(responseCount);
+                    }
+                })
+                e.stopPropagation();
+                liker.toggle();
+            }
+
+        });
+
+        let timer = undefined;
+
+        $("#saveBookmarkType").children().each(function(){
+
+
+            $(this).on("click", function(e){
+
+                e.preventDefault();
+                e.stopPropagation();
+
+
+                if($(this).attr("value") == "chrome"){
+
+
+                    let now = new Date().getTime();
+
+                    if(timer && now - timer < 3000){
+
+                        swal({
+                            text : "다운로드가 실행 중입니다.. 잠시 후 다시 실행 해 주세요.",
+                            type : "warning"
+
+                        });
+
+                        return;
+                    }
+
+                        timer = new Date().getTime();
+
+
+
+                   let bookmarkHTML = parseJsonToHTML(blockObj, '${map.bl_title}', '${map.bl_introduce}');
+                   let temp = $("<a>").append(bookmarkHTML);
+                   let htmlRawResource = (temp.html()).replace(/<\/p>|<\/dt>|/gi, '');
+                   let htmlResource = htmlRawResource.replace(/(<html>|<p>|<title>|<\/title>|<\/h1>|<\/h3>|<\/html>|<\/a>)/gi, "\$1\n");
+                   let dataURI = "data:attachment/html," +encodeURI(htmlResource);
+                   let $tempTag = document.createElement('a');
+                    $tempTag.href = dataURI;
+                    $tempTag.target = '_blank';
+                    $tempTag.download = '20181222new.html';
+                    $tempTag.click();
+
+                    console.log("파일 저장...");
+                    console.log(htmlResource);
+
+
+
+                }else{
+
+                    swal({
+
+                        text : "현재 지원하지 않는 기능입니다.",
+                        type : "warning"
+
+                    });
+
+                    return;
+
+                }
+
+
+            });
+        });
+
+
+
 
     });
 

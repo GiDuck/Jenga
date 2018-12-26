@@ -45,6 +45,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             saveDestination(request);
 
             response.sendRedirect("/login");
+            // TODO     흠 프론트에서 redirect 해주는데 필요가 없나
             return false;
         }
 
