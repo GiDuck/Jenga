@@ -23,24 +23,24 @@ Form-data parameter
     <div class="profile-content section">
         <div class="container">
 
-            <form class="settings-form" method="POST" enctype="multipart/form-data" action="/regMemInfo" onsubmit = "return onFormReq();">
+            <form class="settings-form" onsubmit = "return onFormReq();">
 
                 <div class="row">
                     <div class="profile-picture">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <div class="fileinput-new img-no-padding">
-                                <img src="${pageContext.request.contextPath}/resources/assets/img/faces/clem-onojeghuo-2.jpg"
-                                     alt="...">
+                                <img src=""
+                                     alt="..." onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/faces/clem-onojeghuo-2.jpg'">
                             </div>
                             <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                             <div>
-                <span class="btn btn-outline-default btn-file btn-round">
-                  <span class="fileinput-new">Change Photo</span>
-                  <span class="fileinput-exists">Change</span>
-                  <input type="file" name="mem_profile" id="mem_profile">
-                </span>
+                            <span class="btn btn-outline-default btn-file btn-round">
+                              <span class="fileinput-new">Change Photo</span>
+                              <span class="fileinput-exists">Change</span>
+                              <input type="file" name="mem_profile" id="mem_profile">
+                            </span>
                                 <br/>
-                                <a href="#paper-kit" class="btn btn-link btn-danger fileinput-exists"
+                                <a href="#" class="btn btn-link btn-danger fileinput-exists"
                                    data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
                             </div>
                         </div>
@@ -53,16 +53,16 @@ Form-data parameter
                     <div class="col-md-6 ml-auto mr-auto">
                         <%--<form class="settings-form">--%>
                         <div class="row">
-                            <div class="col-md-6 col-12">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label>NickName</label>
-                                    <input type="text" class="form-control border-input" placeholder="NickName" name="mem_nick" id="mem_nick">
+                                    <input type="text" class="form-control border-input" placeholder="Nickname" placeholder="닉네임을 입력 해 주세요.." name="mem_nick">
                                 </div>
                             </div>
-                            <div class="col-md-6 col-12">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label>Introduce</label>
-                                    <input type="text" class="form-control border-input" placeholder="Introduce" name="mem_introduce" id="mem_introduce">
+                                    <textarea type="text" class="form-control border-input" placeholder="소개를 입력 해 주세요.." name="mem_introduce" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -96,21 +96,6 @@ Form-data parameter
                     </div>
                 </div>
 
-                <%-- 이메일로 가입에서 넘어온 이메일과 비밀번호--%>
-                <input type="hidden" value="${emailMemberDTO.getEm_id()}" name="em_id">
-                <input type="hidden" value="${emailMemberDTO.getEm_pwd()}" name="em_pwd">
-
-                <%-- 소셜로그인에서 넘어온 이메일--%>
-                <input type="hidden" value="${socialMemberDTO.getSm_id()}" name="sm_id">
-                <input type="hidden" value="${socialMemberDTO.getSm_type()}" name="sm_type">
-
-
-                <%--<input type="hidden" value="" name="mem_iuid">--%>
-                <%--<input type="hidden" value="" name="mem_level">--%>
-                <%--<input type="hidden" value="" name="mem_joinDate">--%>
-
-
-
             </form>
 
         </div>
@@ -121,16 +106,18 @@ Form-data parameter
 
 
     /* ------------ 뷰 초기화 작업 ------------ */
-    $(document).ready( _ => {
+    $(document).ready( function() {
         //네비바 색상 초기화
         setNavType("blue");
         initFavorForm();
 
-        /*  $("#saveBtn").on('click', _ => {
-             //alert("asdfsadfsadf");
-           //  getSelectedCard();
 
-          });*/
+
+        $("input[name='mem_profile']").on('change', function(e){
+
+            checkImageFile(e);
+
+        });
 
     });
 
@@ -143,60 +130,62 @@ Form-data parameter
         //사용자가 선택한 취향 카드 목록을 들고온다.
         let selectCard = getSelectedCard();
 
-        console.log(selectCard);
-
 
 	  //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
       if(selectCard.length==0){
           alert("카드를 하나이상 선택해 주세요!")
           return false;
       }
-	  for(let i =0 ; i < selectCard.length ; ++i){
-          $inputNode = $("<input>").attr("type", "hidden").attr("name", "favor").val(selectCard[i]);
-          $(".settings-form").append($inputNode);
 
-        }
+      let nickname = $("input[name='mem_nick']").val();
+      let introduce = $("textarea[name='mem_introduce']").val();
+      let profile = $("input[name='mem_profile']").prop("files")[0];
 
-        //초기화 절차가 끝나면 true를 리턴하여 form submit 수행
-        return true;
+              let formData = new FormData();
+              formData.append("mem_nick", nickname);
+              formData.append("mem_introduce", introduce);
+              formData.append("mem_profile", profile);
+              formData.append("favor", selectCard);
+              formData.append("em_id", "${emailMemberDTO.em_id}");
+              formData.append("em_pwd", "${emailMemberDTO.em_pwd}");
+              formData.append("sm_id", "${socialMemberDTO.sm_id}");
+              formData.append("sm_type", "${socialMemberDTO.sm_type}");
+
+        $.ajax({
+
+          type : "POST",
+          url : "/regMemInfo",
+          encrypt : "multipart/form-data",
+          data : formData,
+          contentType: false,
+          cache: false,
+          processData:false,
+          success : function(response){
+              swal({
+                 text : "추가 정보를 성공적으로 등록하였습니다.",
+                 type : "success"
+
+              }).then(function(){
+                  location.replace("/");
+              });
+          },error : function(xhs, status, error) {
+                swal({
+                    text: "추가 정보 등록 중 에러가 발생하였습니다. 문제가 지속되면 관리자에게 문의하십시오.",
+                    type: "error"
+
+                });
+
+                return;
+
+            }
+      });
+
+
+        return false;
 
 
 
     }
-
-
-
-    /*  //------------- 선택된 카드를 가져오는 함수 --------------
-
-      function getSelectedCard() {
-
-         //카드 목록을 가져와서
-         let $cards = $("#selectFavorField").find(".card");
-         let selCards = new Array();
-
-         $cards.each(function(index, item) {
-
-
-            let temp = $(item).css('opacity');
-
-              //만약 투명도가 1이 아니면 (카드 선택 시 투명도가 1 미만으로 설정되어있음)
-            if(temp < 1){
-
-               //html값을 가져와서 배열에 넣어준다.
-               selCards.push($(item).find("h3").html());
-
-            }
-         });
-
-
-         //배열을 리턴
-         return selCards;
-
-
-      }*/
-
-
-
 
 
     //--------------- 취향 카드 리스트 초기화 ----------------
@@ -221,10 +210,11 @@ Form-data parameter
                     console.log(index["MCTG_NAME"]);
                     console.log(index.MCTG_NAME);
                     let $cardItem = $("#cardItem").clone();
+                    let imgUrl = "/categoryimg/" + index.MCTG_IMG;
 
                     //display : none 처리 되어있는 카드를 show 해준다.
                     $cardItem.css('display', 'block');
-                    $cardItem.find(".card").css("background-image", "url('"+ index.image +"')" );
+                    $cardItem.find(".card").css("background-image", "url('"+ imgUrl + "')");
                     $cardItem.find("h3").html(index["MCTG_NAME"]);
 
                     $cardItem.on('click', (e) => {

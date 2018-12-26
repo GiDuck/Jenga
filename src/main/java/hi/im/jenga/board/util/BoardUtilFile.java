@@ -14,9 +14,14 @@ import java.util.Date;
 public class BoardUtilFile {
 
     @Value("#{data['image.block_path']}")
-    private String BLOCK_IMAGE_PATH;
-    @Value("#{data['block.path']}")
-    private String BLOCK_PATH;
+    private String IMAGE_BLOCK_PATH;
+    @Value("#{data['image.block_absolute_path']}")
+    private String IMAGE_BLOCK_ABSOLUTE_PATH;
+
+    @Value("#{data['bookmark.absolute_path']}")
+    private String BOOKMARK_ABSOLUTE_PATH;
+    @Value("#{data['bookmark.path']}")
+    private String BOOKMARK_PATH;
 
 
     private String BLOCK_FINAL_PATH;
@@ -38,9 +43,15 @@ public class BoardUtilFile {
         PrintWriter printWriter = null;
 
         try {
+            logger.info(IMAGE_BLOCK_ABSOLUTE_PATH);
+            logger.info(IMAGE_BLOCK_PATH);
+
+            logger.info(BOOKMARK_ABSOLUTE_PATH);
+            logger.info(BOOKMARK_PATH);
 
             fileName = uploadFile.getOriginalFilename();
 
+            logger.info("uploadFile.getOriginalFilename() 은 "+ fileName);
             if(type.equals("image")) {
 //          파일이름이 ""면 (파일을 올리지 않았으면 ""로 들어옴)
                 if (fileName.equals("")) {
@@ -48,7 +59,7 @@ public class BoardUtilFile {
                     return "";
                 }
 
-                File uploadPath = new File(BLOCK_IMAGE_PATH, getFolder());
+                File uploadPath = new File(IMAGE_BLOCK_ABSOLUTE_PATH, getFolder());
 
                 if(uploadPath.exists() == false){
                     logger.info("yyyy/MM/dd 폴더를 생성");
@@ -57,7 +68,7 @@ public class BoardUtilFile {
                 }
 
                 logger.info("BoardUtilFile fileUpload fileName : " + fileName);
-                logger.info("BoardUtilFile fileUpload path : " + BLOCK_IMAGE_PATH);
+                logger.info("BoardUtilFile fileUpload path : " + IMAGE_BLOCK_ABSOLUTE_PATH);
 
 
                 file = new File(uploadPath, fileName);
@@ -74,9 +85,13 @@ public class BoardUtilFile {
                 }
 
                 logger.info("BoardUtilFile fileUpload final fileName : " + fileName);
-                logger.info("BoardUtilFile fileUpload final path : " + BLOCK_IMAGE_PATH);
+                logger.info("BoardUtilFile fileUpload final path : " + IMAGE_BLOCK_ABSOLUTE_PATH);
 
-                BLOCK_IMAGE_PATH = uploadPath.getPath()+"\\"+fileName;
+                String filePath = uploadPath.getPath()+"\\"+fileName;
+                logger.info(filePath);
+                IMAGE_BLOCK_PATH = filePath.replace("Y:\\go\\Jenga\\block\\img\\","");     // += / =
+                IMAGE_BLOCK_PATH = IMAGE_BLOCK_PATH.replace("\\","/");
+                logger.info(IMAGE_BLOCK_PATH);
             }
 
 
@@ -85,19 +100,22 @@ public class BoardUtilFile {
 
 //          block path로 들어오면
             else {
-                File uploadPath = new File(BLOCK_PATH, getFolder());    // 이 경로에가서 /년/월/일  폴더를 만듬
+                File uploadPath = new File(BOOKMARK_ABSOLUTE_PATH, getFolder());    // 이 경로에가서 /년/월/일  폴더를 만듬
                 // yyyy/MM/dd 폴더를 만듬
                 if(uploadPath.exists() == false){
                     uploadPath.mkdirs();
                 }
-
                 logger.info("BoardUtilFile fileUpload fileName : " + fileName);
                 logger.info("요기요기");
                 logger.info("BoardUtilFile fileUpload path : " +uploadPath.getName());  // 04
                 logger.info("BoardUtilFile fileUpload path : " +uploadPath.getAbsolutePath()+"\\"+fileName);
                 logger.info("BoardUtilFile fileUpload path : " +uploadPath.getPath()+"\\"+fileName);
 
-                BLOCK_FINAL_PATH = uploadPath.getPath()+"\\"+fileName;
+                String filePath = uploadPath.getPath()+"\\"+fileName;
+                logger.info(filePath);
+                BOOKMARK_PATH = filePath.replace("Y:\\go\\Jenga\\bookmark\\path\\","");    // += / =
+                logger.info(BOOKMARK_PATH);
+//                BOOKMARK_PATH = uploadPath.getPath()+"\\"+fileName;
 
 //                file = new File(BLOCK_FINAL_PATH, fileName);
                 file = new File(uploadPath, fileName);
@@ -138,12 +156,12 @@ public class BoardUtilFile {
 
         if(type.equals("image")) {
             logger.info("image입니다");
-            logger.info(BLOCK_IMAGE_PATH);
-            return BLOCK_IMAGE_PATH;
+            logger.info(IMAGE_BLOCK_PATH);
+            return IMAGE_BLOCK_PATH;
         }
         logger.info("그냥입니다");
-        return BLOCK_FINAL_PATH;
-//        return BLOCK_PATH + fileName;
+        logger.info(BOOKMARK_PATH);
+        return BOOKMARK_PATH;
     }
 
 //  업로드 파일 저장 경로 얻는 메소드

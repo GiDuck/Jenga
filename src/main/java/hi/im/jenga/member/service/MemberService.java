@@ -32,8 +32,6 @@ public interface MemberService {
 
     MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
 
-    void join(EmailMemberDTO emailMemberDTO);
-
     String sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
 
     boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception;
@@ -42,7 +40,7 @@ public interface MemberService {
 
     void delMemInfo(String session_mem_iuid) throws Exception;
 
-    Map<String, String> modMemberInfoGET(MemberDTO memberDTO) throws Exception;
+    MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
 
     MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception;
 
@@ -56,6 +54,10 @@ public interface MemberService {
 
     List<Map<String,String>> getCategory();
 
-    String getUserInfo(String mem_iuid, String param) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+    Map<String, String> getUserInfo(String mem_iuid, String check_profile, String check_nick, String check_introduce) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+
+    String getBmksUploadDate(String session_iuid);
+
+    void changePwd(String mem_iuid, String pwd) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 }
 

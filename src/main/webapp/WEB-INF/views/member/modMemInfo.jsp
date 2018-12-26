@@ -24,7 +24,7 @@ Form-data parameter
                 <div class="profile-picture">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new img-no-padding">
-                            <img name="profile" id="profile" src="profiles/${map.mem_profile}" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
+                            <img src="${DTO.mem_profile}" name="profile" id="profile" src="" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
                         </div>
                         <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                         <div>
@@ -49,7 +49,7 @@ Form-data parameter
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label>NickName</label>
-                                <input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${map.mem_nick}">
+                                <input type="text" name="mem_nick" id="mem_nick" class="form-control border-input" placeholder="NickName" value="${DTO.mem_nick}">
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
@@ -62,7 +62,7 @@ Form-data parameter
                         <div class="col-12">
 
                             <label>Introduce</label>
-                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5">${map.mem_introduce}</textarea>
+                            <textarea name="mem_introduce" class="form-control border-input w-100" rows="5">${DTO.mem_introduce}</textarea>
 
                         </div>
 
@@ -93,24 +93,39 @@ Form-data parameter
 
                         </ul>
 
-                        <div class="row" style="margin-top : 20px">
+                        <div class="row">
 
-                            <div class="col-12">
+                            <div class="col-12" style="margin-top : 20px">
                                 <label style="font-weight : bold">Bookmarks</label>
                             </div>
-                            <div class="col-12">
-                                <div class="btn btn-danger w-50 text-center" id="btnSyncWithGoogleBK"><i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크와 동기화</div>
-                                &nbsp&nbsp<span>최근 동기화 : <p name="chromeSyncDate">${map.bp_date}</p></span>
-                                <%-- TODO  날짜 형식 변경하기  현재 출력 Wed Dec 19 00:00:00 KST 2018  --%>
-                            </div>
-                            <div class="col-12">
-                                <br>
-                                <div class="btn btn-primary w-50 text-center"  id="btnSyncWithExploreBK">익스플로러 북마크와 동기화</div>
-                                &nbsp&nbsp<span>최근 동기화 : <p name="exploreSyncDate"></p></span>
+                            <div class="col-12 row w-100">
 
+                                <div class="col-5">
+                                    <div class="btn btn-danger w-100 text-center" id="btnSyncWithGoogleBK">
+                                        <i class="fa fa-google-plus" aria-hidden="true"></i>구글 북마크 동기화</div>
+                                </div>
+
+                                <div class="col-7">
+                                    <span>최근 동기화 : <p id="chromeSyncDate"></p></span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 row w-100" style="margin-top : 20px">
+
+                                <div class="col-5">
+                                    <div class="btn btn-primary w-100 text-center"  id="btnSyncWithExploreBK">익스플로러 북마크 동기화</div>
+                                </div>
+
+                                <div class="col-7">
+                                    <span>최근 동기화 : <p id="exploreSyncDate"></p></span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+
 
 
                         <br><br>
@@ -127,9 +142,7 @@ Form-data parameter
 
 <script>
     var userFavor = new Array();
-</script>
 
-<script>
     $(function () {
         $('#btnSyncWithGoogleBK').click(function () {
             makeUploadBookMarkFileModal('chrome');
@@ -152,13 +165,6 @@ Form-data parameter
 <!-- 사용자가 선택한 취향 정보를 JS에서 사용하기 위해, EL을 통해 받아온 리스트를 JS의 배열로 변환하는 소스 -->
 
 <script>
-    //사용자가 선택한 취향 정보
-    console.log(userFavor);
-
-</script>
-
-
-<script>
 
 
 
@@ -168,8 +174,45 @@ Form-data parameter
         setNavType("blue");
         initFavorForm();
 
-        console.log("${DTO}");
-        console.log('${map.mem_nick}');
+        //썸네일 이미지가 업로드 될때마다 유효성 검사 실시 (1MB 이하만 업로드 가능, jpg, jpeg, png, gif 외 확장자 사용 불가)
+        $("input[name='profile']").on('change', function(e){
+
+            checkImageFile(e);
+
+        });
+
+        $.ajax({
+
+           type : "GET",
+           data : null,
+           url : "/getBmksUploadDate",
+           success : function(response){
+
+               let $syncDateField;
+                   $syncDateField = $("#chromeSyncDate");
+
+                   console.log("받아온 날짜...");
+                   console.log(response);
+
+               let syncDate = new Date(parseInt(response));
+               console.log(syncDate);
+
+
+               let syncComDateStr = syncDate.getFullYear() + "/" + (syncDate.getMonth()+1)+"/" + syncDate.getDate()
+                   + " " + (syncDate.getHours() > 10 ? syncDate.getHours() : "0" + syncDate.getHours()) +":"+ (syncDate.getMinutes() > 10 ? syncDate.getMinutes() : "0" + syncDate.getMinutes());
+               $syncDateField.html(syncComDateStr);
+
+
+
+           },
+           error : function(xhs, status, error){
+
+               console.log("동기화 날짜 받기 실패... " + status);
+
+           }
+
+        });
+
 
 
         $("#saveBtn").on('click', function (e) {
@@ -190,9 +233,29 @@ Form-data parameter
                 $.ajax({
 
                     url: "/delMemInfo",
-                    type: "post",
-                    success: makeSimpleNotifyModal(null, "회원 탈퇴되었습니다. 감사합니다.", "닫기", null),
-                    error: (xhs, status, error), function() {
+                    type: "DELETE",
+                    success: function(response){
+
+                        swal({
+
+                           text  : "삭제가 성공적으로 마무리 되었습니다.",
+                           type : "success"
+
+                        }).then(function(){
+
+                            location.replace("/");
+
+                        });
+
+                    },
+                    error:  function(xhs, status, error) {
+
+                        swal({
+
+                            text  : "삭제 중 오류가 발생하였습니다.",
+                            type : "error"
+
+                        });
 
                         console.log(status.code + "에러가 발생하였습니다.");
 
@@ -202,34 +265,31 @@ Form-data parameter
 
             }
 
-            //거절 시 수행 함수
-            let refuseFunc = function () {
-            }
-            //모달 창 띄우기
-            makeCheckableModal("회원 탈퇴", "복구용 계정을 설정 하지 않았다면 정보를 더이상 찾을 수 없습니다. 계속 진행하시겠습니까?", "예", "아니오", okFunc, refuseFunc);
+
+            swal({
+
+               title : "회원 탈퇴",
+               text : "복구용 계정을 설정 하지 않았다면 정보를 더이상 찾을 수 없습니다. 계속 진행하시겠습니까?",
+               type : "warning",
+               showCancelButton : true,
+               showConfirmButton: true
+
+            }).then(function(result){
+
+                if(result.value){
+
+                    okFunc();
+
+                }
+
+
+            });
 
 
         });
 
     });
 
-/*    console.log("input file 원래 사진 "+$("#mem_profile").value); //요거 인듯
-    $("#mem_profile").change(function () {
-        alert("사진이 바뀌었습니다.");
-        console.log("input file 원래 사진 "+ $("#mem_profile").value);
-
-    });
-
-
-    $("#mem_nick").change(function () {
-        alert("닉이 바뀌었습니다.");
-        console.log("input file 원래 사진 "+ $("#mem_nick").value);
-
-    });
-
-    function nickChange() {
-        alert("Asdfasdf");
-    }*/
 
     // ---------- Submit시에 Hidden 값을 넣어주는 함수 -----------
 
@@ -242,16 +302,11 @@ Form-data parameter
         let introduce = $("textarea[name='mem_introduce']").val();
         let profile = $("#mem_profile").prop("files");
 
-        console.log("검증");
-        console.log(nickname);
-        console.log(selectCard);
-        console.log(introduce);
 
         let params = new FormData();
         params.append("mem_nick", nickname);
         params.append("mem_profile", profile[0]);
         params.append("mem_introduce", introduce);
-        // params.append("em_pwd", "godqhrgkek93@");
         params.append("favor", selectCard);
 
         $.ajax({
@@ -270,7 +325,7 @@ Form-data parameter
                     text : "회원정보 수정 성공하였습니다.",
                     type : "success"
 
-                }).then(function(result){
+                }).then(function(){
 
                     window.location.replace("/");
                 });

@@ -27,6 +27,7 @@ public class FileIO {
 	}
 
 
+
 //  path + fileName을 받아옴
 	public FileIO(String fileFullName){
 
@@ -44,7 +45,6 @@ public class FileIO {
 		}
 
 	}
-
 
 
 	public String InputBookMark() {

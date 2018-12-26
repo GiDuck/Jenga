@@ -136,12 +136,13 @@ public class MemberController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpSession session, Model model) {
+    public String login(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
 
-        logger.info(": : : : login : : session 은 " + session);
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
-//        logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+        logger.info("header...");
+        logger.info(request.getHeader("referer"));
+
         logger.info(naverAuthUrl);
         util = facebookLoginUtil;
         String FacebookAuthUrl = util.getAuthorizationUrl(session);
@@ -252,9 +253,6 @@ public class MemberController {
             return;
         }
         logger.info(check);
-        // 인증여부 Y로 바꿔야함, 테이블에 값 넣어야함
-
-        /*memberService.join(emailMemberDTO);*/
         response.getWriter().println(check);
 
     }
@@ -274,11 +272,16 @@ public class MemberController {
         logger.info("바뀌기 전 닉네임 "+((MemberDTO) session.getAttribute("Member")).getMem_nick());
         logger.info("바뀌기 전 소개 "+((MemberDTO) session.getAttribute("Member")).getMem_introduce());
 
-        Map<String, String> map = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
+        MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
         List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         logger.info("컨트롤러 페버"+favor);
-        model.addAttribute("map", map);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
+
+       /* String parsedURL = (memberDTO.getMem_profile()).replace( "D:\\jengaResource\\upload\\",  "");
+        logger.info("사용자 profile... " + parsedURL);*/
+
+       // memberDTO.setMem_profile(parsedURL);
+        model.addAttribute("DTO", memberDTO);   // 닉네임, 파일경로 복호화 후 받은 DTO를 뷰에 넘겨줌
         model.addAttribute("favor", favor);      // 선택한 favor 가져옴
 
         return "member/modMemInfo";
@@ -384,14 +387,14 @@ public class MemberController {
 //        TODO 여기부터 다시
         if(!emailMemberDTO.getEm_id().equals("")) {
             logger.info("이메일은 여기서 다 처리");
-//            String em_ref = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
-
+            String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
+            logger.info("띠용 "+aes_iuid);
 
             memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName,  "email");
             logger.info("이메일1");
-            memberService.addMemberFavor(memberDTO.getMem_iuid(), favor);
+            memberService.addMemberFavor(aes_iuid, favor);
             logger.info("이메일2");
-            memberService.addEMember(memberDTO.getMem_iuid());
+            memberService.addEMember(aes_iuid);
             logger.info("이메일3");
             return "redirect:/";
 
@@ -451,15 +454,31 @@ public class MemberController {
                                                          @RequestParam(value = "introduce", required = false) String introduce) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         Map<String, String> result = new HashMap();
-        String param = "";
-        if(profile != null){ param = "profile"; }
-        if(nick != null){ param = "nick"; }
-        if(introduce != null){ param = "introduce"; }
-        String decode_param = memberService.getUserInfo(mem_iuid, param);
-        result.put(param, decode_param);
+        String check_profile = "";
+        String check_nick = "";
+        String check_introduce = "";
+        if(profile != null){
+            check_profile = "profile";
+        }
+        if(nick != null){
+            check_nick = "nick";
+        }
+        if(introduce != null){
+            check_introduce  = "introduce";
+        }
+        result = memberService.getUserInfo(mem_iuid, check_profile, check_nick, check_introduce);
 
         return result;
 
+    }
+
+    @RequestMapping(value = "/changePwd", method = RequestMethod.POST)
+    public ResponseEntity<Void> changePwd(HttpSession session, @RequestParam("pwd") String pwd) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+
+        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        memberService.changePwd(mem_iuid, pwd);
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 
@@ -508,6 +527,8 @@ public class MemberController {
 
 
 
+//까미바보 쫄보
+
     /******************************** 소셜별 콜백 매핑 *********************************/
 
     @RequestMapping(value = "/facebookcallback", method = RequestMethod.GET)
@@ -525,21 +546,19 @@ public class MemberController {
         String id = (String) json.get("id");
         logger.info(id);
 
-        String aes_id = aes256Cipher.AES_Encode(id);
+        String aes_id = aes256Cipher.AES_Encode(id, startrow, endrow);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
-        if (memberDTO != null) {
-            logger.info("존재하는 소셜 ID 입니다");
-            session.setAttribute("Member",memberDTO);
-            return "redirect:/";
-        }
+        if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook", startrow, endrow));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
         return "member/setMemInfo";
     }
+
+
 
     @RequestMapping(value = "/kakaocallback", method = RequestMethod.GET)
     public String kakaocallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
@@ -559,16 +578,12 @@ public class MemberController {
         JSONObject json1 = (JSONObject) jsonParser.parse(apiResult);
         String id = String.valueOf(json1.get("id"));
 
-        String aes_id = aes256Cipher.AES_Encode(id);
+        String aes_id = aes256Cipher.AES_Encode(id, startrow, endrow);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
-        if (memberDTO != null) {
-            logger.info("존재하는 소셜 ID 입니다");
-            session.setAttribute("Member",memberDTO);
-            return "redirect:/";
-        }
+        if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao", startrow, endrow));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -592,16 +607,12 @@ public class MemberController {
 
         String id = (String) json2.get("id");
 
-        String aes_id = aes256Cipher.AES_Encode(id);
+        String aes_id = aes256Cipher.AES_Encode(id, startrow, endrow);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
-        if (memberDTO != null) {
-            logger.info("존재하는 소셜 ID 입니다");
-            session.setAttribute("Member",memberDTO);
-            return "redirect:/";
-        }
+        if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver", startrow, endrow));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
         // 타입은 우리가 줘야함
@@ -621,15 +632,11 @@ public class MemberController {
         JSONObject json = (JSONObject) jsonParser.parse(apiResult);
         String id = (String)json.get("id");
 
-        String aes_id = aes256Cipher.AES_Encode(id);
+        String aes_id = aes256Cipher.AES_Encode(id, startrow, endrow);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
-        if (memberDTO != null) {
-            logger.info("존재하는 소셜 ID 입니다");
-            session.setAttribute("Member",memberDTO);
-            return "redirect:/";
-        }
+        if (addSocialSession(model, session, memberDTO)) return "redirect:/";
         socialMemberDTO.setSm_id(aes_id);
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google", startrow, endrow));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -637,6 +644,15 @@ public class MemberController {
         return "member/setMemInfo";
     }
 
+    private boolean addSocialSession(Model model, HttpSession session, MemberDTO memberDTO) {
+        if (memberDTO != null) {
+            logger.info("존재하는 소셜 ID 입니다");
+            session.setAttribute("Member",memberDTO);
+            model.addAttribute("M_Type", "social");
+            return true;
+        }
+        return false;
+    }
 
     /*******************************************************************************/
 
@@ -650,7 +666,7 @@ public class MemberController {
     public ResponseEntity<String> getCategory() throws Exception {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        List<Map<String, String>> params;
+        List<Map<String, String>> params = new ArrayList<Map<String, String>>();
 
         params = memberService.getCategory();
 
@@ -661,5 +677,15 @@ public class MemberController {
         logger.info(json);
 
         return new ResponseEntity<String>(json,httpHeaders, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/getBmksUploadDate", method = RequestMethod.GET)
+    public @ResponseBody String getBmksUploadDate(HttpSession session) {
+        String session_iuid  = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+
+        String bmksUploadDate = memberService.getBmksUploadDate(session_iuid);
+
+        return bmksUploadDate;
     }
 }

@@ -20,16 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -60,35 +52,63 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-    /*@RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String SearchGET(String search, String search_check, HttpSession session){
-        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String SearchGET(String search, String search_check, HttpSession session) throws Exception {
+     /*   String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
         List<BoardDTO> result = boardService.search(search, search_check, session_iuid);
         boardService.searchImg(search,search_check);
         boardService.searchMemInfo(search,search_check);
         boardService.searchLike(search,search_check);
-
+*/
 
 
         return "stackBoard/boardSearch";
-    }*/
+    }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String SearchPOST(String search, String search_check, HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check") String search_check, int page, HttpSession session) throws Exception {
+
+        String session_iuid = null;
+        int limit = 20;
+        int nowpage = page;
+        int listcount = 0;
+        int startrow = (page - 1) * 10 + 1;
+        int endrow = startrow + limit - 1;
+
+        if(search == null && search.replaceAll(" ","").equals("")){
+            //return "error"; 에러 보내야함...
+        }
+        listcount = boardService.countSearch(search,search_check);
 
 
-        logger.info("뽑아옴?" + boardService.search(search, search_check, "").size());
-        logger.info("이미지 뽑아옴?" + boardService.searchImg(search, search_check));
-                   /* if(((MemberDTO)session.getAttribute("Member")).getMem_iuid() != null) {
-                        String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-                        if (boardService.search(search, search_check, session_iuid) != null) {
-                            logger.info("테스트 뽑기" + boardService.search(search, search_check, session_iuid).get(0).getBl_title());
-                            logger.info("잘들어감");
-                        }
-            }else{
-                return "bad";
-            }*/
-        return "good";
+        int maxpage = (int) ((double) listcount / limit + 0.95);
+        int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+        int endpage = maxpage;
+
+        if (endpage > startpage + 10 - 1)
+            endpage = startpage + 10 - 1;
+
+
+        try {
+
+            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid(); //이것도 로그인페이지로?
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        List<BoardDTO> container = null;
+        try {
+
+            container = boardService.search(search, search_check, session_iuid, startrow, endrow);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return container;
     }
 
     @GetMapping(value = "/boardView")
@@ -136,6 +156,8 @@ public class BoardController {
 
             Map<String, Object> map = boardService.getModifyBlock(bl_uid);
 
+            logger.info("컨트롤러 맵은 " + map);
+
             JSONObject jsonObject = new JSONObject(map);
             model.addAttribute("map", jsonObject);
 
@@ -152,6 +174,22 @@ public class BoardController {
      * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
      */
 
+
+    //    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
+
+
+    /*
+    logger.info(boardDTO.getBl_mainCtg());
+    logger.info(boardDTO.getBl_smCtg());
+    logger.info(boardDTO.getBl_description());
+    logger.info(boardDTO.getBl_introduce());
+    logger.info(boardDTO.getBl_title());
+    logger.info(boardDTO.getBt_name().toString());
+    logger.info(boardDTO.getBt_name()[0]);
+    logger.info(boardDTO.getBt_name()[1]);
+    logger.info(boardDTO.getBl_date().toString());
+    logger.info(boardDTO.getBl_writer());           // mem_iuid
+    */
     //TODO ResponseBody로 board_uid 리턴해줘
     // 글쓰는페이지 POST / 작성
     @RequestMapping(value = "/uploadBlock", method = RequestMethod.POST, produces = "multipart/form-data; charset=utf-8")
@@ -159,11 +197,13 @@ public class BoardController {
     String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
                          @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
 
+        logger.info("session에서 뽑아온 iuid는 " + ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid());
         boardDTO.setBl_uid(UUID.randomUUID().toString());
 
         boardDTO.setBl_writer(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
         String uploadName;
 
+//        logger.info("uploadFile.getOriginalFilename()은 ? "+ uploadFile.getOriginalFilename());
         if (uploadFile == null) {
             logger.info("null!");
         }
@@ -171,11 +211,12 @@ public class BoardController {
         if (uploadFile != null) {
             uploadFile.getOriginalFilename();
             uploadName = boardUtilFile.fileUpload(uploadFile, "image");
+            logger.info("이미지 파일이 있네 이름은 ?" + uploadName);
         } else {
             uploadName = "";
         }
 
-
+        logger.info("이미지 파일은 ?" + uploadName);
 
 //        service에서 디폴트이미지 처리
 
@@ -183,7 +224,13 @@ public class BoardController {
         boardDTO.setBl_smCtg(boardService.transCtgUID(boardDTO.getBl_smCtg(), flag));
         flag = "m";
         boardDTO.setBl_mainCtg(boardService.transCtgUID(boardDTO.getBl_mainCtg(), flag));
+
+        logger.info("DTO" + boardDTO.getBl_uid() + "/스몰/" + boardDTO.getBl_smCtg() + "/메인/" + boardDTO.getBl_mainCtg());
+
         boardService.writeViewBlock(boardDTO, uploadName, bl_bookmarks);
+
+        logger.info("글작성 성공");
+
         return boardDTO.getBl_uid();
     }
 
@@ -247,13 +294,25 @@ public class BoardController {
         String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         ResponseEntity<String> result;
         BlockPathDTO blockPathDTO = new BlockPathDTO();
+        logger.info("북마크 타입은 " + bp_booktype);
+        logger.info("브라우저 타입은 " + bp_browstype);
 
         try {
+            logger.info("업로드 된 파일");
+            logger.info("파일 이름은 " + uploadFile.getOriginalFilename());
+            logger.info("파일 사이즈 " + uploadFile.getSize());
+            logger.info("머고이건 " + uploadFile.getBytes().toString());
 
             String uploadPath = boardUtilFile.fileUpload(uploadFile, "block");
+
+            logger.info(uploadPath);
             blockPathDTO.setBp_booktype(bp_booktype);
             blockPathDTO.setBp_browstype(bp_browstype);
             blockPathDTO.setBp_path(uploadPath);
+
+            logger.info(blockPathDTO.getBp_booktype());
+            logger.info(blockPathDTO.getBp_browstype());
+            logger.info(blockPathDTO.getBp_path());
 
             boardService.addBmksPath(session_iuid, blockPathDTO);
 
@@ -273,29 +332,32 @@ public class BoardController {
     }
 
 
-    @RequestMapping(value = "/follow", method = RequestMethod.POST)
+    @RequestMapping(value = "/follow", method = RequestMethod.GET)
     @ResponseBody
-    public void follower(String bl_writer, HttpSession session, HttpServletResponse response) throws IOException {
-        String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+    public String follower(@RequestParam("bl_writer") String bl_writer, HttpSession session, HttpServletResponse response) throws Exception {
 
+        String session_iuid = null;
         try {
+            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
             boardService.follow(bl_writer, session_iuid);
-            response.getWriter().println("success");
+            return "follow";
         } catch (Exception e) {
-            response.getWriter().println("error");
+            return e.getMessage();
         }
     }
 
-    @RequestMapping(value = "/unFollow", method = RequestMethod.POST)
+    @RequestMapping(value = "/unFollow", method = RequestMethod.GET)
     @ResponseBody
-    public void unfollower(String bl_writer, HttpSession session, HttpServletResponse response) throws IOException {
-        String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+    public String unfollower(@RequestParam("bl_writer") String bl_writer, HttpSession session, HttpServletResponse response) throws Exception {
+        String session_iuid = null;
 
         try {
+            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
             boardService.unFollow(bl_writer, session_iuid);
-            response.getWriter().println("success");
+            return "unFollow";
         } catch (Exception e) {
-            response.getWriter().println("error");
+            e.printStackTrace();
+            return null;
         }
     }
 

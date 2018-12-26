@@ -11,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO{
@@ -38,6 +35,18 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     public MemberDTO getUserInfo(String mem_iuid) { return sqlSession.selectOne("member.getUserInfo", mem_iuid); }
+
+    public String getBmksUploadDate(String session_iuid) {
+        Date date = sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
+        return String.valueOf(date.getTime());
+    }
+
+    public void changePwd(String mem_iuid, String aes_pwd) {
+        Map<String, String> map = new HashMap();
+        map.put("mem_iuid", mem_iuid);
+        map.put("aes_pwd", aes_pwd);
+        sqlSession.update("member.changePwd", map);
+    }
 
     public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }
 
@@ -110,7 +119,7 @@ public class MemberDAOImpl implements MemberDAO{
         // INSERT 아예 없을 경우
         if(emailMemberDTO.getEm_acheck() == null){
             logger.info("null임 if문 들어옴");
-            String aes_iuid  = aes256Cipher.AES_Encode(UUID.randomUUID().toString());     // Memberinfo에 넣어줄 iuid. 나머지는 0으로 지정
+            String aes_iuid  = aes256Cipher.AES_Encode(UUID.randomUUID().toString(), startrow, endrow);     // Memberinfo에 넣어줄 iuid. 나머지는 0으로 지정
             logger.info("aes_iuid는 "+aes_iuid);
             sqlSession.insert("member.tempIns", aes_iuid);                      // 임시로 memInfo 에 iuid, nick, profile, joindate 넣음
             emailMemberDTO.setEm_ref(aes_iuid);                                             // tbl_memInfo 의 iuid(PK)를 ref에 넣어줌
@@ -146,7 +155,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public List<String> getMemFavor(String member) { return sqlSession.selectList("member.getMemFavor",member); }
 
-    public Map<String, String> modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
+    public MemberDTO modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
 
     public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor){
         Map<String, Object> map = new HashMap();

@@ -11,7 +11,7 @@
 <nav id="navbar" class="navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/" rel="tooltip" title="Jenga" data-placement="bottom" target="_blank">
+        <a class="navbar-brand" href="/" rel="tooltip" title="Jenga" data-placement="bottom">
           Jenga
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -133,7 +133,6 @@
               }
               else{
                   window.location.href="/login";
-
               }
           });
 		 
@@ -148,7 +147,7 @@
               });
 
               window.location.href= dest;
-
+              <%--window.location.href= "${map.dest}";--%>
 
           }
 		  

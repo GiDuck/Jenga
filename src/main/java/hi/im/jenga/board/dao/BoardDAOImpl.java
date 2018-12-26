@@ -59,15 +59,6 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
 
-        /*
-        하나의 주소로 들어오고 select해서 있으면 dislike
-                                          없으면 like
-
-        select mem_iuid FROM tbl_blocklike WHERE ref = bl_iuid 해서
-        있으면  delete from
-        없으면  insert into
-
-        */
         result = sqlSession.selectOne("board.likeCheck", map);
 
         if (result == null) {
@@ -128,16 +119,28 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectOne("board.mctgUID", bl_smCtg);
     }
 
-    public List<BoardDTO> searchName(String search) {
-        return sqlSession.selectList("board.searchName", search);
+    public List<BoardDTO> searchName(String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchName", map);
     }
 
-    public List<BoardDTO> searchTag(String search) {
-        return sqlSession.selectList("board.searchTag", search);
+    public List<BoardDTO> searchTag(String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchTag", map);
     }
 
-    public List<BoardDTO> searchContents(List<String> search) {
-        return sqlSession.selectList("board.searchTitle", search);
+    public List<BoardDTO> searchContents(List<String> search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchTitle", map);
     }
 
     public void setSearchKeyword(String search, String session_iuid) {
@@ -166,8 +169,8 @@ public class BoardDAOImpl implements BoardDAO {
     public void unFollow(String bl_writer, String session_iuid) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
-        map.put("session_iuid", session_iuid);
-        sqlSession.delete("board.unFollow", map);
+        map.put("session_iuid",session_iuid);
+        sqlSession.delete("board.unFollow",map);
     }
 
     public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
@@ -186,16 +189,31 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.searchImgName", search);
     }
 
-    public void searchImgTag(String search) {
+    public List<String> searchImgTag(String search) {
         logger.info("이미지태그 받기" + sqlSession.selectList("board.searchImgTag", search));
 
+        return null;
     }
 
-    public void searchImgContents(List<String> search) {
+    public List<String> searchImgContents(List<String> search) {
 
 
         logger.info("서치이미미지지지지" + sqlSession.selectList("board.searchImgTitle", search));
+        return search;
     }
+
+    public int countSearchName(String search) {
+        return sqlSession.selectOne("board.countSearchName",search);
+    }
+
+    public int countSearchTag(String search) {
+        return sqlSession.selectOne("board.countSearchTag",search);
+    }
+
+    public int countSearchContents(List<String> search) {
+        return sqlSession.selectOne("board.countSearchTitle",search);
+    }
+
 
 
     public String getUploadName(String bl_uid) {
