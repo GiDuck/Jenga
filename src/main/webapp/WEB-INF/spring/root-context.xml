@@ -8,8 +8,8 @@
       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
-	<!--<util:properties id="data" location="file:D:\data\tests.properties" />-->
-	<util:properties id="data" location="file:///Y:\go\Jenga\tests.properties" />
+	<util:properties id="data" location="file:D:\data\tests.properties" />
+	<!--<util:properties id="data" location="file:///Y:\go\Jenga\tests.properties" />-->
 
 
 	<!-- DataSource는 JDBC의 커넥션을 처리하는 기능을 가지고 있기 때문에 데이터베이스와 연동 작업에 반드시 필요하다. -->

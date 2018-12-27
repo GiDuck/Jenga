@@ -31,8 +31,9 @@
                         <div class="row">
                         <div id="heartContainer" class="feed col-1" >
                              <div id="likeBtn" class="heart" rel="like"></div>
+
                         </div>
-                        <div id="likeCount" class="likeCount" style="align-items: center; display: flex"></div>
+                        <div id="likeCount" class="likeCount" style="align-items: center; display: flex">30</div>
                     </div>
                     </div>
                     <div class="col-md-7 col-sm-7">
@@ -143,8 +144,7 @@
         $("#bd_introduce").html('${map.bl_introduce}');
         //블록 내용
         $("#bd_description").html('${map.bl_description}');
-        //블록 좋아요 개수
-        $("#likeCount").html('${map.likes}');
+
         //카테고리
         let categoryStr = '${map.bl_mainCtg}' + " > "  + '${map.bl_smCtg}';
         $("#bd_category").val(categoryStr);
@@ -400,10 +400,6 @@
 
         $likeBtn.on("click", function(e){
 
-<<<<<<< HEAD
-=======
-            //세션체크
->>>>>>> 98c9db47cd3d0b93c5ec9e4fc022a5ef4e25982d
             let session = "${sessionScope.Member}";
             let dest = $(e.target).attr("href");
 
@@ -429,20 +425,6 @@
 
             }else{
 
-                $.busyLoadFull("show", {
-
-                    fontawesome: "fa fa-cog fa-spin fa-3x fa-fw",
-                    text : "페이지를 불러오고 있습니다..."
-
-                });
-
-                window.location.href= dest;
-                <%--window.location.href= "${map.dest}";--%>
-
-<<<<<<< HEAD
-                console.log(${map});
-=======
->>>>>>> 98c9db47cd3d0b93c5ec9e4fc022a5ef4e25982d
                 $.ajax({
                     url: "/board/like/${map.bl_uid}",
                     type: "GET",
@@ -454,10 +436,7 @@
                 e.stopPropagation();
                 liker.toggle();
             }
-<<<<<<< HEAD
 
-=======
->>>>>>> 98c9db47cd3d0b93c5ec9e4fc022a5ef4e25982d
 
         });
 

@@ -42,28 +42,8 @@
 
     <select id="getBoardDetailBlock" resultType="Map" resultMap="boardMap">
 		SELECT
-			B.bl_uid AS "bl_uid", B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description",
-            B.bl_introduce AS "bl_introduce", (SELECT
-             										mctg_name
-												FROM
-													tbl_mcategory
-												WHERE
-													mctg_uid = (SELECT
-																	bl_mainCtg
-																FROM
-																	tbl_block
-																WHERE bl_uid = #{bl_uid})) AS "bl_mainCtg",
-												(SELECT
-													sctg_name
-												FROM
-													tbl_scategory
-												WHERE
-													sctg_uid = (SELECT
-																	bl_smctg
-																FROM
-																	tbl_block
-																WHERE bl_uid = #{bl_uid})) AS "bl_smCtg",
-			B.bl_date AS "bl_date", B.bl_objId AS "bl_objId", I.bti_url AS "bti_url", R.blrc_count AS "blrc_count", M.mem_nick AS "mem_nick", M.mem_introduce AS "mem_introduce", M.mem_profile AS "mem_profile"
+			B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description", B.bl_introduce AS "bl_introduce", B.bl_mainCtg AS "bl_mainCtg", B.bl_smCtg AS "bl_smCtg", B.bl_date AS "bl_date", B.bl_objId AS "bl_objId",
+			I.bti_url AS "bti_url", R.blrc_count AS "blrc_count", M.mem_nick AS "mem_nick", M.mem_introduce AS "mem_introduce", M.mem_profile AS "mem_profile"
 		FROM
 			tbl_block B
 			INNER JOIN
@@ -125,11 +105,11 @@
 
     <!-- 좋아요 체크 -->
     <select id="likeCheck" resultType="String">
-	    SELECT
+		SELECT
 			blk_writer
-		FROM
+		from
 			tbl_blocklikes
-		WHERE
+		where
 			blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
 
 	</select>
@@ -138,9 +118,9 @@
     <insert id="addLike">
 		INSERT INTO
 			tbl_blockLikes
-				(blk_ref, blk_writer)
+				(blk_ref)
         VALUES
-				(#{bl_iuid}, #{session_mem_iuid})
+				(#{bl_uid})
 	</insert>
 
     <!-- 좋아요 취소 -->
@@ -148,8 +128,10 @@
         DELETE FROM
             tbl_blockLikes
         WHERE
-            blk_ref = #{bl_iuid} AND blk_writer = #{session_mem_iuid}
+            blrc_ref = #{bl_uid}
     </delete>
+
+    <!-- 좋아요 카운트-->
 
     <select id="getModifyBlock" resultType="Map">
 		SELECT
