@@ -56,18 +56,29 @@ public class BoardDAOImpl implements BoardDAO {
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
         String result;
         Map<String, String> map = new HashMap();
+        logger.info(bl_iuid);
+        logger.info(session_mem_iuid);
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
-
+        logger.info("daoimpl  like");
         result = sqlSession.selectOne("board.likeCheck", map);
-
+        logger.info("시발아");
+        logger.info(result);
         if (result == null) {
+            logger.info("if ");
             sqlSession.insert("board.addLike", map);
+            logger.info("좋아요 insert");
             return;
         }
-        sqlSession.delete("board.cancelLike", map);
+        logger.info("if nono");
+        int i = sqlSession.delete("board.cancelLike", map);
+        logger.info("dldldldld"+i);
         logger.info("좋아요 delete");
 
+    }
+
+    public int likeCount(String bl_iuid) {
+        return sqlSession.selectOne("board.likeCount", bl_iuid);
     }
 
     public Map<String, List<String>> getCategoryName() {
@@ -175,10 +186,6 @@ public class BoardDAOImpl implements BoardDAO {
 
     public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
         return sqlSession.selectList("board.getFollowerBoard", my_iuid);
-    }
-
-    public int likeCount(String bl_iuid) {
-        return sqlSession.selectOne("board.likeCount", bl_iuid);
     }
 
     public List<BoardDTO> getMyBlock(String my_iuid) {
