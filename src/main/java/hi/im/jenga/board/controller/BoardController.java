@@ -286,12 +286,21 @@ public class BoardController {
     public @ResponseBody int like(@PathVariable String bl_iuid, HttpSession session){
         logger.info("like 들어옴");
         String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
-        logger.info("아라아라아라아라");
         boardService.likeCheck(bl_iuid, session_mem_iuid);
 
         int likeCount = boardService.likeCount(bl_iuid);
         logger.info("반환할 likeCount 값은? " + likeCount);
         return likeCount;
+    }
+
+    @RequestMapping(value = "/isLikeExist/{bl_uid}", method = RequestMethod.GET)
+    public @ResponseBody String isLikeExist(HttpSession session, @PathVariable("bl_uid") String bl_iuid) {
+        String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
+        String check = boardService.isLikeExist(bl_iuid, session_mem_iuid);
+        logger.info(check);
+        String result = check != null ? "exist" : "notExist";
+        logger.info(result);
+        return result;
     }
 
 

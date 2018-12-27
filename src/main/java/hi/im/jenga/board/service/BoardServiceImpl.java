@@ -21,7 +21,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -164,7 +163,17 @@ public class BoardServiceImpl implements BoardService {
         return null;
     }
 
-    public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
+	public String isLikeExist(String bl_iuid, String session_mem_iuid) { return dao.likeCheck(bl_iuid, session_mem_iuid); }
+
+    public void likeCheck(String bl_iuid, String session_mem_iuid) {
+		String result = dao.likeCheck(bl_iuid, session_mem_iuid);
+//		if("".equals(result)){
+		if(result == null){
+			dao.addLike(bl_iuid, session_mem_iuid);
+			return;
+		}
+		dao.cancelLike(bl_iuid, session_mem_iuid);
+	}
 
 	public int likeCount(String bl_iuid) {
 		return dao.likeCount(bl_iuid);
@@ -228,7 +237,6 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardDTO> getMyBlock(String my_iuid) {
 		return dao.getMyBlock(my_iuid);
 	}
-
 	public List<String> searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
 		if(search_check.equals("name")){
 			logger.info("변경 전" + search);
@@ -248,6 +256,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return null;
 	}
+
 	public int countSearch(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
 		if (search_check.equals("name")) {
 			search = aes256Cipher.AES_Encode(search);

@@ -53,28 +53,28 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-    public void likeCheck(String bl_iuid, String session_mem_iuid) {
-        String result;
+    public String likeCheck(String bl_iuid, String session_mem_iuid) {
         Map<String, String> map = new HashMap();
-        logger.info(bl_iuid);
-        logger.info(session_mem_iuid);
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
-        logger.info("daoimpl  like");
-        result = sqlSession.selectOne("board.likeCheck", map);
-        logger.info("시발아");
-        logger.info(result);
-        if (result == null) {
-            logger.info("if ");
-            sqlSession.insert("board.addLike", map);
-            logger.info("좋아요 insert");
-            return;
-        }
-        logger.info("if nono");
-        int i = sqlSession.delete("board.cancelLike", map);
-        logger.info("dldldldld"+i);
-        logger.info("좋아요 delete");
+        String result = sqlSession.selectOne("board.likeCheck", map);
+        return result;
+    }
 
+    public void addLike(String bl_iuid, String session_mem_iuid) {
+        logger.info("like추가");
+        Map<String, String> map = new HashMap();
+        map.put("bl_iuid", bl_iuid);
+        map.put("session_mem_iuid", session_mem_iuid);
+        sqlSession.insert("board.addLike", map);
+    }
+
+    public void cancelLike(String bl_iuid, String session_mem_iuid) {
+        logger.info("like삭제");
+        Map<String, String> map = new HashMap();
+        map.put("bl_iuid", bl_iuid);
+        map.put("session_mem_iuid", session_mem_iuid);
+        sqlSession.delete("board.cancelLike", map);
     }
 
     public int likeCount(String bl_iuid) {
@@ -220,7 +220,6 @@ public class BoardDAOImpl implements BoardDAO {
     public int countSearchContents(List<String> search) {
         return sqlSession.selectOne("board.countSearchTitle",search);
     }
-
 
 
     public String getUploadName(String bl_uid) {
