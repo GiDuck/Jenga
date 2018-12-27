@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">		<!-- MyBatis의 경우 작성된 XML Mapper는 상단의 파일에서 사용하는 태그들에 대한 정보가 기록된 DTD를 추가 -->
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="member">
+
+	<!-- 2차 페이지에서 입력 후 임시로 저장한 정보들을 새로 UPDATE하는 -->
+	<!-- 개인정보 (주) -->
+	<update id="addEMemberInfo">
+	UPDATE
+		tbl_MemInfo
+	SET
+		mem_nick = #{mem_nick}, mem_profile = #{mem_profile}, mem_joinDate = sysdate, mem_introduce = #{mem_introduce}
+	WHERE
+		mem_iuid = #{mem_iuid}
+	</update>
+
+	<insert id="addSMemberInfo">
+	INSERT INTO
+		tbl_MemInfo
+		(mem_iuid, mem_nick, mem_profile, mem_joinDate, mem_introduce)
+	VALUES
+		(#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate, #{mem_introduce})
+	</insert>
+
+	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 날짜로 그날 날짜로 바꾸고 완전 회원가입 완료 -->
+	<!-- 이메일 가입 (부) -->
+	<insert id="addEMember">
+	UPDATE
+		tbl_EMember
+	SET
+		em_acheck = 'Y', em_adate = sysdate
+	WHERE em_ref = #{aes_iuid}
+	</insert>
+
+	<!-- 소셜로그인 가입 (부) -->
+	<insert id="addSMember">
+	INSERT INTO
+		tbl_SMember
+		(sm_id, sm_ref, sm_type)
+	VALUES (#{socialMemberDTO.sm_id}, #{iuid}, #{socialMemberDTO.sm_type})
+	</insert>
+
+	<!-- SELECT sm_id FROM tbl_SMember WHERE sm_id = #{aes_sid}-->
+	<select id="isSMExist" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		*
+	FROM
+		TBL_MEMINFO
+	WHERE MEM_IUID = (SELECT
+	 				  		SM_REF
+					  FROM
+					  		TBL_SMEMBER
+					  WHERE SM_ID = #{aes_sid})
+	</select>
+
+	<!-- 이메일 회원가입 할 때 입력된 이메일을 암호화 한 후 EMember에 존재하는지 여부를 ‘Y’, ‘N’, null 로 알려줌 -->
+	<select id="isEMExist" resultType="String">
+	SELECT
+		em_acheck
+	FROM
+		tbl_EMember
+	WHERE
+		em_id = #{aes_eid}
+	</select>
+
+	<update id="findEPwd">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{sha_key}
+	WHERE em_id = #{aes_find_pwd}
+	</update>
+
+	<update id="findAPwd" parameterType="HashMap">
+ 	UPDATE
+		tbl_AMember
+	SET
+		am_pwd = #{tempPwdKey}
+	WHERE am_id = <![CDATA[#{find_pwd}]]>
+	</update>
+
+	<!-- 이메일 회원가입할 때 인증키 보낼 때 tbl_memInfo에 임시로 넣어주는 메서드 -->
+	<insert id="tempIns">
+	INSERT INTO
+		tbl_MemInfo
+	(mem_iuid, mem_nick, mem_profile,  mem_joindate, mem_introduce)
+	VALUES (#{iuid},'temp', 'temp', sysdate, 'temp')
+	</insert>
+
+	<!-- 처음 정보들을 INSERT했지만 끄고 다시 들어올때 UPDATE로 -->
+	<update id="sendKeyUpdate">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{em_pwd}, em_akey = #{em_akey}
+	WHERE em_id = #{em_id}
+	</update>
+
+	<!-- 이메일로 회원가입할 때 이메일, 비밀번호, iuid, (이메일로 보내는)인증키, 이메일 인증전이라 'N' 넣음 -->
+	<insert id="sendKeyInsert">
+	INSERT INTO
+		tbl_EMember
+	(em_id, em_pwd, em_ref, em_akey)
+	VALUES (#{em_id}, #{em_pwd}, #{em_ref}, #{em_akey})
+	</insert>
+
+	<!-- 해당 이메일에 보낸 인증키가 일치하는지 확인하는지 -->
+	<select id="authCheck" resultType="String">
+	SELECT
+		em_id
+	FROM
+		tbl_EMember
+	WHERE em_id = #{em_id} AND em_akey = #{em_akey}
+	</select>
+
+	<!-- 멤버 지움 -->
+	<delete id="delMemInfo">
+	DELETE FROM tbl_MemInfo
+	WHERE mem_iuid = #{session_mem_iuid}
+	</delete>
+
+	<!-- 멤버 정보 수정-->
+	<update id="updMemInfo">
+	UPDATE
+		tbl_MemInfo
+	SET
+		mem_nick = ${mem_nick}, mem_profile = #{mem_profile}, mem_introduce = #{mem_introduce}
+	WHERE
+		mem_iuid = #{mem_iuid};
+	</update>
+
+	<select id="checkid" resultType="String">
+	SELECT
+		EM_ID
+	FROM
+	    tbl_EMember
+	where
+	    EM_ID = #{em_id}
+	</select>
+
+	<select id="checkpass" resultType="String">
+	SELECT
+		*
+	FROM
+	    tbl_EMember
+	WHERE
+	    EM_ID = #{em_id} AND EM_PWD = #{em_pwd}
+	</select>
+
+	<select id="checkauth" resultType="String">
+	SELECT
+	    em_acheck
+	from
+	    tbl_emember
+	where
+	    em_id = #{em_id} and em_pwd = #{em_pwd}
+	</select>
+
+	<select id="getMemInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		  *
+	FROM
+		  tbl_MemInfo
+	WHERE
+		  mem_iuid = (SELECT
+		                    EM_REF
+		  			  FROM
+		  			        tbl_EMember
+		  			  where
+		  			        em_id = #{em_id}
+		             )
+
+	</select>
+
+	<!-- 이메일을 이용해서 임시로 넣은 iuid를 찾기위한 메서드 -->
+	<select id="findIuid" resultType="String">
+	SELECT
+		em_ref
+	FROM
+		tbl_EMember
+	WHERE em_id = #{em_id}
+	</select>
+
+	<!--<select id="modMemberInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		mem_nick, mem_profile
+	FROM
+		tbl_MemInfo
+	WHERE
+		mem_iuid = #{aes_id}
+	</select>-->
+
+	<!-- aes_iuid 대신 s_iuid가 되어있노 일단 aes_iuid로 바꿈-->
+	<insert id="addMemberFavor">
+	INSERT INTO
+		tbl_mFavor
+	VALUES
+		(#{s_iuid}, (SELECT
+		               		mctg_uid
+		          	 	FROM
+                    		tbl_mCategory
+                  	 	WHERE
+                     		mctg_name = #{fav})
+						)
+	</insert>
+
+
+	<delete id="delMemberFavor">
+	DELETE FROM
+		tbl_mFavor
+	WHERE
+		mf_ref = #{s_iuid}
+	</delete>
+
+	<select id = "getMemFavor" resultType="String">
+    SELECT
+        MCTG_NAME
+    FROM
+        tbl_mcategory
+    WHERE
+        MCTG_UID IN (SELECT
+                       MF_TYPE
+                    FROM
+                       tbl_mfavor
+                    WHERE
+                       MF_REF = #{member}
+                    )
+   </select>
+
+
+	<select id = "modMemberInfoGET" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		mem_nick AS "mem_nick", mem_profile AS "mem_profile", mem_introduce AS "mem_introduce"
+	FROM
+		tbl_MemInfo
+	WHERE
+		mem_iuid = #{aes_iuid}
+	</select>
+
+	<update id="modMemberInfoPOST_MemInfo">
+	UPDATE
+		tbl_MemInfo
+	SET
+		mem_nick = #{memberDTO.mem_nick}, mem_profile = #{memberDTO.mem_profile}, mem_introduce = #{memberDTO.mem_introduce}
+	WHERE
+		mem_iuid = #{s_iuid}
+	</update>
+
+	<update id="modMemberInfoPOST_EMember">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{aes_em_pwd}
+	WHERE
+		em_ref = #{s_iuid}
+	</update>
+
+	<select id="getMemInfoSession" resultType="hi.im.jenga.member.dto.MemberDTO">
+	SELECT
+		*
+	FROM
+		tbl_MemInfo
+	WHERE
+	 	mem_iuid = #{s_iuid}
+	</select>
+
+	<select id="getMemProfile" resultType="String">
+	SELECT
+		mem_profile
+	FROM
+		tbl_MemInfo
+	WHERE
+		mem_iuid = #{s_iuid}
+	</select>
+
+	<select id="getUserInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
+  	SELECT
+  		mem_nick, mem_profile, mem_introduce
+	FROM
+		tbl_meminfo
+	WHERE
+		mem_iuid = #{mem_iuid}
+	</select>
+
+	<select id="getCategory" resultType="java.util.Map">
+	SELECT
+	    mctg_name, mctg_img
+	from
+		tbl_mcategory
+	</select>
+
+	<select id="getBmksUploadDate" resultType="Date">
+	SELECT
+		bp_date
+	FROM
+		tbl_blpath
+	WHERE
+		bp_iuid = #{session_iuid}
+	</select>
+
+	<update id="changePwd">
+	UPDATE
+		tbl_EMember
+	SET
+		em_pwd = #{aes_pwd}
+	WHERE
+		em_iuid = #{mem_iuid}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

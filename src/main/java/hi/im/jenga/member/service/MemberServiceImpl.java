@@ -51,8 +51,8 @@ public class MemberServiceImpl implements MemberService {
         logger.info("addEMemberInfo 서비스");
         String iuid = "";
 
-        memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick(), startrow, endrow));
-        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(memberDTO.getMem_introduce(), startrow, endrow));
+        memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick()));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(memberDTO.getMem_introduce()));
 
         if (uploadName.equals("")) {
             logger.info("addEMemberInfo 서비스 디폴트이미지로 변경");
@@ -62,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
             memberDTO.setMem_profile(uploadName);
         }
 
-        memberDTO.setMem_profile(aes256Cipher.AES_Encode(memberDTO.getMem_profile(), startrow, endrow));
+        memberDTO.setMem_profile(aes256Cipher.AES_Encode(memberDTO.getMem_profile()));
         if (key.equals("email")) {
             logger.info("addEMemberInfo 이메일 입니다");
             iuid = findIuid(emailMemberDTO);   // 암호화 한 임시 meminfo uid를 찾아옴
@@ -71,7 +71,7 @@ public class MemberServiceImpl implements MemberService {
             dao.addEMemberInfo(memberDTO);
         } else if (key.equals("social")) {
             logger.info("addSMemberInfo 소셜 입니다");
-            iuid = aes256Cipher.AES_Encode(UUID.randomUUID().toString(), startrow, endrow);
+            iuid = aes256Cipher.AES_Encode(UUID.randomUUID().toString());
             logger.info(iuid);
             memberDTO.setMem_iuid(iuid);
 
@@ -95,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
 
     // 암호화해서 넘김
     public String isEMExist(String em_id) throws Exception {
-        String aes_eid = aes256Cipher.AES_Encode(em_id, startrow, endrow);
+        String aes_eid = aes256Cipher.AES_Encode(em_id);
         logger.info("오이잉 service " + aes_eid);
         return dao.isEMExist(aes_eid);
     }
@@ -105,7 +105,7 @@ public class MemberServiceImpl implements MemberService {
         String result;
         logger.info(": : : findEPwd");
 
-        String aes_find_pwd = aes256Cipher.AES_Encode(find_pwd, startrow, endrow);       // 암호화 후 찾아야 하니까
+        String aes_find_pwd = aes256Cipher.AES_Encode(find_pwd);       // 암호화 후 찾아야 하니까
 
         result = dao.isEMExist(aes_find_pwd);    // 일단 존재하는지 여부
 
@@ -133,7 +133,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception {
-        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id(), startrow, endrow));
+        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
         emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));
         String idcheck = dao.checkEmail(emailMemberDTO);
         if (idcheck == null) { return "iderror"; }
@@ -155,7 +155,7 @@ public class MemberServiceImpl implements MemberService {
         String key = new TempKey().getKey(10, false);        // 이메일 인증키
         String emailId = emailMemberDTO.getEm_id();
         // 인증여부가 N이면 메일전송 / 이메일, 비밀번호하고 인증키 UPDATE 해야함
-        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id(), startrow, endrow));        // 암호화 한 후 UPDATE
+        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));        // 암호화 한 후 UPDATE
         emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));    // 암호화 한 후 UPDATE
         emailMemberDTO.setEm_akey(key);                                                     // 생성한 인증키를 넣음
         logger.info("새로 뽑아서 넣어야지 / 넣기전" + key);
@@ -167,14 +167,14 @@ public class MemberServiceImpl implements MemberService {
 
     public boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception {
 
-        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id(), startrow, endrow));
+        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
         return dao.authCheck(emailMemberDTO);
     }
 
     public String findIuid(EmailMemberDTO emailMemberDTO) throws Exception {
         logger.info("findIuid IN ServiceImpl");
         //        이메일을 암호화시켜서 비교하기 위해
-        String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id(), startrow, endrow);
+        String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
         emailMemberDTO.setEm_id(aes_id);
         return dao.findIuid(emailMemberDTO);
     }
@@ -229,8 +229,8 @@ public class MemberServiceImpl implements MemberService {
 
         MemberDTO memberDTO = new MemberDTO();
 
-        memberDTO.setMem_nick(aes256Cipher.AES_Encode(mem_nick, startrow, endrow));       // 닉네임 암호화 후 DTO에 넣음
-        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(mem_introduce, startrow, endrow));       // 닉네임 암호화 후 DTO에 넣음
+        memberDTO.setMem_nick(aes256Cipher.AES_Encode(mem_nick));       // 닉네임 암호화 후 DTO에 넣음
+        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(mem_introduce));       // 닉네임 암호화 후 DTO에 넣음
 
 
         if (uploadName.equals("")) {
@@ -238,7 +238,7 @@ public class MemberServiceImpl implements MemberService {
             uploadName = dao.getMemProfile(s_iuid); // 세션id로 원래 파일이름 가져옴
             uploadName = aes256Cipher.AES_Decode(uploadName);   // 암호화 된채로 왔으니 복호화하고 밑에서 다시 암호화
         }
-        memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadName, startrow, endrow));  // 파일이름 암호화 후 DTO에 넣음
+        memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadName));  // 파일이름 암호화 후 DTO에 넣음
 
 
         /*if(!em_pwd.equals("")) {
@@ -282,7 +282,7 @@ public class MemberServiceImpl implements MemberService {
     public String getBmksUploadDate(String session_iuid) { return dao.getBmksUploadDate(session_iuid); }
 
     public void changePwd(String mem_iuid, String pwd) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        dao.changePwd(mem_iuid, aes256Cipher.AES_Encode(pwd, startrow, endrow));
+        dao.changePwd(mem_iuid, aes256Cipher.AES_Encode(pwd));
 
     }
 

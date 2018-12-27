@@ -68,11 +68,11 @@ public interface BoardDAO {
 
     List<BoardDTO> getMyBlock(String my_iuid);
 
-    List<String> searchImgName(String search);
+    List<String> searchImgName(String search, int startrow, int endrow);
 
-    List<String> searchImgTag(String search);
+    List<String> searchImgTag(String search, int startrow, int endrow);
 
-    List<String> searchImgContents(List<String> search);
+    List<String> searchImgContents(List<String> search, int startrow, int endrow);
 
     int countSearchName(String search);
 

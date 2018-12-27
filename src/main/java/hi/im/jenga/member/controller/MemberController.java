@@ -546,12 +546,12 @@ public class MemberController {
         String id = (String) json.get("id");
         logger.info(id);
 
-        String aes_id = aes256Cipher.AES_Encode(id, startrow, endrow);
+        String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
         if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook", startrow, endrow));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("facebook"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -578,12 +578,12 @@ public class MemberController {
         JSONObject json1 = (JSONObject) jsonParser.parse(apiResult);
         String id = String.valueOf(json1.get("id"));
 
-        String aes_id = aes256Cipher.AES_Encode(id, startrow, endrow);
+        String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
         if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao", startrow, endrow));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("kakao"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 
@@ -607,12 +607,12 @@ public class MemberController {
 
         String id = (String) json2.get("id");
 
-        String aes_id = aes256Cipher.AES_Encode(id, startrow, endrow);
+        String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
         if (addSocialSession(model, session, memberDTO)) return "redirect:/";
 
         socialMemberDTO.setSm_id(aes_id);
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver", startrow, endrow));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("naver"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
         // 타입은 우리가 줘야함
@@ -632,11 +632,11 @@ public class MemberController {
         JSONObject json = (JSONObject) jsonParser.parse(apiResult);
         String id = (String)json.get("id");
 
-        String aes_id = aes256Cipher.AES_Encode(id, startrow, endrow);
+        String aes_id = aes256Cipher.AES_Encode(id);
         MemberDTO memberDTO = memberService.isSMExist(aes_id);
         if (addSocialSession(model, session, memberDTO)) return "redirect:/";
         socialMemberDTO.setSm_id(aes_id);
-        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google", startrow, endrow));
+        socialMemberDTO.setSm_type(aes256Cipher.AES_Encode("google"));
 
         model.addAttribute("socialMemberDTO", socialMemberDTO);
 

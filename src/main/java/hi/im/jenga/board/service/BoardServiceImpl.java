@@ -187,7 +187,9 @@ public class BoardServiceImpl implements BoardService {
 
             List<String> list = new ArrayList<String>();
             for (int i = 0; i < splitsearch.length; i++) {
+                logger.info("리스트 추가합니다"+splitsearch[i]);
                 list.add(splitsearch[i]);
+                logger.info("리스트 추가완료!"+list.get(i));
             }
             return dao.searchContents(list, startrow, endrow);
         }
@@ -217,19 +219,19 @@ public class BoardServiceImpl implements BoardService {
         return dao.getMyBlock(my_iuid);
     }
 
-    public List<String> searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+    public List<String> searchImg(String search, String search_check, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         if (search_check.equals("name")) {
             search = aes256Cipher.AES_Encode(search);
-            return dao.searchImgName(search);
+            return dao.searchImgName(search,startrow,endrow);
         } else if (search_check.equals("tag")) {
-            return dao.searchImgTag(search);
+            return dao.searchImgTag(search,startrow,endrow);
         } else {
             String[] splitsearch = search.split(" ");
             List<String> list = new ArrayList<String>();
             for (int i = 0; i < splitsearch.length; i++) {
                 list.add(splitsearch[i]);
             }
-            return dao.searchImgContents(list);
+            return dao.searchImgContents(list,startrow,endrow);
         }
     }
 
