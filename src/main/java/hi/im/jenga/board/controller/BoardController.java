@@ -63,8 +63,8 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-    /*@RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String SearchGET(String search, String search_check, HttpSession session){
+/*    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String SearchGET(String search, String search_check, HttpSession session) throws Exception{
         String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
         List<BoardDTO> result = boardService.search(search, search_check, session_iuid);
         boardService.searchImg(search,search_check);
@@ -74,7 +74,17 @@ public class BoardController {
 
 
         return "stackBoard/boardSearch";
-    }
+    }*/
+
+        @RequestMapping(value="/search", method = RequestMethod.GET)
+        public String getSearchPage(){
+
+
+
+            return "stackBoard/boardSearch";
+
+
+        }
 
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
     @ResponseBody

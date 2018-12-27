@@ -527,11 +527,6 @@ public class MemberController {
 
     }
 
-
-
-
-//까미바보 쫄보
-
     /******************************** 소셜별 콜백 매핑 *********************************/
 
     @RequestMapping(value = "/facebookcallback", method = RequestMethod.GET)

@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="col-md-3 col-sm-4" id="bkCard" style="display : none">
-                    <div class="card card-plain text-center">
+                    <div class="card card-blog text-center">
                         <div class="card-image">
                                 <img name="bk_image" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg'"
                                      src="" alt="Rounded Image" class="img-rounded img-responsive">
@@ -82,14 +82,36 @@
 
 <script>
 
+    function TimeChecker() {
+
+        let startTime;
+        const TIME_INTERVAL = 5000;
+        this.validateOverInterval = function () {
+
+                if (!startTime) {
+
+                    startTime = new Date().getTime();
+
+                }
+
+                let endTime = new Date().getTime();
+
+
+                if (endTime - startTime < TIME_INTERVAL) {
+                    return false;
+                } else {
+                    startTime = new Date().getTime();
+                    return true;
+                }
+        }
+
+    }
+
     function PreLoader(){
 
         this.preloader = $("#loaderContainer");
 
     }
-
-
-
 
     PreLoader.prototype.show = function(){
 
@@ -105,10 +127,9 @@
 
     let preLoader = new PreLoader();
 
-
-
     $(document).ready(function () {
 
+        let timeChecker = new TimeChecker();
         setNavType("blue");
         selectDropdown();
         $("button[name='bs_searchBtn']").on("click", function(e){
@@ -136,6 +157,22 @@
                }
 
            }
+
+        }).on("scroll", function(){
+
+            let isTouched = parseInt($(window).scrollTop()) == $(document).height() - ($(window).height() + 1);
+
+            if(isTouched){
+
+                let flag = timeChecker.validateOverInterval();
+                if(flag){
+                    alert("request Ajax!");
+                }
+
+
+            }
+
+
 
         });
 
@@ -266,6 +303,7 @@
             let $dummy = $cardForm.clone();
             $dummy.attr("id", null);
             $dummy.css("display", "block");
+            $dummy.css("cursor", "pointer");
             //$dummy.find("img[name='bk_image']").attr("src", block.blockImg);
             $dummy.find("p[name='bk_title']").html(block.bl_title);
          /*   $dummy.find(".author > img").attr("src", block.writerProfile); */
@@ -278,6 +316,7 @@
 
                 });
 
+
             $field.append($dummy);
 
 
@@ -285,9 +324,5 @@
 
 
     }
-
-
-
-
 
 </script>
