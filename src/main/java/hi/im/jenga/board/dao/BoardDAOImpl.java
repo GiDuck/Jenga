@@ -24,14 +24,11 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-
-
-
-
-    public void writeViewBlock(BoardDTO boardDTO) { sqlSession.insert("board.writeViewBlock", boardDTO); }
+    public void writeViewBlock(BoardDTO boardDTO) {
+        sqlSession.insert("board.writeViewBlock", boardDTO);
+    }
 
     public void writeViewReadCount(String bl_uid) {
-        logger.info("유아이이디디디디"+bl_uid);
         sqlSession.insert("board.writeViewReadCount", bl_uid);
     }
 
@@ -51,52 +48,46 @@ public class BoardDAOImpl implements BoardDAO {
 
         for (String tag : bt_name) {
             map.put("tag", tag);
-            logger.info("태그는 " + tag);
             sqlSession.insert("board.writeViewTag", map);
         }
     }
 
 
-
-
-
-
-
-
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
         String result;
         Map<String, String> map = new HashMap();
+        logger.info(bl_iuid);
+        logger.info(session_mem_iuid);
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
-
-        /*
-        하나의 주소로 들어오고 select해서 있으면 dislike
-                                          없으면 like
-
-        select mem_iuid FROM tbl_blocklike WHERE ref = bl_iuid 해서
-        있으면  delete from
-        없으면  insert into
-
-        */
+        logger.info("daoimpl  like");
         result = sqlSession.selectOne("board.likeCheck", map);
-
+        logger.info("시발아");
+        logger.info(result);
         if (result == null) {
+            logger.info("if ");
             sqlSession.insert("board.addLike", map);
             logger.info("좋아요 insert");
             return;
         }
-        sqlSession.delete("board.cancelLike", map);
+        logger.info("if nono");
+        int i = sqlSession.delete("board.cancelLike", map);
+        logger.info("dldldldld"+i);
         logger.info("좋아요 delete");
 
+    }
+
+    public int likeCount(String bl_iuid) {
+        return sqlSession.selectOne("board.likeCount", bl_iuid);
     }
 
     public Map<String, List<String>> getCategoryName() {
         Map<String, List<String>> category = new HashMap();
 
         List<String> uids = sqlSession.selectList("board.mCtgAllUids");
-        for(String uid : uids){
+        for (String uid : uids) {
             List<String> list = sqlSession.selectList("board.sCtgAllNames", uid);
-            String name = sqlSession.selectOne("board.mCtgAllNames",uid);
+            String name = sqlSession.selectOne("board.mCtgAllNames", uid);
 
             category.put(name, list);
         }
@@ -104,11 +95,9 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-
-
     public Map<String, Object> getModifyBlock(String bl_uid) {
         return sqlSession.selectOne("board.getModifyBlock", bl_uid);
-        }
+    }
 
 
     public void modifyViewBoard(BoardDTO boardDTO) {
@@ -124,7 +113,7 @@ public class BoardDAOImpl implements BoardDAO {
 
     public void modifyViewTag(BoardDTO boardDTO) {
         Map<String, String> map = new HashMap();
-        String [] bt_name = boardDTO.getBt_name();
+        String[] bt_name = boardDTO.getBt_name();
 
         for (String tag : bt_name) {
             map.put("tag", tag);
@@ -135,71 +124,103 @@ public class BoardDAOImpl implements BoardDAO {
 
     public String transCtgUID(String bl_smCtg, String flag) {
         String trans;
-        if(flag.equals("s")){
+        if (flag.equals("s")) {
             return sqlSession.selectOne("board.sctgUID", bl_smCtg);
         }
         return sqlSession.selectOne("board.mctgUID", bl_smCtg);
     }
 
-    public List<BoardDTO> searchName(String search) {
-        return sqlSession.selectList("board.searchName",search);
+    public List<BoardDTO> searchName(String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchName", map);
     }
 
-    public List<BoardDTO> searchTag(String search) {
-        return sqlSession.selectList("board.searchTag",search);
+    public List<BoardDTO> searchTag(String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchTag", map);
     }
 
-    public List<BoardDTO> searchContents(List<String> search) {
-        return sqlSession.selectList("board.searchTitle",search);
+    public List<BoardDTO> searchContents(List<String> search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchTitle", map);
     }
 
     public void setSearchKeyword(String search, String session_iuid) {
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("search",search);
-        map.put("session_iuid",session_iuid);
-        sqlSession.insert("board.setSearchKeyword",map);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("search", search);
+        map.put("session_iuid", session_iuid);
+        sqlSession.insert("board.setSearchKeyword", map);
     }
 
     public void follow(String bl_writer, String session_iuid) {
-        Map<String,String> map = new HashMap<String, String>();
+        System.out.println(bl_writer);
+        System.out.println(session_iuid);
+        Map<String, String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
-        map.put("session_iuid",session_iuid);
-        sqlSession.insert("board.follow,",map);
+        map.put("session_iuid", session_iuid);
+        sqlSession.insert("board.follow", map);
+    }
+
+    public String followCheck(String bl_writer, String session_iuid) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("bl_writer", bl_writer);
+        map.put("session_iuid", session_iuid);
+        return sqlSession.selectOne("board.followCheck", map) == null ? "success" : "error";
     }
 
     public void unFollow(String bl_writer, String session_iuid) {
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
         map.put("session_iuid",session_iuid);
-        sqlSession.delete("board.unFollow,",map);
+        sqlSession.delete("board.unFollow",map);
     }
 
     public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
-        return sqlSession.selectList("board.getFollowerBoard",my_iuid);
-    }
-
-    public int likeCount(String bl_iuid) {
-        return sqlSession.selectOne("board.likeCount",bl_iuid);
+        return sqlSession.selectList("board.getFollowerBoard", my_iuid);
     }
 
     public List<BoardDTO> getMyBlock(String my_iuid) {
-        return sqlSession.selectList("board.getMyBlock",my_iuid);
+        return sqlSession.selectList("board.getMyBlock", my_iuid);
     }
 
     public List<String> searchImgName(String search) {
-        return sqlSession.selectList("board.searchImgName",search);
+        return sqlSession.selectList("board.searchImgName", search);
     }
 
-    public void searchImgTag(String search) {
-        logger.info("이미지태그 받기"+sqlSession.selectList("board.searchImgTag",search));
+    public List<String> searchImgTag(String search) {
+        logger.info("이미지태그 받기" + sqlSession.selectList("board.searchImgTag", search));
 
+        return null;
     }
 
-    public void searchImgContents(List<String> search) {
+    public List<String> searchImgContents(List<String> search) {
 
 
-        logger.info("서치이미미지지지지"+sqlSession.selectList("board.searchImgTitle",search));
+        logger.info("서치이미미지지지지" + sqlSession.selectList("board.searchImgTitle", search));
+        return search;
     }
+
+    public int countSearchName(String search) {
+        return sqlSession.selectOne("board.countSearchName",search);
+    }
+
+    public int countSearchTag(String search) {
+        return sqlSession.selectOne("board.countSearchTag",search);
+    }
+
+    public int countSearchContents(List<String> search) {
+        return sqlSession.selectOne("board.countSearchTitle",search);
+    }
+
 
 
     public String getUploadName(String bl_uid) {
@@ -216,10 +237,6 @@ public class BoardDAOImpl implements BoardDAO {
         Map<String, Object> map = new HashMap();
         map.put("session_iuid", session_iuid);
         map.put("blockPathDTO", blockPathDTO);
-        logger.info(blockPathDTO.getBp_path());
-        logger.info(session_iuid);
-        logger.info(blockPathDTO.getBp_browstype());
-        logger.info(blockPathDTO.getBp_booktype());
         sqlSession.insert("board.insertBmksPath", map);
     }
 
@@ -235,17 +252,10 @@ public class BoardDAOImpl implements BoardDAO {
     public String getBookMarkFromHTML(String session_iuid) {
         return sqlSession.selectOne("board.getBookMarkFromHTML", session_iuid);
     }
+
     public int deleteBlock(String bl_uid) {
         return sqlSession.delete("board.deleteBlock", bl_uid);
     }
-
-
-
-
-
-
-
-
 
     public void getAddReadCount(String bl_uid) {
         sqlSession.update("board.addReadCount", bl_uid);    // 조회수 + 1

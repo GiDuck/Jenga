@@ -16,7 +16,6 @@ Chrome, Firefox 사용 가능
 <style>
 
     .bookMarkField{
-
         overflow: scroll;
         border-style : groove;
         min-height:100px;
@@ -1462,13 +1461,14 @@ Chrome, Firefox 사용 가능
 
         //사용자가 업로드 했던 북마크 목록을 가져온다
         // json형식으로 되어있는 String (map.bookmarks)를 jsonBK 변수에 넣고 JSON.parse
-        let jsonBK = ${map.bookmarks};
-        editedBKElements = JSON.parse(jsonBK['_value']);
 
-        refreshBookMark(editedBKElements, "right");
-
+        <c:if test="${map.bookmarks} ne null">
+            let jsonBK = ${map.bookmarks};
+            editedBKElements = JSON.parse(jsonBK['_value']);
+            refreshBookMark(editedBKElements, "right");
+        </c:if>
         //북마크 목록 화면에 나타낸다
-       // refreshBookMark(JSON.stringify(editedBKElements), "right");
+        // refreshBookMark(JSON.stringify(editedBKElements), "right");
 
 
 

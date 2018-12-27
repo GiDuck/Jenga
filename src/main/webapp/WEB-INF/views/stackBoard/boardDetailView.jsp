@@ -69,18 +69,23 @@
                         <div class="media">
                             <a class="pull-left" href="#paper-kit">
                                 <div class="avatar big-avatar">
-                                    <img id="writer_image" class="media-object" alt="64x64" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/faces/kaci-baum-2.jpg'">
+                                    <img id="writer_image" class="media-object" alt="user profile" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/placeholder.jpg'">
                                 </div>
                             </a>
                             <div class="media-body">
                                 <h4 id="writer_name" class="media-heading"></h4>
-                                <span id="writer_description"/>
+                                <span id="writer_description"></span>
+
                                 <div class="pull-right">
-                                    <div id="writerPanel" style="display : none">
+                                    <div id="writerPanel">
+                                        <div id="thisBlockWriterPanel"  style="display : none">
                                         <a href="#" class="btn btn-info btn-round "> <i class="nc-icon nc-ruler-pencil"></i>&nbsp Modify</a>&nbsp
-                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp</div>
-                                    <a href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
+                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp
+                                        </div>
+                                        <a name="following" href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -108,14 +113,20 @@
 
     let blockObj = undefined;
     let blockJson = undefined;
+    let $followBtn = $("a[name='following']");
+    let isFollowing = undefined;
+
 
 
     function setData(){
 
+        console.log("글쓴이 uid...");
+        console.log('${map.bl_writer}');
+
         //json으로 넘어온 map object를 js에서 사용할 수 있는 object 형식으로 파싱
         blockJson = ${map.bookmarks};
         blockObj = JSON.parse(blockJson['_value']);
-        console.log(blockObj);
+
         //작성자 이름
         $("#writer_name").html('${map.mem_nick}');
         //작성자 소개
@@ -135,10 +146,10 @@
         //블록 좋아요 개수
         $("#likeCount").html('${map.likes}');
         //카테고리
-        let categoryStr = blockObj.BL_MAINCTG + " > "  + blockObj.BL_SMCTG;
+        let categoryStr = '${map.bl_mainCtg}' + " > "  + '${map.bl_smCtg}';
         $("#bd_category").val(categoryStr);
-        <%--alert('${map.bl_mainCtg}');--%>
-        <%--alert('${map.bl_smCtg}');--%>
+
+
         //날짜
         let dateObj = new Date(parseInt('${map.bl_date}'));
         let dateStr = dateObj.getFullYear() + "년 " + (dateObj.getMonth()+1) + " 월" + dateObj.getDate() + " 일 "
@@ -153,6 +164,157 @@
 
         }());
 
+        let hasSession = '${sessionScope.Member}';
+
+        if(hasSession){
+
+        // 글 Follow 여부 확인...
+        $.ajax({
+
+           url : "/board/followCheck",
+           type : "GET",
+           data : {bl_writer : encodeURI('${map.bl_writer}')},
+           success : function(response){
+               console.log("follow check");
+               console.log(response);
+               isFollowing = response;
+
+               if(isFollowing){
+                   convertToUnFollow();
+
+               }else{
+
+                   convertToFollow();
+
+               }
+
+
+           },
+            error : function(xhs, status, error){
+
+               console.log("following check error...");
+               console.log("status code... " + status);
+
+            }
+
+
+        });
+
+        }
+
+        $followBtn.on("click", function(e){
+
+            e.stopPropagation();
+
+            if(!hasSession){
+
+                swal({
+
+                    text : "로그인이 필요한 서비스 입니다. 먼저 로그인 해 주세요.",
+                    type : "warning"
+
+                });
+
+                return;
+
+            }
+
+            let endPoint = undefined;
+
+            if(isFollowing){
+
+                endPoint = "/board/unFollow";
+
+            }else{
+
+                endPoint = "/board/follow";
+
+            }
+
+
+
+            $.ajax({
+
+               type : "GET",
+               data : { bl_writer : encodeURI('${map.bl_writer}')},
+               url : endPoint,
+               success : function(response){
+
+
+                   if(response == "follow"){
+
+                           swal({
+
+                               text : "이제부터 " + '${map.mem_nick}' + " 님의 소식을 받아 보실 수 있습니다.",
+                               type : "success"
+
+                           });
+
+                       convertToUnFollow();
+                       isFollowing = true;
+
+                   }else if(response == "unFollow"){
+
+                           swal({
+
+                               text : "이제 부터 " + '${map.mem_nick}' + " 님의 소식을 받아 보실 수 없습니다.",
+                               type : "warning"
+
+                           });
+
+                       convertToFollow();
+                       isFollowing = false;
+
+                   }else{
+
+
+                       swal({
+
+                           text : "팔로잉 도중에 에러가 발생 하였습니다.",
+                           type : "error"
+
+                       });
+
+                       console.log("server's error message ... " + response);
+                       return;
+
+                   }
+
+
+
+               },
+                error : function(xhs, status, error){
+
+                   swal({
+
+                      text : "팔로잉 요청 중에 에러가 발생하였습니다..",
+                      type : "error"
+
+                   });
+
+                   console.log("팔로잉 요청 에러..." + status);
+
+                }
+
+            });
+
+
+        });
+
+
+    }
+
+
+    function convertToFollow(){
+
+        $followBtn.html("FOLLOW").addClass("btn-info").removeClass("btn-danger");
+
+
+    }
+
+    function convertToUnFollow(){
+
+        $followBtn.html("UNFOLLOW").addClass("btn-danger").removeClass("btn-info");
 
     }
 
@@ -256,7 +418,7 @@
                     }
                     else{
                         ${applicationScope.tempURLcontainer = window.location.href};
-                        alert('${applicationScope.tempURLcontainer}');
+                        alert(${applicationScope.tempURLcontainer});
                         window.location.href="/login";
                     }
                 });
@@ -301,6 +463,15 @@
 
                 if($(this).attr("value") == "chrome"){
 
+                    (function(){
+                        swal({
+
+                            text : "파일을 저장하고 있습니다..",
+                            type : "info"
+
+                        });
+                    })();
+
 
                     let now = new Date().getTime();
 
@@ -321,17 +492,43 @@
 
                    let bookmarkHTML = parseJsonToHTML(blockObj, '${map.bl_title}', '${map.bl_introduce}');
                    let temp = $("<a>").append(bookmarkHTML);
-                   let htmlRawResource = (temp.html()).replace(/<\/p>|<\/dt>|/gi, '');
-                   let htmlResource = htmlRawResource.replace(/(<html>|<p>|<title>|<\/title>|<\/h1>|<\/h3>|<\/html>|<\/a>)/gi, "\$1\n");
+                   let declearStr = "\<\!DOCTYPE NETSCAPE-Bookmark-file-1>\n" +
+                       "\<!-- This is an automatically generated file.\n" +
+                       "     It will be read and overwritten.\n" +
+                       "     DO NOT EDIT! --> \n\n";
+                   let htmlRawResource = declearStr + (temp.html()).replace(/<\/p>|<\/dt>|/gi, '');
+
+                   let tagRegex =/(<html>|<title>|<h1>|<h3|<dl>|<dt>|<a|<\/html>|<\/a|href\="|add_date\="|icon\="|last_modified\=")/gi;
+
+                   let newLineRegex = /(<p>|<\/title>|<\/h1>|<\/dl>|<\/h3>|<\/a>)/gi;
+
+                   let htmlResource = htmlRawResource.replace(tagRegex, function(x){
+
+                           return x.toUpperCase();
+
+                   });
+
+                   htmlResource = htmlResource.replace(newLineRegex, function(x){
+
+                       return x.toUpperCase() + "\n";
+
+                   });
+
                    let dataURI = "data:attachment/html," +encodeURI(htmlResource);
                    let $tempTag = document.createElement('a');
+                   let fileName = '${map.bl_title}';
+                    fileName = fileName.replace(' ', '');
+                    if(fileName.length > 10){
+
+                       fileName = fileName.slice(0, 10);
+                       fileName += "..";
+
+                   }
                     $tempTag.href = dataURI;
                     $tempTag.target = '_blank';
-                    $tempTag.download = '20181222new.html';
+                    $tempTag.download = fileName + '.html';
                     $tempTag.click();
 
-                    console.log("파일 저장...");
-                    console.log(htmlResource);
 
 
 

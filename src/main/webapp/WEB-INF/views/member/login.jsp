@@ -112,7 +112,6 @@
         $btn_comp.addClass("col-12");
         $("#join_socialBtn").append($btn_comp);
 
-        alert();
         console.log(${applicationScope.tempURLcontainer});
         // 이메일 로그인
         $("#btnLogin").on('click', function(e){
@@ -131,7 +130,6 @@
                     },
 
                     success: function (responseData){
-
                         if (responseData["check"] == 'iderror') {
                           swal({
                             text : "존재하지 않는 아이디 입니다. 다시 확인 해 주세요!",
@@ -166,9 +164,9 @@
 
 
                         }else {
-
-                            console.log(${applicationScope.tempURLcontainer});
-                            location.replace(${applicationScope.tempURLcontainer});
+                            location.replace("/");
+                            <%--console.log(${applicationScope.tempURLcontainer});--%>
+                            <%--location.replace(${applicationScope.tempURLcontainer});--%>
 //                          location.replace(responseData["dest"]);
 
 

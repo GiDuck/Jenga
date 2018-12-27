@@ -2,7 +2,6 @@ package hi.im.jenga.board.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.board.dao.BoardDAO;
@@ -130,7 +129,6 @@ public class BoardServiceImpl implements BoardService {
 		return dao.deleteBlock(bl_uid);
 	}
 
-
 	@Transactional
 	public Map<String, Object> getView(String bl_uid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
 		dao.getAddReadCount(bl_uid);	// 조회수 + 1
@@ -160,13 +158,17 @@ public class BoardServiceImpl implements BoardService {
     public String formattingBK(String bookmarks) {
 
 	    FileIO fileIO = new FileIO();
-	    
+
 
 
         return null;
     }
 
     public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
+
+	public int likeCount(String bl_iuid) {
+		return dao.likeCount(bl_iuid);
+	}
 
 	public String getBookMarkFromHTML(String session_iuid) {
 		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
@@ -188,23 +190,23 @@ public class BoardServiceImpl implements BoardService {
 		return dao.transCtgUID(bl_smCtg, flag);
 	}
 
-	public List<BoardDTO> search(String search, String search_check, String session_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-		if(session_iuid != null){
-			dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
+	public List<BoardDTO> search(String search, String search_check, String session_iuid, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+		if (session_iuid != null) {
+			dao.setSearchKeyword(search, session_iuid); //검색 워드 저장
 		}
-		if(search_check.equals("name")){
+		if (search_check.equals("name")) {
 			search = aes256Cipher.AES_Encode(search);
-			return dao.searchName(search);
-		}else if(search_check.equals("tag")){
-			return dao.searchTag(search);
-		}else{
+			return dao.searchName(search, startrow, endrow);
+		} else if (search_check.equals("tag")) {
+			return dao.searchTag(search, startrow, endrow);
+		} else {
 			String[] splitsearch = search.split(" ");
 
 			List<String> list = new ArrayList<String>();
-			for(int i = 0; i<splitsearch.length; i++){
+			for (int i = 0; i < splitsearch.length; i++) {
 				list.add(splitsearch[i]);
 			}
-			return dao.searchContents(list);
+			return dao.searchContents(list, startrow, endrow);
 		}
 	}
 
@@ -212,16 +214,15 @@ public class BoardServiceImpl implements BoardService {
 		dao.follow(bl_writer, session_iuid);
 	}
 
+	public String followCheck(String bl_writer, String session_iuid) { return dao.followCheck(bl_writer, session_iuid); }
+
+
 	public void unFollow(String bl_writer, String session_iuid) {
 		dao.unFollow(bl_writer, session_iuid);
 	}
 
 	public List<BoardDTO> getFollowerBoard(String my_iuid) {
 		return dao.getFollowerBoard(my_iuid);
-	}
-
-	public int likeCount(String bl_iuid) {
-		return dao.likeCount(bl_iuid);
 	}
 
 	public List<BoardDTO> getMyBlock(String my_iuid) {
@@ -246,6 +247,22 @@ public class BoardServiceImpl implements BoardService {
 			dao.searchImgContents(list);
 		}
 		return null;
+	}
+	public int countSearch(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+		if (search_check.equals("name")) {
+			search = aes256Cipher.AES_Encode(search);
+			return dao.countSearchName(search);
+		} else if (search_check.equals("tag")) {
+			return dao.countSearchTag(search);
+		} else {
+			String[] splitsearch = search.split(" ");
+			List<String> list = new ArrayList<String>();
+			for (int i = 0; i < splitsearch.length; i++) {
+				list.add(splitsearch[i]);
+			}
+			return dao.countSearchContents(list);
+		}
+
 	}
 
 
