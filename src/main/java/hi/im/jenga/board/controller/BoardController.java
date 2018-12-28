@@ -170,15 +170,12 @@ public class BoardController {
                 e.printStackTrace();
             }
 
-
             logger.info(resultHTML);
 
             model.addAttribute("category", categoryJSON);
             if(!resultHTML.equals("notExist")) {
                 model.addAttribute("resultHTML", resultHTML);
             }
-
-            return "editor/stackBoard/stackBlock";
 
         }else if(status.equals("modify")) {         //  service 나누기
             String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
@@ -207,11 +204,9 @@ public class BoardController {
             model.addAttribute("category", categoryJSON);
             model.addAttribute("map", map);
 
-            return "editor/stackBoard/stackBlock";
-
         }
 
-        return null;
+        return "editor/stackBoard/stackBlock";
 
     }
 
@@ -416,24 +411,28 @@ public class BoardController {
 
 
     //TODO 일단 팔로워한 사람 글 뽑느거 했는데 필요하면 쓰셈
-    @RequestMapping(value = "/followerBoard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
-    public String followerboard(HttpSession session) {
-        String My_iuid = ((MemberDTO) session.getAttribute("member")).getMem_iuid();
-        return ""; //임시 리턴
+    @RequestMapping(value = "/followerBoard")
+    public String followerBoard(HttpSession session) {
+        String my_iuid = ((MemberDTO) session.getAttribute("member")).getMem_iuid();
+        List<BoardDTO> list = boardService.getFollowerBoard(my_iuid);
+        return "/board/boardManage"; //임시 리턴
     }
 
 
     //TODO 수정 필요함 일단 만들어둠...!
     @RequestMapping(value = "/myBlock")
-    public String myBlock(HttpSession session) {
+    public String manageBlock(HttpSession session, @RequestParam String token, Model model) {
 
         String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
 
+        if(token.equals("my")) {
+            List<BoardDTO> list = boardService.getMyBlock(my_iuid);
+        }else if(token.equals("follow")){
 
-        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
+        }
 
 
-        return ""; //임시 리턴
+        return "/board/boardManage";
     }
 
 }

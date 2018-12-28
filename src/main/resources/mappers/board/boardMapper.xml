@@ -17,7 +17,7 @@
 
 
     <resultMap id="boardMap" type="HashMap">
-
+		<result property="bl_uid" column="bl_uid"/>
         <result property="bl_writer" column="bl_writer"/>
         <result property="bl_title" column="bl_title"/>
         <result property="bl_description" column="bl_description" jdbcType="CLOB" javaType="java.lang.String"/>

@@ -39,8 +39,8 @@
               <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
               <a class="dropdown-item"  href="#" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
               <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
-              <a class="dropdown-item loginService" href="#"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
-              <a class="dropdown-item loginService" href="#"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
+              <a class="dropdown-item loginService" href="/board/manageBlock?token=follow"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
+              <a class="dropdown-item loginService" href="/board/manageBlock?token=my"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
             </div>
           </li>
           <li class="dropdown nav-item">

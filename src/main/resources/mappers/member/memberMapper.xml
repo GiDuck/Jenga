@@ -300,14 +300,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			tbl_blpath
 		WHERE bp_iuid = #{session_iuid}
 			AND bp_browstype ='chrome')
-		AS "chrome_type",
+		AS "chrome_timestamp",
       	(SELECT
       		bp_date
 		FROM
 			tbl_blpath
 		WHERE bp_iuid = #{session_iuid}
 			AND bp_browstype ='explorer')
-		AS "explorer_type"
+		AS "explorer_timestamp"
 	FROM
 		DUAL
 	</select>

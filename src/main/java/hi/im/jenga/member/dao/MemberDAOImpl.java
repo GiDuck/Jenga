@@ -41,11 +41,11 @@ public class MemberDAOImpl implements MemberDAO{
 
         Map<String, String> map_string = new HashMap();
 
-        if(map.get("chrome_type") != null) {
-            map_string.put("chrome_type", String.valueOf(map.get("chrome_type").getTime()));
+        if(map.get("chrome_timestamp") != null) {
+            map_string.put("chrome_timestamp", String.valueOf(map.get("chrome_timestamp").getTime()));
         }
-        if(map.get("explorer_type") != null) {
-            map_string.put("explorer_type", String.valueOf(map.get("explorer_type").getTime()));
+        if(map.get("explorer_timestamp") != null) {
+            map_string.put("explorer_timestamp", String.valueOf(map.get("explorer_timestamp").getTime()));
         }
 
         return map_string;
