@@ -27,7 +27,7 @@
 	        
 	        <div class="nav-link">
 		       	 <div class="profile-photo-small" style="width:40px; height:40px; "> 
-		        	<img id="nav_user_profile" src="" style="" alt="User Profile" class="img-circle img-responsive img-no-padding text-center" onerror="this.src='http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-hi.png'">
+		        	<img id="nav_user_profile" src="" style="" alt="User Profile" class="img-circle img-responsive img-no-padding text-center w-100 h-100" onerror="this.src='http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-hi.png'">
 		        </div>
 	       	 </div>
         </li>
@@ -107,6 +107,30 @@
       });
 
       $(document).find("a").css('cursor', 'pointer');
+
+      let session_uid = '${sessionScope.Member.mem_iuid}';
+
+      if(session_uid){
+
+
+      $.ajax({
+
+          type : "GET",
+          data : {uid : session_uid, profile : "true"},
+          url : "/getUserInfo",
+          success : function(response){
+
+        console.log(response.profile);
+              $("#nav_user_profile").attr("src", response.profile);
+
+
+          }
+
+
+      });
+
+  }
+
 
 
       $("#nav_user_profile").attr("src", "${sessionScope.Member.mem_profile}");
