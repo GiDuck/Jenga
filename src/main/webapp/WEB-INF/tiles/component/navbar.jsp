@@ -8,10 +8,10 @@
 
 </style>
     
-<nav id="navbar" class="navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent">
+<nav id="jenga_navbar" class="navbar navbar-expand-lg fixed-top nav-down bg-info">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/" rel="tooltip" title="Jenga" data-placement="bottom">
+        <a class="navbar-brand" href="/" rel="tooltip" title="Jenga"  data-placement="bottom">
           Jenga
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
           
         </button>
       </div>
-      <div class="collapse navbar-collapse" data-color="light" >
+      <div id="nav_inner" class="collapse navbar-collapse" >
         <ul class="navbar-nav ml-auto">   
         <li class="nav-item" >
 	        
@@ -80,22 +80,30 @@
   </nav>
   <script>
   
-   var navBar = $("#navbar");
-   var setNavType = function (type) {
-	  
-	  navBar.removeClass();
-	  
-	  if(type === "transparent"){
-	  
-		  navBar.addClass("navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent");
-	 
-	  }else if(type === "blue"){
-		  
-	 	  navBar.addClass("navbar navbar-expand-lg sticky-top nav-down bg-info");
+   let jenga_navbar = $("#jenga_navbar");
 
-	  }
-	  
-  }
+   function setNavType (type) {
+
+      /* console.log("type is..." + type);
+       jenga_navbar.removeClass();
+
+       if (type === "transparent") {
+
+          //navBar.addClass("navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent");
+
+       } else {
+
+
+           if (type === "blue") {
+
+               jenga_navbar.addClass("navbar navbar-expand-lg fixed-top nav-down bg-info nav-down");
+               jenga_navbar.attr("color-on-scroll", 500);
+
+           }
+
+       }*/
+
+   }
    
    
   $(document).ready(function(){
@@ -105,6 +113,8 @@
           $.busyLoadFull("hide", {});
 
       });
+
+
 
       $(document).find("a").css('cursor', 'pointer');
 
@@ -120,7 +130,7 @@
           url : "/getUserInfo",
           success : function(response){
 
-        console.log(response.profile);
+              console.log(response.profile);
               $("#nav_user_profile").attr("src", response.profile);
 
 
