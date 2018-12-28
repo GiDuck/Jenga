@@ -54,4 +54,5 @@ public interface BoardService {
 
     int countSearch(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
+    String isLikeExist(String bl_iuid, String session_mem_iuid);
 }

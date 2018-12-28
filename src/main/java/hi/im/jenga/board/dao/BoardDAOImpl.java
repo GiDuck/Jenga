@@ -53,21 +53,34 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-    public void likeCheck(String bl_iuid, String session_mem_iuid) {
-        String result;
+    public String likeCheck(String bl_iuid, String session_mem_iuid) {
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
+        String result = sqlSession.selectOne("board.likeCheck", map);
+        return result;
+    }
 
-        result = sqlSession.selectOne("board.likeCheck", map);
+    public void addLike(String bl_iuid, String session_mem_iuid) {
+        logger.info("like추가");
+        logger.info("아유아디    "+bl_iuid);
+        logger.info("session     "+session_mem_iuid);
+        Map<String, String> map = new HashMap();
+        map.put("bl_iuid", bl_iuid);
+        map.put("session_mem_iuid", session_mem_iuid);
+        sqlSession.insert("board.addLike", map);
+    }
 
-        if (result == null) {
-            sqlSession.insert("board.addLike", map);
-            return;
-        }
+    public void cancelLike(String bl_iuid, String session_mem_iuid) {
+        logger.info("like삭제");
+        Map<String, String> map = new HashMap();
+        map.put("bl_iuid", bl_iuid);
+        map.put("session_mem_iuid", session_mem_iuid);
         sqlSession.delete("board.cancelLike", map);
-        logger.info("좋아요 delete");
+    }
 
+    public int likeCount(String bl_iuid) {
+        return sqlSession.selectOne("board.likeCount", bl_iuid);
     }
 
     public Map<String, List<String>> getCategoryName() {
@@ -175,10 +188,6 @@ public class BoardDAOImpl implements BoardDAO {
 
     public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
         return sqlSession.selectList("board.getFollowerBoard", my_iuid);
-    }
-
-    public int likeCount(String bl_iuid) {
-        return sqlSession.selectOne("board.likeCount", bl_iuid);
     }
 
     public List<BoardDTO> getMyBlock(String my_iuid) {

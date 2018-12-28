@@ -30,7 +30,9 @@ public interface BoardDAO {
 
     int deleteBlock(String bl_uid);
 
-    void likeCheck(String bl_iuid, String session_mem_iuid);
+    int likeCount(String bl_iuid);
+
+    String likeCheck(String bl_iuid, String session_mem_iuid);
 
     Map<String, List<String>> getCategoryName();
 
@@ -64,8 +66,6 @@ public interface BoardDAO {
 
     List<BoardDTO> getFollowerBoard(String my_iuid);
 
-    int likeCount(String bl_iuid);
-
     List<BoardDTO> getMyBlock(String my_iuid);
 
     List<String> searchImgName(String search, int startrow, int endrow);
@@ -79,4 +79,9 @@ public interface BoardDAO {
     int countSearchTag(String search);
 
     int countSearchContents(List<String> list);
+
+    void addLike(String bl_iuid, String session_mem_iuid);
+
+    void cancelLike(String bl_iuid, String session_mem_iuid);
+
 }

@@ -32,11 +32,12 @@ import java.util.UUID;
  * 글 작성 GET / POST
  * POST (PATCH)
  * 글 삭제 DELETE
- * <p>
+ *
  * 검색
- * <p>
+ *
  * 북마크 파일 업로드 POST  (모달 GET ? )
- */
+ *
+ * */
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -51,6 +52,14 @@ public class BoardController {
         this.boardService = boardService;
         this.boardUtilFile = boardUtilFile;
     }
+
+   /* @RequestMapping(value="/formattingBk", method = RequestMethod.POST)
+    @ResponseBody
+    public String formattingBK(@RequestParam("bookmark") String bookmark){
+
+        return boardService.formattingBK(bookmark);
+
+    }*/
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(String search, String search_check, HttpSession session) throws Exception {
@@ -146,20 +155,42 @@ public class BoardController {
                 e.printStackTrace();
             }
 
+
+            logger.info(resultHTML);
+
             model.addAttribute("category", categoryJSON);
-            model.addAttribute("resultHTML", resultHTML);
+            if(!resultHTML.equals("notExist")) {
+                model.addAttribute("resultHTML", resultHTML);
+            }
 
             return "editor/stackBoard/stackBlock";
 
-        } else if (status.equals("modify")) {         //  service 나누기
-
-
+        }else if(status.equals("modify")) {         //  service 나누기
+            String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            String resultHTML = null;
             Map<String, Object> map = boardService.getModifyBlock(bl_uid);
 
             logger.info("컨트롤러 맵은 " + map);
 
-            JSONObject jsonObject = new JSONObject(map);
-            model.addAttribute("map", jsonObject);
+            Map<String, List<String>> category = null;
+            try {
+                category = boardService.getCategoryName();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            String categoryJSON = mapper.writeValueAsString(category);
+
+            try {
+                resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            if(!resultHTML.equals("notExist")) {
+                model.addAttribute("resultHTML", resultHTML);
+            }
+            model.addAttribute("category", categoryJSON);
+            model.addAttribute("map", map);
 
             return "editor/stackBoard/stackBlock";
 
@@ -238,11 +269,11 @@ public class BoardController {
     // TODO  like 상태값으로 비교   이거먼저하자
     // block iuid를 조건으로 insert mem_iuid(session에 있는)
     @RequestMapping(value = "/like/{bl_iuid}")
-    public @ResponseBody
-    int like(@PathVariable String bl_iuid, HttpSession session) {
+    public @ResponseBody int like(@PathVariable String bl_iuid, HttpSession session){
 
-        String session_mem_iuid = ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid();
-
+        logger.info("비엘아유아디"+bl_iuid);
+        logger.info("like 들어옴");
+        String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
         boardService.likeCheck(bl_iuid, session_mem_iuid);
 
         int likeCount = boardService.likeCount(bl_iuid);
@@ -250,8 +281,19 @@ public class BoardController {
         return likeCount;
     }
 
+    @RequestMapping(value = "/isLikeExist/{bl_uid}", method = RequestMethod.GET)
+    public @ResponseBody String isLikeExist(HttpSession session, @PathVariable("bl_uid") String bl_iuid) {
+        logger.info("비엘아유아디"+bl_iuid);
+        String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
+        String check = boardService.isLikeExist(bl_iuid, session_mem_iuid);
+        logger.info(check);
+        String result = check != null ? "exist" : "notExist";
+        logger.info(result);
+        return result;
+    }
 
-    //  TODO 테스트 mongo update도 함
+
+//  TODO 테스트 mongo update도 함
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
     @RequestMapping(value = "/modView", method = RequestMethod.PATCH)
     public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {

@@ -9,6 +9,7 @@ import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +33,15 @@ public class BoardServiceImpl implements BoardService {
     private final MongoService mongoService;
     private final AES256Cipher aes256Cipher;
 
-    @Autowired
-    public BoardServiceImpl(BoardDAO dao, MongoService mongoService, AES256Cipher aes256Cipher) {
-        this.dao = dao;
-        this.mongoService = mongoService;
-        this.aes256Cipher = aes256Cipher;
-    }
+	@Value("#{data['bookmark.absolute_path']}")
+	private String BOOKMARK_ABSOLUTE_PATH;
+
+	@Autowired
+	public BoardServiceImpl(BoardDAO dao, MongoService mongoService, AES256Cipher aes256Cipher) {
+		this.dao = dao;
+		this.mongoService = mongoService;
+		this.aes256Cipher = aes256Cipher;
+	}
 
 
     @Transactional
@@ -51,12 +55,12 @@ public class BoardServiceImpl implements BoardService {
         dao.writeViewReadCount(boardDTO.getBl_uid());
 
 
-        // 사진을 직접 안넣을 시 디폴트 이미지로 설정
-        if (uploadName.equals("")) {
-            // 디폴트 이미지를 넣어준다
-            uploadName = "D:\\jengaResource\\default\\noImage.png";
-        }
-        dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
+		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
+		if(uploadName.equals("")) {
+			// 디폴트 이미지를 넣어준다
+			uploadName = "jenga_profile_default.jpg";
+		}
+			dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 
 
         dao.writeViewTag(boardDTO.getBl_uid(), boardDTO.getBt_name());
@@ -149,21 +153,42 @@ public class BoardServiceImpl implements BoardService {
         return map;
     }
 
-    public void likeCheck(String bl_iuid, String session_mem_iuid) {
-        dao.likeCheck(bl_iuid, session_mem_iuid);
+    public String formattingBK(String bookmarks) {
+
+	    FileIO fileIO = new FileIO();
+
+
+
+        return null;
     }
+
+	public String isLikeExist(String bl_iuid, String session_mem_iuid) { return dao.likeCheck(bl_iuid, session_mem_iuid); }
+
+    public void likeCheck(String bl_iuid, String session_mem_iuid) {
+		String result = dao.likeCheck(bl_iuid, session_mem_iuid);
+//		if("".equals(result)){
+		if(result == null){
+			dao.addLike(bl_iuid, session_mem_iuid);
+			return;
+		}
+		dao.cancelLike(bl_iuid, session_mem_iuid);
+	}
+
+	public int likeCount(String bl_iuid) {
+		return dao.likeCount(bl_iuid);
+	}
 
     public String getBookMarkFromHTML(String session_iuid) {
         String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 //		String 하나 더만들어서 비교
-        if (fileFullName != null) {
-            logger.info("로컬에 있는 북마크 경로는 " + fileFullName);
-            FileIO fileIO = new FileIO(fileFullName);
-            String result = fileIO.InputHTMLBookMark();
-            return result;
-        }
-        return "notExist";
-    }
+		if(fileFullName != null) {
+			logger.info("로컬에 있는 북마크 경로는 "+BOOKMARK_ABSOLUTE_PATH + fileFullName);
+			FileIO fileIO = new FileIO(BOOKMARK_ABSOLUTE_PATH + fileFullName);
+			String result = fileIO.InputHTMLBookMark();
+			return result;
+		}
+		return "notExist";
+	}
 
     public Map<String, List<String>> getCategoryName() {
         return dao.getCategoryName();
@@ -185,15 +210,13 @@ public class BoardServiceImpl implements BoardService {
         } else {
             String[] splitsearch = search.split(" ");
 
-            List<String> list = new ArrayList<String>();
-            for (int i = 0; i < splitsearch.length; i++) {
-                logger.info("리스트 추가합니다"+splitsearch[i]);
-                list.add(splitsearch[i]);
-                logger.info("리스트 추가완료!"+list.get(i));
-            }
-            return dao.searchContents(list, startrow, endrow);
-        }
-    }
+			List<String> list = new ArrayList<String>();
+			for (int i = 0; i < splitsearch.length; i++) {
+				list.add(splitsearch[i]);
+			}
+			return dao.searchContents(list, startrow, endrow);
+		}
+	}
 
     public void follow(String bl_writer, String session_iuid) {
         dao.follow(bl_writer, session_iuid);
@@ -211,9 +234,6 @@ public class BoardServiceImpl implements BoardService {
         return dao.getFollowerBoard(my_iuid);
     }
 
-    public int likeCount(String bl_iuid) {
-        return dao.likeCount(bl_iuid);
-    }
 
     public List<BoardDTO> getMyBlock(String my_iuid) {
         return dao.getMyBlock(my_iuid);
