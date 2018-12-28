@@ -9,7 +9,6 @@ import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.MemberUtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.login.*;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -39,8 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 public class MemberController {
@@ -452,9 +449,8 @@ public class MemberController {
 
 
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-    public @ResponseBody Map<String, String> getUserInfo(HttpSession session, @RequestParam(value = "profile", required = false) String profile, @RequestParam(value = "nick", required = false) String nick,
-                                                         @RequestParam(value = "introduce", required = false) String introduce) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+    public @ResponseBody Map<String, String> getUserInfo(HttpSession session, @RequestParam(value = "uid") String mem_iuid, @RequestParam(value = "profile", required = false) String profile, @RequestParam(value = "nick", required = false) String nick,
+                                                         @RequestParam(value = "introduce", required = false) String introduce) throws Exception {
         Map<String, String> result = new HashMap();
         String check_profile = "";
         String check_nick = "";
@@ -468,7 +464,8 @@ public class MemberController {
         if(introduce != null){
             check_introduce  = "introduce";
         }
-        result = memberService.getUserInfo(mem_iuid, check_profile, check_nick, check_introduce);
+
+            result = memberService.getUserInfo(mem_iuid, check_profile, check_nick, check_introduce);
 
         return result;
 

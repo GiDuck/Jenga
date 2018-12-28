@@ -60,14 +60,20 @@
                             <br><br>
                             <div class="text"><p name="bk_title" class="name"></p></div>
 
-                            <div class="card-body details-center">
+                            <div class="card-body details-center" style="padding : 10px">
                                     <div class="author w-50 text-center">
-                                        <img src="" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/faces/joe-gardner-2.jpg'"
+                                        <img name ="user_profile" src="" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/placeholder.jpg'"
                                              alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                         <div class="text">
-                                            <span class="name"></span>
-                                            <div class="meta"><i class="fas fa-heart" name="likeIcon"></i>0</div>
-                                        </div>
+                                            <div class="row">
+                                                <div class="col-8 w-100">
+                                            <span name="user_nick" class="name w-100"></span>
+                                                </div>
+                                                <div class="col-4 w-100">
+                                            <div class="meta w-100"><i class="fa fa-heart" name="likeIcon" style="color: red"></i>0</div>
+                                                </div>
+                                                </div>
+                                            </div>
                                     </div>
                             </div>
                         </div>
@@ -82,31 +88,33 @@
 
 <script>
 
+    let pageNum = 1;
+    let key;
+    let keyword;
+    let isEndPage = false;
+
     function TimeChecker() {
 
         let startTime;
-        const TIME_INTERVAL = 5000;
+        const TIME_INTERVAL = 2000;
         this.validateOverInterval = function () {
 
-                if (!startTime) {
+            if(!startTime){
+                startTime = new Date().getTime();
 
-                    startTime = new Date().getTime();
-
-                }
+            }
 
                 let endTime = new Date().getTime();
 
-
                 if (endTime - startTime < TIME_INTERVAL) {
                     return false;
-                } else {
+                } else if(endTime - startTime >= TIME_INTERVAL) {
                     startTime = new Date().getTime();
                     return true;
                 }
         }
 
     }
-
     function PreLoader(){
 
         this.preloader = $("#loaderContainer");
@@ -135,7 +143,9 @@
         $("button[name='bs_searchBtn']").on("click", function(e){
 
             e.stopPropagation();
-            searchAction();
+            searchAction(true);
+            isEndPage = false;
+
 
         });
 
@@ -152,7 +162,9 @@
 
                }else{
 
-                   searchAction();
+                   searchAction(true);
+                   isEndPage = false;
+
 
                }
 
@@ -166,9 +178,8 @@
 
                 let flag = timeChecker.validateOverInterval();
                 if(flag){
-                    alert("request Ajax!");
+                    searchAction(false);
                 }
-
 
             }
 
@@ -199,28 +210,38 @@
 
     }
 
+
     //ajax를 통해 검색된 결과를 가져옴
-    function searchAction() {
+    function searchAction(isFirstRequest) {
+
+        if(isEndPage) return;
 
         preLoader.show();
 
-        let key = $("input[name='bs_dropdownSelected']").attr("value");
-        let keyword = $("input[name='bs_keyword']").val();
+        if(isFirstRequest){
 
 
-        if($.trim(keyword).length < 2){
+             key = $("input[name='bs_dropdownSelected']").attr("value");
+             keyword = $("input[name='bs_keyword']").val();
 
-            swal({
 
-                text : "공백이거나 검색어가 너무 짧습니다. 검색어는 두 자리 이상 입력하십시오.",
-                type : "warning"
+            if($.trim(keyword).length < 2){
 
-            });
+                swal({
 
-            preLoader.hide();
-            return;
+                    text : "공백이거나 검색어가 너무 짧습니다. 검색어는 두 자리 이상 입력하십시오.",
+                    type : "warning"
+
+                });
+
+                preLoader.hide();
+                return;
+
+            }
 
         }
+
+
 
 
         $.ajax({
@@ -230,7 +251,8 @@
             data: {
 
                 search : keyword,
-                search_check : key
+                search_check : key,
+                pageNum : parseInt(pageNum)
 
             },
             success: function (response) {
@@ -251,7 +273,16 @@
 
                 (function(){
 
-                    renderItems(response);
+                    renderItems(response["board"], isFirstRequest);
+
+                    if(response["count"]/(pageNum*10) > 1){
+                        pageNum++;
+                        isEndPage = false;
+
+                    }else{
+                        isEndPage = true;
+                    }
+
 
                     return (function(){
 
@@ -289,12 +320,14 @@
 
 
     //ajax 호출을 통해 가져온 데이터를 화면에 전시함
-    function renderItems(items) {
+    function renderItems(items, removeField) {
 
         let $cardForm = $("#bkCard");
         let $field = $("#block_field");
 
-        $field.empty();
+        if(removeField){
+            $field.empty();
+        }
 
         for (let i = 0; i < items.length; ++i) {
 
@@ -304,11 +337,30 @@
             $dummy.attr("id", null);
             $dummy.css("display", "block");
             $dummy.css("cursor", "pointer");
-            //$dummy.find("img[name='bk_image']").attr("src", block.blockImg);
             $dummy.find("p[name='bk_title']").html(block.bl_title);
-         /*   $dummy.find(".author > img").attr("src", block.writerProfile); */
-            //$dummy.find(".author > .name").attr("src", block.bl_writer);
 
+
+
+
+            $.ajax({
+
+               url : "/getUserInfo",
+               data : {profile : null, nick : null, introduce : null, uid : block.bl_writer},
+                type: "GET",
+                success : function(response){
+
+                   console.log(JSON.stringify(response));
+                    $dummy.find(".author").find(".text").find("span[name='user_nick']").html(response.nick);
+                    $dummy.find(".author").find("img[name='user_profile']").attr("src", response.profile);
+
+                },
+                error : function(xhs, status, error){
+
+
+                }
+
+
+            });
             //클릭시 Datail 보기로 이동
                 $dummy.on("click", function (e) {
 

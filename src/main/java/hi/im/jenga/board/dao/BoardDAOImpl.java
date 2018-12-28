@@ -53,32 +53,21 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-    public String likeCheck(String bl_iuid, String session_mem_iuid) {
+    public void likeCheck(String bl_iuid, String session_mem_iuid) {
+        String result;
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
-        String result = sqlSession.selectOne("board.likeCheck", map);
-        return result;
-    }
 
-    public void addLike(String bl_iuid, String session_mem_iuid) {
-        logger.info("like추가");
-        Map<String, String> map = new HashMap();
-        map.put("bl_iuid", bl_iuid);
-        map.put("session_mem_iuid", session_mem_iuid);
-        sqlSession.insert("board.addLike", map);
-    }
+        result = sqlSession.selectOne("board.likeCheck", map);
 
-    public void cancelLike(String bl_iuid, String session_mem_iuid) {
-        logger.info("like삭제");
-        Map<String, String> map = new HashMap();
-        map.put("bl_iuid", bl_iuid);
-        map.put("session_mem_iuid", session_mem_iuid);
+        if (result == null) {
+            sqlSession.insert("board.addLike", map);
+            return;
+        }
         sqlSession.delete("board.cancelLike", map);
-    }
+        logger.info("좋아요 delete");
 
-    public int likeCount(String bl_iuid) {
-        return sqlSession.selectOne("board.likeCount", bl_iuid);
     }
 
     public Map<String, List<String>> getCategoryName() {
@@ -188,6 +177,10 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getFollowerBoard", my_iuid);
     }
 
+    public int likeCount(String bl_iuid) {
+        return sqlSession.selectOne("board.likeCount", bl_iuid);
+    }
+
     public List<BoardDTO> getMyBlock(String my_iuid) {
         return sqlSession.selectList("board.getMyBlock", my_iuid);
     }
@@ -220,6 +213,7 @@ public class BoardDAOImpl implements BoardDAO {
     public int countSearchContents(List<String> search) {
         return sqlSession.selectOne("board.countSearchTitle",search);
     }
+
 
 
     public String getUploadName(String bl_uid) {
