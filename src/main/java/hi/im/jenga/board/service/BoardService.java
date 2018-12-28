@@ -36,7 +36,7 @@ public interface BoardService {
 
     String transCtgUID(String bl_smCtg, String flag);
 
-    List<BoardDTO> search(String search, String search_check, String session_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+    List<BoardDTO> search(String search, String search_check, String session_iuid, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
     void follow(String bl_writer, String session_iuid);
 
@@ -52,4 +52,9 @@ public interface BoardService {
 
     List<String> searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
+    public String formattingBK(String bookmarks);
+
+    int countSearch(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+
+    String isLikeExist(String bl_iuid, String session_mem_iuid);
 }

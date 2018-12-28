@@ -31,9 +31,8 @@
                         <div class="row">
                         <div id="heartContainer" class="feed col-1" >
                              <div id="likeBtn" class="heart" rel="like"></div>
-
                         </div>
-                        <div id="likeCount" class="likeCount" style="align-items: center; display: flex">30</div>
+                        <div id="likeCount" class="likeCount" style="align-items: center; display: flex"></div>
                     </div>
                     </div>
                     <div class="col-md-7 col-sm-7">
@@ -70,23 +69,18 @@
                         <div class="media">
                             <a class="pull-left" href="#paper-kit">
                                 <div class="avatar big-avatar">
-                                    <img id="writer_image" class="media-object" alt="user profile" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/placeholder.jpg'">
+                                    <img id="writer_image" class="media-object" alt="64x64" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/faces/kaci-baum-2.jpg'">
                                 </div>
                             </a>
                             <div class="media-body">
                                 <h4 id="writer_name" class="media-heading"></h4>
-                                <span id="writer_description"></span>
-
+                                <span id="writer_description"/>
                                 <div class="pull-right">
-                                    <div id="writerPanel">
-                                        <div id="thisBlockWriterPanel"  style="display : none">
+                                    <div id="writerPanel" style="display : none">
                                         <a href="#" class="btn btn-info btn-round "> <i class="nc-icon nc-ruler-pencil"></i>&nbsp Modify</a>&nbsp
-                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp
-                                        </div>
-                                        <a name="following" href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
-                                    </div>
+                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp</div>
+                                    <a href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -114,20 +108,14 @@
 
     let blockObj = undefined;
     let blockJson = undefined;
-    let $followBtn = $("a[name='following']");
-    let isFollowing = undefined;
-
 
 
     function setData(){
 
-        console.log("글쓴이 uid...");
-        console.log('${map.bl_writer}');
-
         //json으로 넘어온 map object를 js에서 사용할 수 있는 object 형식으로 파싱
         blockJson = ${map.bookmarks};
         blockObj = JSON.parse(blockJson['_value']);
-
+        console.log(blockObj);
         //작성자 이름
         $("#writer_name").html('${map.mem_nick}');
         //작성자 소개
@@ -144,7 +132,8 @@
         $("#bd_introduce").html('${map.bl_introduce}');
         //블록 내용
         $("#bd_description").html('${map.bl_description}');
-
+        //블록 좋아요 개수
+        $("#likeCount").html('${map.likes}');
         //카테고리
         let categoryStr = '${map.bl_mainCtg}' + " > "  + '${map.bl_smCtg}';
         $("#bd_category").val(categoryStr);
@@ -397,11 +386,52 @@
 
         setNavType("blue");
         setData();
+        $.ajax({
+            url: "/isLikeExist/${map.bl_uid}",
+            type:"GET",
+            success: function (responseData) {
+                alert(responseData);
+                    liker.toggle();
+            },error: {}
+        });
 
         $likeBtn.on("click", function(e){
 
-            e.stopPropagation();
-            liker.toggle();
+            //세션체크
+            let session = "${sessionScope.Member}";
+            let dest = $(e.target).attr("href");
+
+            if(!session){
+
+                swal({
+                    text : "로그인이 필요한 서비스 입니다. 로그인 페이지로 이동하시겠습니까?",
+                    type : "warning",
+                    showCancelButton : true,
+                    confirmButtonText: "이동"
+                }).then(function(result){
+
+                    if(result.dismiss == 'cancel'){
+                        return;
+                    }
+                    else{
+                        ${applicationScope.tempURLcontainer = window.location.href};
+                        alert(${applicationScope.tempURLcontainer});
+                        window.location.href="/login";
+                    }
+                });
+
+
+            }else{
+                $.ajax({
+                    url: "/board/like/${map.bl_uid}",
+                    type: "GET",
+                    success : function (responseCount) {
+                        $("#likeCount").html(responseCount);
+                    },
+                });
+                e.stopPropagation();
+                // liker.toggle();
+            }
 
         });
 

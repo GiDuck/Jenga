@@ -140,7 +140,6 @@ public class MemberController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
-
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
         logger.info("header...");
@@ -527,6 +526,11 @@ public class MemberController {
 
     }
 
+
+
+
+//까미바보 쫄보
+
     /******************************** 소셜별 콜백 매핑 *********************************/
 
     @RequestMapping(value = "/facebookcallback", method = RequestMethod.GET)
@@ -679,11 +683,11 @@ public class MemberController {
 
 
     @RequestMapping(value = "/getBmksUploadDate", method = RequestMethod.GET)
-    public @ResponseBody String getBmksUploadDate(HttpSession session) {
+    public @ResponseBody Map<String, String> getBmksUploadDate(HttpSession session) {
         String session_iuid  = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
 
-        String bmksUploadDate = memberService.getBmksUploadDate(session_iuid);
+        Map<String, String> map = memberService.getBmksUploadDate(session_iuid);
 
-        return bmksUploadDate;
+        return map;
     }
 }

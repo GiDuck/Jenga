@@ -417,7 +417,7 @@
                     type: "post",
                     data: {
                         "em_id" : id,
-                        "em_akey": $(this).closest(".form-group").find("#em_akey").val() // TODO 인증키 값 보내는거 null 뜸
+                        "em_akey": $(this).closest(".form-group").find("#em_akey").val()
                     },
                     success : function(responseData){
 

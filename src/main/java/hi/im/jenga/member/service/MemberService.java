@@ -56,7 +56,7 @@ public interface MemberService {
 
     Map<String, String> getUserInfo(String mem_iuid, String check_profile, String check_nick, String check_introduce) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
-    String getBmksUploadDate(String session_iuid);
+    Map<String, String> getBmksUploadDate(String session_iuid);
 
     void changePwd(String mem_iuid, String pwd) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 }

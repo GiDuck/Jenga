@@ -30,7 +30,9 @@ public interface BoardDAO {
 
     int deleteBlock(String bl_uid);
 
-    void likeCheck(String bl_iuid, String session_mem_iuid);
+    int likeCount(String bl_iuid);
+
+    String likeCheck(String bl_iuid, String session_mem_iuid);
 
     Map<String, List<String>> getCategoryName();
 
@@ -42,11 +44,11 @@ public interface BoardDAO {
 
     String transCtgUID(String bl_smCtg, String flag);
 
-    List<BoardDTO> searchName(String search);
+    List<BoardDTO> searchName(String search, int startrow, int endrow);
 
-    List<BoardDTO> searchTag(String search);
+    List<BoardDTO> searchTag(String search, int startrow, int endrow);
 
-    List<BoardDTO> searchContents(List<String> search);
+    List<BoardDTO> searchContents(List<String> search, int startrow, int endrow);
 
     void setSearchKeyword(String search, String session_iuid);
 
@@ -64,13 +66,22 @@ public interface BoardDAO {
 
     List<BoardDTO> getFollowerBoard(String my_iuid);
 
-    int likeCount(String bl_iuid);
-
     List<BoardDTO> getMyBlock(String my_iuid);
 
     List<String> searchImgName(String search);
 
-    void searchImgTag(String search);
+    List<String> searchImgTag(String search);
 
-    void searchImgContents(List<String> search);
+    List<String> searchImgContents(List<String> search);
+
+    int countSearchName(String search);
+
+    int countSearchTag(String search);
+
+    int countSearchContents(List<String> list);
+
+    void addLike(String bl_iuid, String session_mem_iuid);
+
+    void cancelLike(String bl_iuid, String session_mem_iuid);
+
 }

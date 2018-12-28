@@ -2,7 +2,6 @@ package hi.im.jenga.board.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.board.dao.BoardDAO;
@@ -10,6 +9,7 @@ import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +32,9 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardDAO dao;
 	private final MongoService mongoService;
 	private final AES256Cipher aes256Cipher;
+
+	@Value("#{data['bookmark.absolute_path']}")
+	private String BOOKMARK_ABSOLUTE_PATH;
 
 	@Autowired
 	public BoardServiceImpl(BoardDAO dao, MongoService mongoService, AES256Cipher aes256Cipher) {
@@ -57,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 		// 사진을 직접 안넣을 시 디폴트 이미지로 설정
 		if(uploadName.equals("")) {
 			// 디폴트 이미지를 넣어준다
-			uploadName = "D:\\jengaResource\\default\\noImage.png";
+			uploadName = "jenga_profile_default.jpg";
 		}
 			dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
 
@@ -126,7 +128,6 @@ public class BoardServiceImpl implements BoardService {
 		return dao.deleteBlock(bl_uid);
 	}
 
-
 	@Transactional
 	public Map<String, Object> getView(String bl_uid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
 		dao.getAddReadCount(bl_uid);	// 조회수 + 1
@@ -153,14 +154,37 @@ public class BoardServiceImpl implements BoardService {
 		return map;
 	}
 
-    public void likeCheck(String bl_iuid, String session_mem_iuid) { dao.likeCheck(bl_iuid, session_mem_iuid); }
+    public String formattingBK(String bookmarks) {
+
+	    FileIO fileIO = new FileIO();
+
+
+
+        return null;
+    }
+
+	public String isLikeExist(String bl_iuid, String session_mem_iuid) { return dao.likeCheck(bl_iuid, session_mem_iuid); }
+
+    public void likeCheck(String bl_iuid, String session_mem_iuid) {
+		String result = dao.likeCheck(bl_iuid, session_mem_iuid);
+//		if("".equals(result)){
+		if(result == null){
+			dao.addLike(bl_iuid, session_mem_iuid);
+			return;
+		}
+		dao.cancelLike(bl_iuid, session_mem_iuid);
+	}
+
+	public int likeCount(String bl_iuid) {
+		return dao.likeCount(bl_iuid);
+	}
 
 	public String getBookMarkFromHTML(String session_iuid) {
 		String fileFullName = dao.getBookMarkFromHTML(session_iuid);
 //		String 하나 더만들어서 비교
 		if(fileFullName != null) {
-			logger.info("로컬에 있는 북마크 경로는 "+fileFullName);
-			FileIO fileIO = new FileIO(fileFullName);
+			logger.info("로컬에 있는 북마크 경로는 "+BOOKMARK_ABSOLUTE_PATH + fileFullName);
+			FileIO fileIO = new FileIO(BOOKMARK_ABSOLUTE_PATH + fileFullName);
 			String result = fileIO.InputHTMLBookMark();
 			return result;
 		}
@@ -175,23 +199,23 @@ public class BoardServiceImpl implements BoardService {
 		return dao.transCtgUID(bl_smCtg, flag);
 	}
 
-	public List<BoardDTO> search(String search, String search_check, String session_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-		if(session_iuid != null){
-			dao.setSearchKeyword(search,session_iuid); //검색 워드 저장
+	public List<BoardDTO> search(String search, String search_check, String session_iuid, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+		if (session_iuid != null) {
+			dao.setSearchKeyword(search, session_iuid); //검색 워드 저장
 		}
-		if(search_check.equals("name")){
+		if (search_check.equals("name")) {
 			search = aes256Cipher.AES_Encode(search);
-			return dao.searchName(search);
-		}else if(search_check.equals("tag")){
-			return dao.searchTag(search);
-		}else{
+			return dao.searchName(search, startrow, endrow);
+		} else if (search_check.equals("tag")) {
+			return dao.searchTag(search, startrow, endrow);
+		} else {
 			String[] splitsearch = search.split(" ");
 
 			List<String> list = new ArrayList<String>();
-			for(int i = 0; i<splitsearch.length; i++){
+			for (int i = 0; i < splitsearch.length; i++) {
 				list.add(splitsearch[i]);
 			}
-			return dao.searchContents(list);
+			return dao.searchContents(list, startrow, endrow);
 		}
 	}
 
@@ -199,9 +223,8 @@ public class BoardServiceImpl implements BoardService {
 		dao.follow(bl_writer, session_iuid);
 	}
 
-	public String followCheck(String bl_writer, String session_iuid){
-		return dao.followCheck(bl_writer,session_iuid);
-	}
+	public String followCheck(String bl_writer, String session_iuid) { return dao.followCheck(bl_writer, session_iuid); }
+
 
 	public void unFollow(String bl_writer, String session_iuid) {
 		dao.unFollow(bl_writer, session_iuid);
@@ -211,14 +234,9 @@ public class BoardServiceImpl implements BoardService {
 		return dao.getFollowerBoard(my_iuid);
 	}
 
-	public int likeCount(String bl_iuid) {
-		return dao.likeCount(bl_iuid);
-	}
-
 	public List<BoardDTO> getMyBlock(String my_iuid) {
 		return dao.getMyBlock(my_iuid);
 	}
-
 	public List<String> searchImg(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
 		if(search_check.equals("name")){
 			logger.info("변경 전" + search);
@@ -237,6 +255,23 @@ public class BoardServiceImpl implements BoardService {
 			dao.searchImgContents(list);
 		}
 		return null;
+	}
+
+	public int countSearch(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+		if (search_check.equals("name")) {
+			search = aes256Cipher.AES_Encode(search);
+			return dao.countSearchName(search);
+		} else if (search_check.equals("tag")) {
+			return dao.countSearchTag(search);
+		} else {
+			String[] splitsearch = search.split(" ");
+			List<String> list = new ArrayList<String>();
+			for (int i = 0; i < splitsearch.length; i++) {
+				list.add(splitsearch[i]);
+			}
+			return dao.countSearchContents(list);
+		}
+
 	}
 
 
