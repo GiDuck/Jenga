@@ -3,6 +3,7 @@ package hi.im.jenga.board.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.member.dto.MemberDTO;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -44,7 +45,7 @@ public interface BoardService {
 
     void unFollow(String bl_writer, String session_iuid);
 
-    List<BoardDTO> getFollowerBoard(String my_iuid);
+    List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid);
 
     int likeCount(String bl_iuid);
 
@@ -55,4 +56,6 @@ public interface BoardService {
     int countSearch(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
     String isLikeExist(String bl_iuid, String session_mem_iuid);
+
+    List<MemberDTO> getMyFollower(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 }

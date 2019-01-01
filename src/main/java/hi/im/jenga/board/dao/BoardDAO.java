@@ -2,6 +2,7 @@ package hi.im.jenga.board.dao;
 
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.member.dto.MemberDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,7 @@ public interface BoardDAO {
 
     void unFollow(String bl_writer, String session_iuid);
 
-    List<BoardDTO> getFollowerBoard(String my_iuid);
+    List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid);
 
     List<BoardDTO> getMyBlock(String my_iuid);
 
@@ -84,4 +85,5 @@ public interface BoardDAO {
 
     void cancelLike(String bl_iuid, String session_mem_iuid);
 
+    List<MemberDTO> getMyFollower(String my_iuid);
 }

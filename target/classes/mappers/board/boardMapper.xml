@@ -429,7 +429,21 @@
 			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
 	</delete>
 
+	<select id="getFollowerList" resultType="hi.im.jenga.member.dto.MemberDTO">
+		select
+		 	m.MEM_IUID, m.MEM_NICK, m.MEM_PROFILE, m.MEM_LEVEL, m.MEM_JOINDATE
+		from
+			tbl_meminfo m
+			 	inner join
+			 	 	tbl_follow f
+			 	on
+			 	 	m.MEM_IUID = f.FL_IUID
+		where
+		 	f.FL_FOLLOWER = #{session_iuid}
+	</select>
+
     <select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
+
 			select
 				*
 			from
@@ -440,10 +454,8 @@
 			 		 		 from
 			 		 		  	tbl_follow
 			 		 		 where
-			 		 		 	fl_follower = #{my_iuid})
-			 		 		 ORDER by
-			 		 		     BL_WRITER
-			 		 		 DESC
+			 		 		 	fl_iuid = #{follow_iuid} and fl_follower = #{my_iuid})
+			order by BL_DATE desc
 	</select>
 
 

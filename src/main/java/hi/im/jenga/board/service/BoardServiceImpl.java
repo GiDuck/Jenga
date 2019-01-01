@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,6 +165,14 @@ public class BoardServiceImpl implements BoardService {
 
 	public String isLikeExist(String bl_iuid, String session_mem_iuid) { return dao.likeCheck(bl_iuid, session_mem_iuid); }
 
+    public List<MemberDTO> getMyFollower(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        List<MemberDTO> list = dao.getMyFollower(my_iuid);
+        for(int i=0; i<list.size(); i++){
+            list.get(i).setMem_nick(aes256Cipher.AES_Decode(list.get(i).getMem_nick()));
+        }
+        return list;
+    }
+
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
 		String result = dao.likeCheck(bl_iuid, session_mem_iuid);
 //		if("".equals(result)){
@@ -230,8 +239,8 @@ public class BoardServiceImpl implements BoardService {
         dao.unFollow(bl_writer, session_iuid);
     }
 
-    public List<BoardDTO> getFollowerBoard(String my_iuid) {
-        return dao.getFollowerBoard(my_iuid);
+    public List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid) {
+        return dao.getFollowerBoard(follow_iuid,my_iuid);
     }
 
 

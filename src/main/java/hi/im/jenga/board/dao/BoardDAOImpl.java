@@ -2,6 +2,7 @@ package hi.im.jenga.board.dao;
 
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.member.dto.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +78,10 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
         sqlSession.delete("board.cancelLike", map);
+    }
+
+    public List<MemberDTO> getMyFollower(String my_iuid) {
+        return sqlSession.selectList("board.getFollowerList", my_iuid);
     }
 
     public int likeCount(String bl_iuid) {
@@ -186,8 +191,11 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("board.unFollow",map);
     }
 
-    public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
-        return sqlSession.selectList("board.getFollowerBoard", my_iuid);
+    public List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid) { //follower한 사람 글
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("my_iuid", my_iuid);
+        map.put("follow_iuid", follow_iuid);
+        return sqlSession.selectList("board.getFollowerBoard", map);
     }
 
     public List<BoardDTO> getMyBlock(String my_iuid) {

@@ -20,8 +20,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -412,7 +421,7 @@ public class BoardController {
     }
 
 
-    //TODO 수정 필요함 일단 만들어둠...!
+    //TODO 수정 필요함 일단 만들어둠...! 마이블럭
     @RequestMapping(value = "/myBlock")
     public String myBlock(HttpSession session) {
 
@@ -423,6 +432,30 @@ public class BoardController {
 
 
         return ""; //임시 리턴
+    }
+
+
+    //팔로워한 사람 리스트
+    @RequestMapping(value = "/followlist")
+    public List<MemberDTO> myFollower(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        logger.info("내 세션아유아디"+my_iuid);
+        List<MemberDTO> list = boardService.getMyFollower(my_iuid);
+
+
+
+        logger.info("리스트"+list);
+
+        return list;
+    }
+
+
+    // 팔로워한사람 블럭
+    @RequestMapping(value="follwerBlock")
+    public String followerBlock(HttpSession session, String follow_iuid){
+        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        List<BoardDTO> board = boardService.getFollowerBoard(follow_iuid, my_iuid);
+        return "";
     }
 
 }
