@@ -31,6 +31,7 @@
                         <div class="row">
                         <div id="heartContainer" class="feed col-1" >
                              <div id="likeBtn" class="heart" rel="like"></div>
+
                         </div>
                         <div id="likeCount" class="likeCount" style="align-items: center; display: flex"></div>
                     </div>
@@ -441,6 +442,7 @@
                     url: "/board/like/${map.bl_uid}",
                     type: "GET",
                     success : function (responseCount) {
+                        alert(responseCount);
                         $("#likeCount").html(responseCount);
                     },
                 });

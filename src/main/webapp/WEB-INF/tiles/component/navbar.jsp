@@ -133,7 +133,6 @@
               }
               else{
                   window.location.href="/login";
-
               }
           });
 		 

@@ -9,7 +9,6 @@ import hi.im.jenga.member.service.MemberService;
 import hi.im.jenga.member.util.MemberUtilFile;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.login.*;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -39,8 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 public class MemberController {
@@ -140,6 +137,7 @@ public class MemberController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
+
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
         logger.info("header...");

@@ -63,6 +63,8 @@ public class BoardDAOImpl implements BoardDAO {
 
     public void addLike(String bl_iuid, String session_mem_iuid) {
         logger.info("like추가");
+        logger.info("아유아디    "+bl_iuid);
+        logger.info("session     "+session_mem_iuid);
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
@@ -75,6 +77,10 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
         sqlSession.delete("board.cancelLike", map);
+    }
+
+    public List<BoardDTO> getUserLikedBlock(String my_iuid) {
+        return sqlSession.selectList("board.getUserLikedBlock", my_iuid);
     }
 
     public int likeCount(String bl_iuid) {
@@ -192,21 +198,29 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getMyBlock", my_iuid);
     }
 
-    public List<String> searchImgName(String search) {
-        return sqlSession.selectList("board.searchImgName", search);
+    public List<String> searchImgName(String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchImgName", map);
     }
 
-    public List<String> searchImgTag(String search) {
-        logger.info("이미지태그 받기" + sqlSession.selectList("board.searchImgTag", search));
-
-        return null;
+    public List<String> searchImgTag(String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchImgTag", map);
     }
 
-    public List<String> searchImgContents(List<String> search) {
+    public List<String> searchImgContents(List<String> search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
 
-
-        logger.info("서치이미미지지지지" + sqlSession.selectList("board.searchImgTitle", search));
-        return search;
+        return sqlSession.selectList("board.searchImgTitle", map);
     }
 
     public int countSearchName(String search) {
@@ -220,6 +234,7 @@ public class BoardDAOImpl implements BoardDAO {
     public int countSearchContents(List<String> search) {
         return sqlSession.selectOne("board.countSearchTitle",search);
     }
+
 
 
     public String getUploadName(String bl_uid) {

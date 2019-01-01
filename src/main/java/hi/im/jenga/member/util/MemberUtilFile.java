@@ -66,7 +66,7 @@ public class MemberUtilFile {
 
             logger.info(file.getPath());
             String filePath = file.getPath();
-            PROFILE_PATH = filePath.replace(PROFILE_ABSOLUTE_PATH,"");
+            PROFILE_PATH = filePath.replace("Y:\\go\\Jenga\\profiles\\img\\","");
             PROFILE_PATH = PROFILE_PATH.replace("\\", "/");
 
             out = new FileOutputStream(file);
