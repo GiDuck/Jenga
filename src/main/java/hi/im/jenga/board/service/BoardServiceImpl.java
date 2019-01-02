@@ -271,4 +271,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
 
+    public String isLikeExist(String bl_iuid, String session_mem_iuid) { return dao.likeCheck(bl_iuid, session_mem_iuid); }
+
+
+
+
 }

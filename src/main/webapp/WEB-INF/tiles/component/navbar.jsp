@@ -8,7 +8,7 @@
 
 </style>
     
-<nav id="jenga_navbar" class="navbar navbar-expand-lg fixed-top nav-down bg-info">
+<nav id="jenga_navbar" class="navbar navbar-expand-lg fixed-top nav-down bg-white">
     <div class="container">
       <div class="navbar-translate">
         <a class="navbar-brand" href="/" rel="tooltip" title="Jenga"  data-placement="bottom">
@@ -39,8 +39,8 @@
               <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
               <a class="dropdown-item"  href="#" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
               <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
-              <a class="dropdown-item loginService" href="#"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
-              <a class="dropdown-item loginService" href="#"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
+              <a class="dropdown-item loginService" href="/board/manageBlock?token=follow"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
+              <a class="dropdown-item loginService" href="/board/manageBlock?token=my"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -79,31 +79,50 @@
     </div>
   </nav>
   <script>
-  
-   let jenga_navbar = $("#jenga_navbar");
 
-   function setNavType (type) {
+       function NavbarObj(){
 
-      /* console.log("type is..." + type);
-       jenga_navbar.removeClass();
+       let $navbar;
 
-       if (type === "transparent") {
+       (function(){
+            $navbar = $("#jenga_navbar");
+        })();
 
-          //navBar.addClass("navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent");
+       let type = undefined;
+       this.setType = function(requestType){
 
-       } else {
+           $navbar.removeClass(type);
+           $navbar.addClass(requestType);
+           type = requestType;
+       }
+       this.getNavbarHeight = function(){
+
+           //네비게이션 바의 높이를 반환 (정수)
+           return parseInt($navbar.css("height").replace("/\D/", ""));
+
+       }
+
+       this.addHeadBlock = function() {
+
+           let height = this.getNavbarHeight();
+           $(document).find("body").prepend($("<div>").css("height",height));
 
 
-           if (type === "blue") {
+       }
 
-               jenga_navbar.addClass("navbar navbar-expand-lg fixed-top nav-down bg-info nav-down");
-               jenga_navbar.attr("color-on-scroll", 500);
+       this.addClass = function(className){
+           this,$navbar.addClass(className);
+       }
 
-           }
-
-       }*/
+       this.removeClass = function(className){
+          this,$navbar.removeClass(className);
+       }
 
    }
+
+
+   let navbarObj = new NavbarObj();
+
    
    
   $(document).ready(function(){

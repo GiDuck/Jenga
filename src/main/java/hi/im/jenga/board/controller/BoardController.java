@@ -9,7 +9,6 @@ import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +25,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 // TODO  검색      (테스트) / 회원정보수정 / 댓글 / 팔로우
-
 /**
+ *
  * 글 조회 GET / 글 수정 GET (/stackBlock?stack=stack, modify)
  * 글 작성 GET / POST
  * POST (PATCH)
  * 글 삭제 DELETE
- * <p>
+ *
  * 검색
- * <p>
+ *
  * 북마크 파일 업로드 POST  (모달 GET ? )
- */
+ *
+ * */
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -52,15 +52,15 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
+
+    @RequestMapping(value = "/favoriteBoard", method = RequestMethod.GET)
+    public String SearchGET(HttpSession session) throws Exception {
+
+        return "favoriteBoard/favoriteBoard";
+    }
+
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(String search, String search_check, HttpSession session) throws Exception {
-     /*   String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-        List<BoardDTO> result = boardService.search(search, search_check, session_iuid);
-        boardService.searchImg(search,search_check);
-        boardService.searchMemInfo(search,search_check);
-        boardService.searchLike(search,search_check);
-*/
-
 
         return "stackBoard/boardSearch";
     }
@@ -124,14 +124,14 @@ public class BoardController {
 
     // 글쓰는 페이지 GET, 글 수정 페이지 GET
     @RequestMapping(value = "/stackBlock", method = RequestMethod.GET)
-    public String getWriteView(HttpSession session, Model model, String status, @RequestParam(value = "bl_uid", required = false) String bl_uid) throws JsonProcessingException {
+    public String getWriteView(HttpSession session, Model model, String status, @RequestParam (value = "bl_uid", required = false) String bl_uid) throws JsonProcessingException {
 //  TODO  status 없이 그냥 url로 접근하면 잘못된 페이지 띄우기 -> 임시로 / 로 감
-        if (status == null) return "redirect:/";
-        if (status.equals("stack")) {
+        if(status == null) return "redirect:/";
+        if(status.equals("stack")) {
             String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
             String resultHTML = null;
             Map<String, List<String>> category = null;
-            try {
+            try{
                 category = boardService.getCategoryName();
 
             }catch(Exception e){
@@ -146,20 +146,42 @@ public class BoardController {
                 e.printStackTrace();
             }
 
+
+            logger.info(resultHTML);
+
             model.addAttribute("category", categoryJSON);
-            model.addAttribute("resultHTML", resultHTML);
+            if(!resultHTML.equals("notExist")) {
+                model.addAttribute("resultHTML", resultHTML);
+            }
 
             return "editor/stackBoard/stackBlock";
 
-        } else if (status.equals("modify")) {         //  service 나누기
-
-
+        }else if(status.equals("modify")) {         //  service 나누기
+            String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            String resultHTML = null;
             Map<String, Object> map = boardService.getModifyBlock(bl_uid);
 
             logger.info("컨트롤러 맵은 " + map);
 
-            JSONObject jsonObject = new JSONObject(map);
-            model.addAttribute("map", jsonObject);
+            Map<String, List<String>> category = null;
+            try {
+                category = boardService.getCategoryName();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            String categoryJSON = mapper.writeValueAsString(category);
+
+            try {
+                resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            if(!resultHTML.equals("notExist")) {
+                model.addAttribute("resultHTML", resultHTML);
+            }
+            model.addAttribute("category", categoryJSON);
+            model.addAttribute("map", map);
 
             return "editor/stackBoard/stackBlock";
 
@@ -170,32 +192,31 @@ public class BoardController {
     }
 
     /*
-     * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
-     * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
-     */
+    * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
+    * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
+    */
 
 
     //    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
 
 
-    /*
-    logger.info(boardDTO.getBl_mainCtg());
-    logger.info(boardDTO.getBl_smCtg());
-    logger.info(boardDTO.getBl_description());
-    logger.info(boardDTO.getBl_introduce());
-    logger.info(boardDTO.getBl_title());
-    logger.info(boardDTO.getBt_name().toString());
-    logger.info(boardDTO.getBt_name()[0]);
-    logger.info(boardDTO.getBt_name()[1]);
-    logger.info(boardDTO.getBl_date().toString());
-    logger.info(boardDTO.getBl_writer());           // mem_iuid
-    */
+        /*
+        logger.info(boardDTO.getBl_mainCtg());
+        logger.info(boardDTO.getBl_smCtg());
+        logger.info(boardDTO.getBl_description());
+        logger.info(boardDTO.getBl_introduce());
+        logger.info(boardDTO.getBl_title());
+        logger.info(boardDTO.getBt_name().toString());
+        logger.info(boardDTO.getBt_name()[0]);
+        logger.info(boardDTO.getBt_name()[1]);
+        logger.info(boardDTO.getBl_date().toString());
+        logger.info(boardDTO.getBl_writer());           // mem_iuid
+        */
     //TODO ResponseBody로 board_uid 리턴해줘
     // 글쓰는페이지 POST / 작성
-    @RequestMapping(value = "/uploadBlock", method = RequestMethod.POST, produces = "multipart/form-data; charset=utf-8")
-    public @ResponseBody
-    String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
-                         @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
+    @RequestMapping(value="/uploadBlock", method = RequestMethod.POST, produces="multipart/form-data; charset=utf-8")
+    public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
+                                              @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
 
         logger.info("session에서 뽑아온 iuid는 " + ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid());
         boardDTO.setBl_uid(UUID.randomUUID().toString());
@@ -204,28 +225,28 @@ public class BoardController {
         String uploadName;
 
 //        logger.info("uploadFile.getOriginalFilename()은 ? "+ uploadFile.getOriginalFilename());
-        if (uploadFile == null) {
+        if(uploadFile == null){
             logger.info("null!");
         }
 
-        if (uploadFile != null) {
-            uploadFile.getOriginalFilename();
-            uploadName = boardUtilFile.fileUpload(uploadFile, "image");
-            logger.info("이미지 파일이 있네 이름은 ?" + uploadName);
-        } else {
-            uploadName = "";
-        }
+       if(uploadFile != null){
+           uploadFile.getOriginalFilename();
+           uploadName = boardUtilFile.fileUpload(uploadFile, "image");
+           logger.info("이미지 파일이 있네 이름은 ?" + uploadName);
+       }else{
+           uploadName = "";
+       }
 
-        logger.info("이미지 파일은 ?" + uploadName);
+       logger.info("이미지 파일은 ?" + uploadName);
 
 //        service에서 디폴트이미지 처리
 
         String flag = "s";
-        boardDTO.setBl_smCtg(boardService.transCtgUID(boardDTO.getBl_smCtg(), flag));
+        boardDTO.setBl_smCtg(boardService.transCtgUID(boardDTO.getBl_smCtg(),flag));
         flag = "m";
-        boardDTO.setBl_mainCtg(boardService.transCtgUID(boardDTO.getBl_mainCtg(), flag));
+        boardDTO.setBl_mainCtg(boardService.transCtgUID(boardDTO.getBl_mainCtg(),flag));
 
-        logger.info("DTO" + boardDTO.getBl_uid() + "/스몰/" + boardDTO.getBl_smCtg() + "/메인/" + boardDTO.getBl_mainCtg());
+        logger.info("DTO"+boardDTO.getBl_uid()+"/스몰/"+boardDTO.getBl_smCtg()+"/메인/"+boardDTO.getBl_mainCtg());
 
         boardService.writeViewBlock(boardDTO, uploadName, bl_bookmarks);
 
@@ -238,20 +259,28 @@ public class BoardController {
     // TODO  like 상태값으로 비교   이거먼저하자
     // block iuid를 조건으로 insert mem_iuid(session에 있는)
     @RequestMapping(value = "/like/{bl_iuid}")
-    public @ResponseBody
-    int like(@PathVariable String bl_iuid, HttpSession session) {
-
-        String session_mem_iuid = ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid();
-
+    public @ResponseBody int like(@PathVariable String bl_iuid, HttpSession session){
+        logger.info("like 들어옴");
+        String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
         boardService.likeCheck(bl_iuid, session_mem_iuid);
 
         int likeCount = boardService.likeCount(bl_iuid);
-
+        logger.info("반환할 likeCount 값은? " + likeCount);
         return likeCount;
     }
 
+    @RequestMapping(value = "/isLikeExist/{bl_uid}", method = RequestMethod.GET)
+    public @ResponseBody String isLikeExist(HttpSession session, @PathVariable("bl_uid") String bl_iuid) {
+        String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
+        String check = boardService.isLikeExist(bl_iuid, session_mem_iuid);
+        logger.info(check);
+        String result = check != null ? "exist" : "notExist";
+        logger.info(result);
+        return result;
+    }
 
-    //  TODO 테스트 mongo update도 함
+
+//  TODO 테스트 mongo update도 함
 //    수정페이지 POST    /modView  PATCH or PUT          json받아야함
     @RequestMapping(value = "/modView", method = RequestMethod.PATCH)
     public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
@@ -260,26 +289,26 @@ public class BoardController {
         // 수정을 안하면 원래 이미지를 줘야함
         // 여기서 nullpointException 뜨면 여기서 boardService.getUploadName() 해야하고
 //         넘어가면 서비스impl에서 처리
-        if (uploadFile != null) {
+        if(uploadFile != null){
             uploadName = boardUtilFile.fileUpload(uploadFile, "image");
-        } else {
+        }else{
             uploadName = "";
         }
 
         boardService.modifyViewPOST(boardDTO, uploadName, bl_bookmarks);
 
-        return "/board/boardView?bl_uid=" + boardDTO.getBl_uid();
+        return "/board/boardView?bl_uid="+boardDTO.getBl_uid();
     }
 
-    //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트
+//    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트
 //    View에서 받는거 테스트해야함
 //    삭제페이지 POST
-    @RequestMapping(value = "/delBlock", method = RequestMethod.GET)
-    public ResponseEntity deleteBlock(@RequestParam String bl_uid) {
+    @RequestMapping(value = "/delBlock", method=RequestMethod.GET)
+    public ResponseEntity deleteBlock(@RequestParam String bl_uid){
 
         int result = boardService.deleteBlock(bl_uid);
 
-        if (result == 0) {
+        if(result == 0){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity(HttpStatus.OK);
@@ -288,20 +317,20 @@ public class BoardController {
 
 
     // 북마크 파일업로드  /  완료
-    @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
+    @RequestMapping(value="/fileUpload", method=RequestMethod.POST)
     @ResponseBody
     public ResponseEntity fileUpload(@RequestParam String bp_browstype, @RequestParam String bp_booktype, @RequestParam("file") MultipartFile uploadFile, HttpSession session) {
-        String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String session_iuid  = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
         ResponseEntity<String> result;
         BlockPathDTO blockPathDTO = new BlockPathDTO();
-        logger.info("북마크 타입은 " + bp_booktype);
-        logger.info("브라우저 타입은 " + bp_browstype);
+        logger.info("북마크 타입은 "+ bp_booktype);
+        logger.info("브라우저 타입은 "+ bp_browstype);
 
         try {
             logger.info("업로드 된 파일");
-            logger.info("파일 이름은 " + uploadFile.getOriginalFilename());
-            logger.info("파일 사이즈 " + uploadFile.getSize());
-            logger.info("머고이건 " + uploadFile.getBytes().toString());
+            logger.info("파일 이름은 "+uploadFile.getOriginalFilename());
+            logger.info("파일 사이즈 "+uploadFile.getSize());
+            logger.info("머고이건 "+uploadFile.getBytes().toString());
 
             String uploadPath = boardUtilFile.fileUpload(uploadFile, "block");
 
@@ -319,7 +348,7 @@ public class BoardController {
 
             result = new ResponseEntity(HttpStatus.OK);
 
-        } catch (Exception e) {
+        }catch(Exception e) {
 
             e.printStackTrace();
 

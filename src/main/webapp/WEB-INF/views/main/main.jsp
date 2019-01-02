@@ -213,7 +213,8 @@
 
     $(document).ready(function(){
 
-        setNavType("blue");
+        navbarObj.setType("bg-info");
+        navbarObj.addHeadBlock();
         initCarousel();
 
 

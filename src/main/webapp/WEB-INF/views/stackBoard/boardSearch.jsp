@@ -4,7 +4,7 @@
 
 <div class="wrapper">
     <div class="main">
-        <div class="section">
+        <div class="section section-gray">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 col-12 ml-auto mr-auto text-center">
@@ -115,6 +115,7 @@
         }
 
     }
+
     function PreLoader(){
 
         this.preloader = $("#loaderContainer");
@@ -138,7 +139,8 @@
     $(document).ready(function () {
 
         let timeChecker = new TimeChecker();
-        setNavType("blue");
+            navbarObj.setType("bg-info");
+            navbarObj.addHeadBlock();
         selectDropdown();
         $("button[name='bs_searchBtn']").on("click", function(e){
 

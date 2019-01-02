@@ -53,22 +53,31 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-    public void likeCheck(String bl_iuid, String session_mem_iuid) {
-        String result;
+
+    public String likeCheck(String bl_iuid, String session_mem_iuid) {
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
-
-        result = sqlSession.selectOne("board.likeCheck", map);
-
-        if (result == null) {
-            sqlSession.insert("board.addLike", map);
-            return;
-        }
-        sqlSession.delete("board.cancelLike", map);
-        logger.info("좋아요 delete");
-
+        String result = sqlSession.selectOne("board.likeCheck", map);
+        return result;
     }
+
+    public void addLike(String bl_iuid, String session_mem_iuid) {
+        logger.info("like추가");
+        Map<String, String> map = new HashMap();
+        map.put("bl_iuid", bl_iuid);
+        map.put("session_mem_iuid", session_mem_iuid);
+        sqlSession.insert("board.addLike", map);
+    }
+
+    public void cancelLike(String bl_iuid, String session_mem_iuid) {
+        logger.info("like삭제");
+        Map<String, String> map = new HashMap();
+        map.put("bl_iuid", bl_iuid);
+        map.put("session_mem_iuid", session_mem_iuid);
+        sqlSession.delete("board.cancelLike", map);
+    }
+
 
     public Map<String, List<String>> getCategoryName() {
         Map<String, List<String>> category = new HashMap();

@@ -69,18 +69,23 @@
                         <div class="media">
                             <a class="pull-left" href="#paper-kit">
                                 <div class="avatar big-avatar">
-                                    <img id="writer_image" class="media-object" alt="64x64" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/faces/kaci-baum-2.jpg'">
+                                    <img id="writer_image" class="media-object" alt="user profile" src="" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/placeholder.jpg'">
                                 </div>
                             </a>
                             <div class="media-body">
                                 <h4 id="writer_name" class="media-heading"></h4>
-                                <span id="writer_description"/>
+                                <span id="writer_description"></span>
+
                                 <div class="pull-right">
-                                    <div id="writerPanel" style="display : none">
+                                    <div id="writerPanel">
+                                        <div id="thisBlockWriterPanel"  style="display : none">
                                         <a href="#" class="btn btn-info btn-round "> <i class="nc-icon nc-ruler-pencil"></i>&nbsp Modify</a>&nbsp
-                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp</div>
-                                    <a href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
+                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp
+                                        </div>
+                                        <a name="following" href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -108,14 +113,22 @@
 
     let blockObj = undefined;
     let blockJson = undefined;
+    let $followBtn = $("a[name='following']");
+    let isFollowing = undefined;
+
 
 
     function setData(){
 
+        console.log("글쓴이 uid...");
+        console.log('${map.bl_writer}');
+        console.log('${map.bl_mainCtg}');
+        console.log('${map.bl_smCtg}');
+
         //json으로 넘어온 map object를 js에서 사용할 수 있는 object 형식으로 파싱
         blockJson = ${map.bookmarks};
         blockObj = JSON.parse(blockJson['_value']);
-        console.log(blockObj);
+
         //작성자 이름
         $("#writer_name").html('${map.mem_nick}');
         //작성자 소개
@@ -136,7 +149,7 @@
         $("#likeCount").html('${map.likes}');
         //카테고리
         let categoryStr = '${map.bl_mainCtg}' + " > "  + '${map.bl_smCtg}';
-        $("#bd_category").val(categoryStr);
+        $("#bd_category").html(categoryStr);
 
 
         //날짜
@@ -384,16 +397,18 @@
 
     $(document).ready(function(){
 
-        setNavType("blue");
-        setData();
         $.ajax({
-            url: "/isLikeExist/${map.bl_uid}",
+            url: "/board/isLikeExist/${map.bl_uid}",
             type:"GET",
             success: function (responseData) {
-                alert(responseData);
+                if(responseData.indexOf("exist") != -1) {
                     liker.toggle();
+                }
             },error: {}
         });
+
+        setNavType("blue");
+        setData();
 
         $likeBtn.on("click", function(e){
 

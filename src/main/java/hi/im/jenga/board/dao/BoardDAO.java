@@ -30,7 +30,7 @@ public interface BoardDAO {
 
     int deleteBlock(String bl_uid);
 
-    void likeCheck(String bl_iuid, String session_mem_iuid);
+    String likeCheck(String bl_iuid, String session_mem_iuid);
 
     Map<String, List<String>> getCategoryName();
 

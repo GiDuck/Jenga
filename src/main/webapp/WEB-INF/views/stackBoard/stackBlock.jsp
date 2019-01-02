@@ -1543,7 +1543,7 @@ Chrome, Firefox 사용 가능
 
     //초기화
     $(document).ready(function() {
-        setNavType("blue");
+        navbarObj.setType("bg-info");
 
         $.busyLoadFull("show", {
 
