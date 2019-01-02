@@ -2,6 +2,7 @@ package hi.im.jenga.board.dao;
 
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.member.dto.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +54,6 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-
     public String likeCheck(String bl_iuid, String session_mem_iuid) {
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
@@ -64,6 +64,8 @@ public class BoardDAOImpl implements BoardDAO {
 
     public void addLike(String bl_iuid, String session_mem_iuid) {
         logger.info("like추가");
+        logger.info("아유아디    "+bl_iuid);
+        logger.info("session     "+session_mem_iuid);
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
@@ -78,6 +80,13 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("board.cancelLike", map);
     }
 
+    public List<MemberDTO> getMyFollower(String my_iuid) {
+        return sqlSession.selectList("board.getFollowerList", my_iuid);
+    }
+
+    public int likeCount(String bl_iuid) {
+        return sqlSession.selectOne("board.likeCount", bl_iuid);
+    }
 
     public Map<String, List<String>> getCategoryName() {
         Map<String, List<String>> category = new HashMap();
@@ -182,33 +191,40 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("board.unFollow",map);
     }
 
-    public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
-        return sqlSession.selectList("board.getFollowerBoard", my_iuid);
-    }
-
-    public int likeCount(String bl_iuid) {
-        return sqlSession.selectOne("board.likeCount", bl_iuid);
+    public List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid) { //follower한 사람 글
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("my_iuid", my_iuid);
+        map.put("follow_iuid", follow_iuid);
+        return sqlSession.selectList("board.getFollowerBoard", map);
     }
 
     public List<BoardDTO> getMyBlock(String my_iuid) {
         return sqlSession.selectList("board.getMyBlock", my_iuid);
     }
 
-    public List<String> searchImgName(String search) {
-        return sqlSession.selectList("board.searchImgName", search);
+    public List<String> searchImgName(String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchImgName", map);
     }
 
-    public List<String> searchImgTag(String search) {
-        logger.info("이미지태그 받기" + sqlSession.selectList("board.searchImgTag", search));
-
-        return null;
+    public List<String> searchImgTag(String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.searchImgTag", map);
     }
 
-    public List<String> searchImgContents(List<String> search) {
+    public List<String> searchImgContents(List<String> search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
 
-
-        logger.info("서치이미미지지지지" + sqlSession.selectList("board.searchImgTitle", search));
-        return search;
+        return sqlSession.selectList("board.searchImgTitle", map);
     }
 
     public int countSearchName(String search) {

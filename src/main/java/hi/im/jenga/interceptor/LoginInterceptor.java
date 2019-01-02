@@ -65,9 +65,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             logger.info("########## LoginInterceptor 로그인 완료 세션에 넣었습니다.");
         }
 
-//        logger.info("null이면 AuthInterceptor 안거친거 "+dest);
-//        logger.info("@@@ dest는 LoginInterceptor " + dest);
-//        map.put("dest", dest != null ? dest : "/");
+        logger.info("null이면 AuthInterceptor 안거친거 "+dest);
+        logger.info("@@@ dest는 LoginInterceptor " + dest);
+
+        map.put("dest", dest != null ? dest : "/");
+
+
+
         logger.info("@@@@ check는 "+check);
 /*
 

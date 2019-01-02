@@ -137,6 +137,7 @@ public class MemberController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
+
         LoginUtil util = naverLoginUtil;
         String naverAuthUrl = util.getAuthorizationUrl(session);
         logger.info("header...");
@@ -680,11 +681,11 @@ public class MemberController {
 
 
     @RequestMapping(value = "/getBmksUploadDate", method = RequestMethod.GET)
-    public @ResponseBody Map<String, String> getBmksUploadDate(HttpSession session) {
+    public @ResponseBody String getBmksUploadDate(HttpSession session) {
         String session_iuid  = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
 
-        Map<String, String> map = memberService.getBmksUploadDate(session_iuid);
+        String bmksUploadDate = memberService.getBmksUploadDate(session_iuid);
 
-        return map;
+        return bmksUploadDate;
     }
 }

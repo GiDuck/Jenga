@@ -18,7 +18,7 @@
 </head>
 <body>
 <tiles:insertAttribute name="navbar"/>
-<tiles:insertAttribute name="content"/>
+<tiles:insertAttribute name="content" />
 <tiles:insertAttribute name="footer"/>
 
 </body>

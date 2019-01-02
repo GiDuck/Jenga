@@ -4,3 +4,4 @@ window.REGEX_EMAIL = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z
 window.REGEX_TRIM_DIM_EXTEND = /[^-\d\.]/g;
 window.REGEX_TRIM_VOID = /\s/gi;
 window.REGEX_ONLY_CHAR_AND_NUM = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]+$/;
+window.REGEX_TRIM_DIM_SIZE_EXTEND = /(?=\D)(?=^\.)/;

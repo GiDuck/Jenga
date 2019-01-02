@@ -2,6 +2,7 @@ package hi.im.jenga.board.dao;
 
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.member.dto.MemberDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ public interface BoardDAO {
     String getBookMarkFromHTML(String session_iuid);
 
     int deleteBlock(String bl_uid);
+
+    int likeCount(String bl_iuid);
 
     String likeCheck(String bl_iuid, String session_mem_iuid);
 
@@ -62,21 +65,25 @@ public interface BoardDAO {
 
     void unFollow(String bl_writer, String session_iuid);
 
-    List<BoardDTO> getFollowerBoard(String my_iuid);
-
-    int likeCount(String bl_iuid);
+    List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid);
 
     List<BoardDTO> getMyBlock(String my_iuid);
 
-    List<String> searchImgName(String search);
+    List<String> searchImgName(String search, int startrow, int endrow);
 
-    List<String> searchImgTag(String search);
+    List<String> searchImgTag(String search, int startrow, int endrow);
 
-    List<String> searchImgContents(List<String> search);
+    List<String> searchImgContents(List<String> search, int startrow, int endrow);
 
     int countSearchName(String search);
 
     int countSearchTag(String search);
 
     int countSearchContents(List<String> list);
+
+    void addLike(String bl_iuid, String session_mem_iuid);
+
+    void cancelLike(String bl_iuid, String session_mem_iuid);
+
+    List<MemberDTO> getMyFollower(String my_iuid);
 }

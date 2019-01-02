@@ -98,7 +98,7 @@
        this.getNavbarHeight = function(){
 
            //네비게이션 바의 높이를 반환 (정수)
-           return parseInt($navbar.css("height").replace("/\D/", ""));
+           return parseInt($navbar.css("height").replace(window.REGEX_TRIM_DIM_SIZE_EXTEND, ""), 10);
 
        }
 

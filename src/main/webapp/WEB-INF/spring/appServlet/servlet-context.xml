@@ -19,11 +19,10 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/img/**" location="file:///D:/jengaResource/upload/img/" />
 	<resources mapping="/categoryimg/**" location="/resources/categoryimg/" />
-	<resources mapping="/profileimg/**" location="file:///D:/jengaResource/profiles/img/" />
-	<resources mapping="/blockimg/**" location="file:///D:/jengaResource//block/img/" />
-	<resources mapping="/bookmark/**" location="file:///D:/jengaResource/bookmark/path/" />
+	<resources mapping="/profileimg/**" location="file:///D:/jengaResource/upload/img/profiles/img/" />
+	<resources mapping="/blockimg/**" location="file:///D:/jengaResource/upload/img/block/img/" />
+	<resources mapping="/bookmark/**" location="file:///D:/jengaResource/upload/bookmarks/path/" />
 
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -84,17 +83,16 @@
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 
-		<!--<interceptor>
+		<interceptor>
 			<mapping path="/board/stackBlock"/>
 			<mapping path="/board/modView"/>
 			<mapping path="/board/delBlock"/>
-			<mapping path="/board/like/*"/>
 
 			<mapping path="/modMemInfo"/>
 			<mapping path="/logout"/>
 
 			<beans:ref bean="authInterceptor"/>
-		</interceptor>-->
+		</interceptor>
 	</interceptors>
 
 	

@@ -17,7 +17,7 @@
 
 
     <resultMap id="boardMap" type="HashMap">
-		<result property="bl_uid" column="bl_uid"/>
+
         <result property="bl_writer" column="bl_writer"/>
         <result property="bl_title" column="bl_title"/>
         <result property="bl_description" column="bl_description" jdbcType="CLOB" javaType="java.lang.String"/>
@@ -41,26 +41,46 @@
     </resultMap>
 
     <select id="getBoardDetailBlock" resultType="Map" resultMap="boardMap">
-		SELECT
-			B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description", B.bl_introduce AS "bl_introduce", B.bl_mainCtg AS "bl_mainCtg", B.bl_smCtg AS "bl_smCtg", B.bl_date AS "bl_date", B.bl_objId AS "bl_objId",
-			I.bti_url AS "bti_url", R.blrc_count AS "blrc_count", M.mem_nick AS "mem_nick", M.mem_introduce AS "mem_introduce", M.mem_profile AS "mem_profile"
-		FROM
-			tbl_block B
-			INNER JOIN
-				tbl_thumbImg I
-			ON
-				I.bti_ref = B.bl_uid
-			INNER JOIN
-				tbl_blockReadCount R
-			ON
-				R.blrc_ref = B.bl_uid
-			INNER JOIN
-				tbl_memInfo M
-			ON
-				M.mem_iuid = B.bl_writer
-		WHERE
-			B.bl_uid = #{bl_uid} AND R.blrc_ref = #{bl_uid} AND M.mem_iuid = B.bl_writer
-	</select>
+      SELECT
+         B.bl_uid AS "bl_uid", B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description",
+            B.bl_introduce AS "bl_introduce", (SELECT
+                                           mctg_name
+                                    FROM
+                                       tbl_mcategory
+                                    WHERE
+                                       mctg_uid = (SELECT
+                                                   bl_mainCtg
+                                                FROM
+                                                   tbl_block
+                                                WHERE bl_uid = #{bl_uid})) AS "bl_mainCtg",
+                                    (SELECT
+                                       sctg_name
+                                    FROM
+                                       tbl_scategory
+                                    WHERE
+                                       sctg_uid = (SELECT
+                                                   bl_smctg
+                                                FROM
+                                                   tbl_block
+                                                WHERE bl_uid = #{bl_uid})) AS "bl_smCtg",
+         B.bl_date AS "bl_date", B.bl_objId AS "bl_objId", I.bti_url AS "bti_url", R.blrc_count AS "blrc_count", M.mem_nick AS "mem_nick", M.mem_introduce AS "mem_introduce", M.mem_profile AS "mem_profile"
+      FROM
+         tbl_block B
+         INNER JOIN
+            tbl_thumbImg I
+         ON
+            I.bti_ref = B.bl_uid
+         INNER JOIN
+            tbl_blockReadCount R
+         ON
+            R.blrc_ref = B.bl_uid
+         INNER JOIN
+            tbl_memInfo M
+         ON
+            M.mem_iuid = B.bl_writer
+      WHERE
+         B.bl_uid = #{bl_uid} AND R.blrc_ref = #{bl_uid} AND M.mem_iuid = B.bl_writer
+   </select>
 
     <select id="getBoardDetailTags" resultType="String">
 		SELECT
@@ -118,9 +138,9 @@
     <insert id="addLike">
 		INSERT INTO
 			tbl_blockLikes
-				(blk_ref)
+				(blk_ref,blk_writer)
         VALUES
-				(#{bl_uid})
+				(#{bl_iuid},#{session_mem_iuid})
 	</insert>
 
     <!-- 좋아요 취소 -->
@@ -128,7 +148,7 @@
         DELETE FROM
             tbl_blockLikes
         WHERE
-            blrc_ref = #{bl_uid}
+            blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
     </delete>
 
     <!-- 좋아요 카운트-->
@@ -275,7 +295,7 @@
 						bl_title Like '%'||#{search}||'%'
 					</foreach>
 				 order by
-					bl_date desc))temp
+					bl_date desc))
 		where
 			rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow} ]]>
     </select>
@@ -409,7 +429,21 @@
 			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
 	</delete>
 
+	<select id="getFollowerList" resultType="hi.im.jenga.member.dto.MemberDTO">
+		select
+		 	m.MEM_IUID, m.MEM_NICK, m.MEM_PROFILE, m.MEM_LEVEL, m.MEM_JOINDATE
+		from
+			tbl_meminfo m
+			 	inner join
+			 	 	tbl_follow f
+			 	on
+			 	 	m.MEM_IUID = f.FL_IUID
+		where
+		 	f.FL_FOLLOWER = #{session_iuid}
+	</select>
+
     <select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
+
 			select
 				*
 			from
@@ -420,10 +454,8 @@
 			 		 		 from
 			 		 		  	tbl_follow
 			 		 		 where
-			 		 		 	fl_follower = #{my_iuid})
-			 		 		 ORDER by
-			 		 		     BL_WRITER
-			 		 		 DESC
+			 		 		 	fl_iuid = #{follow_iuid} and fl_follower = #{my_iuid})
+			order by BL_DATE desc
 	</select>
 
 
