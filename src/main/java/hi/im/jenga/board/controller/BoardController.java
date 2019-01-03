@@ -85,7 +85,7 @@ public class BoardController {
 
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
     @ResponseBody
-    public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check") String search_check, int page, HttpSession session) throws Exception {
+    public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check") String search_check, @RequestParam("pageNum") int page, HttpSession session) throws Exception {
 
         String session_iuid = null;
         int limit = 20;
@@ -456,6 +456,14 @@ public class BoardController {
         String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         List<BoardDTO> board = boardService.getFollowerBoard(follow_iuid, my_iuid);
         return "";
+    }
+
+    @RequestMapping(value="mylikesBlock")
+    @ResponseBody
+    public List<Map<String,Object>> myLikesBlock(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        List<Map<String,Object>> board = boardService.getMyLikesBlock(my_iuid);
+        return board;
     }
 
 }

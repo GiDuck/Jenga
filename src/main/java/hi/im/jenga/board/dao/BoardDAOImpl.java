@@ -84,6 +84,10 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getFollowerList", my_iuid);
     }
 
+    public List<Map<String,Object>> getMyLikesBlock(String my_iuid) {
+        return sqlSession.selectList("board.myLikesBlock", my_iuid);
+    }
+
     public int likeCount(String bl_iuid) {
         return sqlSession.selectOne("board.likeCount", bl_iuid);
     }

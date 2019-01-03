@@ -86,4 +86,6 @@ public interface BoardDAO {
     void cancelLike(String bl_iuid, String session_mem_iuid);
 
     List<MemberDTO> getMyFollower(String my_iuid);
+
+    List<Map<String,Object>> getMyLikesBlock(String my_iuid);
 }

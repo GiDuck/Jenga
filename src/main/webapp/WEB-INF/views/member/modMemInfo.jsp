@@ -193,8 +193,9 @@ Form-data parameter
 
                    console.log("받아온 날짜...");
                    console.log(response);
+                   console.log(response["chrome_timestamp"]);
 
-               let syncDate = new Date(parseInt(response));
+               let syncDate = new Date(parseInt(response["chrome_timestamp"]));
                console.log(syncDate);
 
 

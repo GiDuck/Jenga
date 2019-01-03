@@ -56,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
 
         if (uploadName.equals("")) {
             logger.info("addEMemberInfo 서비스 디폴트이미지로 변경");
-            memberDTO.setMem_profile("Y:\\go\\Jenga\\profiles\\jenga_profile_default.jpg");
+            memberDTO.setMem_profile("D:\\jengaResource\\img\\profiles\\jenga_profile_default.jpg");
         } else {
             logger.info("프로필사진 있고 uploadName은 " + uploadName);
             memberDTO.setMem_profile(uploadName);

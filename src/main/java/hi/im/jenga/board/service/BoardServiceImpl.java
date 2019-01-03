@@ -173,6 +173,15 @@ public class BoardServiceImpl implements BoardService {
         return list;
     }
 
+    public List<Map<String,Object>> getMyLikesBlock(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        List<Map<String,Object>> myLikesBlock = dao.getMyLikesBlock(my_iuid);
+        for(int i=0; i<myLikesBlock.size(); i++){
+            myLikesBlock.get(i).put("MEM_NICK",aes256Cipher.AES_Decode((String) myLikesBlock.get(i).get("MEM_NICK")));
+        }
+
+        return myLikesBlock;
+    }
+
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
 		String result = dao.likeCheck(bl_iuid, session_mem_iuid);
 //		if("".equals(result)){

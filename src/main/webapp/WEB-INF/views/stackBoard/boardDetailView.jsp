@@ -123,6 +123,8 @@
 
         console.log("글쓴이 uid...");
         console.log('${map.bl_writer}');
+        console.log('${map.bl_mainCtg}');
+        console.log('${map.bl_smCtg}');
 
         //json으로 넘어온 map object를 js에서 사용할 수 있는 object 형식으로 파싱
         blockJson = ${map.bookmarks};

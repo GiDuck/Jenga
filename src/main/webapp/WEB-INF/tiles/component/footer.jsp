@@ -87,3 +87,41 @@
       </div>
     </div>
   </footer>
+
+
+ <script>
+
+   function Footer(){
+
+     let $footer;
+
+     (function(){
+
+      $footer = $("footer");
+
+     })();
+
+     this.getFooterHeight = function(){
+
+       let footerHeight = $footer.css("height").replace(window.REGEX_TRIM_DIM_SIZE_EXTEND, "");
+       return parseInt(footerHeight, 10);
+
+
+     }
+
+   }
+
+   $(document).ready(function(){
+     let documentHeight = $(document).height().replace(window.REGEX_TRIM_DIM_SIZE_EXTEND, "");
+     let footerObj = new Footer();
+     let bodySize = documentHeight - footerObj.getFooterHeight() - (navbarObj.getNavbarHeight() * 2);
+     $(".section").css("height", bodySize);
+
+
+   });
+
+
+
+
+
+ </script>

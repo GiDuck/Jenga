@@ -32,6 +32,15 @@
 
     </resultMap>
 
+	<resultMap id="blockInfo" type="HashMap">
+		<result property="bl_title" column="bl_title"/>
+		<result property="bl_mainCtg" column="bl_mainCtg"/>
+		<result property="bl_smCtg" column="bl_smCtg"/>
+		<result property="bl_date" column="bl_date" javaType="java.lang.Long"/>
+		<result property="bl_uid" column="bl_uid"/>
+		<result property="MEM_NICK" column="MEM_NICK"/>
+	</resultMap>
+
     <resultMap id="infoMap" type="HashMap">
         <result property="MEM_NICK" column="MEM_NICK"/>
         <result property="MEM_LEVEL" column="MEM_LEVEL"/>
@@ -126,11 +135,11 @@
     <!-- 좋아요 체크 -->
     <select id="likeCheck" resultType="String">
 		SELECT
-			blk_writer
+			blk_member
 		from
 			tbl_blocklikes
 		where
-			blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
+			blk_ref = #{bl_iuid} and blk_member = #{session_mem_iuid}
 
 	</select>
 
@@ -138,7 +147,7 @@
     <insert id="addLike">
 		INSERT INTO
 			tbl_blockLikes
-				(blk_ref,blk_writer)
+				(blk_ref,blk_member)
         VALUES
 				(#{bl_iuid},#{session_mem_iuid})
 	</insert>
@@ -148,7 +157,7 @@
         DELETE FROM
             tbl_blockLikes
         WHERE
-            blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
+            blk_ref = #{bl_iuid} and blk_member = #{session_mem_iuid}
     </delete>
 
     <!-- 좋아요 카운트-->
@@ -513,17 +522,23 @@
 
 
     <!-- 내가 좋아요한 board 뽑기 -->
-    <select id="">
+    <select id="myLikesBlock" resultType="HashMap" resultMap="blockInfo">
 		select
-		 		b.BL_DATE,b.BL_DESCRIPTION,b.BL_INTRODUCE,b.BL_MAINCTG,b.BL_OBJID,b.BL_SMCTG,b.BL_TITLE,b.BL_UID,b.bl_writer
+		 		b.BL_DATE,b.BL_INTRODUCE,b.BL_MAINCTG,b.BL_OBJID,b.BL_SMCTG,b.BL_TITLE,b.BL_UID,b.BL_WRITER,m.MEM_NICK
 		from
 		 		tbl_blocklikes bl
 		inner join
 		 		tbl_block b
 		 		 	on
 		 		 	 	bl.BLK_REF = b.bl_uid
+		 		 	 	inner join
+                            tbl_meminfo m
+                            on
+                                b.BL_WRITER = m.MEM_IUID
 		where
-		 	bl.blk_writer = #{my_iuid}
+		 	bl.blk_member = #{my_iuid}
+		order by
+		 	b.bl_date desc
 
 	</select>
 

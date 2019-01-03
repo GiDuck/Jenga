@@ -58,4 +58,6 @@ public interface BoardService {
     String isLikeExist(String bl_iuid, String session_mem_iuid);
 
     List<MemberDTO> getMyFollower(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+
+    List<Map<String,Object>>getMyLikesBlock(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 }

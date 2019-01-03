@@ -58,3 +58,27 @@ function checkImageFile(e){
 
 
 }
+
+
+function TimeChecker() {
+
+    let startTime;
+    const TIME_INTERVAL = 2000;
+    this.validateOverInterval = function () {
+
+        if(!startTime){
+            startTime = new Date().getTime();
+
+        }
+
+        let endTime = new Date().getTime();
+
+        if (endTime - startTime < TIME_INTERVAL) {
+            return false;
+        } else if(endTime - startTime >= TIME_INTERVAL) {
+            startTime = new Date().getTime();
+            return true;
+        }
+    }
+
+}
