@@ -466,4 +466,12 @@ public class BoardController {
         return board;
     }
 
+    @RequestMapping(value="followRecommend")
+    @ResponseBody
+    public List<Map<String,Object>> followRecommend(HttpSession session){
+        String my_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+        List<Map<String,Object>> followRecommend = boardService.followRecommend(my_iuid);
+        return followRecommend;
+    }
+
 }

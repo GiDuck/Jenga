@@ -182,6 +182,10 @@ public class BoardServiceImpl implements BoardService {
         return myLikesBlock;
     }
 
+    public List<Map<String, Object>> followRecommend(String my_iuid) {
+        return dao.followRecommend(my_iuid);
+    }
+
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
 		String result = dao.likeCheck(bl_iuid, session_mem_iuid);
 //		if("".equals(result)){
