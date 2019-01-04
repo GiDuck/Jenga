@@ -85,4 +85,8 @@ public interface BoardDAO {
     void cancelLike(String bl_iuid, String session_mem_iuid);
 
     List<BoardDTO> getUserLikedBlock(String my_iuid);
+
+    int countFollowingMember(String session_iuid, String search);
+
+    List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow);
 }

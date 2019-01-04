@@ -57,4 +57,8 @@ public interface BoardService {
     String isLikeExist(String bl_iuid, String session_mem_iuid);
 
     List<BoardDTO> getUserLikedBlock(String my_iuid);
+
+    int countFollowingMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+
+    List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow);
 }

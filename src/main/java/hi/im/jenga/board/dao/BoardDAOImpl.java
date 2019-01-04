@@ -1,15 +1,16 @@
 package hi.im.jenga.board.dao;
 
-import hi.im.jenga.board.dto.BlockPathDTO;
-import hi.im.jenga.board.dto.BoardDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import hi.im.jenga.board.dto.BlockPathDTO;
+import hi.im.jenga.board.dto.BoardDTO;
+import java.util.List;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -82,6 +83,7 @@ public class BoardDAOImpl implements BoardDAO {
     public List<BoardDTO> getUserLikedBlock(String my_iuid) {
         return sqlSession.selectList("board.getUserLikedBlock", my_iuid);
     }
+
 
     public int likeCount(String bl_iuid) {
         return sqlSession.selectOne("board.likeCount", bl_iuid);
@@ -165,6 +167,28 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("search", search);
         map.put("session_iuid", session_iuid);
         sqlSession.insert("board.setSearchKeyword", map);
+    }
+    public int countFollowingMember(String session_iuid, String search) {
+        Map<String, String> map = new HashMap<String, String>();
+        logger.info("search는 "+ search);
+        if("".equals(search)){
+            logger.info("search가 널입니다");
+        }
+
+        map.put("search", search);
+        map.put("session_iuid", session_iuid);
+        int result = sqlSession.selectOne("board.countFollowingMember", map);
+        logger.info("반환할 갯수 "+result);
+
+        return result;
+    }
+
+    public List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap();
+        map.put("session_iuid", session_iuid);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.getFollowingMember", map);
     }
 
     public void follow(String bl_writer, String session_iuid) {

@@ -127,11 +127,11 @@
     <!-- 좋아요 체크 -->
     <select id="likeCheck" resultType="String">
 		SELECT
-			blk_writer
+			blk_member
 		from
 			tbl_blocklikes
 		where
-			blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
+			blk_ref = #{bl_iuid} and blk_member = #{session_mem_iuid}
 
 	</select>
 
@@ -139,7 +139,7 @@
     <insert id="addLike">
 		INSERT INTO
 			tbl_blockLikes
-				(blk_ref,blk_writer)
+				(blk_ref ,blk_member)
         VALUES
 				(#{bl_iuid},#{session_mem_iuid})
 	</insert>
@@ -149,7 +149,7 @@
         DELETE FROM
             tbl_blockLikes
         WHERE
-            blk_ref = #{bl_iuid} and blk_writer = #{session_mem_iuid}
+            blk_ref = #{bl_iuid} and blk_member = #{session_mem_iuid}
     </delete>
 
     <!-- 좋아요 카운트-->
@@ -354,13 +354,13 @@
 		FROM
 			tbl_block
 		WHERE
-				BL_WRITER = (SELECT
-				MEM_IUID
-				FROM
-				TBL_MEMINFO
-				WHERE
-				MEM_NICK LIKE '%'||#{search}||'%'
-				)
+			BL_WRITER = (SELECT
+								MEM_IUID
+							FROM
+								TBL_MEMINFO
+							WHERE
+								MEM_NICK LIKE '%'||#{search}||'%'
+							)
 	</select>
 
     <select id="searchTag" resultType="hi.im.jenga.board.dto.BoardDTO">
@@ -430,13 +430,46 @@
 			FL_IUID = #{bl_writer} AND FL_FOLLOWER = #{session_iuid}
 	</delete>
 
+	<select id="countFollowingMember" resultType="int">
+		SELECT
+			COUNT(fl_iuid)
+		FROM
+			tbl_follow
+		WHERE
+			fl_follower = #{session_iuid}
+				<if test = "search != null">
+					AND fl_follower IN (SELECT
+									  		mem_iuid
+									  FROM
+											tbl_meminfo
+									  WHERE
+											mem_nick LIKE '%'||#{search}||'%')
+				</if>
+	</select>
+
+	<!-- 사용자의 팔로워 목록 뽑기 -->
+	<select id="getFollowingMember" resultType="hi.im.jenga.member.dto.MemberDTO">
+		SELECT
+			mem_nick, mem_introduce, mem_profile
+		FROM
+			tbl_meminfo
+		WHERE
+			mem_iuid IN (SELECT
+							fl_iuid
+						FROM
+						 	tbl_follow
+						WHERE
+							fl_follower = #{session_iuid})
+	</select>
+
+	<!-- 팔로워의 글 뽑기 -->
     <select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
 			SELECT
 				*
 			FROM
 			 	tbl_block
 			WHERE
-			 	bl_writer = (SELECT
+			 	bl_writer IN (SELECT
 			 		 			fl_iuid
 			 		 		 FROM
 			 		 		  	tbl_follow
@@ -446,7 +479,6 @@
 				BL_WRITER
 			DESC
 	</select>
-
 
     <!-- 좋아요 갯수 -->
     <select id="likeCount" resultType="int">
