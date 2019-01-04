@@ -98,6 +98,7 @@ public class MemberDAOImpl implements MemberDAO{
 
     public String findIuid(EmailMemberDTO emailMemberDTO) {
         logger.info("findIuid IN DaoImpl");
+        logger.info("한번 찾아봅니다"+sqlSession.selectOne("member.findIuid", emailMemberDTO));
         return sqlSession.selectOne("member.findIuid", emailMemberDTO);
     }
 

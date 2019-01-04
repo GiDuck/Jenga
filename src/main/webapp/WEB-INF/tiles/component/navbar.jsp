@@ -1,269 +1,204 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 
 <style>
 
-.loginService{}
+    .loginService{}
 
 </style>
 
-    
-<nav id="jenga_navbar" class="navbar navbar-expand-lg fixed-top nav-down bg-white">
+<nav id="navbar" class="navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent">
     <div class="container">
-      <div class="navbar-translate">
-        <a class="navbar-brand" href="/" rel="tooltip" title="Jenga"  data-placement="bottom">
-          Jenga
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
-          
-        </button>
-      </div>
-      <div id="nav_inner" class="collapse navbar-collapse" >
-        <ul class="navbar-nav ml-auto">   
-        <li class="nav-item" >
-	        
-	        <div class="nav-link">
-		       	 <div class="profile-photo-small" style="width:40px; height:40px; "> 
-		        	<img id="nav_user_profile" src="" style="" alt="User Profile" class="img-circle img-responsive img-no-padding text-center w-100 h-100" onerror="this.src='http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-hi.png'">
-		        </div>
-	       	 </div>
-        </li>
-        
-                
-          <li class="dropdown nav-item">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">Block</a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-warning">
-              <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
-              <a class="dropdown-item"  href="/board/getFavoriteBlock" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
-              <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
-              <a class="dropdown-item loginService" href="/board/getMyFavorBlock"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
-              <a class="dropdown-item loginService" href="/board/getMyBlockManage"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
-            </div>
-          </li>
-          <li class="dropdown nav-item">
-            <a href="#" class="dropdown-toggle nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown">
-             My Info
+        <div class="navbar-translate">
+            <a class="navbar-brand" href="/" rel="tooltip" title="Jenga" data-placement="bottom">
+                Jenga
             </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-warning" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item loginService" data-scroll="true" data-id="#headers" href="/modMemInfo">
-                <i class="nc-icon nc-paper loginService"></i> 내 정보 관리
-              </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
 
-                <a class="dropdown-item" data-scroll="true" data-id="#features" href="/getFollowerListPage">
-                    <i class="fa fa-user"></i> 팔로잉
-                </a>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" data-color="light" >
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" >
 
-              <a class="dropdown-item" data-scroll="true" data-id="#features" href="#">
-                <i class="nc-icon nc-alert-circle-i"></i> 공지사항
-              </a>
+                    <div class="nav-link">
+                        <div class="profile-photo-small" style="width:40px; height:40px; ">
+                            <img id="nav_user_profile" src="" style="" alt="User Profile" class="img-circle img-responsive img-no-padding text-center" onerror="this.src='http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-hi.png'">
+                        </div>
+                    </div>
+                </li>
 
 
-            </div>
-          </li>
-         
-          <li class="nav-item">
-         
-         <!-- 세션 존재여부에 따라 로그인, 로그아웃 여부가 다르게 보임 -->
-         <c:choose>
-            <c:when test="${sessionScope.Member ne null}">
-            <a class="nav-link" name="loginBtn" value="1">LOGOUT</a>
-            </c:when>
-            
-            <c:otherwise>
-             <a class="nav-link" name="loginBtn" value="0">LOGIN</a>
-            
-            </c:otherwise>
-          </c:choose>
-          </li>
-          
+                <li class="dropdown nav-item">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">Block</a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-warning">
+                        <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
+                        <a class="dropdown-item"  href="#" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
+                        <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
+                        <a class="dropdown-item loginService" href="/board/manageBlock?token=follow"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
+                        <a class="dropdown-item loginService" href="/board/manageBlock?token=my"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
+                    </div>
+                </li>
+                <li class="dropdown nav-item">
+                    <a href="#" class="dropdown-toggle nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown">
+                        My Info
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-warning" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item loginService" data-scroll="true" data-id="#headers" href="/modMemInfo">
+                            <i class="nc-icon nc-paper loginService"></i> 내 정보 관리
+                        </a>
+                        <a class="dropdown-item" data-scroll="true" data-id="#features" href="#">
+                            <i class="nc-icon nc-alert-circle-i"></i> 공지사항
+                        </a>
 
-        </ul>
-      </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+
+                    <!-- 세션 존재여부에 따라 로그인, 로그아웃 여부가 다르게 보임 -->
+                    <c:choose>
+                        <c:when test="${sessionScope.Member ne null}">
+                            <a class="nav-link" name="loginBtn" value="1">LOGOUT</a>
+                        </c:when>
+
+                        <c:otherwise>
+                            <a class="nav-link" name="loginBtn" value="0">LOGIN</a>
+
+                        </c:otherwise>
+                    </c:choose>
+                </li>
+
+
+            </ul>
+        </div>
     </div>
-  </nav>
-  <script>
+</nav>
+<script>
 
-       function NavbarObj(){
+    var navBar = $("#navbar");
+    var setNavType = function (type) {
 
-       let $navbar;
+        navBar.removeClass();
 
-       (function(){
-            $navbar = $("#jenga_navbar");
-        })();
+        if(type === "transparent"){
 
-       let type = undefined;
-       this.setType = function(requestType){
+            navBar.addClass("navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent");
 
-           $navbar.removeClass(type);
-           $navbar.addClass(requestType);
-           type = requestType;
-       }
-       this.getNavbarHeight = function(){
+        }else if(type === "blue"){
 
-           //네비게이션 바의 높이를 반환 (정수)
-           return parseInt($navbar.css("height").replace(window.REGEX_TRIM_DIM_SIZE_EXTEND, ""), 10);
+            navBar.addClass("navbar navbar-expand-lg sticky-top nav-down bg-info");
 
-       }
+        }
 
-       this.addHeadBlock = function(color) {
+    }
 
-           let height = this.getNavbarHeight();
-           let $inner = $("<div>").css("height",height);
-           if(color == "gray"){
 
-             $inner.addClass("section-gray");
-           }
-           $(document).find("body").prepend($inner);
+    $(document).ready(function(){
 
+        $(window).on('unload', function(){
 
-       }
+            $.busyLoadFull("hide", {});
 
-       this.addClass = function(className){
-           this,$navbar.addClass(className);
-       }
+        });
 
-       this.removeClass = function(className){
-          this,$navbar.removeClass(className);
-       }
+        $(document).find("a").css('cursor', 'pointer');
 
-   }
 
+        $("#nav_user_profile").attr("src", "${sessionScope.Member.mem_profile}");
 
-   let navbarObj = new NavbarObj();
 
-   
-   
-  $(document).ready(function(){
+        $(".loginService").on('click', function(e){
+            e.preventDefault();
 
-      $(window).on('unload', function(){
+            //세션체크
+            let session = "${sessionScope.Member}";
+            let dest = $(e.target).attr("href");
 
-          $.busyLoadFull("hide", {});
+            if(!session){
 
-      });
+                swal({
+                    text : "로그인이 필요한 서비스 입니다. 로그인 페이지로 이동하시겠습니까?",
+                    type : "warning",
+                    showCancelButton : true,
+                    confirmButtonText: "이동"
+                }).then(function(result){
 
+                    if(result.dismiss == 'cancel'){
+                        return;
+                    }
+                    else{
+                        window.location.href="/login";
+                    }
+                });
 
 
-      $(document).find("a").css('cursor', 'pointer');
+            }else{
 
-      let session_uid = '${sessionScope.Member.mem_iuid}';
+                $.busyLoadFull("show", {
 
-      if(session_uid){
+                    fontawesome: "fa fa-cog fa-spin fa-3x fa-fw",
+                    text : "페이지를 불러오고 있습니다..."
 
+                });
 
-      $.ajax({
+                window.location.href= dest;
+                <%--window.location.href= "${map.dest}";--%>
 
-          type : "GET",
-          data : {uid : session_uid, profile : "true"},
-          url : "/getUserInfo",
-          success : function(response){
+            }
 
-              console.log(response.profile);
-              $("#nav_user_profile").attr("src", response.profile);
+        });
 
 
-          }
+        $("a[name='loginBtn']").on('click', function(e){
 
+            let validLogin = $(e.target).attr("value");
 
-      });
+            if(validLogin == 0){
 
-  }
+                window.location.href = "/login";
 
 
+            }else if(validLogin == 1){
 
-      $("#nav_user_profile").attr("src", "${sessionScope.Member.mem_profile}");
+                $.ajax({
 
+                    url : "/logout",
+                    type : "GET",
+                    data : null,
+                    success : function(response){
+                        window.location.href = "/";
 
-      $(".loginService").on('click', function(e){
-          e.preventDefault();
+                    },
+                    error : function(xhs, status, error){
 
-	      //세션체크
-          let session = "${sessionScope.Member}";
-          let dest = $(e.target).attr("href");
+                        swal({
 
-          if(!session){
+                            text : "로그아웃에 실패하였습니다.",
+                            type : "error"
 
-		  swal({
-              text : "로그인이 필요한 서비스 입니다. 로그인 페이지로 이동하시겠습니까?",
-              type : "warning",
-              showCancelButton : true,
-              confirmButtonText: "이동"
-          }).then(function(result){
+                        });
 
-              if(result.dismiss == 'cancel'){
-                  return;
-              }
-              else{
-                  window.location.href="/login";
-              }
-          });
-		 
+                        console.log("로그아웃 실패.. " + status);
 
-          }else{
+                        window.location.href = "/";
 
-              $.busyLoadFull("show", {
+                    }
 
-                  fontawesome: "fa fa-cog fa-spin fa-3x fa-fw",
-                  text : "페이지를 불러오고 있습니다..."
+                });
 
-              });
+            }
 
-              window.location.href= dest;
-              <%--window.location.href= "${map.dest}";--%>
 
-          }
-		  
-	  });
 
+        });
 
-	  $("a[name='loginBtn']").on('click', function(e){
 
-	      let validLogin = $(e.target).attr("value");
 
-          if(validLogin == 0){
+    });
 
-              window.location.href = "/login";
-
-
-          }else if(validLogin == 1){
-
-              $.ajax({
-
-                  url : "/logout",
-                  type : "GET",
-                  data : null,
-                  success : function(response){
-                      window.location.href = "/";
-
-                  },
-                  error : function(xhs, status, error){
-
-                      swal({
-
-                          text : "로그아웃에 실패하였습니다.",
-                          type : "error"
-
-                      });
-
-                      console.log("로그아웃 실패.. " + status);
-
-                      window.location.href = "/";
-
-                  }
-
-              });
-
-          }
-
-
-
-      });
-
-
-	  
-  });
- 
- </script>
+</script>

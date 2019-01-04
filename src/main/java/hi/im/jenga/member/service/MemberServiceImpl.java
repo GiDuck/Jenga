@@ -66,6 +66,7 @@ public class MemberServiceImpl implements MemberService {
         if (key.equals("email")) {
             logger.info("addEMemberInfo 이메일 입니다");
             iuid = findIuid(emailMemberDTO);   // 암호화 한 임시 meminfo uid를 찾아옴
+            logger.info(iuid);
             memberDTO.setMem_iuid(iuid);
 
             dao.addEMemberInfo(memberDTO);
@@ -174,7 +175,16 @@ public class MemberServiceImpl implements MemberService {
     public String findIuid(EmailMemberDTO emailMemberDTO) throws Exception {
         logger.info("findIuid IN ServiceImpl");
         //        이메일을 암호화시켜서 비교하기 위해
+        //logger.info("암호화 전"+emailMemberDTO.getEm_id());
+        //String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
+        //logger.info("후"+aes_id);
+        //emailMemberDTO.setEm_id(aes_id);
+        logger.info("지금 이메일 확인"+emailMemberDTO.getEm_id());
+        logger.info("지금 이메일 확인"+emailMemberDTO.getEm_id());
+        logger.info("지금 이메일 확인"+emailMemberDTO.getEm_id());
+        logger.info("지금 이메일 확인"+emailMemberDTO.getEm_id());
         String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
+        logger.info("후"+aes_id);
         emailMemberDTO.setEm_id(aes_id);
         return dao.findIuid(emailMemberDTO);
     }

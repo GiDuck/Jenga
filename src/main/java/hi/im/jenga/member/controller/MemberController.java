@@ -350,10 +350,12 @@ public class MemberController {
     // 추가정보페이지에 있는 submit 버튼
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
+
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
     public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO,
                                     @RequestParam("mem_profile") MultipartFile uploadFile, HttpSession session) throws Exception {
-
+        System.out.println("왜안오냐 ㅡㅡ");
+        logger.info("여기들어간다잉??");
         MemberDTO memberDTO = new MemberDTO();
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : "+ emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
@@ -387,14 +389,14 @@ public class MemberController {
 //        TODO 여기부터 다시
         if(!emailMemberDTO.getEm_id().equals("")) {
             logger.info("이메일은 여기서 다 처리");
-            String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
-            logger.info("띠용 "+aes_iuid);
+            /*String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
+            logger.info("띠용 "+aes_iuid);*/
 
             memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName,  "email");
             logger.info("이메일1");
-            memberService.addMemberFavor(aes_iuid, favor);
+            memberService.addMemberFavor(memberDTO.getMem_iuid(), favor);
             logger.info("이메일2");
-            memberService.addEMember(aes_iuid);
+            memberService.addEMember(memberDTO.getMem_iuid());
             logger.info("이메일3");
             return "redirect:/";
 

@@ -176,12 +176,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 이메일을 이용해서 임시로 넣은 iuid를 찾기위한 메서드 -->
-	<select id="findIuid" resultType="String">
+	<select id="findIuid" resultType="String" parameterType="hi.im.jenga.member.dto.EmailMemberDTO">
 	SELECT
 		em_ref
 	FROM
 		tbl_EMember
-	WHERE em_id = #{em_id}
+	WHERE
+	 	em_id = #{em_id}
 	</select>
 
 	<!--<select id="modMemberInfo" resultType="hi.im.jenga.member.dto.MemberDTO">

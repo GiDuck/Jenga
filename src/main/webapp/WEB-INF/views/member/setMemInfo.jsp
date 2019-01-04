@@ -131,44 +131,47 @@ Form-data parameter
         let selectCard = getSelectedCard();
 
 
-	  //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
-      if(selectCard.length==0){
-          alert("카드를 하나이상 선택해 주세요!")
-          return false;
-      }
+        //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
+        if(selectCard.length==0){
+            alert("카드를 하나이상 선택해 주세요!")
+            return false;
+        }
 
-      let nickname = $("input[name='mem_nick']").val();
-      let introduce = $("textarea[name='mem_introduce']").val();
-      let profile = $("input[name='mem_profile']").prop("files")[0];
+        let nickname = $("input[name='mem_nick']").val();
+        let introduce = $("textarea[name='mem_introduce']").val();
+        let profile = $("input[name='mem_profile']").prop("files")[0];
 
-              let formData = new FormData();
-              formData.append("mem_nick", nickname);
-              formData.append("mem_introduce", introduce);
-              formData.append("mem_profile", profile);
-              formData.append("favor", selectCard);
-              formData.append("em_id", "${emailMemberDTO.em_id}");
-              formData.append("em_pwd", "${emailMemberDTO.em_pwd}");
-              formData.append("sm_id", "${socialMemberDTO.sm_id}");
-              formData.append("sm_type", "${socialMemberDTO.sm_type}");
+        let formData = new FormData();
+        formData.append("mem_nick", nickname);
+        formData.append("mem_introduce", introduce);
+        formData.append("mem_profile", profile);
+        formData.append("favor", selectCard);
+        formData.append("em_id", "${emailMemberDTO.em_id}");
+        formData.append("em_pwd", "${emailMemberDTO.em_pwd}");
+        formData.append("sm_id", "${socialMemberDTO.sm_id}");
+        formData.append("sm_type", "${socialMemberDTO.sm_type}");
 
         $.ajax({
 
-          type : "POST",
-          url : "/regMemInfo",
-          encrypt : "multipart/form-data",
-          data : formData,
-          contentType: false,
-          cache: false,
-          processData:false,
-          success : function(response){
-              swal({
-                 text : "추가 정보를 성공적으로 등록하였습니다.",
-                 type : "success"
+            type : "POST",
+            url : "/regMemInfo",
+            encrypt : "multipart/form-data",
+            data : formData,
+            contentType: false,
+            cache: false,
+            processData:false,
+            success : function(response){
+                swal({
+                    text : "추가 정보를 성공적으로 등록하였습니다.",
+                    type : "success"
 
-              }).then(function(){
-                  location.replace("/");
-              });
-          },error : function(xhs, status, error) {
+                }).then(function(){
+                    location.replace("/");
+                });
+            },error : function(xhs, status, error) {
+                console.log(xhs);
+                console.log(status);
+                console.log(error);
                 swal({
                     text: "추가 정보 등록 중 에러가 발생하였습니다. 문제가 지속되면 관리자에게 문의하십시오.",
                     type: "error"
@@ -178,7 +181,7 @@ Form-data parameter
                 return;
 
             }
-      });
+        });
 
 
         return false;
