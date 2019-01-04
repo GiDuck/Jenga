@@ -43,14 +43,7 @@
 
 
                 </div>
-                <div class="w-100 text-center" id="loaderContainer" style="visibility: hidden;">
-                    <div class="preloader">
-                        <div class='uil-reload-css' style=''>
-                            <div></div>
-                        </div>
-                        <h5>Loading More </h5>
-                    </div>
-                </div>
+                <div id="preLoaderContainer"></div>
 
                 <div class="col-md-3 col-sm-4" id="bkCard" style="display : none">
                     <div class="card card-blog text-center">
@@ -93,48 +86,9 @@
     let keyword;
     let isEndPage = false;
 
-    function TimeChecker() {
-
-        let startTime;
-        const TIME_INTERVAL = 2000;
-        this.validateOverInterval = function () {
-
-            if(!startTime){
-                startTime = new Date().getTime();
-
-            }
-
-                let endTime = new Date().getTime();
-
-                if (endTime - startTime < TIME_INTERVAL) {
-                    return false;
-                } else if(endTime - startTime >= TIME_INTERVAL) {
-                    startTime = new Date().getTime();
-                    return true;
-                }
-        }
-
-    }
-
-    function PreLoader(){
-
-        this.preloader = $("#loaderContainer");
-
-    }
-
-    PreLoader.prototype.show = function(){
-
-        this.preloader.css("visibility", "visible");
-
-    };
-
-    PreLoader.prototype.hide = function(){
-
-        this.preloader.css("visibility", "hidden");
-
-    }
 
     let preLoader = new PreLoader();
+    preLoader.init();
 
     $(document).ready(function () {
 
@@ -142,6 +96,7 @@
             navbarObj.setType("bg-info");
             navbarObj.addHeadBlock();
         selectDropdown();
+        setAutomaticResizeWindow($(".section"));
         $("button[name='bs_searchBtn']").on("click", function(e){
 
             e.stopPropagation();
@@ -174,7 +129,7 @@
 
         }).on("scroll", function(){
 
-            let isTouched = parseInt($(window).scrollTop()) == $(document).height() - ($(window).height() + 1);
+            let isTouched = parseInt($(window).scrollTop()) == $(document).height() - $(window).height();
 
             if(isTouched){
 
@@ -244,8 +199,6 @@
         }
 
 
-
-
         $.ajax({
 
             type: "GET",
@@ -259,16 +212,9 @@
             },
             success: function (response) {
 
-                if(response.length == 0 || !response){
+                if(!response["board"] || response["board"].length == 0 ){
 
-                    swal({
-
-                        text : "검색 결과가 존재하지 않습니다!",
-                        type : "warning"
-
-                    });
-
-                    preLoader.hide();
+                    preLoader.hide(2000);
                     return;
 
                 }
@@ -288,11 +234,8 @@
 
                     return (function(){
 
-                        setTimeout(function(){
+                        preLoader.hide(2000);
 
-                            preLoader.hide();
-
-                        }, 2000);
 
                     })()
 
@@ -303,14 +246,7 @@
             },
             error: function (xhs, status, error) {
 
-                swal({
-
-                    text : "검색에 실패하였습니다.",
-                    type : "error"
-
-                });
-
-                preLoader.hide();
+                preLoader.hide(2000);
                 return;
 
             }

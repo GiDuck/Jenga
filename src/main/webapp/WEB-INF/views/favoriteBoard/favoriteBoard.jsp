@@ -58,9 +58,9 @@
                              <button class="dropdown-toggle btn btn-round btn-danger w-100" href="#" role="button" id="select_mainCtg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">메인 카테고리</button>
 
                              <div class="dropdown-menu" aria-labelledby="bs_dropdown">
-                                 <a class="dropdown-item" value="keyword">키워드</a>
-                                 <a class="dropdown-item" value="name">글쓴이</a>
-                                 <a class="dropdown-item" value="tag">태그</a>
+                                 <a class="dropdown-item" value="keyword">메인1</a>
+                                 <a class="dropdown-item" value="name">메인2</a>
+                                 <a class="dropdown-item" value="tag">메인3</a>
                              </div>
 
                              <input type="hidden" name="bs_dropdownSelected" value="keyword">
@@ -72,9 +72,9 @@
                              <button class="dropdown-toggle btn btn-round btn-danger w-100" href="#" role="button" id="select_subCtg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">서브 카테고리</button>
 
                              <div class="dropdown-menu" aria-labelledby="bs_dropdown">
-                                 <a class="dropdown-item" value="keyword">키워드</a>
-                                 <a class="dropdown-item" value="name">글쓴이</a>
-                                 <a class="dropdown-item" value="tag">태그</a>
+                                 <a class="dropdown-item" value="keyword">서브1</a>
+                                 <a class="dropdown-item" value="name">서브2</a>
+                                 <a class="dropdown-item" value="tag">서브3</a>
                              </div>
 
                              <input type="hidden" name="bs_dropdownSelected" value="keyword">
@@ -100,13 +100,8 @@
                 <br><br>
 
 
-                <div class="w-100 text-center" id="loaderContainer" style="visibility: hidden;">
-                    <div class="preloader">
-                        <div class='uil-reload-css' style=''>
-                            <div></div>
-                        </div>
-                        <h5>Loading More </h5>
-                    </div>
+                <div id="loaderContainer">
+
                 </div>
 
                 <div class="col-md-3 col-sm-4" id="bkCard" style="display : none">
@@ -152,31 +147,12 @@
     let isEndPage = false;
 
 
-    function PreLoader(){
-
-        this.preloader = $("#loaderContainer");
-
-
-    }
-
-    PreLoader.prototype.show = function(){
-
-        this.preloader.css("visibility", "visible");
-
-    };
-
-    PreLoader.prototype.hide = function(){
-
-        this.preloader.css("visibility", "hidden");
-
-    }
-
     let preLoader = new PreLoader();
 
     $(document).ready(function () {
 
         let timeChecker = new TimeChecker();
-        navbarObj.addHeadBlock();
+        navbarObj.addHeadBlock("gray");
         navbarObj.setType("bg-info");
         selectDropdown();
         $("button[name='bs_searchBtn']").on("click", function(e){

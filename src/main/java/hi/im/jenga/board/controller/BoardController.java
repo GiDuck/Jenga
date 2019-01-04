@@ -1,5 +1,6 @@
 package hi.im.jenga.board.controller;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
@@ -62,22 +63,9 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-   /* @RequestMapping(value="/formattingBk", method = RequestMethod.POST)
-    @ResponseBody
-    public String formattingBK(@RequestParam("bookmark") String bookmark){
-
-        return boardService.formattingBK(bookmark);
-
-    }*/
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(String search, String search_check, HttpSession session) throws Exception {
-     /*   String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-        List<BoardDTO> result = boardService.search(search, search_check, session_iuid);
-        boardService.searchImg(search,search_check);
-        boardService.searchMemInfo(search,search_check);
-        boardService.searchLike(search,search_check);
-*/
 
 
         return "stackBoard/boardSearch";
@@ -129,6 +117,9 @@ public class BoardController {
 
     }
 
+
+
+
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
     @ResponseBody
     public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check") String search_check, @RequestParam("pageNum") int page, HttpSession session) throws Exception {
@@ -146,6 +137,7 @@ public class BoardController {
         int listcount = 0;
         int startrow = (page - 1) * 10 + 1;
         int endrow = startrow + limit - 1;
+
 
         if(search == null && search.replaceAll(" ","").equals("")){
             //return "error"; 에러 보내야함...
@@ -212,8 +204,6 @@ public class BoardController {
             }
 
 
-            logger.info(resultHTML);
-
             model.addAttribute("category", categoryJSON);
             if(!resultHTML.equals("notExist")) {
                 model.addAttribute("resultHTML", resultHTML);
@@ -253,6 +243,8 @@ public class BoardController {
     }
 
 
+
+    //TODO ResponseBody로 board_uid 리턴해줘
     // 글쓰는페이지 POST / 작성
     @RequestMapping(value = "/uploadBlock", method = RequestMethod.POST, produces = "multipart/form-data; charset=utf-8")
     public @ResponseBody
@@ -456,6 +448,7 @@ public class BoardController {
         return "/board/boardManage";
     }
 
+
     //팔로워한 사람 리스트
     @RequestMapping(value = "/followlist")
     public List<MemberDTO> myFollower(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchAlgorithmException {
@@ -504,5 +497,44 @@ public class BoardController {
         logger.info(""+list.get(0).getBl_writer());
         return list;
     }*/
+
+
+
+    //새로 추가한 부분 (View 가져오는 컨트롤러)
+
+    //인기 블록
+    @RequestMapping(value="/getFavoriteBlock")
+    public String getFavoriteBlock(Model model){
+
+        return "favoriteBoard/favoriteBoard";
+    }
+
+    //내 블록 관리 페이지
+    @RequestMapping(value="/getMyBlockManage")
+    public String getMyBlockManage(Model model, HttpSession session) {
+
+        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
+        String jsonStr = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            jsonStr =   mapper.writeValueAsString(mylist);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        model.addAttribute("boards", jsonStr);
+
+        return "myBoard/myBoardManage";
+    }
+
+    //내가 찜한 블록
+    @RequestMapping(value="/getMyFavorBlock")
+    public String getMyFavorBlock(Model model){
+
+        return "myBoard/myFavorBlock";
+    }
+
+
 
 }

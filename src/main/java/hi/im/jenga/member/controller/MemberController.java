@@ -688,4 +688,22 @@ public class MemberController {
 
         return map;
     }
+
+
+    //새로 추가한 부분 (View 가져오는 컨트롤러)
+
+    //follower list
+    @RequestMapping(value="/getFollowerListPage")
+    public String getFollowerListPage(Model model){
+        return "following/followerList";
+    }
+
+
+    //팔로워 별로 글을 확인할 수 있는 페이지
+    @RequestMapping(value="/getFollowerPage")
+    public String getFollowerPage(Model model){
+
+        return "following/followerPage";
+    }
+
 }

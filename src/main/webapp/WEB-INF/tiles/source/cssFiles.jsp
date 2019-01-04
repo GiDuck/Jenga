@@ -21,5 +21,7 @@
 
   <link href="${pageContext.request.contextPath}/resources/twitterHeart/style.css" rel="stylesheet">
   <script src="${pageContext.request.contextPath}/resources/twitterHeart/heart.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/htmlParser.js"></script>
 
 
