@@ -84,10 +84,6 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getFollowerList", my_iuid);
     }
 
-    public List<Map<String,Object>> getMyLikesBlock(String my_iuid) {
-        return sqlSession.selectList("board.myLikesBlock", my_iuid);
-    }
-
     public List<Map<String, Object>> followRecommend(String my_iuid) {
         logger.info("뽑기"+sqlSession.selectList("board.followRecommend",my_iuid));
         return sqlSession.selectList("board.followRecommend",my_iuid);
@@ -175,6 +171,32 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("search", search);
         map.put("session_iuid", session_iuid);
         sqlSession.insert("board.setSearchKeyword", map);
+    }
+    public int countFollowingMember(String session_iuid, String search) {
+        Map<String, String> map = new HashMap<String, String>();
+        logger.info("search는 "+ search);
+        if("".equals(search)){
+            logger.info("search가 널입니다");
+        }
+
+        map.put("search", search);
+        map.put("session_iuid", session_iuid);
+        int result = sqlSession.selectOne("board.countFollowingMember", map);
+        logger.info("반환할 갯수 "+result);
+
+        return result;
+    }
+
+    public List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap();
+        map.put("session_iuid", session_iuid);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.getFollowingMember", map);
+    }
+
+    public List<Map<String, Object>> getMyLikesBlock(String my_iuid) {
+        return sqlSession.selectList("board.getMyLikesBlock",my_iuid);
     }
 
     public void follow(String bl_writer, String session_iuid) {

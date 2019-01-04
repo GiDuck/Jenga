@@ -240,6 +240,19 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+    public int countFollowingMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        logger.info("search는 "+ search);
+	    if(!"".equals(search)){
+            logger.info("search는 "+ search);
+	        search = aes256Cipher.AES_Encode(search);
+        }
+	    return dao.countFollowingMember(session_iuid, search);
+	}
+
+    public List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow) {
+        return dao.getFollowingMember(session_iuid, startrow, endrow);
+    }
+
     public void follow(String bl_writer, String session_iuid) {
         dao.follow(bl_writer, session_iuid);
     }

@@ -11,7 +11,7 @@ public class SessionCheck {
     private SessionCheck() {
     }
 
-    public  SessionCheck getInstance(){
+    public static SessionCheck getInstance(){
         if (sessionCheck == null){
             sessionCheck = new SessionCheck();
         }

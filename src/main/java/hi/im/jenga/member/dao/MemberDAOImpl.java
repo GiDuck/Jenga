@@ -36,9 +36,19 @@ public class MemberDAOImpl implements MemberDAO{
 
     public MemberDTO getUserInfo(String mem_iuid) { return sqlSession.selectOne("member.getUserInfo", mem_iuid); }
 
-    public String getBmksUploadDate(String session_iuid) {
-        Date date = sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
-        return String.valueOf(date.getTime());
+    public Map<String, String> getBmksUploadDate(String session_iuid) {
+        Map<String, Date> map = sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
+
+        Map<String, String> map_string = new HashMap();
+
+        if(map.get("chrome_timestamp") != null) {
+            map_string.put("chrome_timestamp", String.valueOf(map.get("chrome_timestamp").getTime()));
+        }
+        if(map.get("explorer_timestamp") != null) {
+            map_string.put("explorer_timestamp", String.valueOf(map.get("explorer_timestamp").getTime()));
+        }
+
+        return map_string;
     }
 
     public void changePwd(String mem_iuid, String aes_pwd) {

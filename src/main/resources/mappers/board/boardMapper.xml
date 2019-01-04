@@ -17,7 +17,7 @@
 
 
     <resultMap id="boardMap" type="HashMap">
-
+		<result property="bl_uid" column="bl_uid"/>
         <result property="bl_writer" column="bl_writer"/>
         <result property="bl_title" column="bl_title"/>
         <result property="bl_description" column="bl_description" jdbcType="CLOB" javaType="java.lang.String"/>
@@ -52,7 +52,8 @@
     <select id="getBoardDetailBlock" resultType="Map" resultMap="boardMap">
       SELECT
          B.bl_uid AS "bl_uid", B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description",
-            B.bl_introduce AS "bl_introduce", (SELECT
+            B.bl_introduce AS "bl_introduce",
+            						(SELECT
                                            mctg_name
                                     FROM
                                        tbl_mcategory
@@ -147,7 +148,7 @@
     <insert id="addLike">
 		INSERT INTO
 			tbl_blockLikes
-				(blk_ref,blk_member)
+				(blk_ref ,blk_member)
         VALUES
 				(#{bl_iuid},#{session_mem_iuid})
 	</insert>
@@ -289,24 +290,24 @@
 	</select>
 
     <select id="searchTitle" resultType="hi.im.jenga.board.dto.BoardDTO" parameterType="java.util.Map">
-		select
+		SELECT
 			*
-		from
+		FROM
 			(SELECT
 				rownum rnum, bl_uid, BL_WRITER, BL_TITLE, BL_DESCRIPTION, BL_MAINCTG, BL_SMCTG, BL_DATE, BL_OBJID, BL_INTRODUCE
 			 FROM
-				(select
+				(SELECT
 					*
-				 from
+				 FROM
 					tbl_block
-				 where
+				 WHERE
 					<foreach collection="search" item="search" separator="or">
-						bl_title Like '%'||#{search}||'%'
+						bl_title LIKE '%'||#{search}||'%'
 					</foreach>
-				 order by
-					bl_date desc))
-		where
-			rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow} ]]>
+				 ORDER BY
+					bl_date DESC))
+		WHERE
+			rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
     </select>
 
 	<select id="countSearchTitle" resultType="int" parameterType="java.util.List">
@@ -314,9 +315,9 @@
 			count(*)
 		FROM
 			tbl_block
-		where
+		WHERE
 		<foreach collection="list" item="search" separator="or">
-			bl_title Like '%'||#{search}||'%'
+			bl_title LIKE '%'||#{search}||'%'
 		</foreach>
 	</select>
 
@@ -332,17 +333,17 @@
 
     <select id="searchName" resultType="hi.im.jenga.board.dto.BoardDTO" parameterType="java.util.HashMap">
 
-		select
+		SELECT
 			*
-		from
+		FROM
 			(SELECT
 				rownum rnum, bl_uid, BL_WRITER, BL_TITLE, BL_DESCRIPTION, BL_MAINCTG, BL_SMCTG, BL_DATE, BL_OBJID, BL_INTRODUCE
 		    FROM
-				(select
+				(SELECT
 				  	*
-				from
+				FROM
 					tbl_block
-				where
+				WHERE
 					BL_WRITER = (SELECT
 									MEM_IUID
 								FROM
@@ -350,9 +351,9 @@
 								WHERE
 									MEM_NICK LIKE '%'||#{search}||'%'
 								)
-				order by BL_DATE desc))
-		where
-			rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow} ]]>
+				ORDER BY BL_DATE DESC))
+		WHERE
+			rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
 
 	</select>
 
@@ -361,57 +362,57 @@
 			count(*)
 		FROM
 			tbl_block
-		where
-				BL_WRITER = (SELECT
-				MEM_IUID
-				FROM
-				TBL_MEMINFO
-				WHERE
-				MEM_NICK LIKE '%'||#{search}||'%'
-				)
+		WHERE
+			BL_WRITER = (SELECT
+								MEM_IUID
+							FROM
+								TBL_MEMINFO
+							WHERE
+								MEM_NICK LIKE '%'||#{search}||'%'
+							)
 	</select>
 
     <select id="searchTag" resultType="hi.im.jenga.board.dto.BoardDTO">
 
-		select
+		SELECT
 			*
-		from
-			(select
+		FROM
+			(SELECT
 				rownum rnum,bl_uid, BL_WRITER, BL_TITLE, BL_DESCRIPTION, BL_MAINCTG, BL_SMCTG, BL_DATE, BL_OBJID, BL_INTRODUCE
-			from
-				(select distinct
+			FROM
+				(SELECT DISTINCT
 					*
-				from
+				FROM
 					tbl_block b
-						inner join
+						INNER JOIN
 							tbl_blocktags bt
-						on
+						ON
 							b.bl_uid = bt.bt_ref
-				where
+				WHERE
 					bt.BT_NAME = #{search}
-				order by BL_DATE desc))
-		where
-			rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow} ]]>
+				ORDER BY BL_DATE DESC))
+		WHERE
+			rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
 
 	</select>
 
 	<select id="countSearchTag" resultType="int">
-		select distinct
+		SELECT DISTINCT
 		 	count(*)
-		from
+		FROM
 		 	tbl_block b
-		 	 	inner join
+		 	 	INNER JOIN
 		 	 	 	tbl_blocktags bt
-		 	 	on
+		 	 	ON
 		 	 	 	b.bl_uid = bt.bt_ref
-        where
+        WHERE
          	bt.BT_NAME = #{search}
 	</select>
 
     <insert id="setSearchKeyword">
 		INSERT INTO
 			 tbl_keyword
-		values
+		VALUES
 		     (#{search},#{session_iuid},systimestamp)
 	</insert>
 
@@ -428,14 +429,14 @@
 		FROM
 			TBL_FOLLOW
 		WHERE
-			FL_IUID = #{bl_writer} and fl_follower = #{session_iuid}
+			FL_IUID = #{bl_writer} AND fl_follower = #{session_iuid}
 	</select>
 
     <delete id="unFollow">
 		DELETE FROM
 			tbl_follow
 		WHERE
-			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
+			FL_IUID = #{bl_writer} AND FL_FOLLOWER = #{session_iuid}
 	</delete>
 
 	<select id="getFollowerList" resultType="hi.im.jenga.member.dto.MemberDTO">
@@ -451,22 +452,54 @@
 		 	f.FL_FOLLOWER = #{session_iuid}
 	</select>
 
+	<select id="countFollowingMember" resultType="int">
+		SELECT
+			COUNT(fl_iuid)
+		FROM
+			tbl_follow
+		WHERE
+			fl_follower = #{session_iuid}
+				<if test = "search != null">
+					AND fl_follower IN (SELECT
+									  		mem_iuid
+									  FROM
+											tbl_meminfo
+									  WHERE
+											mem_nick LIKE '%'||#{search}||'%')
+				</if>
+	</select>
+
+	<!-- 사용자의 팔로워 목록 뽑기 -->
+	<select id="getFollowingMember" resultType="hi.im.jenga.member.dto.MemberDTO">
+		SELECT
+			mem_nick, mem_introduce, mem_profile
+		FROM
+			tbl_meminfo
+		WHERE
+			mem_iuid IN (SELECT
+							fl_iuid
+						FROM
+						 	tbl_follow
+						WHERE
+							fl_follower = #{session_iuid})
+	</select>
+
+	<!-- 팔로워의 글 뽑기 -->
     <select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
 
-			select
+			SELECT
 				*
-			from
+			FROM
 			 	tbl_block
 			where
-			 	bl_writer = (select
+			 	bl_writer = (SELECT
 			 		 			fl_iuid
-			 		 		 from
+			 		 		 FROM
 			 		 		  	tbl_follow
 			 		 		 where
 			 		 		 	fl_iuid = #{follow_iuid} and fl_follower = #{my_iuid})
 			order by BL_DATE desc
 	</select>
-
 
     <!-- 좋아요 갯수 -->
     <select id="likeCount" resultType="int">
@@ -474,7 +507,7 @@
 			COUNT(*)
 		FROM
 			tbl_blockLikes
-		where
+		WHERE
 			 blk_ref = #{bl_iuid}
 	</select>
 
@@ -491,32 +524,32 @@
 
     <!-- 인기 블록 뽑기 -->
     <select id="getPopBlock" resultType="hi.im.jenga.board.dto.BoardDTO">
-		select
+		SELECT
 		 	 b.BL_TITLE,b.BL_INTRODUCE,b.BL_UID,b.BL_mainctg,b.BL_SMCTG,th.bti_url,b.bl_date,bl.bl_like,rc.BLRC_COUNT,mi.MEM_PROFILE,mi.MEM_NICK
-		from
+		FROM
 			 tbl_block b
-		inner join
-		 	 (select
+		INNER JOIN
+		 	 (SELECT
 		 	  		BLK_REF, count(*) bl_like
-		 	  from
+		 	  FROM
 		 	   		tbl_blocklikes
-		 	  group by
+		 	  GROUP BY
 		 	  		(blk_ref)
-		 	  Having
+		 	  HAVING
 		 	   		count(*) > 1) bl
-		 	  on
+		 	  ON
 		 	   		b.BL_UID = bl.blk_REF
-		 	  			inner join
+		 	  			INNER JOIN
 		 	   					tbl_THUMBIMG th
-		 	 			on
+		 	 			ON
 		 	   					b.BL_UID = th.bti_ref
-		 	   					 		inner join
+		 	   					 		INNER JOIN
 		 	   					 		 		tbl_blockreadcount rc
-		 	   					 		on
+		 	   					 		ON
 		 	   					 		 		b.BL_UID = rc.BLRC_REF
-		 	   					 		 		 		inner join
+		 	   					 		 		 		INNER JOIN
 		 	   					 		 		 		 		tbl_meminfo mi
-		 	   					 		 		 		on
+		 	   					 		 		 		ON
 		 	   					 		 		 		 		b.BL_WRITER = mi.MEM_IUID
 	</select>
 
@@ -527,9 +560,9 @@
 		 		b.BL_DATE,b.BL_INTRODUCE,b.BL_MAINCTG,b.BL_OBJID,b.BL_SMCTG,b.BL_TITLE,b.BL_UID,b.BL_WRITER,m.MEM_NICK
 		from
 		 		tbl_blocklikes bl
-		inner join
+		INNER JOIN
 		 		tbl_block b
-		 		 	on
+		 		 	ON
 		 		 	 	bl.BLK_REF = b.bl_uid
 		 		 	 	inner join
                             tbl_meminfo m
@@ -544,115 +577,115 @@
 
     <select id="searchImgTitle" resultType="Map" resultMap="infoMap" parameterType="java.util.List">
 
-		select
+		SELECT
 			*
-		from
+		FROM
 			(SELECT
-				rownum rnum,MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) as bl_like
-			from
-				(select
+				rownum rnum,MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) AS bl_like
+			FROM
+				(SELECT
 					*
 				FROM
 					tbl_block b
-						inner join
+						INNER JOIN
 							tbl_thumbimg t
-						on
+						ON
 							b.bl_uid = t.bti_ref
-							inner join
+							INNER JOIN
 								TBL_MEMINFO m
-							on
+							ON
 								b.BL_WRITER = m.MEM_IUID
-									left outer join
-										(select
-											blk_ref, count(*) bl_like
-										from
+									LEFT OUTER JOIN
+										(SELECT
+											blk_ref, COUNT(*) bl_like
+										FROM
 											tbl_blockLikes
-												group by blk_ref) bl
-									  	on
+												GROUP BY blk_ref) bl
+									  	ON
 											b.bl_uid = bl.blk_ref
-										where
+										WHERE
 											<foreach collection="list" item="search" separator="or">
-											bl_title Like '%'||#{search}||'%'
+											bl_title like '%'||#{search}||'%'
 											</foreach>
-										order by b.BL_DATE desc))
-		where
-			rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow} ]]>
+										ORDER BY b.BL_DATE DESC))
+		WHERE
+			rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
 	</select>
 
     <select id="searchImgName" resultType="Map" resultMap="infoMap">
-		select
+		SELECT
 			*
-		from
-			(select
-				rownum rnum,MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) as bl_like, bl_date
-			from
-				(select
+		FROM
+			(SELECT
+				rownum rnum,MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) AS bl_like, bl_date
+			FROM
+				(SELECT
 					*
-				from
+				FROM
 					tbl_block b
-						inner join
+						INNER JOIN
 							tbl_thumbimg t
-						on
+						ON
 							b.bl_uid = t.bti_ref
-								inner join
+								INNER JOIN
 									tbl_meminfo m
-								on
+								ON
 									b.BL_WRITER = m.MEM_IUID
-										left outer join
-											(select
-												blk_ref, count(*) bl_like
-											from
-												tbl_blockLikes group by blk_ref) bl
-											on
+										LEFT OUTER JOIN
+											(SELECT
+												blk_ref, COUNT(*) bl_like
+											FROM
+												tbl_blockLikes GROUP BY blk_ref) bl
+											ON
 												b.bl_uid = bl.blk_ref
-											where
+											WHERE
 												b.bl_writer =  (SELECT
 																	mem_iuid
 															    FROM
 																	tbl_meminfo
-																where
+																WHERE
 																	mem_nick = #{search})
-																order by BL_DATE desc))
-		where
-		    rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow} ]]>
+																ORDER BY BL_DATE DESC))
+		WHERE
+		    rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
 	</select>
 
     <select id="searchImgTag" resultType="Map" resultMap="infoMap">
 
-		select
+		SELECT
 			*
-		from
+		FROM
 			(SELECT
-				rownum rnum, MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) as bl_like,bl_date
+				rownum rnum, MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) AS bl_like,bl_date
 			FROM
-				(select distinct
+				(SELECT DISTINCT
 					m.MEM_NICK,m.MEM_LEVEL,m.MEM_PROFILE,t.BTI_URL,b.BL_DATE,bl.bl_like
-				from
+				FROM
 					tbl_block b
-						inner join
+						INNER JOIN
 							tbl_thumbimg t
-						on
+						ON
 							b.bl_uid = t.bti_ref
-								inner join
+								INNER JOIN
 									TBL_BLOCKTAGS bt
-								on
+								ON
 									b.bl_uid = bt.bt_ref
-											inner join
+											INNER JOIN
 												TBL_MEMINFO m
-											on
+											ON
 												b.BL_WRITER = m.MEM_IUID
-													left outer join
-														(select distinct
+													LEFT OUTER JOIN
+														(SELECT DISTINCT
 														 		blk_ref, count(*) bl_like
-														from
-																tbl_blockLikes group by blk_ref) bl
-												  	on b.bl_uid = bl.blk_ref
-				where
-					bt.BT_NAME = #{search} order by bl_date desc))
-		where
-		 	rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow} ]]>
+														FROM
+																tbl_blockLikes GROUP BY blk_ref) bl
+												  	ON b.bl_uid = bl.blk_ref
+				WHERE
+					bt.BT_NAME = #{search} ORDER BY bl_date DESC))
+		WHERE
+		 	rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
 	</select>
-	
+
 	<select id="followRecommend" resultType="Map">
 		select
 			s.*

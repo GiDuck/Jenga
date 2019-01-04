@@ -9,7 +9,7 @@ import hi.im.jenga.board.service.BoardService;
 import hi.im.jenga.board.service.MongoService;
 import hi.im.jenga.board.util.BoardUtilFile;
 import hi.im.jenga.member.dto.MemberDTO;
-import org.json.simple.JSONObject;
+import hi.im.jenga.member.util.login.SessionCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -47,6 +45,7 @@ import java.util.UUID;
  * 북마크 파일 업로드 POST  (모달 GET ? )
  *
  * */
+
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -54,6 +53,7 @@ public class BoardController {
     private final MongoService mongoService;
     private final BoardService boardService;
     private final BoardUtilFile boardUtilFile;
+    SessionCheck sessionCheck = SessionCheck.getInstance();
 
     @Autowired
     public BoardController(MongoService mongoService, BoardService boardService, BoardUtilFile boardUtilFile) {
@@ -82,12 +82,65 @@ public class BoardController {
 
         return "stackBoard/boardSearch";
     }
+    /**
+    * list 팔로워 이름 / 소개 / 프로필 사진
+    * 무한스크롤
+    * */
+
+    @RequestMapping(value = "/getFollowingMember", method = RequestMethod.GET)
+    public @ResponseBody List<BoardDTO> getFollowingMember(@RequestParam("pageNum") int page, @RequestParam(value = "search", required = false) String search, HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String session_iuid = null;
+
+        logger.info("search는 "+ search);
+
+        try {
+            session_iuid = sessionCheck.myGetSessionIuid(session);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        int limit = 20;
+        int nowpage = page;
+        int listcount = 0;
+        int startrow = (page - 1) * 10 + 1;
+        int endrow = startrow + limit - 1;
+
+        listcount = boardService.countFollowingMember(session_iuid, search);
+
+        int maxpage = (int) ((double) listcount / limit + 0.95);
+        int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+        int endpage = maxpage;
+
+        if (endpage > startpage + 10 - 1) {
+            endpage = startpage + 10 - 1;
+        }
+
+        List<BoardDTO> container = null;
+        try {
+
+            container = boardService.getFollowingMember(session_iuid, startrow, endrow);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return container;
+
+    }
 
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
     @ResponseBody
     public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check") String search_check, @RequestParam("pageNum") int page, HttpSession session) throws Exception {
 
         String session_iuid = null;
+
+        try {
+            session_iuid = sessionCheck.myGetSessionIuid(session);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
         int limit = 20;
         int nowpage = page;
         int listcount = 0;
@@ -104,17 +157,12 @@ public class BoardController {
         int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
         int endpage = maxpage;
 
-        if (endpage > startpage + 10 - 1)
+        if (endpage > startpage + 10 - 1) {
             endpage = startpage + 10 - 1;
-
-
-        try {
-
-            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid(); //이것도 로그인페이지로?
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
+
+
+
 
         List<BoardDTO> container = null;
         try {
@@ -135,7 +183,6 @@ public class BoardController {
         Map<String, Object> map = boardService.getView(bl_uid);
         model.addAttribute("map", map);
 
-
         return "stackBoard/boardDetailView";
     }
 
@@ -146,7 +193,7 @@ public class BoardController {
 //  TODO  status 없이 그냥 url로 접근하면 잘못된 페이지 띄우기 -> 임시로 / 로 감
         if (status == null) return "redirect:/";
         if (status.equals("stack")) {
-            String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            String session_iuid = sessionCheck.myGetSessionIuid(session);
             String resultHTML = null;
             Map<String, List<String>> category = null;
             try {
@@ -172,10 +219,8 @@ public class BoardController {
                 model.addAttribute("resultHTML", resultHTML);
             }
 
-            return "editor/stackBoard/stackBlock";
-
         }else if(status.equals("modify")) {         //  service 나누기
-            String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            String session_iuid = sessionCheck.myGetSessionIuid(session);
             String resultHTML = null;
             Map<String, Object> map = boardService.getModifyBlock(bl_uid);
 
@@ -201,46 +246,23 @@ public class BoardController {
             model.addAttribute("category", categoryJSON);
             model.addAttribute("map", map);
 
-            return "editor/stackBoard/stackBlock";
-
         }
 
-        return null;
+        return "editor/stackBoard/stackBlock";
 
     }
 
-    /*
-     * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
-     * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
-     */
 
-
-    //    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
-
-
-    /*
-    logger.info(boardDTO.getBl_mainCtg());
-    logger.info(boardDTO.getBl_smCtg());
-    logger.info(boardDTO.getBl_description());
-    logger.info(boardDTO.getBl_introduce());
-    logger.info(boardDTO.getBl_title());
-    logger.info(boardDTO.getBt_name().toString());
-    logger.info(boardDTO.getBt_name()[0]);
-    logger.info(boardDTO.getBt_name()[1]);
-    logger.info(boardDTO.getBl_date().toString());
-    logger.info(boardDTO.getBl_writer());           // mem_iuid
-    */
-    //TODO ResponseBody로 board_uid 리턴해줘
     // 글쓰는페이지 POST / 작성
     @RequestMapping(value = "/uploadBlock", method = RequestMethod.POST, produces = "multipart/form-data; charset=utf-8")
     public @ResponseBody
     String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
                          @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
 
-        logger.info("session에서 뽑아온 iuid는 " + ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid());
+        logger.info("session에서 뽑아온 iuid는 " + sessionCheck.myGetSessionIuid(session));
         boardDTO.setBl_uid(UUID.randomUUID().toString());
 
-        boardDTO.setBl_writer(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+        boardDTO.setBl_writer(sessionCheck.myGetSessionIuid(session));
         String uploadName;
 
 //        logger.info("uploadFile.getOriginalFilename()은 ? "+ uploadFile.getOriginalFilename());
@@ -279,10 +301,8 @@ public class BoardController {
     // block iuid를 조건으로 insert mem_iuid(session에 있는)
     @RequestMapping(value = "/like/{bl_iuid}")
     public @ResponseBody int like(@PathVariable String bl_iuid, HttpSession session){
-
-        logger.info("비엘아유아디"+bl_iuid);
         logger.info("like 들어옴");
-        String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
+        String session_mem_iuid = sessionCheck.myGetSessionIuid(session);
         boardService.likeCheck(bl_iuid, session_mem_iuid);
 
         int likeCount = boardService.likeCount(bl_iuid);
@@ -292,8 +312,7 @@ public class BoardController {
 
     @RequestMapping(value = "/isLikeExist/{bl_uid}", method = RequestMethod.GET)
     public @ResponseBody String isLikeExist(HttpSession session, @PathVariable("bl_uid") String bl_iuid) {
-        logger.info("비엘아유아디"+bl_iuid);
-        String session_mem_iuid = ((MemberDTO)(session.getAttribute("Member"))).getMem_iuid();
+        String session_mem_iuid = sessionCheck.myGetSessionIuid(session);
         String check = boardService.isLikeExist(bl_iuid, session_mem_iuid);
         logger.info(check);
         String result = check != null ? "exist" : "notExist";
@@ -342,7 +361,7 @@ public class BoardController {
     @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity fileUpload(@RequestParam String bp_browstype, @RequestParam String bp_booktype, @RequestParam("file") MultipartFile uploadFile, HttpSession session) {
-        String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String session_iuid = sessionCheck.myGetSessionIuid(session);
         ResponseEntity<String> result;
         BlockPathDTO blockPathDTO = new BlockPathDTO();
         logger.info("북마크 타입은 " + bp_booktype);
@@ -389,7 +408,7 @@ public class BoardController {
 
         String session_iuid = null;
         try {
-            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            session_iuid = sessionCheck.myGetSessionIuid(session);
             boardService.follow(bl_writer, session_iuid);
             return "follow";
         } catch (Exception e) {
@@ -403,7 +422,7 @@ public class BoardController {
         String session_iuid = null;
 
         try {
-            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+            session_iuid = sessionCheck.myGetSessionIuid(session);
             boardService.unFollow(bl_writer, session_iuid);
             return "unFollow";
         } catch (Exception e) {
@@ -414,30 +433,32 @@ public class BoardController {
 
 
     //TODO 일단 팔로워한 사람 글 뽑느거 했는데 필요하면 쓰셈
-    @RequestMapping(value = "/followerBoard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
-    public String followerboard(HttpSession session) {
-        String My_iuid = ((MemberDTO) session.getAttribute("member")).getMem_iuid();
-        return ""; //임시 리턴
+    @RequestMapping(value = "/followerBoard")
+    public String followerBoard(HttpSession session) {
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
+        //List<BoardDTO> list = boardService.getFollowerBoard(my_iuid);
+        return "/board/boardManage"; //임시 리턴
     }
 
 
     //TODO 수정 필요함 일단 만들어둠...! 마이블럭
     @RequestMapping(value = "/myBlock")
-    public String myBlock(HttpSession session) {
+    public String manageBlock(HttpSession session, @RequestParam String token, Model model) {
 
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
 
+        if(token.equals("my")) {
+            List<BoardDTO> list = boardService.getMyBlock(my_iuid);
+        }else if(token.equals("follow")){
 
-        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
+        }
 
-
-        return ""; //임시 리턴
+        return "/board/boardManage";
     }
-
 
     //팔로워한 사람 리스트
     @RequestMapping(value = "/followlist")
-    public List<MemberDTO> myFollower(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    public List<MemberDTO> myFollower(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchAlgorithmException {
         String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
         logger.info("내 세션아유아디"+my_iuid);
         List<MemberDTO> list = boardService.getMyFollower(my_iuid);
@@ -448,6 +469,7 @@ public class BoardController {
 
         return list;
     }
+
 
 
     // 팔로워한사람 블럭
@@ -473,5 +495,14 @@ public class BoardController {
         List<Map<String,Object>> followRecommend = boardService.followRecommend(my_iuid);
         return followRecommend;
     }
+
+    /*@RequestMapping(value = "/getUserLikedBlock", method = RequestMethod.GET)
+    public List<BoardDTO> getUserLikedBlock(HttpSession session){
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
+        logger.info(my_iuid);
+        List<BoardDTO> list = boardService.getUserLikedBlock(my_iuid);
+        logger.info(""+list.get(0).getBl_writer());
+        return list;
+    }*/
 
 }

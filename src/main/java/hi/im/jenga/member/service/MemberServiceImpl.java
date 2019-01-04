@@ -279,7 +279,7 @@ public class MemberServiceImpl implements MemberService {
         return map;
     }
 
-    public String getBmksUploadDate(String session_iuid) { return dao.getBmksUploadDate(session_iuid); }
+    public Map<String, String> getBmksUploadDate(String session_iuid) { return dao.getBmksUploadDate(session_iuid); }
 
     public void changePwd(String mem_iuid, String pwd) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         dao.changePwd(mem_iuid, aes256Cipher.AES_Encode(pwd));

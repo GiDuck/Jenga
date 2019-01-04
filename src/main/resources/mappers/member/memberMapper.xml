@@ -292,13 +292,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		tbl_mcategory
 	</select>
 
-	<select id="getBmksUploadDate" resultType="Date">
+	<select id="getBmksUploadDate" resultType="Map">
 	SELECT
-		bp_date
+		(SELECT
+		 	bp_date
+		FROM
+			tbl_blpath
+		WHERE bp_iuid = #{session_iuid}
+			AND bp_browstype ='chrome')
+		AS "chrome_timestamp",
+      	(SELECT
+      		bp_date
+		FROM
+			tbl_blpath
+		WHERE bp_iuid = #{session_iuid}
+			AND bp_browstype ='explorer')
+		AS "explorer_timestamp"
 	FROM
-		tbl_blpath
-	WHERE
-		bp_iuid = #{session_iuid}
+		DUAL
 	</select>
 
 	<update id="changePwd">
