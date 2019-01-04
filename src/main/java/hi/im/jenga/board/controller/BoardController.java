@@ -83,11 +83,58 @@ public class BoardController {
 
         return "stackBoard/boardSearch";
     }
+
+
+
     /**
-    * list 팔로워 이름 / 소개 / 프로필 사진
-    * 무한스크롤
+    * 나를 팔로잉 하는 멤버
     * */
 
+    @RequestMapping(value = "/getFollowerMember", method = RequestMethod.GET)
+    public @ResponseBody List<BoardDTO> getFollowerMember(@RequestParam("pageNum") int page, @RequestParam(value = "search", required = false) String search, HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String session_iuid = null;
+
+        logger.info("search는 "+ search);
+
+        try {
+            session_iuid = sessionCheck.myGetSessionIuid(session);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        int limit = 20;
+        int nowpage = page;
+        int listcount = 0;
+        int startrow = (page - 1) * 10 + 1;
+        int endrow = startrow + limit - 1;
+
+        listcount = boardService.countFollowerMember(session_iuid, search);
+
+        int maxpage = (int) ((double) listcount / limit + 0.95);
+        int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+        int endpage = maxpage;
+
+        if (endpage > startpage + 10 - 1) {
+            endpage = startpage + 10 - 1;
+        }
+
+        List<BoardDTO> container = null;
+        try {
+
+            container = boardService.getFollowerMember(session_iuid, search, startrow, endrow);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return container;
+
+    }
+
+    /**
+     * 내가 팔로잉 중인 멤버
+     * */
     @RequestMapping(value = "/getFollowingMember", method = RequestMethod.GET)
     public @ResponseBody List<BoardDTO> getFollowingMember(@RequestParam("pageNum") int page, @RequestParam(value = "search", required = false) String search, HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         String session_iuid = null;
@@ -119,7 +166,7 @@ public class BoardController {
         List<BoardDTO> container = null;
         try {
 
-            container = boardService.getFollowingMember(session_iuid, startrow, endrow);
+            container = boardService.getFollowingMember(session_iuid, search, startrow, endrow);
 
         } catch (Exception e) {
 

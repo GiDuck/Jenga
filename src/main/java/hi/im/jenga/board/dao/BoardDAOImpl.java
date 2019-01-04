@@ -183,12 +183,37 @@ public class BoardDAOImpl implements BoardDAO {
         return result;
     }
 
-    public List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow) {
+    public List<BoardDTO> getFollowingMember(String session_iuid, String search, int startrow, int endrow) {
         Map<String, Object> map = new HashMap();
         map.put("session_iuid", session_iuid);
+        map.put("search", search);
         map.put("startrow",startrow);
         map.put("endrow", endrow);
         return sqlSession.selectList("board.getFollowingMember", map);
+    }
+
+    public int countFollowerMember(String session_iuid, String search) {
+        Map<String, String> map = new HashMap<String, String>();
+        logger.info("search는 "+ search);
+        if("".equals(search)){
+            logger.info("search가 널입니다");
+        }
+
+        map.put("search", search);
+        map.put("session_iuid", session_iuid);
+        int result = sqlSession.selectOne("board.countFollowerMember", map);
+        logger.info("반환할 갯수 "+result);
+
+        return result;
+    }
+
+    public List<BoardDTO> getFollowerMember(String session_iuid, String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap();
+        map.put("session_iuid", session_iuid);
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("board.getFollowerMember", map);
     }
 
     public void follow(String bl_writer, String session_iuid) {

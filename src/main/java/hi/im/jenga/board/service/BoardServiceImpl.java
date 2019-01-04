@@ -224,15 +224,36 @@ public class BoardServiceImpl implements BoardService {
 
     public int countFollowingMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         logger.info("search는 "+ search);
-	    if(!"".equals(search)){
+        if(search != null){
             logger.info("search는 "+ search);
 	        search = aes256Cipher.AES_Encode(search);
         }
 	    return dao.countFollowingMember(session_iuid, search);
 	}
 
-    public List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow) {
-        return dao.getFollowingMember(session_iuid, startrow, endrow);
+    public List<BoardDTO> getFollowingMember(String session_iuid, String search, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        if(search != null){
+            logger.info("search는 "+ search);
+            search = aes256Cipher.AES_Encode(search);
+        }
+	    return dao.getFollowingMember(session_iuid, search, startrow, endrow);
+    }
+
+    public int countFollowerMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        logger.info("search는 "+ search);
+        if(search != null){
+            logger.info("search는 "+ search);
+            search = aes256Cipher.AES_Encode(search);
+        }
+        return dao.countFollowerMember(session_iuid, search);
+    }
+
+    public List<BoardDTO> getFollowerMember(String session_iuid, String search, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        if(search != null){
+            logger.info("search는 "+ search);
+            search = aes256Cipher.AES_Encode(search);
+        }
+        return dao.getFollowerMember(session_iuid, search, startrow, endrow);
     }
 
     public void follow(String bl_writer, String session_iuid) {

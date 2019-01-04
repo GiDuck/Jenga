@@ -88,5 +88,9 @@ public interface BoardDAO {
 
     int countFollowingMember(String session_iuid, String search);
 
-    List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow);
+    List<BoardDTO> getFollowingMember(String session_iuid, String search, int startrow, int endrow);
+
+    int countFollowerMember(String session_iuid, String search);
+
+    List<BoardDTO> getFollowerMember(String session_iuid, String search, int startrow, int endrow);
 }
