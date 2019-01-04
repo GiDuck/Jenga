@@ -7,6 +7,7 @@
 .loginService{}
 
 </style>
+
     
 <nav id="jenga_navbar" class="navbar navbar-expand-lg fixed-top nav-down bg-white">
     <div class="container">
@@ -37,10 +38,10 @@
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">Block</a>
             <div class="dropdown-menu dropdown-menu-right dropdown-warning">
               <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
-              <a class="dropdown-item"  href="#" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
+              <a class="dropdown-item"  href="/board/getFavoriteBlock" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
               <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
-              <a class="dropdown-item loginService" href="/board/manageBlock?token=follow"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
-              <a class="dropdown-item loginService" href="/board/manageBlock?token=my"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
+              <a class="dropdown-item loginService" href="/board/getMyFavorBlock"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
+              <a class="dropdown-item loginService" href="/board/getMyBlockManage"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -51,9 +52,15 @@
               <a class="dropdown-item loginService" data-scroll="true" data-id="#headers" href="/modMemInfo">
                 <i class="nc-icon nc-paper loginService"></i> 내 정보 관리
               </a>
+
+                <a class="dropdown-item" data-scroll="true" data-id="#features" href="/getFollowerListPage">
+                    <i class="fa fa-user"></i> 팔로잉
+                </a>
+
               <a class="dropdown-item" data-scroll="true" data-id="#features" href="#">
                 <i class="nc-icon nc-alert-circle-i"></i> 공지사항
               </a>
+
 
             </div>
           </li>
@@ -102,10 +109,15 @@
 
        }
 
-       this.addHeadBlock = function() {
+       this.addHeadBlock = function(color) {
 
            let height = this.getNavbarHeight();
-           $(document).find("body").prepend($("<div>").css("height",height));
+           let $inner = $("<div>").css("height",height);
+           if(color == "gray"){
+
+             $inner.addClass("section-gray");
+           }
+           $(document).find("body").prepend($inner);
 
 
        }

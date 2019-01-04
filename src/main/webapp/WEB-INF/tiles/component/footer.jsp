@@ -91,6 +91,8 @@
 
  <script>
 
+     let footerObj = new Footer();
+
    function Footer(){
 
      let $footer;
@@ -103,7 +105,7 @@
 
      this.getFooterHeight = function(){
 
-       let footerHeight = $footer.css("height").replace(window.REGEX_TRIM_DIM_SIZE_EXTEND, "");
+       let footerHeight = $footer.css("height").replace(REGEX_TRIM_DIM_SIZE_EXTEND, "");
        return parseInt(footerHeight, 10);
 
 
@@ -111,14 +113,30 @@
 
    }
 
-   $(document).ready(function(){
-     let documentHeight = $(document).height().replace(window.REGEX_TRIM_DIM_SIZE_EXTEND, "");
-     let footerObj = new Footer();
-     let bodySize = documentHeight - footerObj.getFooterHeight() - (navbarObj.getNavbarHeight() * 2);
-     $(".section").css("height", bodySize);
+
+   function setWindowSize($element){
 
 
-   });
+       let documentHeight = $(document).height();
+       let footerObj = new Footer();
+       let bodySize = documentHeight - footerObj.getFooterHeight() - navbarObj.getNavbarHeight();
+       $element.css("min-height", bodySize);
+
+
+   }
+
+   function setAutomaticResizeWindow($element){
+
+       setWindowSize($element);
+       $(window).on("resize", function(){
+           setWindowSize($element);
+
+
+       });
+
+
+   }
+
 
 
 

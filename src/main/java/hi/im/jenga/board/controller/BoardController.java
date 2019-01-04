@@ -1,5 +1,6 @@
 package hi.im.jenga.board.controller;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
@@ -62,26 +63,16 @@ public class BoardController {
         this.boardUtilFile = boardUtilFile;
     }
 
-   /* @RequestMapping(value="/formattingBk", method = RequestMethod.POST)
-    @ResponseBody
-    public String formattingBK(@RequestParam("bookmark") String bookmark){
-
-        return boardService.formattingBK(bookmark);
-
-    }*/
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String SearchGET(String search, String search_check, HttpSession session) throws Exception {
-     /*   String session_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
-        List<BoardDTO> result = boardService.search(search, search_check, session_iuid);
-        boardService.searchImg(search,search_check);
-        boardService.searchMemInfo(search,search_check);
-        boardService.searchLike(search,search_check);
-*/
 
 
         return "stackBoard/boardSearch";
     }
+
+
+
 
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
     @ResponseBody
@@ -93,6 +84,7 @@ public class BoardController {
         int listcount = 0;
         int startrow = (page - 1) * 10 + 1;
         int endrow = startrow + limit - 1;
+
 
         if(search == null && search.replaceAll(" ","").equals("")){
             //return "error"; 에러 보내야함...
@@ -165,8 +157,6 @@ public class BoardController {
             }
 
 
-            logger.info(resultHTML);
-
             model.addAttribute("category", categoryJSON);
             if(!resultHTML.equals("notExist")) {
                 model.addAttribute("resultHTML", resultHTML);
@@ -209,27 +199,7 @@ public class BoardController {
 
     }
 
-    /*
-     * // TODO WriteViewPOST => WriteBlockPOST 로 이름 바꾸기
-     * // TODO 임시로 데이터 넣은거임. 받아서 해야함 / 조회수 Default 0, 좋아요(mem_iuid) nullable, 관심(mem_iuid) nullable
-     */
 
-
-    //    public String WriteViewPOST(BoardDTO boardDTO, HttpSession session/*, @RequestParam("bti_url") MultipartFile uploadFile, MultipartHttpServletRequest request, @RequestParam String [] bt_name*/) throws Exception {
-
-
-    /*
-    logger.info(boardDTO.getBl_mainCtg());
-    logger.info(boardDTO.getBl_smCtg());
-    logger.info(boardDTO.getBl_description());
-    logger.info(boardDTO.getBl_introduce());
-    logger.info(boardDTO.getBl_title());
-    logger.info(boardDTO.getBt_name().toString());
-    logger.info(boardDTO.getBt_name()[0]);
-    logger.info(boardDTO.getBt_name()[1]);
-    logger.info(boardDTO.getBl_date().toString());
-    logger.info(boardDTO.getBl_writer());           // mem_iuid
-    */
     //TODO ResponseBody로 board_uid 리턴해줘
     // 글쓰는페이지 POST / 작성
     @RequestMapping(value = "/uploadBlock", method = RequestMethod.POST, produces = "multipart/form-data; charset=utf-8")
@@ -421,19 +391,6 @@ public class BoardController {
     }
 
 
-    //TODO 수정 필요함 일단 만들어둠...! 마이블럭
-    @RequestMapping(value = "/myBlock")
-    public String myBlock(HttpSession session) {
-
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-
-
-        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
-
-
-        return ""; //임시 리턴
-    }
-
 
     //팔로워한 사람 리스트
     @RequestMapping(value = "/followlist")
@@ -457,5 +414,47 @@ public class BoardController {
         List<BoardDTO> board = boardService.getFollowerBoard(follow_iuid, my_iuid);
         return "";
     }
+
+
+
+
+    //새로 추가한 부분 (View 가져오는 컨트롤러)
+
+    //인기 블록
+    @RequestMapping(value="/getFavoriteBlock")
+    public String getFavoriteBlock(Model model){
+
+        return "favoriteBoard/favoriteBoard";
+    }
+
+    //내 블록 관리 페이지
+    @RequestMapping(value="/getMyBlockManage")
+    public String getMyBlockManage(Model model, HttpSession session) {
+
+        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
+        String jsonStr = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            jsonStr =   mapper.writeValueAsString(mylist);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        model.addAttribute("boards", jsonStr);
+
+        return "myBoard/myBoardManage";
+    }
+
+    //내가 찜한 블록
+    @RequestMapping(value="/getMyFavorBlock")
+    public String getMyFavorBlock(Model model){
+
+        return "myBoard/myFavorBlock";
+    }
+
+
+
+
 
 }
