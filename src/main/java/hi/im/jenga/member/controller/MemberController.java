@@ -696,7 +696,7 @@ public class MemberController {
 
     //follower list
     @RequestMapping(value="/getFollowerListPage")
-    public String getFollowerListPage(Model model){
+    public String getFollowerListPage(Model model) {
         return "following/followerList";
     }
 

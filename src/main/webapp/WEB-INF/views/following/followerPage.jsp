@@ -276,10 +276,33 @@
     function renderProfile(){
 
         //TODO ajax로 데이터 로드
+        $.ajax({
+            url : "/followcheck",
+            type: "post",
+            data: {
+                //"follow_iuid": 이 페이지닝겐 iuid
+            },
+            success(response){
+                if (response.indexOf("myIuid") != -1){
+                    $("button[name='profileBtn']").removeClass("btn-info").addClass("bg-danger").find("i").removeClass().addClass("nc-icon nc-ruler-pencil");
+                } else if(response.indexOf("notFollow") != -1){
+                    //팔로아님 모양
+                } else{
+                    //팔로상태 모양
+                }
+            },
+            error: function(xhs, status, error) {
+
+                swal({
+                    text: "팔로우에 실패하였습니다.",
+                    type: "error"
+                });
+            }
+        })
         //TODO follower uid 확인 후 만약 session에 있는 uid와 동일하면 페이지 수정 버튼 활성화 (현재 보고있는 사람 == 팔로워 페이지 주인)
-        if(false){
+       /* if(false){
             $("button[name='profileBtn']").removeClass("btn-info").addClass("bg-danger").find("i").removeClass().addClass("nc-icon nc-ruler-pencil");
-        }
+        }*/
 
 
     }
@@ -287,6 +310,11 @@
     $(document).ready(function(){
 
        navbarObj.setType("bg-danger");
+
+        $("button[name='profileBtn']").on("click",function () {
+
+        })
+
 
 
 
