@@ -46,7 +46,6 @@ import java.util.UUID;
  * 북마크 파일 업로드 POST  (모달 GET ? )
  *
  * */
-
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -116,6 +115,9 @@ public class BoardController {
         return container;
 
     }
+
+
+
 
 
 

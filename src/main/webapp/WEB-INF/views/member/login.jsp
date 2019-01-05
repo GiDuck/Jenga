@@ -232,8 +232,8 @@
 
     $(document).ready(function(){
 
-      //navbarObj.setType("navbar-transparent");
-      setNavType("blue");
+      navbarObj.setType("navbar-transparent");
+      //setNavType("blue");
       let $email = $("input[type=email]");
       let $checkbox = $("input[type=checkbox]");
       let emailVal = $email.val();

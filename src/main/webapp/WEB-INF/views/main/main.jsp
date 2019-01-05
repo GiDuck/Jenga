@@ -213,12 +213,11 @@
 
     $(document).ready(function(){
 
-        /*navbarObj.setType("bg-info");
-        navbarObj.addHeadBlock();*/
-        setNavType("blue");
+        navbarObj.setType("bg-info");
+        navbarObj.addHeadBlock();
         initCarousel();
 
-        //setAutomaticResizeWindow($("#mainSection"));
+        setAutomaticResizeWindow($("#mainSection"));
 
 
     });
