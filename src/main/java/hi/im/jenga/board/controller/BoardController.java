@@ -485,7 +485,7 @@ public class BoardController {
 
     @RequestMapping(value="followRecommend")
     @ResponseBody
-    public List<Map<String,Object>> followRecommend(HttpSession session){
+    public List<Map<String,Object>> followRecommend(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         String my_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
         List<Map<String,Object>> followRecommend = boardService.followRecommend(my_iuid);
         return followRecommend;
@@ -535,6 +535,16 @@ public class BoardController {
     public String getMyFavorBlock(Model model){
 
         return "myBoard/myFavorBlock";
+    }
+
+    //팔로워 별로 글을 확인할 수 있는 페이지
+    @RequestMapping(value="/getFollowerPage")
+    public String getFollowerPage(HttpSession session,Model model) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        List<Map<String, Object>> maps = boardService.followRecommend(my_iuid);
+        logger.info("맵 확인"+maps);
+        model.addAttribute("recommend",maps);
+        return "following/followerPage";
     }
 
 

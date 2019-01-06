@@ -1,2 +1,4 @@
 .idea/workspace.xml
 /target
+/webapp/WEB-INF/spring/appServlet/servlet-context.xml
+/webapp/WEB-INF/spring/root-context.xml

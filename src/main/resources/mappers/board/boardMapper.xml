@@ -704,7 +704,16 @@
 						FROM
 						 	tbl_block board, TBL_MFAVOR favor
   						WHERE
-  						 	board.bl_mainctg = favor.mf_type AND favor.mf_ref = #{my_iuid}
+  						 	board.bl_mainctg = favor.mf_type
+  						 	AND
+  						 	 	favor.mf_ref = #{my_iuid}
+  						 	AND
+  						 	 	BL_WRITER NOT IN(SELECT
+  						 	 	 					fl_iuid
+  						 	 	 				 FROM
+  						 	 	 				  	tbl_follow
+  						 	 	 				 WHERE
+  						 	 	 				  	fl_follower = #{my_iuid})
   						 	  GROUP BY
   						 	   	  bl_mainctg, bl_writer)
   				  GROUP BY
@@ -715,7 +724,16 @@
 	  						  FROM
   							   		tbl_block board, TBL_MFAVOR favor
 		  					  WHERE
-  	  						   		board.bl_mainctg = favor.mf_type AND favor.mf_ref = #{my_iuid}
+  	  						   		board.bl_mainctg = favor.mf_type
+  	  						   		AND
+  	  						   		 	favor.mf_ref = #{my_iuid}
+  	  						   		AND
+  						 	 			BL_WRITER NOT IN(SELECT
+  						 	 	 							fl_iuid
+  						 	 	 						 FROM
+  						 	 	 						  	tbl_follow
+  						 	 	 						 WHERE
+  						 	 	 						  	fl_follower = #{my_iuid})
   							  GROUP BY
   	  						  		bl_mainctg, bl_writer) b
   	    		  ON

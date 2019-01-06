@@ -701,11 +701,7 @@ public class MemberController {
     }
 
 
-    //팔로워 별로 글을 확인할 수 있는 페이지
-    @RequestMapping(value="/getFollowerPage")
-    public String getFollowerPage(Model model){
 
-        return "following/followerPage";
-    }
+
 
 }
