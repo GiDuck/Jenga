@@ -171,7 +171,8 @@ Form-data parameter
 
     /* ------------ 뷰 초기화 작업 ------------ */
     $(document).ready(function () {
-        setNavType("blue");
+        navbarObj.setType("bg-info");
+        navbarObj.addHeadBlock();
         initFavorForm();
 
         //썸네일 이미지가 업로드 될때마다 유효성 검사 실시 (1MB 이하만 업로드 가능, jpg, jpeg, png, gif 외 확장자 사용 불가)

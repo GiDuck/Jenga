@@ -1,16 +1,16 @@
 package hi.im.jenga.board.dao;
 
+import hi.im.jenga.board.dto.BlockPathDTO;
+import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.member.dto.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
-import java.util.Map;
-
-import hi.im.jenga.board.dto.BlockPathDTO;
-import hi.im.jenga.board.dto.BoardDTO;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -80,10 +80,14 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("board.cancelLike", map);
     }
 
-    public List<BoardDTO> getUserLikedBlock(String my_iuid) {
-        return sqlSession.selectList("board.getUserLikedBlock", my_iuid);
+    public List<MemberDTO> getMyFollower(String my_iuid) {
+        return sqlSession.selectList("board.getFollowerList", my_iuid);
     }
 
+    public List<Map<String, Object>> followRecommend(String my_iuid) {
+        logger.info("뽑기"+sqlSession.selectList("board.followRecommend",my_iuid));
+        return sqlSession.selectList("board.followRecommend",my_iuid);
+    }
 
     public int likeCount(String bl_iuid) {
         return sqlSession.selectOne("board.likeCount", bl_iuid);
@@ -168,52 +172,13 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("session_iuid", session_iuid);
         sqlSession.insert("board.setSearchKeyword", map);
     }
-    public int countFollowingMember(String session_iuid, String search) {
-        Map<String, String> map = new HashMap<String, String>();
-        logger.info("search는 "+ search);
-        if("".equals(search)){
-            logger.info("search가 널입니다");
-        }
 
-        map.put("search", search);
-        map.put("session_iuid", session_iuid);
-        int result = sqlSession.selectOne("board.countFollowingMember", map);
-        logger.info("반환할 갯수 "+result);
 
-        return result;
-    }
 
-    public List<BoardDTO> getFollowingMember(String session_iuid, String search, int startrow, int endrow) {
-        Map<String, Object> map = new HashMap();
-        map.put("session_iuid", session_iuid);
-        map.put("search", search);
-        map.put("startrow",startrow);
-        map.put("endrow", endrow);
-        return sqlSession.selectList("board.getFollowingMember", map);
-    }
 
-    public int countFollowerMember(String session_iuid, String search) {
-        Map<String, String> map = new HashMap<String, String>();
-        logger.info("search는 "+ search);
-        if("".equals(search)){
-            logger.info("search가 널입니다");
-        }
+    public List<Map<String, Object>> getMyLikesBlock(String my_iuid) {
+        return sqlSession.selectList("board.getMyLikesBlock",my_iuid);
 
-        map.put("search", search);
-        map.put("session_iuid", session_iuid);
-        int result = sqlSession.selectOne("board.countFollowerMember", map);
-        logger.info("반환할 갯수 "+result);
-
-        return result;
-    }
-
-    public List<BoardDTO> getFollowerMember(String session_iuid, String search, int startrow, int endrow) {
-        Map<String, Object> map = new HashMap();
-        map.put("session_iuid", session_iuid);
-        map.put("search", search);
-        map.put("startrow",startrow);
-        map.put("endrow", endrow);
-        return sqlSession.selectList("board.getFollowerMember", map);
     }
 
     public void follow(String bl_writer, String session_iuid) {
@@ -239,8 +204,11 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("board.unFollow",map);
     }
 
-    public List<BoardDTO> getFollowerBoard(String my_iuid) { //follower한 사람 글
-        return sqlSession.selectList("board.getFollowerBoard", my_iuid);
+    public List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid) { //follower한 사람 글
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("my_iuid", my_iuid);
+        map.put("follow_iuid", follow_iuid);
+        return sqlSession.selectList("board.getFollowerBoard", map);
     }
 
     public List<BoardDTO> getMyBlock(String my_iuid) {
@@ -332,6 +300,7 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getBoardDetailTags", bl_uid);   // 태그 뽑음
     }
 }
+
 
 
 

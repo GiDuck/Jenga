@@ -2,6 +2,7 @@ package hi.im.jenga.member.controller;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.google.gson.Gson;
+import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
@@ -58,6 +59,8 @@ public class MemberController {
 
 
     private String apiResult = null;
+
+    SessionCheck sessionCheck = SessionCheck.getInstance();
 
     @Autowired
     private AES256Cipher aes256Cipher;
@@ -350,10 +353,12 @@ public class MemberController {
     // 추가정보페이지에 있는 submit 버튼
     // iuid, 파읾명 정하기, 등급은 Default
     // 임시 추가정보 페이지 (POST) / 프로필사진, 닉네임, 관심분야
+
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
     public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO,
                                     @RequestParam("mem_profile") MultipartFile uploadFile, HttpSession session) throws Exception {
-
+        System.out.println("왜안오냐 ㅡㅡ");
+        logger.info("여기들어간다잉??");
         MemberDTO memberDTO = new MemberDTO();
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : "+ emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
@@ -387,14 +392,14 @@ public class MemberController {
 //        TODO 여기부터 다시
         if(!emailMemberDTO.getEm_id().equals("")) {
             logger.info("이메일은 여기서 다 처리");
-            String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
-            logger.info("띠용 "+aes_iuid);
+            /*String aes_iuid = memberService.findIuid(emailMemberDTO);   // 이메일을 통하여 해당 이메일의 iuid (em_ref)를 가져옴 /  서비스에서
+            logger.info("띠용 "+aes_iuid);*/
 
             memberService.addMemberInfo(socialMemberDTO, emailMemberDTO, memberDTO, uploadName,  "email");
             logger.info("이메일1");
-            memberService.addMemberFavor(aes_iuid, favor);
+            memberService.addMemberFavor(memberDTO.getMem_iuid(), favor);
             logger.info("이메일2");
-            memberService.addEMember(aes_iuid);
+            memberService.addEMember(memberDTO.getMem_iuid());
             logger.info("이메일3");
             return "redirect:/";
 
@@ -450,9 +455,8 @@ public class MemberController {
 
 
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-    public @ResponseBody Map<String, String> getUserInfo(HttpSession session, @RequestParam(value = "profile", required = false) String profile, @RequestParam(value = "nick", required = false) String nick,
-                                                         @RequestParam(value = "introduce", required = false) String introduce) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+    public @ResponseBody Map<String, String> getUserInfo(HttpSession session, @RequestParam(value = "uid") String mem_iuid, @RequestParam(value = "profile", required = false) String profile, @RequestParam(value = "nick", required = false) String nick,
+                                                         @RequestParam(value = "introduce", required = false) String introduce) throws Exception {
         Map<String, String> result = new HashMap();
         String check_profile = "";
         String check_nick = "";
@@ -466,7 +470,8 @@ public class MemberController {
         if(introduce != null){
             check_introduce  = "introduce";
         }
-        result = memberService.getUserInfo(mem_iuid, check_profile, check_nick, check_introduce);
+
+            result = memberService.getUserInfo(mem_iuid, check_profile, check_nick, check_introduce);
 
         return result;
 
@@ -688,4 +693,128 @@ public class MemberController {
 
         return map;
     }
+
+
+    //새로 추가한 부분 (View 가져오는 컨트롤러)
+
+    //follower list
+    @RequestMapping(value="/getFollowerListPage")
+    public String getFollowerListPage(Model model){
+        return "following/followerList";
+    }
+
+
+    //팔로워 별로 글을 확인할 수 있는 페이지
+    @RequestMapping(value="/getFollowerPage")
+    public String getFollowerPage(Model model){
+
+        return "following/followerPage";
+    }
+
+    /**
+     * 나를 팔로잉 하는 멤버
+     * */
+
+    @RequestMapping(value = "/getFollowerMember", method = RequestMethod.GET)
+    public @ResponseBody List<BoardDTO> getFollowerMember(@RequestParam("pageNum") int page, @RequestParam(value = "search", required = false) String search, HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String session_iuid = null;
+
+        logger.info("search는 "+ search);
+
+        try {
+            session_iuid = sessionCheck.myGetSessionIuid(session);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        int limit = 20;
+        int nowpage = page;
+        int listcount = 0;
+        int startrow = (page - 1) * 10 + 1;
+        int endrow = startrow + limit - 1;
+
+        listcount = memberService.countFollowerMember(session_iuid, search);
+
+        int maxpage = (int) ((double) listcount / limit + 0.95);
+        int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+        int endpage = maxpage;
+
+        if (endpage > startpage + 10 - 1) {
+            endpage = startpage + 10 - 1;
+        }
+
+        List<BoardDTO> container = null;
+        try {
+
+            container = memberService.getFollowerMember(session_iuid, search, startrow, endrow);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return container;
+
+    }
+
+    /**
+     * 내가 팔로잉 중인 멤버
+     * */
+    @RequestMapping(value = "/getFollowingMember", method = RequestMethod.GET)
+    public @ResponseBody List<BoardDTO> getFollowingMember(@RequestParam("pageNum") int page, @RequestParam(value = "search", required = false) String search, HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        String session_iuid = null;
+
+        logger.info("search는 "+ search);
+
+        try {
+            session_iuid = sessionCheck.myGetSessionIuid(session);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        int limit = 20;
+        int nowpage = page;
+        int listcount = 0;
+        int startrow = (page - 1) * 10 + 1;
+        int endrow = startrow + limit - 1;
+
+        listcount = memberService.countFollowingMember(session_iuid, search);
+
+        int maxpage = (int) ((double) listcount / limit + 0.95);
+        int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+        int endpage = maxpage;
+
+        if (endpage > startpage + 10 - 1) {
+            endpage = startpage + 10 - 1;
+        }
+
+        List<BoardDTO> container = null;
+        try {
+
+            container = memberService.getFollowingMember(session_iuid, search, startrow, endrow);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return container;
+
+    }
+
+    /**
+     * mem_iuid, mem_nick, mem_profile
+     * bl_title, bl_description
+     *
+     * mem_iuid 임시로 잠시 나중에 빼기, required = false 빼기
+     * */
+    @RequestMapping("/getRecentBlock")
+    public @ResponseBody List<Map<String, String>> getRecentBlock(@RequestParam(value = "mem_iuid", required = false) String mem_iuid) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        logger.info(mem_iuid);
+        mem_iuid = "qJbMKvbghN55elUB9maOQQZOM6zbsgMvy4tZFw0kw934Im4EiuJA1DVnDb79S+e7";
+        List<Map<String, String>> list = memberService.getRecentBlock(mem_iuid);
+        return list;
+    }
+
+
 }

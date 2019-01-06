@@ -1,5 +1,7 @@
 package hi.im.jenga.member.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.member.dao.MemberDAO;
 
 import hi.im.jenga.member.dto.EmailMemberDTO;
@@ -56,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
 
         if (uploadName.equals("")) {
             logger.info("addEMemberInfo 서비스 디폴트이미지로 변경");
-            memberDTO.setMem_profile("Y:\\go\\Jenga\\profiles\\jenga_profile_default.jpg");
+            memberDTO.setMem_profile("D:\\jengaResource\\img\\profiles\\jenga_profile_default.jpg");
         } else {
             logger.info("프로필사진 있고 uploadName은 " + uploadName);
             memberDTO.setMem_profile(uploadName);
@@ -66,6 +68,7 @@ public class MemberServiceImpl implements MemberService {
         if (key.equals("email")) {
             logger.info("addEMemberInfo 이메일 입니다");
             iuid = findIuid(emailMemberDTO);   // 암호화 한 임시 meminfo uid를 찾아옴
+            logger.info(iuid);
             memberDTO.setMem_iuid(iuid);
 
             dao.addEMemberInfo(memberDTO);
@@ -174,7 +177,16 @@ public class MemberServiceImpl implements MemberService {
     public String findIuid(EmailMemberDTO emailMemberDTO) throws Exception {
         logger.info("findIuid IN ServiceImpl");
         //        이메일을 암호화시켜서 비교하기 위해
+        //logger.info("암호화 전"+emailMemberDTO.getEm_id());
+        //String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
+        //logger.info("후"+aes_id);
+        //emailMemberDTO.setEm_id(aes_id);
+        logger.info("지금 이메일 확인"+emailMemberDTO.getEm_id());
+        logger.info("지금 이메일 확인"+emailMemberDTO.getEm_id());
+        logger.info("지금 이메일 확인"+emailMemberDTO.getEm_id());
+        logger.info("지금 이메일 확인"+emailMemberDTO.getEm_id());
         String aes_id = aes256Cipher.AES_Encode(emailMemberDTO.getEm_id());
+        logger.info("후"+aes_id);
         emailMemberDTO.setEm_id(aes_id);
         return dao.findIuid(emailMemberDTO);
     }
@@ -287,6 +299,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
+
     //     이메일 인증번호 보내는 메소드
     private void sendTempKey(String emailId, String key) throws MessagingException, UnsupportedEncodingException {
         MailHandler sendMail = new MailHandler(mailSender);
@@ -295,6 +308,50 @@ public class MemberServiceImpl implements MemberService {
         sendMail.setFrom("jengamaster@gmail.com", "젠가관리자");
         sendMail.setTo(emailId);      // 암호화 안한 이메일
         sendMail.send();
+    }
+
+    public int countFollowerMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        logger.info("search는 "+ search);
+        if(search != null){
+            logger.info("search는 "+ search);
+            search = aes256Cipher.AES_Encode(search);
+        }
+        return dao.countFollowerMember(session_iuid, search);
+    }
+
+    public List<BoardDTO> getFollowerMember(String session_iuid, String search, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        if(search != null){
+            logger.info("search는 "+ search);
+            search = aes256Cipher.AES_Encode(search);
+        }
+        return dao.getFollowerMember(session_iuid, search, startrow, endrow);
+    }
+
+    public int countFollowingMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        logger.info("search는 "+ search);
+        if(search != null){
+            logger.info("search는 "+ search);
+            search = aes256Cipher.AES_Encode(search);
+        }
+        return dao.countFollowingMember(session_iuid, search);
+    }
+
+    public List<BoardDTO> getFollowingMember(String session_iuid, String search, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        if(search != null){
+            logger.info("search는 "+ search);
+            search = aes256Cipher.AES_Encode(search);
+        }
+        return dao.getFollowingMember(session_iuid, search, startrow, endrow);
+    }
+
+    public List<Map<String, String>> getRecentBlock(String mem_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        List<Map<String, String>> list = dao.getRecentBlock(mem_iuid);
+        for(int i = 0; i< list.size(); i++){
+            list.get(i).put("mem_nick",aes256Cipher.AES_Decode(list.get(i).get("mem_nick")));
+            list.get(i).put("mem_profile",aes256Cipher.AES_Decode(list.get(i).get("mem_profile")));
+            list.get(i).put("bl_date",String.valueOf(list.get(i).get("bl_date")));
+        }
+        return list;
     }
 
 }

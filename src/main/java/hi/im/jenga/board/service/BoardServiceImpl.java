@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,8 +165,25 @@ public class BoardServiceImpl implements BoardService {
 
 	public String isLikeExist(String bl_iuid, String session_mem_iuid) { return dao.likeCheck(bl_iuid, session_mem_iuid); }
 
-    public List<BoardDTO> getUserLikedBlock(String my_iuid) {
-        return dao.getUserLikedBlock(my_iuid);
+    public List<MemberDTO> getMyFollower(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        List<MemberDTO> list = dao.getMyFollower(my_iuid);
+        for(int i=0; i<list.size(); i++){
+            list.get(i).setMem_nick(aes256Cipher.AES_Decode(list.get(i).getMem_nick()));
+        }
+        return list;
+    }
+
+    public List<Map<String,Object>> getMyLikesBlock(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        List<Map<String,Object>> myLikesBlock = dao.getMyLikesBlock(my_iuid);
+        for(int i=0; i<myLikesBlock.size(); i++){
+            myLikesBlock.get(i).put("MEM_NICK",aes256Cipher.AES_Decode((String) myLikesBlock.get(i).get("MEM_NICK")));
+        }
+
+        return myLikesBlock;
+    }
+
+    public List<Map<String, Object>> followRecommend(String my_iuid) {
+        return dao.followRecommend(my_iuid);
     }
 
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
@@ -222,40 +240,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-    public int countFollowingMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        logger.info("search는 "+ search);
-        if(search != null){
-            logger.info("search는 "+ search);
-	        search = aes256Cipher.AES_Encode(search);
-        }
-	    return dao.countFollowingMember(session_iuid, search);
-	}
-
-    public List<BoardDTO> getFollowingMember(String session_iuid, String search, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        if(search != null){
-            logger.info("search는 "+ search);
-            search = aes256Cipher.AES_Encode(search);
-        }
-	    return dao.getFollowingMember(session_iuid, search, startrow, endrow);
-    }
-
-    public int countFollowerMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        logger.info("search는 "+ search);
-        if(search != null){
-            logger.info("search는 "+ search);
-            search = aes256Cipher.AES_Encode(search);
-        }
-        return dao.countFollowerMember(session_iuid, search);
-    }
-
-    public List<BoardDTO> getFollowerMember(String session_iuid, String search, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        if(search != null){
-            logger.info("search는 "+ search);
-            search = aes256Cipher.AES_Encode(search);
-        }
-        return dao.getFollowerMember(session_iuid, search, startrow, endrow);
-    }
-
     public void follow(String bl_writer, String session_iuid) {
         dao.follow(bl_writer, session_iuid);
     }
@@ -268,8 +252,8 @@ public class BoardServiceImpl implements BoardService {
         dao.unFollow(bl_writer, session_iuid);
     }
 
-    public List<BoardDTO> getFollowerBoard(String my_iuid) {
-        return dao.getFollowerBoard(my_iuid);
+    public List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid) {
+        return dao.getFollowerBoard(follow_iuid,my_iuid);
     }
 
 

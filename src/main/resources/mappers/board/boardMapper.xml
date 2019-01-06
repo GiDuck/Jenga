@@ -32,6 +32,15 @@
 
     </resultMap>
 
+	<resultMap id="blockInfo" type="HashMap">
+		<result property="bl_title" column="bl_title"/>
+		<result property="bl_mainCtg" column="bl_mainCtg"/>
+		<result property="bl_smCtg" column="bl_smCtg"/>
+		<result property="bl_date" column="bl_date" javaType="java.lang.Long"/>
+		<result property="bl_uid" column="bl_uid"/>
+		<result property="MEM_NICK" column="MEM_NICK"/>
+	</resultMap>
+
     <resultMap id="infoMap" type="HashMap">
         <result property="MEM_NICK" column="MEM_NICK"/>
         <result property="MEM_LEVEL" column="MEM_LEVEL"/>
@@ -430,146 +439,21 @@
 			FL_IUID = #{bl_writer} AND FL_FOLLOWER = #{session_iuid}
 	</delete>
 
-	<!-- 내가 팔로잉 중인 멤버 인원 뽑기 -->
-	<select id="countFollowingMember" resultType="int">
-		<choose>
-			<when test = "search == null">
-				SELECT
-					COUNT(fl_iuid)
-				FROM
-					tbl_follow
-				WHERE
-					fl_follower = #{session_iuid}
-			</when>
-			<otherwise>
-				SELECT
-					COUNT(*) AS followers
-				FROM
-					TBL_FOLLOW
-				WHERE
-					fl_iuid = #{session_iuid}
-					AND
-					(fl_follower IN (SELECT
-										mem_iuid
-									 FROM
-										tbl_meminfo
-									WHERE mem_nick LIKE '%'||#{search}||'%'))
-			</otherwise>
-		</choose>
-	</select>
-
-	<!-- 내가 팔로잉 중인 멤버 목록 뽑기 -->
-	<select id="getFollowingMember" resultType="hi.im.jenga.member.dto.MemberDTO">
-		<choose>
-			<when test="search == null">
-				SELECT
-					mem_nick, mem_introduce, mem_profile
-				FROM
-					tbl_meminfo
-				WHERE
-					mem_iuid IN (SELECT
-									fl_iuid
-								FROM
-									tbl_follow
-								WHERE
-									fl_follower = #{session_iuid})
-			</when>
-			<otherwise>
-				SELECT
-					mem_nick, mem_introduce, mem_profile
-				FROM
-					tbl_meminfo
-				WHERE
-					mem_nick LIKE '%'||#{search}||'%'
-				AND
-					mem_iuid IN (SELECT
-									fl_follower
-								FROM
-									tbl_follow
-								WHERE
-									fl_iuid = #{session_iuid})
-			</otherwise>
-		</choose>
-	</select>
-
-	<!-- 나를 팔로우한 팔로워 인원 뽑기 -->
-	<select id="countFollowerMember" resultType="int">
-		<choose>
-			<when test = "search == null">
-				SELECT
-					COUNT(fl_follower)
-				FROM
-					tbl_follow
-				WHERE
-					fl_iuid = #{session_iuid}
-			</when>
-			<otherwise>
-				SELECT
-					COUNT(*) AS followers
-				FROM
-					TBL_FOLLOW
-				WHERE
-					fl_follower = #{session_iuid}
-					AND
-					(fl_iuid IN (SELECT
-										mem_iuid
-								 FROM
-										tbl_meminfo
-								 WHERE mem_nick LIKE '%'||#{search}||'%'))
-			</otherwise>
-		</choose>
-	</select>
-
-	<!-- 나를 팔로우한 팔로워 목록 뽑기 -->
-	<select id="getFollowerMember" resultType="hi.im.jenga.member.dto.MemberDTO">
-		<choose>
-			<when test = "search == null">
-				SELECT
-					mem_nick, mem_introduce, mem_profile
-				FROM
-					tbl_meminfo
-				WHERE
-					mem_iuid IN (SELECT
-									fl_iuid
-								FROM
-									tbl_follow
-								WHERE
-									fl_follower = #{session_iuid})
-			</when>
-			<otherwise>
-				SELECT
-					mem_nick, mem_introduce, mem_profile
-				FROM
-					tbl_meminfo
-				WHERE
-					mem_nick LIKE '%'||#{search}||'%'
-				AND
-					mem_iuid IN (SELECT
-									fl_iuid
-								FROM
-									tbl_follow
-								WHERE
-									fl_follower = #{session_iuid})
-			</otherwise>
-		</choose>
-	</select>
-
 	<!-- 팔로워의 글 뽑기 -->
     <select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
+
 			SELECT
 				*
 			FROM
 			 	tbl_block
-			WHERE
-			 	bl_writer IN (SELECT
+			where
+			 	bl_writer = (SELECT
 			 		 			fl_iuid
 			 		 		 FROM
 			 		 		  	tbl_follow
-			 		 		 WHERE
-			 		 		 	fl_follower = #{my_iuid})
-		 	ORDER BY
-				BL_WRITER
-			DESC
+			 		 		 where
+			 		 		 	fl_iuid = #{follow_iuid} and fl_follower = #{my_iuid})
+			order by BL_DATE desc
 	</select>
 
     <!-- 좋아요 갯수 -->
@@ -626,17 +510,23 @@
 
 
     <!-- 내가 좋아요한 board 뽑기 -->
-    <select id="getUserLikedBlock" resultType="hi.im.jenga.board.dto.BoardDTO">
-		SELECT
-		 		b.BL_DATE, b.BL_DESCRIPTION, b.BL_INTRODUCE, b.BL_MAINCTG, b.BL_OBJID, b.BL_SMCTG, b.BL_TITLE, b.BL_UID, b.bl_writer
-		FROM
+    <select id="myLikesBlock" resultType="HashMap" resultMap="blockInfo">
+		select
+		 		b.BL_DATE,b.BL_INTRODUCE,b.BL_MAINCTG,b.BL_OBJID,b.BL_SMCTG,b.BL_TITLE,b.BL_UID,b.BL_WRITER,m.MEM_NICK
+		from
 		 		tbl_blocklikes bl
 		INNER JOIN
 		 		tbl_block b
 		 		 	ON
 		 		 	 	bl.BLK_REF = b.bl_uid
-		WHERE
+		 		 	 	inner join
+                            tbl_meminfo m
+                            on
+                                b.BL_WRITER = m.MEM_IUID
+		where
 		 	bl.blk_member = #{my_iuid}
+		order by
+		 	b.bl_date desc
 
 	</select>
 
@@ -750,6 +640,40 @@
 		WHERE
 		 	rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
 	</select>
+
+	<select id="followRecommend" resultType="Map">
+		select
+			s.*
+		from
+			(select
+				f2.fl_iuid,f2.fl_follower,m.mem_nick,m.mem_profile,m.MEM_LEVEL,m.MEM_JOINDATE
+			from
+				tbl_follow f1
+					LEFT OUTER JOIN
+							tbl_follow f2
+					on
+							f1.fl_iuid = f2.fl_follower
+									inner join
+										tbl_meminfo m
+									on
+										f2.fl_iuid = m.mem_iuid
+			where
+				f1.fl_follower = #{my_iuid}
+			and
+				f2.FL_IUID not in(#{my_iuid})
+			and
+				f2.fl_iuid not in(select
+									fl_iuid
+								  from
+									tbl_follow
+								  where
+									fl_follower  = #{my_iuid})
+			order by
+				DBMS_RANDOM.VALUE) s
+		where rownum<![CDATA[<=5 ]]>
+	</select>
+
+
 
 </mapper>
 

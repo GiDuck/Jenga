@@ -1,11 +1,11 @@
 package hi.im.jenga.member.dao;
 
 
+import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,4 +65,14 @@ public interface MemberDAO {
     Map<String, String> getBmksUploadDate(String session_iuid);
 
     void changePwd(String mem_iuid, String aes_pwd);
+
+    int countFollowerMember(String session_iuid, String search);
+
+    List<BoardDTO> getFollowerMember(String session_iuid, String search, int startrow, int endrow);
+
+    int countFollowingMember(String session_iuid, String search);
+
+    List<BoardDTO> getFollowingMember(String session_iuid, String search, int startrow, int endrow);
+
+    List<Map<String, String>> getRecentBlock(String mem_iuid);
 }

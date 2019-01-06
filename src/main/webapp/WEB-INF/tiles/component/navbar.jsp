@@ -7,11 +7,12 @@
 .loginService{}
 
 </style>
-    
-<nav id="navbar" class="navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent">
+
+
+<nav id="jenga_navbar" class="navbar navbar-expand-lg fixed-top nav-down bg-white">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/" rel="tooltip" title="Jenga" data-placement="bottom">
+        <a class="navbar-brand" href="/" rel="tooltip" title="Jenga"  data-placement="bottom">
           Jenga
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,13 +22,13 @@
           
         </button>
       </div>
-      <div class="collapse navbar-collapse" data-color="light" >
+      <div id="nav_inner" class="collapse navbar-collapse" >
         <ul class="navbar-nav ml-auto">   
         <li class="nav-item" >
 	        
 	        <div class="nav-link">
 		       	 <div class="profile-photo-small" style="width:40px; height:40px; "> 
-		        	<img id="nav_user_profile" src="" style="" alt="User Profile" class="img-circle img-responsive img-no-padding text-center" onerror="this.src='http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-hi.png'">
+		        	<img id="nav_user_profile" src="" style="" alt="User Profile" class="img-circle img-responsive img-no-padding text-center w-100 h-100" onerror="this.src='http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-hi.png'">
 		        </div>
 	       	 </div>
         </li>
@@ -37,10 +38,10 @@
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">Block</a>
             <div class="dropdown-menu dropdown-menu-right dropdown-warning">
               <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
-              <a class="dropdown-item"  href="#" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
+              <a class="dropdown-item"  href="/board/getFavoriteBlock" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
               <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
-              <a class="dropdown-item loginService" href="/board/manageBlock?token=follow"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
-              <a class="dropdown-item loginService" href="/board/manageBlock?token=my"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
+              <a class="dropdown-item loginService" href="/board/getMyFavorBlock"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
+              <a class="dropdown-item loginService" href="/board/getMyBlockManage"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -51,9 +52,15 @@
               <a class="dropdown-item loginService" data-scroll="true" data-id="#headers" href="/modMemInfo">
                 <i class="nc-icon nc-paper loginService"></i> 내 정보 관리
               </a>
+
+                <a class="dropdown-item" data-scroll="true" data-id="#features" href="/getFollowerListPage">
+                    <i class="fa fa-user"></i> 팔로잉
+                </a>
+
               <a class="dropdown-item" data-scroll="true" data-id="#features" href="#">
                 <i class="nc-icon nc-alert-circle-i"></i> 공지사항
               </a>
+
 
             </div>
           </li>
@@ -74,28 +81,60 @@
           </li>
           
 
-        </ul>
-      </div>
+            </ul>
+        </div>
     </div>
-  </nav>
-  <script>
-  
-   var navBar = $("#navbar");
-   var setNavType = function (type) {
-	  
-	  navBar.removeClass();
-	  
-	  if(type === "transparent"){
-	  
-		  navBar.addClass("navbar navbar-expand-lg bg-white fixed-top nav-down navbar-transparent");
-	 
-	  }else if(type === "blue"){
-		  
-	 	  navBar.addClass("navbar navbar-expand-lg sticky-top nav-down bg-info");
+</nav>
+<script>
 
-	  }
-	  
-  }
+       function NavbarObj(){
+
+       let $navbar;
+
+       (function(){
+            $navbar = $("#jenga_navbar");
+        })();
+
+       let type = undefined;
+       this.setType = function(requestType){
+
+           $navbar.removeClass(type);
+           $navbar.addClass(requestType);
+           type = requestType;
+       }
+       this.getNavbarHeight = function(){
+
+           //네비게이션 바의 높이를 반환 (정수)
+           return parseInt($navbar.css("height").replace(window.REGEX_TRIM_DIM_SIZE_EXTEND, ""), 10);
+
+       }
+
+       this.addHeadBlock = function(color) {
+
+           let height = this.getNavbarHeight();
+           let $inner = $("<div>").css("height",height);
+           if(color == "gray"){
+
+             $inner.addClass("section-gray");
+           }
+           $(document).find("body").prepend($inner);
+
+
+       }
+
+       this.addClass = function(className){
+           this,$navbar.addClass(className);
+       }
+
+       this.removeClass = function(className){
+          this,$navbar.removeClass(className);
+       }
+
+   }
+
+
+   let navbarObj = new NavbarObj();
+
    
    
   $(document).ready(function(){
@@ -106,7 +145,33 @@
 
       });
 
+
+
       $(document).find("a").css('cursor', 'pointer');
+
+      let session_uid = '${sessionScope.Member.mem_iuid}';
+
+      if(session_uid){
+
+
+      $.ajax({
+
+          type : "GET",
+          data : {uid : session_uid, profile : "true"},
+          url : "/getUserInfo",
+          success : function(response){
+
+              console.log(response.profile);
+              $("#nav_user_profile").attr("src", response.profile);
+
+
+          }
+
+
+      });
+
+  }
+
 
 
       $("#nav_user_profile").attr("src", "${sessionScope.Member.mem_profile}");

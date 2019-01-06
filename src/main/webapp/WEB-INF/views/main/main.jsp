@@ -3,7 +3,7 @@
 
 <div class="wrapper">
     <div class="main">
-        <div class="section">
+        <div id="mainSection" class="section">
             <div class="container">
                 <div class="row">
 
@@ -213,8 +213,11 @@
 
     $(document).ready(function(){
 
-        setNavType("blue");
+        navbarObj.setType("bg-info");
+        navbarObj.addHeadBlock();
         initCarousel();
+
+        setAutomaticResizeWindow($("#mainSection"));
 
 
     });

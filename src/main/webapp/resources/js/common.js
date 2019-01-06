@@ -58,3 +58,88 @@ function checkImageFile(e){
 
 
 }
+
+
+function TimeChecker(interval) {
+
+    let startTime;
+    const TIME_INTERVAL = interval ? parseInt(interval) : 2000;
+    this.validateOverInterval = function () {
+
+        if(!startTime){
+            startTime = new Date().getTime();
+
+        }
+
+        let endTime = new Date().getTime();
+
+        if (endTime - startTime < TIME_INTERVAL) {
+            return false;
+        } else if(endTime - startTime >= TIME_INTERVAL) {
+            startTime = new Date().getTime();
+            return true;
+        }
+    }
+
+}
+
+
+
+function PreLoader(){
+
+    let $preLoader;
+    let $preLoaderDOM;
+
+    (function(){
+
+        $preLoaderDOM = $("<div>").addClass("w-100 text-center").css("visibility", "hidden")
+            .append($("<div>").addClass("preloader").append($("<div>").addClass("uil-reload-css").append($("<div>"))).append($("<h5>").attr("id", "preLoader_innerText").text("Loading More")));
+
+
+    })();
+
+    this.show = function(){
+        $preLoader.css("visibility", "visible");
+    }
+
+
+    this.hide = function(time){
+
+        let timer = parseInt(time);
+
+        setTimeout(function () {
+            $preLoader.css("visibility", "hidden");
+        }, timer);
+
+    }
+
+
+    this.disappear = function(){
+        $preLoader.css("display", "gone");
+    }
+
+
+    this.getPreLoaderDomInstance = function(){
+
+        return $preLoader;
+    }
+
+    this.init = function(){
+
+        $("#preLoaderContainer").html($preLoaderDOM);
+        $preLoader = $preLoaderDOM;
+
+    }
+
+    this.changeId = function (id)  {
+
+        $preLoader.attr("id", id);
+    }
+
+    this.changeText = function (str){
+
+        $preLoader.find("#preLoader_innerText").text(str);
+
+    }
+
+}
