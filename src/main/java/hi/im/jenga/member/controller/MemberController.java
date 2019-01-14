@@ -699,17 +699,13 @@ public class MemberController {
 
     //follower list
     @RequestMapping(value="/getFollowerListPage")
-    public String getFollowerListPage(Model model){
+    public String getFollowerListPage(Model model) {
         return "following/followerList";
     }
 
 
-    //팔로워 별로 글을 확인할 수 있는 페이지
-    @RequestMapping(value="/getFollowerPage")
-    public String getFollowerPage(Model model){
 
-        return "following/followerPage";
-    }
+
 
     /**
      * 나를 팔로잉 하는 멤버

@@ -90,4 +90,6 @@ public interface BoardDAO {
     List<Map<String, Object>> followRecommend(String my_iuid);
 
     List<Map<String, Object>> getMyLikesBlock(String my_iuid);
+
+    List<Map<String, String>> getPopularBlock(String likeCount);
 }

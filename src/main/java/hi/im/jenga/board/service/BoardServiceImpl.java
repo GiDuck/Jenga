@@ -9,7 +9,6 @@ import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +36,6 @@ public class BoardServiceImpl implements BoardService {
 	@Value("#{data['bookmark.absolute_path']}")
 	private String BOOKMARK_ABSOLUTE_PATH;
 
-	@Autowired
 	public BoardServiceImpl(BoardDAO dao, MongoService mongoService, AES256Cipher aes256Cipher) {
 		this.dao = dao;
 		this.mongoService = mongoService;
@@ -182,8 +180,25 @@ public class BoardServiceImpl implements BoardService {
         return myLikesBlock;
     }
 
-    public List<Map<String, Object>> followRecommend(String my_iuid) {
-        return dao.followRecommend(my_iuid);
+    public List<Map<String, Object>> followRecommend(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        List<Map<String, Object>> result = dao.followRecommend(my_iuid);
+        for(int i = 0 ; i<result.size(); i++){
+            result.get(i).put("MEM_NICK",aes256Cipher.AES_Decode((String)result.get(i).get("MEM_NICK")));
+            result.get(i).put("MEM_PROFILE",aes256Cipher.AES_Decode((String)result.get(i).get("MEM_PROFILE")));
+        }
+        return result;
+    }
+
+    public List<Map<String, String>> getPopularBlock(String likeCount) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        List<Map<String, String>> list = dao.getPopularBlock(likeCount);
+        for(int i = 0; i< list.size(); i++){
+            list.get(i).put("mem_nick",aes256Cipher.AES_Decode(list.get(i).get("mem_nick")));
+            list.get(i).put("mem_profile",aes256Cipher.AES_Decode(list.get(i).get("mem_profile")));
+            list.get(i).put("bl_date",String.valueOf(list.get(i).get("bl_date")));
+            list.get(i).put("blrc_count",String.valueOf(list.get(i).get("blrc_count")));
+            list.get(i).put("bl_like",String.valueOf(list.get(i).get("bl_like")));
+        }
+	    return list;
     }
 
     public void likeCheck(String bl_iuid, String session_mem_iuid) {

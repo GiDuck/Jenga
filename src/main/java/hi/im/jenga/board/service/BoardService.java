@@ -61,6 +61,7 @@ public interface BoardService {
 
     List<Map<String,Object>>getMyLikesBlock(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
-    List<Map<String, Object>> followRecommend(String my_iuid);
+    List<Map<String, Object>> followRecommend(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
+    List<Map<String, String>> getPopularBlock(String likeCount) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 }

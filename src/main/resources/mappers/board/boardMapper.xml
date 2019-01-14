@@ -441,12 +441,11 @@
 
 	<!-- 팔로워의 글 뽑기 -->
     <select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
-
 			SELECT
 				*
 			FROM
 			 	tbl_block
-			where
+			WHERE
 			 	bl_writer = (SELECT
 			 		 			fl_iuid
 			 		 		 FROM
@@ -478,9 +477,32 @@
 	</select>
 
     <!-- 인기 블록 뽑기 -->
-    <select id="getPopBlock" resultType="hi.im.jenga.board.dto.BoardDTO">
+    <select id="getPopularBlock" resultType="Map">
 		SELECT
-		 	 b.BL_TITLE,b.BL_INTRODUCE,b.BL_UID,b.BL_mainctg,b.BL_SMCTG,th.bti_url,b.bl_date,bl.bl_like,rc.BLRC_COUNT,mi.MEM_PROFILE,mi.MEM_NICK
+		 	 b.bl_title AS "bl_title", b.bl_introduce AS "bl_introduce", b.bl_uid AS "bl_uid"
+		 	 , (SELECT
+				mctg_name
+				FROM
+				tbl_mcategory
+				WHERE
+				mctg_uid = (SELECT
+								bl_mainctg
+							FROM
+								tbl_block
+							WHERE
+								bl_uid = b.bl_uid)) AS "bl_mainctg",
+				(SELECT
+				sctg_name
+				FROM
+				tbl_scategory
+				WHERE
+				sctg_uid = (SELECT
+								bl_smctg
+							FROM
+								tbl_block
+							WHERE
+								bl_uid = b.bl_uid)) AS "bl_smctg",
+			 th.bti_url AS "bti_uri", b.bl_date AS "bl_date", bl.bl_like AS "bl_like", rc.blrc_count AS "blrc_count", mi.mem_profile AS "mem_profile", mi.mem_nick AS "mem_nick"
 		FROM
 			 tbl_block b
 		INNER JOIN
@@ -491,47 +513,46 @@
 		 	  GROUP BY
 		 	  		(blk_ref)
 		 	  HAVING
-		 	   		count(*) > 1) bl
-		 	  ON
-		 	   		b.BL_UID = bl.blk_REF
-		 	  			INNER JOIN
-		 	   					tbl_THUMBIMG th
-		 	 			ON
-		 	   					b.BL_UID = th.bti_ref
-		 	   					 		INNER JOIN
-		 	   					 		 		tbl_blockreadcount rc
-		 	   					 		ON
-		 	   					 		 		b.BL_UID = rc.BLRC_REF
-		 	   					 		 		 		INNER JOIN
-		 	   					 		 		 		 		tbl_meminfo mi
-		 	   					 		 		 		ON
-		 	   					 		 		 		 		b.BL_WRITER = mi.MEM_IUID
+		 	   		count(*) > #{likeCount}) bl
+		ON
+			b.BL_UID = bl.blk_REF
+		INNER JOIN
+				tbl_THUMBIMG th
+		ON
+				b.BL_UID = th.bti_ref
+		INNER JOIN
+				tbl_blockreadcount rc
+		ON
+				b.BL_UID = rc.BLRC_REF
+		INNER JOIN
+				tbl_meminfo mi
+		ON
+				b.BL_WRITER = mi.MEM_IUID
 	</select>
 
 
     <!-- 내가 좋아요한 board 뽑기 -->
     <select id="myLikesBlock" resultType="HashMap" resultMap="blockInfo">
-		select
+		SELECT
 		 		b.BL_DATE,b.BL_INTRODUCE,b.BL_MAINCTG,b.BL_OBJID,b.BL_SMCTG,b.BL_TITLE,b.BL_UID,b.BL_WRITER,m.MEM_NICK
-		from
+		FROM
 		 		tbl_blocklikes bl
-		INNER JOIN
-		 		tbl_block b
-		 		 	ON
-		 		 	 	bl.BLK_REF = b.bl_uid
-		 		 	 	inner join
-                            tbl_meminfo m
-                            on
-                                b.BL_WRITER = m.MEM_IUID
-		where
+			INNER JOIN
+					tbl_block b
+			ON
+					bl.BLK_REF = b.bl_uid
+			INNER JOIN
+					tbl_meminfo m
+			ON
+					b.BL_WRITER = m.MEM_IUID
+		WHERE
 		 	bl.blk_member = #{my_iuid}
-		order by
-		 	b.bl_date desc
+		ORDER BY
+		 	b.bl_date DESC
 
 	</select>
 
     <select id="searchImgTitle" resultType="Map" resultMap="infoMap" parameterType="java.util.List">
-
 		SELECT
 			*
 		FROM
@@ -546,23 +567,23 @@
 							tbl_thumbimg t
 						ON
 							b.bl_uid = t.bti_ref
-							INNER JOIN
-								TBL_MEMINFO m
-							ON
-								b.BL_WRITER = m.MEM_IUID
-									LEFT OUTER JOIN
-										(SELECT
-											blk_ref, COUNT(*) bl_like
-										FROM
-											tbl_blockLikes
-												GROUP BY blk_ref) bl
-									  	ON
-											b.bl_uid = bl.blk_ref
-										WHERE
-											<foreach collection="list" item="search" separator="or">
-											bl_title like '%'||#{search}||'%'
-											</foreach>
-										ORDER BY b.BL_DATE DESC))
+						INNER JOIN
+							TBL_MEMINFO m
+						ON
+							b.BL_WRITER = m.MEM_IUID
+							LEFT OUTER JOIN
+								(SELECT
+									blk_ref, COUNT(*) bl_like
+								FROM
+									tbl_blockLikes
+										GROUP BY blk_ref) bl
+								ON
+									b.bl_uid = bl.blk_ref
+								WHERE
+									<foreach collection="list" item="search" separator="or">
+									bl_title like '%'||#{search}||'%'
+									</foreach>
+								ORDER BY b.BL_DATE DESC))
 		WHERE
 			rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
 	</select>
@@ -642,35 +663,67 @@
 	</select>
 
 	<select id="followRecommend" resultType="Map">
-		select
-			s.*
-		from
-			(select
-				f2.fl_iuid,f2.fl_follower,m.mem_nick,m.mem_profile,m.MEM_LEVEL,m.MEM_JOINDATE
-			from
-				tbl_follow f1
-					LEFT OUTER JOIN
-							tbl_follow f2
-					on
-							f1.fl_iuid = f2.fl_follower
-									inner join
-										tbl_meminfo m
-									on
-										f2.fl_iuid = m.mem_iuid
-			where
-				f1.fl_follower = #{my_iuid}
-			and
-				f2.FL_IUID not in(#{my_iuid})
-			and
-				f2.fl_iuid not in(select
-									fl_iuid
-								  from
-									tbl_follow
-								  where
-									fl_follower  = #{my_iuid})
-			order by
-				DBMS_RANDOM.VALUE) s
-		where rownum<![CDATA[<=5 ]]>
+		SELECT
+		 	m.mem_iuid,m.mem_nick,m.mem_profile,m.mem_level
+		FROM(
+			SELECT
+			 	bl_writer, count(*)
+			FROM(
+				SELECT
+				 	*
+				FROM(
+					SELECT
+					 	bl_mainctg,MAX(count) AS maximum
+					FROM(
+						SELECT
+						 	bl_mainctg, bl_writer, count(*) count
+						FROM
+						 	tbl_block board, TBL_MFAVOR favor
+  						WHERE
+  						 	board.bl_mainctg = favor.mf_type
+  						 	AND
+  						 	 	favor.mf_ref = #{my_iuid}
+  						 	AND
+  						 	 	BL_WRITER NOT IN(SELECT
+  						 	 	 					fl_iuid
+  						 	 	 				 FROM
+  						 	 	 				  	tbl_follow
+  						 	 	 				 WHERE
+  						 	 	 				  	fl_follower = #{my_iuid})
+  						 	  GROUP BY
+  						 	   	  bl_mainctg, bl_writer)
+  				  GROUP BY
+  				   		bl_mainctg) a
+  				  INNER JOIN (
+  			   				  SELECT
+  			   				    	bl_mainctg, bl_writer, count(*) count
+	  						  FROM
+  							   		tbl_block board, TBL_MFAVOR favor
+		  					  WHERE
+  	  						   		board.bl_mainctg = favor.mf_type
+  	  						   		AND
+  	  						   		 	favor.mf_ref = #{my_iuid}
+  	  						   		AND
+  						 	 			BL_WRITER NOT IN(SELECT
+  						 	 	 							fl_iuid
+  						 	 	 						 FROM
+  						 	 	 						  	tbl_follow
+  						 	 	 						 WHERE
+  						 	 	 						  	fl_follower = #{my_iuid})
+  							  GROUP BY
+  	  						  		bl_mainctg, bl_writer) b
+  	    		  ON
+  						 	a.maximum = b.count AND a.bl_mainctg = b.bl_mainctg)
+  			GROUP BY
+  					bl_writer
+  			ORDER BY
+  			 		count) res
+  		INNER JOIN
+  		 	tbl_meminfo m
+ 		ON
+ 		 	res.bl_writer = m.MEM_IUID
+ 		WHERE
+ 		 	m.MEM_IUID NOT IN #{my_iuid}
 	</select>
 
 

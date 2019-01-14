@@ -181,6 +181,10 @@ public class BoardDAOImpl implements BoardDAO {
 
     }
 
+    public List<Map<String, String>> getPopularBlock(String likeCount) {
+        return sqlSession.selectList("board.getPopularBlock", likeCount);
+    }
+
     public void follow(String bl_writer, String session_iuid) {
         System.out.println(bl_writer);
         System.out.println(session_iuid);
