@@ -189,7 +189,7 @@ public class BoardServiceImpl implements BoardService {
         return result;
     }
 
-    public List<Map<String, String>> getPopularBlock(String likeCount) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+    public List<Map<String, String>> getPopularBlock(Integer likeCount) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         List<Map<String, String>> list = dao.getPopularBlock(likeCount);
         for(int i = 0; i< list.size(); i++){
             list.get(i).put("mem_nick",aes256Cipher.AES_Decode(list.get(i).get("mem_nick")));
@@ -267,8 +267,12 @@ public class BoardServiceImpl implements BoardService {
         dao.unFollow(bl_writer, session_iuid);
     }
 
-    public List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid) {
-        return dao.getFollowerBoard(follow_iuid,my_iuid);
+    public List<Map<String,String>> getFollowerBoard(String follow_iuid,String my_iuid) {
+        List<Map<String,String>> list = dao.getFollowerBoard(follow_iuid,my_iuid);
+        for(int i=0; i<list.size(); i++){
+            list.get(i).put("bl_date", String.valueOf(list.get(i).get("bl_date")));
+        }
+	    return list;
     }
 
 

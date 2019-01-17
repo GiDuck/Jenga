@@ -181,7 +181,7 @@ public class BoardDAOImpl implements BoardDAO {
 
     }
 
-    public List<Map<String, String>> getPopularBlock(String likeCount) {
+    public List<Map<String, String>> getPopularBlock(Integer likeCount) {
         return sqlSession.selectList("board.getPopularBlock", likeCount);
     }
 
@@ -208,7 +208,7 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("board.unFollow",map);
     }
 
-    public List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid) { //follower한 사람 글
+    public List<Map<String,String>> getFollowerBoard(String follow_iuid, String my_iuid) { //follower한 사람 글
         Map<String, String> map = new HashMap<String, String>();
         map.put("my_iuid", my_iuid);
         map.put("follow_iuid", follow_iuid);

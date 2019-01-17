@@ -440,19 +440,46 @@
 	</delete>
 
 	<!-- 팔로워의 글 뽑기 -->
-    <select id="getFollowerBoard" resultType="hi.im.jenga.board.dto.BoardDTO">
+    <select id="getFollowerBoard" resultType="Map">
 			SELECT
-				*
+				b.bl_title AS "bl_title", b.bl_introduce AS "bl_introduce", b.bl_uid AS "bl_uid"
+							 , (SELECT
+								mctg_name
+								FROM
+								tbl_mcategory
+								WHERE
+								mctg_uid = (SELECT
+												bl_mainctg
+											FROM
+												tbl_block
+											WHERE
+												bl_uid = b.bl_uid)) AS "bl_mainctg",
+								(SELECT
+								sctg_name
+								FROM
+								tbl_scategory
+								WHERE
+								sctg_uid = (SELECT
+												bl_smctg
+											FROM
+												tbl_block
+											WHERE
+												bl_uid = b.bl_uid)) AS "bl_smctg",
+							 th.bti_url AS "bti_uri", b.bl_date AS "bl_date"
 			FROM
-			 	tbl_block
+			 	tbl_block b
+					INNER JOIN
+					tbl_thumbimg th
+					ON
+					th.bti_ref = b.bl_uid
 			WHERE
 			 	bl_writer = (SELECT
 			 		 			fl_iuid
 			 		 		 FROM
 			 		 		  	tbl_follow
-			 		 		 where
-			 		 		 	fl_iuid = #{follow_iuid} and fl_follower = #{my_iuid})
-			order by BL_DATE desc
+			 		 		 WHERE
+			 		 		 	fl_iuid = #{follow_iuid} AND fl_follower = #{my_iuid})
+			ORDER BY BL_DATE DESC
 	</select>
 
     <!-- 좋아요 갯수 -->
@@ -513,7 +540,7 @@
 		 	  GROUP BY
 		 	  		(blk_ref)
 		 	  HAVING
-		 	   		count(*) > #{likeCount}) bl
+		 	   		count(*) >= #{likeCount}) bl
 		ON
 			b.BL_UID = bl.blk_REF
 		INNER JOIN
@@ -534,7 +561,7 @@
     <!-- 내가 좋아요한 board 뽑기 -->
     <select id="myLikesBlock" resultType="HashMap" resultMap="blockInfo">
 		SELECT
-		 		b.BL_DATE,b.BL_INTRODUCE,b.BL_MAINCTG,b.BL_OBJID,b.BL_SMCTG,b.BL_TITLE,b.BL_UID,b.BL_WRITER,m.MEM_NICK
+		 		b.BL_DATE, b.BL_INTRODUCE, b.BL_MAINCTG, b.BL_OBJID, b.BL_SMCTG, b.BL_TITLE, b.BL_UID, b.BL_WRITER, m.MEM_NICK
 		FROM
 		 		tbl_blocklikes bl
 			INNER JOIN
@@ -571,19 +598,19 @@
 							TBL_MEMINFO m
 						ON
 							b.BL_WRITER = m.MEM_IUID
-							LEFT OUTER JOIN
-								(SELECT
-									blk_ref, COUNT(*) bl_like
-								FROM
-									tbl_blockLikes
-										GROUP BY blk_ref) bl
-								ON
-									b.bl_uid = bl.blk_ref
-								WHERE
-									<foreach collection="list" item="search" separator="or">
-									bl_title like '%'||#{search}||'%'
-									</foreach>
-								ORDER BY b.BL_DATE DESC))
+						LEFT OUTER JOIN
+							(SELECT
+								blk_ref, COUNT(*) bl_like
+							FROM
+								tbl_blockLikes
+									GROUP BY blk_ref) bl
+							ON
+								b.bl_uid = bl.blk_ref
+							WHERE
+								<foreach collection="list" item="search" separator="or">
+								bl_title like '%'||#{search}||'%'
+								</foreach>
+							ORDER BY b.BL_DATE DESC))
 		WHERE
 			rnum >= #{startrow} AND rnum <![CDATA[ <= #{endrow} ]]>
 	</select>

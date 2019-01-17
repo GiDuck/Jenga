@@ -65,7 +65,7 @@ public interface BoardDAO {
 
     void unFollow(String bl_writer, String session_iuid);
 
-    List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid);
+    List<Map<String,String>>getFollowerBoard(String follow_iuid,String my_iuid);
 
     List<BoardDTO> getMyBlock(String my_iuid);
 
@@ -91,5 +91,5 @@ public interface BoardDAO {
 
     List<Map<String, Object>> getMyLikesBlock(String my_iuid);
 
-    List<Map<String, String>> getPopularBlock(String likeCount);
+    List<Map<String, String>> getPopularBlock(Integer likeCount);
 }
