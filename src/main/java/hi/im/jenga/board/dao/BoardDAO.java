@@ -67,7 +67,7 @@ public interface BoardDAO {
 
     List<Map<String,String>>getFollowerBoard(String follow_iuid,String my_iuid);
 
-    List<BoardDTO> getMyBlock(String my_iuid);
+    List<Map<String,String>> getMyBlock(String my_iuid);
 
     List<String> searchImgName(String search, int startrow, int endrow);
 

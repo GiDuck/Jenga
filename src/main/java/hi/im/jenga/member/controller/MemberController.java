@@ -277,7 +277,7 @@ public class MemberController {
 
         MemberDTO memberDTO = memberService.modMemberInfoGET((MemberDTO)session.getAttribute("Member"));
 
-        List<String> favor = memberService.getMemFavor(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
+        List<String> favor = memberService.getMemFavor(sessionCheck.myGetSessionIuid(session));
         logger.info("컨트롤러 페버"+favor);
 
        /* String parsedURL = (memberDTO.getMem_profile()).replace( "D:\\jengaResource\\upload\\",  "");
@@ -444,7 +444,7 @@ public class MemberController {
     public String delMemberInfoGET(HttpSession session) throws Exception {
         logger.info("회원탈퇴로 들어옵니다");
         logger.info(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
-        String session_mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String session_mem_iuid = sessionCheck.myGetSessionIuid(session);
 
         memberService.delMemInfo(session_mem_iuid);
 
@@ -480,7 +480,7 @@ public class MemberController {
     @RequestMapping(value = "/changePwd", method = RequestMethod.POST)
     public ResponseEntity<Void> changePwd(HttpSession session, @RequestParam("pwd") String pwd) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 
-        String mem_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String mem_iuid = sessionCheck.myGetSessionIuid(session);
         memberService.changePwd(mem_iuid, pwd);
 
         return new ResponseEntity<Void>(HttpStatus.OK);
@@ -687,7 +687,7 @@ public class MemberController {
 
     @RequestMapping(value = "/getBmksUploadDate", method = RequestMethod.GET)
     public @ResponseBody Map<String, String> getBmksUploadDate(HttpSession session) {
-        String session_iuid  = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String session_iuid  = sessionCheck.myGetSessionIuid(session);
 
         Map<String, String> map = memberService.getBmksUploadDate(session_iuid);
 
@@ -799,6 +799,8 @@ public class MemberController {
     }
 
     /**
+     * FIXME 아이디 공백으로 넘어오는거 인코딩하기
+     * 프로필 페이지에 띄울 사용자의 최근 글 뽑기
      * mem_iuid, mem_nick, mem_profile
      * bl_title, bl_description
      *

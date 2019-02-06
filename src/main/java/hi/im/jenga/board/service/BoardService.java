@@ -49,7 +49,7 @@ public interface BoardService {
 
     int likeCount(String bl_iuid);
 
-    List<BoardDTO> getMyBlock(String my_iuid);
+    List<Map<String,String>> getMyBlock(String my_iuid);
 
     List<String> searchImg(String search, String search_check, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 

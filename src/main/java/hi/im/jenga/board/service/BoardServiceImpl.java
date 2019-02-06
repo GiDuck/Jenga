@@ -276,7 +276,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
 
-    public List<BoardDTO> getMyBlock(String my_iuid) {
+    public List<Map<String,String>> getMyBlock(String my_iuid) {
         return dao.getMyBlock(my_iuid);
     }
 

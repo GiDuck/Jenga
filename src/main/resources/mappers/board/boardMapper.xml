@@ -494,13 +494,24 @@
 
 
     <!-- 내 블록 가져오기-->
-    <select id="getMyBlock" resultType="hi.im.jenga.board.dto.BoardDTO">
+    <select id="getMyBlock" resultType="HashMap">
 		SELECT
-			*
+		 	b.bl_uid AS "bl_uid", b.bl_writer AS "bl_writer", bti.bti_url AS "bti_url", b.bl_title AS "bl_title", (SELECT
+		 																										  		count(blk_member)
+																													FROM
+																														tbl_blocklikes
+																													WHERE
+																														blk_ref = bl_uid) AS "likes"
 		FROM
-			TBL_BLOCK
+			tbl_block b
+		INNER JOIN
+			tbl_thumbimg bti
+		ON
+			bti_ref = bl_uid
 		WHERE
-			BL_WRITER = #{my_iuid}
+			bl_writer = #{my_iuid}
+		ORDER BY
+			BL_DATE DESC
 	</select>
 
     <!-- 인기 블록 뽑기 -->

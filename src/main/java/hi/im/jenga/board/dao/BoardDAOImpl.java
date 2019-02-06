@@ -215,7 +215,7 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getFollowerBoard", map);
     }
 
-    public List<BoardDTO> getMyBlock(String my_iuid) {
+    public List<Map<String,String>> getMyBlock(String my_iuid) {
         return sqlSession.selectList("board.getMyBlock", my_iuid);
     }
 

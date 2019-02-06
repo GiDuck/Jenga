@@ -1,6 +1,5 @@
 package hi.im.jenga.board.controller;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
@@ -13,7 +12,6 @@ import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.util.login.SessionCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -272,7 +269,7 @@ public class BoardController {
         return "/board/boardView?bl_uid=" + boardDTO.getBl_uid();
     }
 
-    //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트
+    //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트  누가 GET으로 바꿨지 DELETE는 안되는것인가아하아
     @RequestMapping(value = "/delBlock", method = RequestMethod.GET)
     public ResponseEntity deleteBlock(@RequestParam String bl_uid) {
 
@@ -370,7 +367,7 @@ public class BoardController {
     }
 
 
-
+// FIXME 아이디 공백으로 넘어오는거 인코딩하기
     // 내가 팔로워 한 사람들 중 한 명 클릭해서 그 사람 블럭 모두 뽑기
     @RequestMapping(value="/getFollowerBoard")
     public @ResponseBody List<Map<String,String>> followerBlock(HttpSession session, String follow_iuid){
@@ -423,7 +420,7 @@ public class BoardController {
     public String getMyBlockManage(Model model, HttpSession session) {
 
         String my_iuid = sessionCheck.myGetSessionIuid(session);
-        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
+        List<Map<String,String>> mylist = boardService.getMyBlock(my_iuid);
         String jsonStr = "";
         ObjectMapper mapper = new ObjectMapper();
         try{
