@@ -114,7 +114,7 @@ public class BoardController {
     }
 
     @GetMapping(value = "/boardView")
-    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model, MongoDTO mongoDTO) throws Exception {
+    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model) throws Exception {
 
         Map<String, Object> map = boardService.getView(bl_uid);
         model.addAttribute("map", map);
@@ -327,6 +327,21 @@ public class BoardController {
 
     }
 
+    @RequestMapping(value = "/followCheck", method = RequestMethod.GET)
+    public @ResponseBody String followCheck(@RequestParam("bl_writer")String bl_writer, HttpSession session){
+        String session_iuid;
+     try{
+        session_iuid = sessionCheck.myGetSessionIuid(session);
+        if(session_iuid.equals(bl_writer)){
+            return "";
+        }
+        String check = boardService.followCheck(bl_writer, session_iuid);
+        return check;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
+    }
 
     @RequestMapping(value = "/follow", method = RequestMethod.GET)
     @ResponseBody
@@ -403,10 +418,8 @@ public class BoardController {
     }*/
 
 
-
-    //새로 추가한 부분 (View 가져오는 컨트롤러)
-
     //인기 블록
+    // 기본 10개
     @RequestMapping(value="/getPopularBlock")
     public @ResponseBody List<Map<String, String>> getPopularBlock(@RequestParam(value = "likeCount", required = false) Integer likeCount) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         likeCount = Optional.ofNullable(likeCount).orElse(10);

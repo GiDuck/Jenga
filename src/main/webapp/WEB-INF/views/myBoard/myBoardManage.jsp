@@ -24,12 +24,9 @@
 
                                 <div class="card-body details-center ml-auto mr-auto">
                                     <div class="author w-50 text-center">
-                                        <img src=""
-                                             onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/placeholder.jpg'"
-                                             alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                         <div class="text">
                                             <span class="name"></span>
-                                            <div class="meta"><i class="fas fa-heart" name="likeIcon"></i></div>
+                                            <div class="meta"><i class="fa fa-heart" name="likeIcon"></i></div>
                                         </div>
 
                                     </div>
@@ -80,8 +77,7 @@
                 e.stopPropagation();
                 e.preventDefault();
 
-                alert(item["bl_writer"]);
-                location.href = "/board/boardView?bl_uid=" + item["bl_writer"];
+                location.href = "/board/boardView?bl_uid=" + item["bl_uid"];
 
             });
             $field.append($dummy);
