@@ -24,7 +24,7 @@ Form-data parameter
                 <div class="profile-picture">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new img-no-padding">
-                            <img src="${DTO.mem_profile}" name="profile" id="profile" src="" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
+                            <img src="/profileimg/${DTO.mem_profile}" name="profile" id="profile" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
                         </div>
                         <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                         <div>
@@ -173,6 +173,9 @@ Form-data parameter
     $(document).ready(function () {
         navbarObj.setType("bg-info");
         navbarObj.addHeadBlock();
+
+
+
         initFavorForm();
 
         //썸네일 이미지가 업로드 될때마다 유효성 검사 실시 (1MB 이하만 업로드 가능, jpg, jpeg, png, gif 외 확장자 사용 불가)

@@ -116,9 +116,9 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
 //    public MemberDTO modMemberInfo(String aes_iuid) { return sqlSession.selectOne("member.modMemberInfo", aes_iuid); }
-    public void addMemberFavor(String aes_iuid, String fav) {
+    public void addMemberFavor(String s_iuid, String fav) {
         Map<String,String> map = new HashMap<String, String>();
-        map.put("aes_iuid",aes_iuid);
+        map.put("s_iuid",s_iuid);
         map.put("fav",fav);
         sqlSession.insert("member.addMemberFavor", map);
     }

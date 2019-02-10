@@ -357,8 +357,6 @@ public class MemberController {
     @RequestMapping(value = "/regMemInfo", method = RequestMethod.POST)
     public String regMemberInfoPOST(@RequestParam("mem_nick") String mem_nick, @RequestParam("mem_introduce") String mem_introduce, EmailMemberDTO emailMemberDTO, String[] favor, SocialMemberDTO socialMemberDTO,
                                     @RequestParam("mem_profile") MultipartFile uploadFile, HttpSession session) throws Exception {
-        System.out.println("왜안오냐 ㅡㅡ");
-        logger.info("여기들어간다잉??");
         MemberDTO memberDTO = new MemberDTO();
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_id : "+ emailMemberDTO.getEm_id());         // 1단계에서 이메일
         logger.info(": : regMemberInfoPOST : : 1단계에서 넘어온 em_pwd : "+ emailMemberDTO.getEm_pwd());       // 1단계에서 비밀번호
@@ -371,7 +369,6 @@ public class MemberController {
         logger.info("닉은"+ mem_nick);
         logger.info("소개는"+ mem_introduce);
 
-//        logger.info(favor[0]);
 
 //      UtilFile 객체 생성
 //      파일 업로드 결과값을 path로 받아온다. (이미 fileUpload() 메소드에서 해당 경로에 업로드는 끝났음)

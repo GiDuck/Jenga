@@ -263,10 +263,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-    public void addMemberFavor(String aes_iuid, String[] favor) {
-        logger.info("addMemberFavor iuid는 "+aes_iuid);
+    public void addMemberFavor(String s_iuid, String[] favor) {
+        logger.info("addMemberFavor iuid는 "+s_iuid);
         for (String fav : favor) {
-            dao.addMemberFavor(aes_iuid, fav);
+            dao.addMemberFavor(s_iuid, fav);
         }
     }
 

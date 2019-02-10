@@ -34,8 +34,8 @@
                                 <br>
                                 <div class="card-footer">
                                     <div class="row">
-                                        <div class="col-6 text-center"><i class="fa fa-pencil"></i>&nbsp수정하기</div>
-                                        <div class="col-6 text-center"><i class="fa fa-trash"></i>&nbsp삭제하기</div>
+                                        <div class="col-6 text-center"><a name="modify"><i class="fa fa-pencil"></i>&nbsp수정하기</a></div>
+                                        <div class="col-6 text-center"><a name="delete"><i class="fa fa-trash"></i>&nbsp삭제하기</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +72,9 @@
             $dummy.find("p[name='bk_title']").text(item["bl_title"]);
             $dummy.find("img[name='bk_image']").attr("src", /blockimg/+item["bti_url"]);
             $dummy.find("i[name='likeIcon']").text(item["likes"]);
-            $dummy.on("click", function(e){
+            $dummy.find("a[name='modify']").attr("href", "/board/stackBlock?status=modify&bl_uid=" + item['bl_uid']);
+            $dummy.find("a[name='delete']").attr("href", "/board/delBlock?bl_uid=" + item['bl_uid']);
+            $dummy.find("img[name='bk_image']", "p[name='bk_title']").on("click", function(e){
 
                 e.stopPropagation();
                 e.preventDefault();

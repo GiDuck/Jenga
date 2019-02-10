@@ -52,9 +52,8 @@
               <a class="dropdown-item loginService" data-scroll="true" data-id="#headers" href="/modMemInfo">
                 <i class="nc-icon nc-paper loginService"></i> 내 정보 관리
               </a>
-
-                <a class="dropdown-item" data-scroll="true" data-id="#features" href="/getFollowerListPage">
-                    <i class="fa fa-user"></i> 팔로잉
+                <a class="dropdown-item loginService" data-scroll="true" data-id="#features" href="/getFollowerListPage">
+                    <i class="fa fa-user loginService"></i> 팔로잉
                 </a>
 
               <a class="dropdown-item" data-scroll="true" data-id="#features" href="#">

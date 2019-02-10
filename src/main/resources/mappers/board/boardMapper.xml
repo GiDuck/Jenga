@@ -161,12 +161,42 @@
             blk_ref = #{bl_iuid} and blk_member = #{session_mem_iuid}
     </delete>
 
-    <!-- 좋아요 카운트-->
+	<resultMap id="getModifyBlockMap" type="HashMap">
+		<result property="bl_uid" column="bl_uid"/>
+		<result property="bl_writer" column="bl_writer"/>
+		<result property="bl_title" column="bl_title"/>
+		<result property="bl_description" column="bl_description" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="bl_introduce" column="bl_introduce"/>
+		<result property="bl_mainCtg" column="bl_mainCtg"/>
+		<result property="bl_smCtg" column="bl_smCtg"/>
+		<result property="bl_date" column="bl_date" javaType="java.lang.Long"/>
+		<result property="bl_objId" column="bl_objId"/>
+		<result property="bti_url" column="bti_url"/>
+	</resultMap>
 
-    <select id="getModifyBlock" resultType="Map">
+    <select id="getModifyBlock" resultMap="getModifyBlockMap">
 		SELECT
-			B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description",  B.bl_introduce AS "bl_introduce", B.bl_mainCtg AS "bl_mainCtg", B.bl_smCtg AS "bl_smCtg", B.bl_objId AS "bl_objId",
-			I.bti_url AS "bti_url"
+			B.bl_uid AS "bl_uid", B.bl_writer AS "bl_writer", B.bl_title AS "bl_title", B.bl_description AS "bl_description",  B.bl_introduce AS "bl_introduce", (SELECT
+																																				   mctg_name
+																																			FROM
+																																			   tbl_mcategory
+																																			WHERE
+																																			   mctg_uid = (SELECT
+																																						   bl_mainCtg
+																																						FROM
+																																						   tbl_block
+																																						WHERE bl_uid = #{bl_uid})) AS "bl_mainCtg",
+																																			(SELECT
+																																			   sctg_name
+																																			FROM
+																																			   tbl_scategory
+																																			WHERE
+																																			   sctg_uid = (SELECT
+																																						   bl_smctg
+																																						FROM
+																																						   tbl_block
+																																						WHERE bl_uid = #{bl_uid})) AS "bl_smCtg",
+                                                 B.bl_objId AS "bl_objId", I.bti_url AS "bti_url"
 		FROM
 			tbl_block B
 			INNER JOIN
@@ -190,7 +220,7 @@
 		UPDATE
 			tbl_block
 		SET
-			(bl_writer = #{bl_writer}, bl_title = #{bl_title}, bl_description = #{bl_description}, bl_mainCtg = #{bl_mainCtg}, bl_smCtg = #{bl_smCtg}, bl_date = #{bl_date}, bl_objId = #{bl_objId})
+			bl_title = #{bl_title}, bl_description = #{bl_description}, bl_mainCtg = #{bl_mainCtg}, bl_smCtg = #{bl_smCtg}, bl_date = #{bl_date}
 		WHERE
 			bl_uid = #{bl_uid}
 	</update>

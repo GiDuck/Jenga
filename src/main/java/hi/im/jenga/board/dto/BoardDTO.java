@@ -1,5 +1,7 @@
 package hi.im.jenga.board.dto;
 
+import java.util.Arrays;
+
 public class BoardDTO {
 
     private String bl_uid;                  // PK UUID로 생성
@@ -12,6 +14,22 @@ public class BoardDTO {
     private String [] bt_name;
     private Long bl_date;
     private String bl_objId;
+
+    @Override
+    public String toString() {
+        return "BoardDTO{" +
+                "bl_uid='" + bl_uid + '\'' +
+                ", bl_writer='" + bl_writer + '\'' +
+                ", bl_title='" + bl_title + '\'' +
+                ", bl_introduce='" + bl_introduce + '\'' +
+                ", bl_mainCtg='" + bl_mainCtg + '\'' +
+                ", bl_smCtg='" + bl_smCtg + '\'' +
+                ", bl_description='" + bl_description + '\'' +
+                ", bt_name=" + Arrays.toString(bt_name) +
+                ", bl_date=" + bl_date +
+                ", bl_objId='" + bl_objId + '\'' +
+                '}';
+    }
 
     public String getBl_uid() {
         return bl_uid;

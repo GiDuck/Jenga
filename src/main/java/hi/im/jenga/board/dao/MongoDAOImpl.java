@@ -79,8 +79,6 @@ public class MongoDAOImpl implements MongoDAO {
 
         mongoTemplate.updateFirst(query, update, "c_block");
 
-        logger.info(mongoDTO.get_value().toString());
-
     }
 
     public void deleteBlock(String key, String bl_uid) {

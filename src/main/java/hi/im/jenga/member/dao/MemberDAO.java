@@ -42,7 +42,7 @@ public interface MemberDAO {
 
 //    MemberDTO modMemberInfo(String aes_iuid);
 
-    void addMemberFavor(String aes_iuid, String fav);
+    void addMemberFavor(String s_iuid, String fav);
 
     String checkAuth(EmailMemberDTO emailMemberDTO);
 

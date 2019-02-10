@@ -47,7 +47,7 @@ public interface MemberService {
 
     void updMemInfo(MemberDTO memberDTO);
 
-    void addMemberFavor(String aes_iuid, String[] favor);
+    void addMemberFavor(String s_iuid, String[] favor);
 
     List<String> getMemFavor(String member);
 

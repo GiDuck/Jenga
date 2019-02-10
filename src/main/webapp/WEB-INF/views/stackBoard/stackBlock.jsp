@@ -927,6 +927,7 @@ Chrome, Firefox 사용 가능
             dest = "/board/uploadBlock";
             token = "등록";
 
+
         }else if(statusToken == "modify"){
 
             dest = "/board/modView";
@@ -956,6 +957,7 @@ Chrome, Firefox 사용 가능
                         let tags = $("#tagsinput").val();
                         let tagsContainer = tags.split(",");
                         let time = new Date().getTime();
+                        let bl_uid = '${map.bl_uid}';
 
 
 
@@ -970,12 +972,16 @@ Chrome, Firefox 사용 가능
                         formData.append("bt_name", tagsContainer);                                  // dto
                         formData.append("bl_date", time);                                           // dto
                         console.log(formData);
+                        console.log(mCategory);
 
+                        if(statusToken === 'modify'){
+                            formData.append("bl_uid", bl_uid);
+                        }
 
                         //AJAX request
                         $.ajax({
 
-                            url : "/board/uploadBlock",
+                            url : "/board/uploadBlock/"+statusToken,
                             enctype: "multipart/form-data",
                             contentType: false,
                             cache: false,
@@ -1449,7 +1455,7 @@ Chrome, Firefox 사용 가능
     function setModifyPage(){
 
         //EL로 받아온 값 push
-        $("#file_image").attr("src", '${map.bti_url}');
+        $("#file_image").attr("src", '/blockimg/${map.bti_url}');
         $("input[name='input_title']").val('${map.bl_title}');
         $("textarea[name='input_introduce']").val('${map.bl_introduce}');
         $("#editor").contents().find("#summernote").val('${map.bl_description}');
@@ -1458,13 +1464,19 @@ Chrome, Firefox 사용 가능
         $("#today").val('${map.bl_date}');
         $("#tagsinput").val(${map.tag});
 
-
         //사용자가 업로드 했던 북마크 목록을 가져온다
-        let parsedUploadedHTMLVar =  parseHTML('${map.bl_bookmarks}');
-        editedBKElements = parsedUploadedHTMLVar.getChildren();
+        // json형식으로 되어있는 String (map.bookmarks)를 jsonBK 변수에 넣고 JSON.parse
 
+        let bmks = ${map.bookmarks};
+        if(bmks !== "stack"){
+            let jsonBK = ${map.bookmarks};
+            console.log(jsonBK);
+            editedBKElements = JSON.parse(jsonBK['_value']);
+            refreshBookMark(editedBKElements, "right");
+        }
         //북마크 목록 화면에 나타낸다
-        refreshBookMark(editedBKElements, "right");
+        // refreshBookMark(JSON.stringify(editedBKElements), "right");
+
 
 
     }
@@ -1607,7 +1619,6 @@ Chrome, Firefox 사용 가능
 
         if(statusToken == "stack"){
             if(bookmarkElements.length == 0){
-
                 swal({
 
                     text : "현재 동기화 된 북마크가 없습니다. 내 정보 수정 페이지에서 북마크를 동기화 시키세요.",
@@ -1619,7 +1630,6 @@ Chrome, Firefox 사용 가능
             setStackPage();
 
         }else if(statusToken == "modify"){
-
             setModifyPage();
 
         }

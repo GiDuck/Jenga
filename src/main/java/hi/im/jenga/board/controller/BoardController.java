@@ -153,6 +153,10 @@ public class BoardController {
                 model.addAttribute("resultHTML", resultHTML);
             }
 
+            Map<String, String> map = new HashMap<>();
+            map.put("bookmarks", "stack");
+            model.addAttribute("map",map);
+
         }else if(status.equals("modify")) {         //  service 나누기
             String session_iuid = sessionCheck.myGetSessionIuid(session);
             String resultHTML = null;
@@ -190,7 +194,7 @@ public class BoardController {
 
     //TODO ResponseBody로 board_uid 리턴해줘
     // 글쓰는페이지 POST / 작성
-    @RequestMapping(value = "/uploadBlock", method = RequestMethod.POST, produces = "multipart/form-data; charset=utf-8")
+    @RequestMapping(value = "/uploadBlock/stack", method = RequestMethod.POST, produces = "multipart/form-data; charset=utf-8")
     public @ResponseBody
     String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
                          @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
@@ -232,8 +236,37 @@ public class BoardController {
         return boardDTO.getBl_uid();
     }
 
-
     // block iuid를 조건으로 insert mem_iuid(session에 있는)
+    //  TODO 테스트 mongo update도 함
+//    수정페이지 POST    /uploadBlock  PATCH or PUT          json받아야함
+    @RequestMapping(value = "/uploadBlock/modify", method = RequestMethod.POST)
+    @ResponseBody
+    public String modifyViewPOST(BoardDTO boardDTO, @RequestParam String bl_uid, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
+
+        String uploadName;
+        logger.info(boardDTO.toString());
+
+        String flag = "s";
+        boardDTO.setBl_smCtg(boardService.transCtgUID(boardDTO.getBl_smCtg(), flag));
+        flag = "m";
+        boardDTO.setBl_mainCtg(boardService.transCtgUID(boardDTO.getBl_mainCtg(), flag));
+
+        logger.info(boardDTO.toString());
+        // 수정을 안하면 원래 이미지를 줘야함
+        // 여기서 nullpointException 뜨면 여기서 boardService.getUploadName() 해야하고
+//         넘어가면 서비스impl에서 처리
+        if (uploadFile != null) {
+            uploadName = boardUtilFile.fileUpload(uploadFile, "image");
+        } else {
+            uploadName = "";
+        }
+
+        boardService.modifyViewPOST(boardDTO, uploadName, bl_bookmarks);
+        logger.info(bl_uid);
+        return bl_uid;
+    }
+
+
     @RequestMapping(value = "/like/{bl_iuid}")
     public @ResponseBody int like(@PathVariable String bl_iuid, HttpSession session){
         String session_mem_iuid = sessionCheck.myGetSessionIuid(session);
@@ -249,36 +282,13 @@ public class BoardController {
     }
 
 
-//  TODO 테스트 mongo update도 함
-//    수정페이지 POST    /modView  PATCH or PUT          json받아야함
-    @RequestMapping(value = "/modView", method = RequestMethod.PATCH)
-    public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
-
-        String uploadName;
-        // 수정을 안하면 원래 이미지를 줘야함
-        // 여기서 nullpointException 뜨면 여기서 boardService.getUploadName() 해야하고
-//         넘어가면 서비스impl에서 처리
-        if (uploadFile != null) {
-            uploadName = boardUtilFile.fileUpload(uploadFile, "image");
-        } else {
-            uploadName = "";
-        }
-
-        boardService.modifyViewPOST(boardDTO, uploadName, bl_bookmarks);
-
-        return "/board/boardView?bl_uid=" + boardDTO.getBl_uid();
-    }
-
     //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트  누가 GET으로 바꿨지 DELETE는 안되는것인가아하아
     @RequestMapping(value = "/delBlock", method = RequestMethod.GET)
-    public ResponseEntity deleteBlock(@RequestParam String bl_uid) {
+    public String deleteBlock(@RequestParam String bl_uid) {
 
         int result = boardService.deleteBlock(bl_uid);
 
-        if (result == 0) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity(HttpStatus.OK);
+        return "redirect:/gboard/getMyBlockManage";
 
     }
 
