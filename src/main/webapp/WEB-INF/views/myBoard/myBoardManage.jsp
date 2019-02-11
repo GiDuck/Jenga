@@ -59,33 +59,43 @@
 
     //ajax 호출을 통해 가져온 데이터를 화면에 전시함
     function renderItems(items) {
+        console.log(items);
+        if(items.length === 0){
+            let bf_Id = document.getElementById("block_field");
+            console.log(bf_Id);
+            let p = document.createElement("p");
+            let txt = document.createTextNode("글이 없습니다.");
+            p.appendChild(txt);
+            bf_Id.appendChild(p);
+            document.body.appendChild(bf_Id);
+        }else{
 
-        let $cardForm = $("#bkCard");
-        let $field = $("#block_field");
-        $field.empty();
+            let $cardForm = $("#bkCard");
+            let $field = $("#block_field");
+            $field.empty();
 
-        for (let i = 0; i < items.length; ++i) {
+            for (let i = 0; i < items.length; ++i) {
 
-            let item = items[i];
-            let $dummy = $cardForm.clone();
-            $dummy.css("display", "block");
-            $dummy.find("p[name='bk_title']").text(item["bl_title"]);
-            $dummy.find("img[name='bk_image']").attr("src", /blockimg/+item["bti_url"]);
-            $dummy.find("i[name='likeIcon']").text(item["likes"]);
-            $dummy.find("a[name='modify']").attr("href", "/board/stackBlock?status=modify&bl_uid=" + item['bl_uid']);
-            $dummy.find("a[name='delete']").attr("href", "/board/delBlock?bl_uid=" + item['bl_uid']);
-            $dummy.find("img[name='bk_image']", "p[name='bk_title']").on("click", function(e){
+                let item = items[i];
+                let $dummy = $cardForm.clone();
+                $dummy.css("display", "block");
+                $dummy.find("p[name='bk_title']").text(item["bl_title"]);
+                $dummy.find("img[name='bk_image']").attr("src", /blockimg/ + item["bti_url"]);
+                $dummy.find("i[name='likeIcon']").text(item["likes"]);
+                $dummy.find("a[name='modify']").attr("href", "/board/stackBlock?status=modify&bl_uid=" + item['bl_uid']);
+                $dummy.find("a[name='delete']").attr("href", "/board/delBlock?bl_uid=" + item['bl_uid']);
+                $dummy.find("img[name='bk_image']", "p[name='bk_title']").on("click", function (e) {
 
-                e.stopPropagation();
-                e.preventDefault();
+                    e.stopPropagation();
+                    e.preventDefault();
 
-                location.href = "/board/boardView?bl_uid=" + item["bl_uid"];
+                    location.href = "/board/boardView?bl_uid=" + item["bl_uid"];
 
-            });
-            $field.append($dummy);
+                });
+                $field.append($dummy);
 
+            }
         }
-
     }
 </script>
 </html>
