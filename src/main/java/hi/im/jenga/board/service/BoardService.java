@@ -45,11 +45,11 @@ public interface BoardService {
 
     void unFollow(String bl_writer, String session_iuid);
 
-    List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid);
+    List<Map<String,String>> getFollowerBoard(String follow_iuid, String my_iuid);
 
     int likeCount(String bl_iuid);
 
-    List<BoardDTO> getMyBlock(String my_iuid);
+    List<Map<String,String>> getMyBlock(String my_iuid);
 
     List<String> searchImg(String search, String search_check, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
@@ -63,7 +63,5 @@ public interface BoardService {
 
     List<Map<String, Object>> followRecommend(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 
-    int countFollowingMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
-
-    List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow);
+    List<Map<String, String>> getPopularBlock(Integer likeCount) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
 }

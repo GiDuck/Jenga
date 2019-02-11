@@ -15,7 +15,7 @@
                                 <div id="search_option" class="dropdown w-100">
                                     <button class="dropdown-toggle btn btn-lg w-100" href="#" role="button" id="bs_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">키워드</button>
 
-                                        <div class="dropdown-menu" aria-labelledby="bs_dropdown">
+                                        <div class="dropdown-menu" aria-labelledby="bs_dropdown" >
                                             <a class="dropdown-item" value="keyword">키워드</a>
                                             <a class="dropdown-item" value="name">글쓴이</a>
                                             <a class="dropdown-item" value="tag">태그</a>
@@ -150,17 +150,22 @@
 
     function selectDropdown(){
 
+
         $("#search_option").find(".dropdown-menu").children().each(function(){
 
             $(this).on("click", function(e){
+                alert("셀렉트드롭다운");
                e.stopPropagation();
                let selected = $(this).html();
                let selectedVal = $(this).attr("value");
+               console.log(selectedVal);
                let $bs_dropdown = $("#bs_dropdown");
                 $bs_dropdown.html(selected);
                 $bs_dropdown.dropdown("toggle");
-                $bs_dropdown.find("input[name='bs_dropdownSelected']").val(selectedVal);
-
+                console.log($bs_dropdown.find("input[name='bs_dropdownSelected']"));
+                $bs_dropdown.find("input:hidden").val(selectedVal);
+               // $("input[name='bs_dropdownSelected']").val(selectedVal);
+                console.log($("input[name='bs_dropdownSelected']").val());
             });
 
         });
@@ -212,18 +217,22 @@
             },
             success: function (response) {
 
-                if(!response["board"] || response["board"].length == 0 ){
-
+                let resArray = new Array();
+                resArray = response;
+                console.log(resArray);
+                /*if(!response["board"] || response["board"].length == 0 ){*/
+                if(resArray.length == 0 ){
                     preLoader.hide(2000);
                     return;
 
                 }
 
                 (function(){
+                    /*renderItems(response["board"], isFirstRequest);*/
+                    renderItems(resArray, isFirstRequest);
 
-                    renderItems(response["board"], isFirstRequest);
-
-                    if(response["count"]/(pageNum*10) > 1){
+                    /*if(response["count"]/(pageNum*10) > 1){*/
+                        if(resArray.length/(pageNum*10) > 1){
                         pageNum++;
                         isEndPage = false;
 

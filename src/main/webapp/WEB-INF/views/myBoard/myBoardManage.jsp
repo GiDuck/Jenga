@@ -24,12 +24,9 @@
 
                                 <div class="card-body details-center ml-auto mr-auto">
                                     <div class="author w-50 text-center">
-                                        <img src=""
-                                             onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/placeholder.jpg'"
-                                             alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                         <div class="text">
                                             <span class="name"></span>
-                                            <div class="meta"><i class="fas fa-heart" name="likeIcon"></i>0</div>
+                                            <div class="meta"><i class="fa fa-heart" name="likeIcon"></i></div>
                                         </div>
 
                                     </div>
@@ -73,14 +70,14 @@
             let $dummy = $cardForm.clone();
             $dummy.css("display", "block");
             $dummy.find("p[name='bk_title']").text(item["bl_title"]);
-
+            $dummy.find("img[name='bk_image']").attr("src", /blockimg/+item["bti_url"]);
+            $dummy.find("i[name='likeIcon']").text(item["likes"]);
             $dummy.on("click", function(e){
 
                 e.stopPropagation();
                 e.preventDefault();
 
-                alert(item["bl_writer"]);
-                location.href = "/board/boardView?bl_uid=" + item["bl_writer"];
+                location.href = "/board/boardView?bl_uid=" + item["bl_uid"];
 
             });
             $field.append($dummy);

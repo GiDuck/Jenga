@@ -65,9 +65,9 @@ public interface BoardDAO {
 
     void unFollow(String bl_writer, String session_iuid);
 
-    List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid);
+    List<Map<String,String>>getFollowerBoard(String follow_iuid,String my_iuid);
 
-    List<BoardDTO> getMyBlock(String my_iuid);
+    List<Map<String,String>> getMyBlock(String my_iuid);
 
     List<String> searchImgName(String search, int startrow, int endrow);
 
@@ -89,9 +89,7 @@ public interface BoardDAO {
 
     List<Map<String, Object>> followRecommend(String my_iuid);
 
-    int countFollowingMember(String session_iuid, String search);
-
-    List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow);
-
     List<Map<String, Object>> getMyLikesBlock(String my_iuid);
+
+    List<Map<String, String>> getPopularBlock(Integer likeCount);
 }

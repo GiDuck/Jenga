@@ -1,6 +1,7 @@
 package hi.im.jenga.member.dao;
 
 
+import hi.im.jenga.board.dto.BoardDTO;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
@@ -228,6 +229,58 @@ public class MemberDAOImpl implements MemberDAO{
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
         return sqlSession.selectOne("member.getMemInfo",emailMemberDTO);
+    }
+
+    public int countFollowingMember(String session_iuid, String search) {
+        Map<String, String> map = new HashMap<String, String>();
+        logger.info("search는 "+ search);
+        if("".equals(search)){
+            logger.info("search가 널입니다");
+        }
+
+        map.put("search", search);
+        map.put("session_iuid", session_iuid);
+        int result = sqlSession.selectOne("member.countFollowingMember", map);
+        logger.info("반환할 갯수 "+result);
+
+        return result;
+    }
+
+    public List<BoardDTO> getFollowingMember(String session_iuid, String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap();
+        map.put("session_iuid", session_iuid);
+        map.put("search", search);
+        map.put("startrow",startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("member.getFollowingMember", map);
+    }
+
+    public int countFollowerMember(String session_iuid, String search) {
+        Map<String, String> map = new HashMap<String, String>();
+        logger.info("search는 "+ search);
+        if("".equals(search)){
+            logger.info("search가 널입니다");
+        }
+
+        map.put("search", search);
+        map.put("session_iuid", session_iuid);
+        int result = sqlSession.selectOne("member.countFollowerMember", map);
+        logger.info("반환할 갯수 "+result);
+
+        return result;
+    }
+
+    public List<BoardDTO> getFollowerMember(String session_iuid, String search, int startrow, int endrow) {
+        Map<String, Object> map = new HashMap();
+        map.put("session_iuid", session_iuid);
+        map.put("search", search);
+        map.put("startrow", startrow);
+        map.put("endrow", endrow);
+        return sqlSession.selectList("member.getFollowerMember", map);
+    }
+
+    public List<Map<String, String>> getRecentBlock(String mem_iuid) {
+        return sqlSession.selectList("member.getRecentBlock", mem_iuid);
     }
 
 }

@@ -172,31 +172,17 @@ public class BoardDAOImpl implements BoardDAO {
         map.put("session_iuid", session_iuid);
         sqlSession.insert("board.setSearchKeyword", map);
     }
-    public int countFollowingMember(String session_iuid, String search) {
-        Map<String, String> map = new HashMap<String, String>();
-        logger.info("search는 "+ search);
-        if("".equals(search)){
-            logger.info("search가 널입니다");
-        }
 
-        map.put("search", search);
-        map.put("session_iuid", session_iuid);
-        int result = sqlSession.selectOne("board.countFollowingMember", map);
-        logger.info("반환할 갯수 "+result);
 
-        return result;
-    }
 
-    public List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow) {
-        Map<String, Object> map = new HashMap();
-        map.put("session_iuid", session_iuid);
-        map.put("startrow",startrow);
-        map.put("endrow", endrow);
-        return sqlSession.selectList("board.getFollowingMember", map);
-    }
 
     public List<Map<String, Object>> getMyLikesBlock(String my_iuid) {
         return sqlSession.selectList("board.getMyLikesBlock",my_iuid);
+
+    }
+
+    public List<Map<String, String>> getPopularBlock(Integer likeCount) {
+        return sqlSession.selectList("board.getPopularBlock", likeCount);
     }
 
     public void follow(String bl_writer, String session_iuid) {
@@ -222,14 +208,14 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("board.unFollow",map);
     }
 
-    public List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid) { //follower한 사람 글
+    public List<Map<String,String>> getFollowerBoard(String follow_iuid, String my_iuid) { //follower한 사람 글
         Map<String, String> map = new HashMap<String, String>();
         map.put("my_iuid", my_iuid);
         map.put("follow_iuid", follow_iuid);
         return sqlSession.selectList("board.getFollowerBoard", map);
     }
 
-    public List<BoardDTO> getMyBlock(String my_iuid) {
+    public List<Map<String,String>> getMyBlock(String my_iuid) {
         return sqlSession.selectList("board.getMyBlock", my_iuid);
     }
 
@@ -318,6 +304,7 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.getBoardDetailTags", bl_uid);   // 태그 뽑음
     }
 }
+
 
 
 

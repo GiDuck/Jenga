@@ -9,7 +9,6 @@ import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +36,6 @@ public class BoardServiceImpl implements BoardService {
 	@Value("#{data['bookmark.absolute_path']}")
 	private String BOOKMARK_ABSOLUTE_PATH;
 
-	@Autowired
 	public BoardServiceImpl(BoardDAO dao, MongoService mongoService, AES256Cipher aes256Cipher) {
 		this.dao = dao;
 		this.mongoService = mongoService;
@@ -191,6 +189,18 @@ public class BoardServiceImpl implements BoardService {
         return result;
     }
 
+    public List<Map<String, String>> getPopularBlock(Integer likeCount) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        List<Map<String, String>> list = dao.getPopularBlock(likeCount);
+        for(int i = 0; i< list.size(); i++){
+            list.get(i).put("mem_nick",aes256Cipher.AES_Decode(list.get(i).get("mem_nick")));
+            list.get(i).put("mem_profile",aes256Cipher.AES_Decode(list.get(i).get("mem_profile")));
+            list.get(i).put("bl_date",String.valueOf(list.get(i).get("bl_date")));
+            list.get(i).put("blrc_count",String.valueOf(list.get(i).get("blrc_count")));
+            list.get(i).put("bl_like",String.valueOf(list.get(i).get("bl_like")));
+        }
+	    return list;
+    }
+
     public void likeCheck(String bl_iuid, String session_mem_iuid) {
 		String result = dao.likeCheck(bl_iuid, session_mem_iuid);
 //		if("".equals(result)){
@@ -231,6 +241,7 @@ public class BoardServiceImpl implements BoardService {
         }
         if (search_check.equals("name")) {
             search = aes256Cipher.AES_Encode(search);
+            logger.info(search);
             return dao.searchName(search, startrow, endrow);
         } else if (search_check.equals("tag")) {
             return dao.searchTag(search, startrow, endrow);
@@ -245,19 +256,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-    public int countFollowingMember(String session_iuid, String search) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        logger.info("search는 "+ search);
-	    if(!"".equals(search)){
-            logger.info("search는 "+ search);
-	        search = aes256Cipher.AES_Encode(search);
-        }
-	    return dao.countFollowingMember(session_iuid, search);
-	}
-
-    public List<BoardDTO> getFollowingMember(String session_iuid, int startrow, int endrow) {
-        return dao.getFollowingMember(session_iuid, startrow, endrow);
-    }
-
     public void follow(String bl_writer, String session_iuid) {
         dao.follow(bl_writer, session_iuid);
     }
@@ -270,12 +268,16 @@ public class BoardServiceImpl implements BoardService {
         dao.unFollow(bl_writer, session_iuid);
     }
 
-    public List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid) {
-        return dao.getFollowerBoard(follow_iuid,my_iuid);
+    public List<Map<String,String>> getFollowerBoard(String follow_iuid,String my_iuid) {
+        List<Map<String,String>> list = dao.getFollowerBoard(follow_iuid,my_iuid);
+        for(int i=0; i<list.size(); i++){
+            list.get(i).put("bl_date", String.valueOf(list.get(i).get("bl_date")));
+        }
+	    return list;
     }
 
 
-    public List<BoardDTO> getMyBlock(String my_iuid) {
+    public List<Map<String,String>> getMyBlock(String my_iuid) {
         return dao.getMyBlock(my_iuid);
     }
 

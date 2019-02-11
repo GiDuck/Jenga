@@ -321,6 +321,155 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE
 		em_iuid = #{mem_iuid}
 	</update>
+
+	<!-- 내가 팔로잉 중인 멤버 인원 뽑기 -->
+	<select id="countFollowingMember" resultType="int">
+		<choose>
+			<when test = "search == null">
+				SELECT
+					COUNT(fl_iuid)
+				FROM
+					tbl_follow
+				WHERE
+					fl_follower = #{session_iuid}
+			</when>
+			<otherwise>
+				SELECT
+					COUNT(*) AS followers
+				FROM
+					TBL_FOLLOW
+				WHERE
+					fl_iuid = #{session_iuid}
+				AND
+					(fl_follower IN (SELECT
+										mem_iuid
+									FROM
+										tbl_meminfo
+									WHERE mem_nick LIKE '%'||#{search}||'%'))
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 내가 팔로잉 중인 멤버 목록 뽑기 -->
+	<select id="getFollowingMember" resultType="hi.im.jenga.member.dto.MemberDTO">
+		<choose>
+			<when test="search == null">
+				SELECT
+					mem_iuid, mem_nick, mem_introduce, mem_profile
+				FROM
+					tbl_meminfo
+				WHERE
+					mem_iuid IN (SELECT
+									fl_iuid
+								FROM
+									tbl_follow
+								WHERE
+									fl_follower = #{session_iuid})
+			</when>
+			<otherwise>
+				SELECT
+					mem_iuid, mem_nick, mem_introduce, mem_profile
+				FROM
+					tbl_meminfo
+				WHERE
+					mem_nick LIKE '%'||#{search}||'%'
+				AND
+					mem_iuid IN (SELECT
+									fl_follower
+								FROM
+									tbl_follow
+								WHERE
+									fl_iuid = #{session_iuid})
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 나를 팔로우한 팔로워 인원 뽑기 -->
+	<select id="countFollowerMember" resultType="int">
+		<choose>
+			<when test = "search == null">
+				SELECT
+					COUNT(fl_follower)
+				FROM
+					tbl_follow
+				WHERE
+					fl_iuid = #{session_iuid}
+			</when>
+			<otherwise>
+				SELECT
+					COUNT(*) AS followers
+				FROM
+					TBL_FOLLOW
+				WHERE
+					fl_follower = #{session_iuid}
+				AND
+					(fl_iuid IN (SELECT
+									mem_iuid
+								FROM
+									tbl_meminfo
+								WHERE mem_nick LIKE '%'||#{search}||'%'))
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 나를 팔로우한 팔로워 목록 뽑기 -->
+	<select id="getFollowerMember" resultType="hi.im.jenga.member.dto.MemberDTO">
+		<choose>
+			<when test = "search == null">
+				SELECT
+					mem_iuid, mem_nick, mem_introduce, mem_profile
+				FROM
+					tbl_meminfo
+				WHERE
+					mem_iuid IN (SELECT
+									fl_iuid
+								FROM
+									tbl_follow
+								WHERE
+									fl_follower = #{session_iuid})
+			</when>
+			<otherwise>
+				SELECT
+					mem_iuid, mem_nick, mem_introduce, mem_profile
+				FROM
+					tbl_meminfo
+				WHERE
+					mem_nick LIKE '%'||#{search}||'%'
+				AND
+					mem_iuid IN (SELECT
+									fl_iuid
+								FROM
+									tbl_follow
+								WHERE
+									fl_follower = #{session_iuid})
+			</otherwise>
+		</choose>
+	</select>
+
+	<resultMap id="recentBlockMap" type="HashMap">
+		<result property="mem_iuid" column="mem_iuid"/>
+		<result property="mem_nick" column="mem_nick"/>
+		<result property="mem_profile" column="mem_profile"/>
+		<result property="bl_title" column="bl_title"/>
+		<result property="bl_description" column="bl_description" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="bl_date" column="bl_date" javaType="java.lang.Long"/>
+	</resultMap>
+
+	<select id="getRecentBlock" resultType="List" resultMap="recentBlockMap">
+		SELECT
+    		M.mem_iuid AS "mem_iuid", M.mem_nick AS "mem_nick", M.mem_profile AS "mem_profile", B.bl_title AS "bl_title", B.bl_description AS "bl_description", B.bl_date AS "bl_date"
+    	FROM
+    		tbl_meminfo M
+    		INNER JOIN
+    			tbl_block B
+    		ON
+    			bl_writer = #{mem_iuid}
+		WHERE
+			M.mem_iuid = #{mem_iuid}
+		ORDER BY
+			B.bl_date DESC
+	</select>
+
 </mapper>
 
 

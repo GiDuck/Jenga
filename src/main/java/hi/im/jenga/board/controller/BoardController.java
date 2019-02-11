@@ -1,6 +1,5 @@
 package hi.im.jenga.board.controller;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
@@ -13,7 +12,6 @@ import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.util.login.SessionCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,15 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 // TODO  검색      (테스트) / 회원정보수정 / 댓글 / 팔로우
 
 /**
@@ -55,7 +50,6 @@ public class BoardController {
     private final BoardUtilFile boardUtilFile;
     SessionCheck sessionCheck = SessionCheck.getInstance();
 
-    @Autowired
     public BoardController(MongoService mongoService, BoardService boardService, BoardUtilFile boardUtilFile) {
         this.mongoService = mongoService;
         this.boardService = boardService;
@@ -69,63 +63,13 @@ public class BoardController {
 
         return "stackBoard/boardSearch";
     }
-    /**
-    * list 팔로워 이름 / 소개 / 프로필 사진
-    * 무한스크롤
-    * */
-
-    @RequestMapping(value = "/getFollowingMember", method = RequestMethod.GET)
-    public @ResponseBody List<BoardDTO> getFollowingMember(@RequestParam("pageNum") int page, @RequestParam(value = "search", required = false) String search, HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        String session_iuid = null;
-
-        logger.info("search는 "+ search);
-
-        try {
-            session_iuid = sessionCheck.myGetSessionIuid(session);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        int limit = 20;
-        int nowpage = page;
-        int listcount = 0;
-        int startrow = (page - 1) * 10 + 1;
-        int endrow = startrow + limit - 1;
-
-        listcount = boardService.countFollowingMember(session_iuid, search);
-
-        int maxpage = (int) ((double) listcount / limit + 0.95);
-        int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
-        int endpage = maxpage;
-
-        if (endpage > startpage + 10 - 1) {
-            endpage = startpage + 10 - 1;
-        }
-
-        List<BoardDTO> container = null;
-        try {
-
-            container = boardService.getFollowingMember(session_iuid, startrow, endrow);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return container;
-
-    }
-
-
-
-
-
-
 
     @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
     @ResponseBody
     public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check") String search_check, @RequestParam("pageNum") int page, HttpSession session) throws Exception {
 
+        logger.info("서치액션 들어옴");
+        logger.info("search_check 확인"+search_check);
         String session_iuid = null;
 
         try {
@@ -161,8 +105,9 @@ public class BoardController {
         List<BoardDTO> container = null;
         try {
 
+            logger.info("try 접근");
             container = boardService.search(search, search_check, session_iuid, startrow, endrow);
-
+            logger.info("try 나옴");
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -172,7 +117,7 @@ public class BoardController {
     }
 
     @GetMapping(value = "/boardView")
-    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model, MongoDTO mongoDTO) throws Exception {
+    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model) throws Exception {
 
         Map<String, Object> map = boardService.getView(bl_uid);
         model.addAttribute("map", map);
@@ -291,27 +236,19 @@ public class BoardController {
     }
 
 
-    // TODO  like 상태값으로 비교   이거먼저하자
     // block iuid를 조건으로 insert mem_iuid(session에 있는)
     @RequestMapping(value = "/like/{bl_iuid}")
     public @ResponseBody int like(@PathVariable String bl_iuid, HttpSession session){
-        logger.info("like 들어옴");
         String session_mem_iuid = sessionCheck.myGetSessionIuid(session);
         boardService.likeCheck(bl_iuid, session_mem_iuid);
-
-        int likeCount = boardService.likeCount(bl_iuid);
-
-        return likeCount;
+        return  boardService.likeCount(bl_iuid);
     }
 
     @RequestMapping(value = "/isLikeExist/{bl_uid}", method = RequestMethod.GET)
     public @ResponseBody String isLikeExist(HttpSession session, @PathVariable("bl_uid") String bl_iuid) {
         String session_mem_iuid = sessionCheck.myGetSessionIuid(session);
         String check = boardService.isLikeExist(bl_iuid, session_mem_iuid);
-        logger.info(check);
-        String result = check != null ? "exist" : "notExist";
-        logger.info(result);
-        return result;
+        return check != null ? "exist" : "notExist";
     }
 
 
@@ -335,9 +272,7 @@ public class BoardController {
         return "/board/boardView?bl_uid=" + boardDTO.getBl_uid();
     }
 
-    //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트
-//    View에서 받는거 테스트해야함
-//    삭제페이지 POST
+    //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트  누가 GET으로 바꿨지 DELETE는 안되는것인가아하아
     @RequestMapping(value = "/delBlock", method = RequestMethod.GET)
     public ResponseEntity deleteBlock(@RequestParam String bl_uid) {
 
@@ -395,12 +330,27 @@ public class BoardController {
 
     }
 
+    @RequestMapping(value = "/followCheck", method = RequestMethod.GET)
+    public @ResponseBody String followCheck(@RequestParam("bl_writer")String bl_writer, HttpSession session){
+        String session_iuid;
+     try{
+        session_iuid = sessionCheck.myGetSessionIuid(session);
+        if(session_iuid.equals(bl_writer)){
+            return "";
+        }
+        String check = boardService.followCheck(bl_writer, session_iuid);
+        return check;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
+    }
 
     @RequestMapping(value = "/follow", method = RequestMethod.GET)
     @ResponseBody
-    public String follower(@RequestParam("bl_writer") String bl_writer, HttpSession session, HttpServletResponse response) throws Exception {
+    public String follower(@RequestParam("bl_writer") String bl_writer, HttpSession session) {
 
-        String session_iuid = null;
+        String session_iuid;
         try {
             session_iuid = sessionCheck.myGetSessionIuid(session);
             boardService.follow(bl_writer, session_iuid);
@@ -412,9 +362,8 @@ public class BoardController {
 
     @RequestMapping(value = "/unFollow", method = RequestMethod.GET)
     @ResponseBody
-    public String unfollower(@RequestParam("bl_writer") String bl_writer, HttpSession session, HttpServletResponse response) throws Exception {
-        String session_iuid = null;
-
+    public String unfollower(@RequestParam("bl_writer") String bl_writer, HttpSession session) {
+        String session_iuid;
         try {
             session_iuid = sessionCheck.myGetSessionIuid(session);
             boardService.unFollow(bl_writer, session_iuid);
@@ -425,60 +374,31 @@ public class BoardController {
         }
     }
 
-
-    //TODO 일단 팔로워한 사람 글 뽑느거 했는데 필요하면 쓰셈
-    @RequestMapping(value = "/followerBoard")
-    public String followerBoard(HttpSession session) {
-        String my_iuid = sessionCheck.myGetSessionIuid(session);
-        //List<BoardDTO> list = boardService.getFollowerBoard(my_iuid);
-        return "/board/boardManage"; //임시 리턴
-    }
-
-
-    //TODO 수정 필요함 일단 만들어둠...! 마이블럭
-    @RequestMapping(value = "/myBlock")
-    public String manageBlock(HttpSession session, @RequestParam String token, Model model) {
-
-        String my_iuid = sessionCheck.myGetSessionIuid(session);
-
-        if(token.equals("my")) {
-            List<BoardDTO> list = boardService.getMyBlock(my_iuid);
-        }else if(token.equals("follow")){
-
-        }
-
-        return "/board/boardManage";
-    }
-
-
     //팔로워한 사람 리스트
     @RequestMapping(value = "/followlist")
     public List<MemberDTO> myFollower(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchAlgorithmException {
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
         logger.info("내 세션아유아디"+my_iuid);
         List<MemberDTO> list = boardService.getMyFollower(my_iuid);
-
-
-
         logger.info("리스트"+list);
-
         return list;
     }
 
 
-
-    // 팔로워한사람 블럭
-    @RequestMapping(value="follwerBlock")
-    public String followerBlock(HttpSession session, String follow_iuid){
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-        List<BoardDTO> board = boardService.getFollowerBoard(follow_iuid, my_iuid);
-        return "";
+// FIXME 아이디 공백으로 넘어오는거 인코딩하기
+    // 내가 팔로워 한 사람들 중 한 명 클릭해서 그 사람 블럭 모두 뽑기
+    @RequestMapping(value="/getFollowerBoard")
+    public @ResponseBody List<Map<String,String>> followerBlock(HttpSession session, String follow_iuid){
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
+        List<Map<String,String>> board = boardService.getFollowerBoard(follow_iuid, my_iuid);
+        return board;
     }
 
+//    내가 좋아요한 블록
     @RequestMapping(value="mylikesBlock")
     @ResponseBody
     public List<Map<String,Object>> myLikesBlock(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
         List<Map<String,Object>> board = boardService.getMyLikesBlock(my_iuid);
         return board;
     }
@@ -486,7 +406,7 @@ public class BoardController {
     @RequestMapping(value="followRecommend")
     @ResponseBody
     public List<Map<String,Object>> followRecommend(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        String my_iuid = ((MemberDTO)session.getAttribute("Member")).getMem_iuid();
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
         List<Map<String,Object>> followRecommend = boardService.followRecommend(my_iuid);
         return followRecommend;
     }
@@ -501,26 +421,27 @@ public class BoardController {
     }*/
 
 
-
-    //새로 추가한 부분 (View 가져오는 컨트롤러)
-
     //인기 블록
-    @RequestMapping(value="/getFavoriteBlock")
-    public String getFavoriteBlock(Model model){
-
-        return "favoriteBoard/favoriteBoard";
+    // 기본 10개
+    @RequestMapping(value="/getPopularBlock")
+    public @ResponseBody List<Map<String, String>> getPopularBlock(@RequestParam(value = "likeCount", required = false) Integer likeCount) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        likeCount = Optional.ofNullable(likeCount).orElse(10);
+        logger.info(likeCount.toString());
+        List<Map<String, String>> list  = boardService.getPopularBlock(likeCount);
+        return list;
     }
 
     //내 블록 관리 페이지
     @RequestMapping(value="/getMyBlockManage")
     public String getMyBlockManage(Model model, HttpSession session) {
 
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
+        List<Map<String,String>> mylist = boardService.getMyBlock(my_iuid);
         String jsonStr = "";
         ObjectMapper mapper = new ObjectMapper();
         try{
             jsonStr =   mapper.writeValueAsString(mylist);
+            logger.info(jsonStr);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -530,22 +451,17 @@ public class BoardController {
         return "myBoard/myBoardManage";
     }
 
-    //내가 찜한 블록
-    @RequestMapping(value="/getMyFavorBlock")
-    public String getMyFavorBlock(Model model){
-
-        return "myBoard/myFavorBlock";
-    }
-
     //팔로워 별로 글을 확인할 수 있는 페이지
+    // 팔로워 추천 받아옴
     @RequestMapping(value="/getFollowerPage")
     public String getFollowerPage(HttpSession session,Model model) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
+        String my_iuid = sessionCheck.myGetSessionIuid(session);
         List<Map<String, Object>> maps = boardService.followRecommend(my_iuid);
         logger.info("맵 확인"+maps);
         model.addAttribute("recommend",maps);
         return "following/followerPage";
     }
+
 
 
 
