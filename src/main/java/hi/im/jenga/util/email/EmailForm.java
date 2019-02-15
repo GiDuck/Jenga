@@ -2,6 +2,7 @@ package hi.im.jenga.util.email;
 import hi.im.jenga.util.HTMLManager;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Map;
 
 public abstract class EmailForm {
 
@@ -14,9 +15,7 @@ public abstract class EmailForm {
         htmlManager = new HTMLManager();
     }
 
-    protected void setDate(String fullFilePath) throws FileNotFoundException{
-        System.out.println("filepath");
-        System.out.println(fullFilePath);
+    protected void setData(String fullFilePath) throws FileNotFoundException{
         htmlFile = new File(fullFilePath);
         if(!htmlFile.exists()){
             throw new FileNotFoundException();
@@ -41,7 +40,7 @@ public abstract class EmailForm {
 
     };
 
-    public abstract void test();
+    public abstract void setUp(Map<String ,Object> paramContainer);
 
 
 

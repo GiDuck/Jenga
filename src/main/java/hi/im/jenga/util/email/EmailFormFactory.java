@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 public class EmailFormFactory implements AbstractEmailFormFactory{
 
@@ -12,7 +14,7 @@ public class EmailFormFactory implements AbstractEmailFormFactory{
     private EmailForm tempPasswordEmailForm;
 
     @Override
-    public String publish(EmailFormType type) {
+    public String publish(EmailFormType type, Map<String ,Object> paramContainer) {
 
         EmailForm emailForm = null;
 
@@ -20,11 +22,9 @@ public class EmailFormFactory implements AbstractEmailFormFactory{
 
             emailForm = tempPasswordEmailForm;
 
-
         }
 
-        emailForm.test();
-        return null;
-//        return emailForm.getHtml();
+        emailForm.setUp(paramContainer);
+        return emailForm.getHtml();
     }
 }

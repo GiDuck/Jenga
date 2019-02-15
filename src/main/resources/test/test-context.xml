@@ -14,7 +14,7 @@
 
 	<context:component-scan base-package="hi.im.jenga" />
 
-	<util:properties id="props" location="file:/C:/Users/gdtbg/IdeaProjects/Jenga/src/main/resources/test/emailFormSource.properties" />
+	<util:properties id="props" location="classpath:/test/emailform.properties" />
 	<util:properties id="data" location="file:/D:/tests.properties" />
 
 

@@ -36,8 +36,7 @@ public class MemberTest {
     @Autowired
     public MemberService memberService;
 
-    @Autowired
-    EmailFormFactory emailFormFactory;
+
 
     @Before
     public void setUpTest() {
@@ -62,12 +61,10 @@ public class MemberTest {
         Assert.assertEquals("success", memberService.checkEmail(dto));
     }
 
-    @Ignore
     @Test
     public void testFindPwd(){
 
-        emailFormFactory.publish(EmailFormType.TEMP_PASSWORD_EMAIL);
-        //Assert.assertEquals(1, memberService.findEPwd("gdtbgl93@gmail.com"));
+        Assert.assertEquals(1, memberService.findEPwd("gdtbgl93@gmail.com"));
 
 
     }

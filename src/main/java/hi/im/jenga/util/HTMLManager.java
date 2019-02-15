@@ -21,7 +21,7 @@ public class HTMLManager {
             e.printStackTrace();
         }
 
-        return doc.text();
+        return doc.html();
 
     }
 
@@ -30,7 +30,7 @@ public class HTMLManager {
             doc = Jsoup.parse(htmlText);
             doc.getElementById(id).text(text);
 
-        return doc.text();
+        return doc.html();
 
     }
 
@@ -38,12 +38,11 @@ public class HTMLManager {
 
         try {
             doc = Jsoup.parse(htmlFile, "UTF-8");
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return doc.text();
+        return doc.html();
 
     }
 

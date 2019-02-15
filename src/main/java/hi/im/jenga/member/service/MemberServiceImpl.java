@@ -9,6 +9,8 @@ import hi.im.jenga.member.util.cipher.AES256Cipher;
 import hi.im.jenga.member.util.cipher.SHA256Cipher;
 import hi.im.jenga.member.util.mail.MailHandler;
 import hi.im.jenga.member.util.mail.TempKey;
+import hi.im.jenga.util.email.EmailFormFactory;
+import hi.im.jenga.util.email.EmailFormType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +37,15 @@ public class MemberServiceImpl implements MemberService {
     private AES256Cipher aes256Cipher;
     private JavaMailSender mailSender;
     private SHA256Cipher sha256Cipher;
+    private EmailFormFactory emailFormFactory;
 
-    @Autowired
-    public MemberServiceImpl(MemberDAO dao, AES256Cipher aes256Cipher, JavaMailSender mailSender, SHA256Cipher sha256Cipher) {
+
+    public MemberServiceImpl(MemberDAO dao, AES256Cipher aes256Cipher, JavaMailSender mailSender, SHA256Cipher sha256Cipher, EmailFormFactory emailFormFactory) {
         this.dao = dao;
         this.aes256Cipher = aes256Cipher;
         this.mailSender = mailSender;
         this.sha256Cipher = sha256Cipher;
+        this.emailFormFactory = emailFormFactory;
     }
 
     private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
@@ -113,9 +117,13 @@ public class MemberServiceImpl implements MemberService {
             dao.findEPwd(encryptedUserEmail, sha256Cipher.getEncSHA256(tempPwd));
 
 
+            Map<String ,Object> param = new HashMap<>();
+            param.put("pwd", tempPwd);
+            String htmlContent = emailFormFactory.publish(EmailFormType.TEMP_PASSWORD_EMAIL, param);
+            System.out.println(htmlContent);
             MailHandler sendMail = new MailHandler(mailSender);
             sendMail.setSubject("Jenga 임시 비밀번호입니다. ");
-            sendMail.setText(new StringBuffer().append("<h1>임시 비밀번호</h1><br><br>").append("<h2>" + tempPwd + "</h2>").append(" 입니다.").toString());
+            sendMail.setText(htmlContent);
             sendMail.setFrom("imjengamaster@gmail.com", "젠가관리자");
             sendMail.setTo(userEmail);
             sendMail.send();
