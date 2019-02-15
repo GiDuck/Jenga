@@ -57,6 +57,18 @@ public class MemberDTO {
     public void setMem_joinDate(Date mem_joinDate) {
         this.mem_joinDate = mem_joinDate;
     }
+
+    @Override
+    public String toString() {
+        return "MemberDTO{" +
+                "mem_iuid='" + mem_iuid + '\'' +
+                ", mem_nick='" + mem_nick + '\'' +
+                ", mem_profile='" + mem_profile + '\'' +
+                ", mem_introduce='" + mem_introduce + '\'' +
+                ", mem_level=" + mem_level +
+                ", mem_joinDate=" + mem_joinDate +
+                '}';
+    }
 }
 
 

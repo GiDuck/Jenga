@@ -31,14 +31,18 @@ import java.util.UUID;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-    @Autowired
     private MemberDAO dao;
-    @Autowired
     private AES256Cipher aes256Cipher;
-    @Autowired
     private JavaMailSender mailSender;
-    @Autowired
     private SHA256Cipher sha256Cipher;
+
+    @Autowired
+    public MemberServiceImpl(MemberDAO dao, AES256Cipher aes256Cipher, JavaMailSender mailSender, SHA256Cipher sha256Cipher) {
+        this.dao = dao;
+        this.aes256Cipher = aes256Cipher;
+        this.mailSender = mailSender;
+        this.sha256Cipher = sha256Cipher;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 
@@ -48,17 +52,14 @@ public class MemberServiceImpl implements MemberService {
         // 이메일을 이용해서 조건에 넣을 iuid를 찾아야함
         // 암호화 iuid, 닉네임, 파일경로, level
         // 암호화된 iuid는 컨트롤러에서 넣음
-        logger.info("addEMemberInfo 서비스");
         String iuid = "";
 
         memberDTO.setMem_nick(aes256Cipher.AES_Encode(memberDTO.getMem_nick()));
         memberDTO.setMem_introduce(aes256Cipher.AES_Encode(memberDTO.getMem_introduce()));
 
         if (uploadName.equals("")) {
-            logger.info("addEMemberInfo 서비스 디폴트이미지로 변경");
             memberDTO.setMem_profile("D:\\jengaResource\\img\\profiles\\jenga_profile_default.jpg");
         } else {
-            logger.info("프로필사진 있고 uploadName은 " + uploadName);
             memberDTO.setMem_profile(uploadName);
         }
 
@@ -89,60 +90,64 @@ public class MemberServiceImpl implements MemberService {
         dao.addSMember(socialMemberDTO, sMem_iuid);
     }
 
-    public MemberDTO isSMExist(String aes_sid) {
-        return dao.isSMExist(aes_sid);
+    public MemberDTO getExistMember(String aes_sid) {
+        return dao.getExistMember(aes_sid);
     }
 
-    // 암호화해서 넘김
     public String isEMExist(String em_id) throws Exception {
         String aes_eid = aes256Cipher.AES_Encode(em_id);
         logger.info("오이잉 service " + aes_eid);
         return dao.isEMExist(aes_eid);
     }
 
-    // 인증키 생성 후 해당 회원의 비밀번호를 인증키로 바꾸고   이 회원이 이메일, 바뀐 인증키비번으로 로그인 후 자율적으로 정보수정가서 비밀번호 변경하게
-    public int findEPwd(String find_pwd) throws Exception {
-        String result;
+    public int findEPwd(String userEmail) {
         logger.info(": : : findEPwd");
+        String encryptedUserEmail;
+        String tempPwd;
+        try {
+            encryptedUserEmail = aes256Cipher.AES_Encode(userEmail);
+            if ("notexist".equals(dao.isEMExist(encryptedUserEmail))) {
+                return 0;
+            }
+            tempPwd = new TempKey().getKey(10, false);
+            dao.findEPwd(encryptedUserEmail, sha256Cipher.getEncSHA256(tempPwd));
 
-        String aes_find_pwd = aes256Cipher.AES_Encode(find_pwd);       // 암호화 후 찾아야 하니까
 
-        result = dao.isEMExist(aes_find_pwd);    // 일단 존재하는지 여부
+            MailHandler sendMail = new MailHandler(mailSender);
+            sendMail.setSubject("Jenga 임시 비밀번호입니다. ");
+            sendMail.setText(new StringBuffer().append("<h1>임시 비밀번호</h1><br><br>").append("<h2>" + tempPwd + "</h2>").append(" 입니다.").toString());
+            sendMail.setFrom("imjengamaster@gmail.com", "젠가관리자");
+            sendMail.setTo(userEmail);
+            sendMail.send();
 
-//        인증 N 이고 가입한 메일이 없을때
-        if (result.equals("notexist")) {
+
+        } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
-//        ////////////
-        String tempPwdKey = new TempKey().getKey(10, false);    // 인증키 생성
-        logger.info(": 생성된 임시 키 " + tempPwdKey);
-        // find_pwd의 비밀번호를 임시비밀번호로 바꿔야함
-        // 바꾸고 메일보내기
-
-        String sha_key = sha256Cipher.getEncSHA256(tempPwdKey);           // 키를 암호화 후 넣음
-        dao.findEPwd(aes_find_pwd, sha_key);
-
-        MailHandler sendMail = new MailHandler(mailSender);
-        sendMail.setSubject("Jenga 임시 비밀번호입니다. ");
-        sendMail.setText(new StringBuffer().append("<h1>임시 비밀번호</h1><br><br>").append("<h2>" + tempPwdKey + "</h2>").append(" 입니다.").toString());
-        sendMail.setFrom("imjengamaster@gmail.com", "젠가관리자");
-        sendMail.setTo(find_pwd);
-        sendMail.send();
 
         return 1;
     }
 
-    public String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception {
-        emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
-        emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));
-        String idcheck = dao.checkEmail(emailMemberDTO);
-        if (idcheck == null) { return "iderror"; }
-        String pwdcheck = dao.checkPwd(emailMemberDTO);
-        if (pwdcheck == null) { return "pwderror"; }
-        String Acheck = dao.checkAuth(emailMemberDTO);
-        logger.info("||||||||||auth 체크" + Acheck);
-        if (Acheck.equals("N")) { return "noauth"; }
-        return "success";
+    public String checkEmail(EmailMemberDTO emailMemberDTO) {
+
+        try {
+            emailMemberDTO.setEm_id(aes256Cipher.AES_Encode(emailMemberDTO.getEm_id()));
+            emailMemberDTO.setEm_pwd(sha256Cipher.getEncSHA256(emailMemberDTO.getEm_pwd()));
+
+            logger.info("암호화 된 ID PW..  " + emailMemberDTO.getEm_id() + " " + emailMemberDTO.getEm_pwd());
+            if (dao.checkEmail(emailMemberDTO) == null) return "iderror";
+            if (dao.checkPwd(emailMemberDTO) == null) return "pwderror";
+            if (dao.checkAuth(emailMemberDTO).equals("N")) return "noauth";
+
+            return "success";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
     public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
@@ -189,62 +194,32 @@ public class MemberServiceImpl implements MemberService {
         dao.updMemInfo(memberDTO);
     }
 
-    // 회원정보 수정
-    // 세션에 있는 회원정보를 조건으로 출력  session memberDTO
+
     public MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception {
-        // 복호화 한 후 비교 후 현재 세션에 있는 사용자의 정보를 받아옴
-        logger.info(": : : ServiceImpl에 modMemberInfo 들어옴");
-        logger.info("세션에 있는 iuid는 " + memberDTO.getMem_iuid());
-        /*String  notAes_iuid = aes256Cipher.AES_Decode(memberDTO.getMem_iuid());
-        logger.info("복호화한 있는 iuid는 "+notAes_iuid);*/
+
 
         memberDTO = dao.modMemberInfoGET(memberDTO.getMem_iuid());
-        logger.info("시발개시발");
-        // 세션에 있는 사용자의 정보를 받아온 후 닉네임, 파일경로 복호화 후 memberDTO에 담음
         memberDTO.setMem_nick(aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
-        logger.info("아시발");
         memberDTO.setMem_profile(aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
-        logger.info("아시발2");
         memberDTO.setMem_introduce(aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
-        logger.info("아시발3");
-
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_nick());
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_profile());
-        logger.info("ServiceImpl에 modMemberInfo    복호화 한 " + memberDTO.getMem_introduce());
-        logger.info(": : : ServiceImpl에 modMemberInfo 나가자");
 
         return memberDTO;
 
     }
 
     public MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String mem_introduce, String uploadName, String[] favor) throws Exception {
-        logger.info("MemberServiceImpl 1 " + s_iuid);
-        logger.info("MemberServiceImpl 2 " + mem_nick);
-        logger.info("MemberServiceImpl 3 " + uploadName);
-        logger.info("MemberServiceImpl 4 " + mem_introduce);
-        for (String s : favor) {
-            logger.info("MemberServiceImpl 5 " + s);
-        }
-        // 공백으로 넘어오면 암호화안하고 daoImpl로 ""로 넘어감
 
         MemberDTO memberDTO = new MemberDTO();
 
-        memberDTO.setMem_nick(aes256Cipher.AES_Encode(mem_nick));       // 닉네임 암호화 후 DTO에 넣음
-        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(mem_introduce));       // 닉네임 암호화 후 DTO에 넣음
+        memberDTO.setMem_nick(aes256Cipher.AES_Encode(mem_nick));
+        memberDTO.setMem_introduce(aes256Cipher.AES_Encode(mem_introduce));
 
 
         if (uploadName.equals("")) {
-            logger.info("빈파일이면 뒤에 안뜸 " + uploadName);
-            uploadName = dao.getMemProfile(s_iuid); // 세션id로 원래 파일이름 가져옴
-            uploadName = aes256Cipher.AES_Decode(uploadName);   // 암호화 된채로 왔으니 복호화하고 밑에서 다시 암호화
+            uploadName = dao.getMemProfile(s_iuid);
+            uploadName = aes256Cipher.AES_Decode(uploadName);
         }
-        memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadName));  // 파일이름 암호화 후 DTO에 넣음
-
-
-        /*if(!em_pwd.equals("")) {
-            logger.info("MemberServiceImpl 비밀번호 공백아니고 "+ em_pwd);
-            aes_em_pwd = sha256Cipher.getEncSHA256(em_pwd);
-        }*/
+        memberDTO.setMem_profile(aes256Cipher.AES_Encode(uploadName));
 
         return dao.modMemberInfoPOST(s_iuid, memberDTO, favor);
 
@@ -252,7 +227,7 @@ public class MemberServiceImpl implements MemberService {
 
 
     public void addMemberFavor(String aes_iuid, String[] favor) {
-        logger.info("addMemberFavor iuid는 "+aes_iuid);
+        logger.info("addMemberFavor iuid는 " + aes_iuid);
         for (String fav : favor) {
             dao.addMemberFavor(aes_iuid, fav);
         }
@@ -273,13 +248,21 @@ public class MemberServiceImpl implements MemberService {
     public Map<String, String> getUserInfo(String mem_iuid, String check_profile, String check_nick, String check_introduce) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         Map<String, String> map = new HashMap();
         MemberDTO memberDTO = dao.getUserInfo(mem_iuid);
-        if(check_profile.equals("profile")){  map.put("profile", aes256Cipher.AES_Decode(memberDTO.getMem_profile())); }
-        if(check_nick.equals("nick")){ map.put("nick", aes256Cipher.AES_Decode(memberDTO.getMem_nick())); }
-        if(check_introduce.equals("introduce")){ map.put("introduce", aes256Cipher.AES_Decode(memberDTO.getMem_introduce())); }
+        if (check_profile.equals("profile")) {
+            map.put("profile", aes256Cipher.AES_Decode(memberDTO.getMem_profile()));
+        }
+        if (check_nick.equals("nick")) {
+            map.put("nick", aes256Cipher.AES_Decode(memberDTO.getMem_nick()));
+        }
+        if (check_introduce.equals("introduce")) {
+            map.put("introduce", aes256Cipher.AES_Decode(memberDTO.getMem_introduce()));
+        }
         return map;
     }
 
-    public String getBmksUploadDate(String session_iuid) { return dao.getBmksUploadDate(session_iuid); }
+    public String getBmksUploadDate(String session_iuid) {
+        return dao.getBmksUploadDate(session_iuid);
+    }
 
     public void changePwd(String mem_iuid, String pwd) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         dao.changePwd(mem_iuid, aes256Cipher.AES_Encode(pwd));

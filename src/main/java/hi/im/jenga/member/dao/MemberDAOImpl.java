@@ -17,16 +17,16 @@ import java.util.*;
 public class MemberDAOImpl implements MemberDAO{
 
     private static final Logger logger = LoggerFactory.getLogger(MemberDAOImpl.class);
+    private SqlSession sqlSession;
+    private AES256Cipher aes256Cipher;
+
     @Autowired
-    SqlSession sqlSession;
-    @Autowired
-    AES256Cipher aes256Cipher;
+    public MemberDAOImpl(SqlSession sqlSession, AES256Cipher aes256Cipher) {
+        this.sqlSession = sqlSession;
+        this.aes256Cipher = aes256Cipher;
+    }
 
     public int addEMemberInfo(MemberDTO memberDTO) {
-        /*HashMap<String,Object> map = new HashMap();
-        map.put("memberDTO", memberDTO);
-        map.put("uploadPath", uploadPath);*/
-
         return sqlSession.update("member.addEMemberInfo", memberDTO);
     }
 
@@ -58,8 +58,8 @@ public class MemberDAOImpl implements MemberDAO{
         sqlSession.insert("member.addSMember", map);
     }
 
-    public MemberDTO isSMExist(String aes_sid) {
-        return sqlSession.selectOne("member.isSMExist", aes_sid);
+    public MemberDTO getExistMember(String aes_sid) {
+        return sqlSession.selectOne("member.getExistMember", aes_sid);
     }
 
     public String isEMExist(String aes_eid) throws Exception {
@@ -136,21 +136,16 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     public String checkEmail(EmailMemberDTO emailMemberDTO) {
-        String checkid = sqlSession.selectOne("member.checkid",emailMemberDTO);
-
-        return checkid;
+        return sqlSession.selectOne("member.checkid",emailMemberDTO);
     }
 
     public String checkPwd(EmailMemberDTO emailMemberDTO){
-        String checkpwd = sqlSession.selectOne("member.checkpass",emailMemberDTO);
-
-        return checkpwd;
+        return sqlSession.selectOne("member.checkpass",emailMemberDTO);
     }
 
     public String checkAuth(EmailMemberDTO emailMemberDTO) {
-        String checkAuth = sqlSession.selectOne("member.checkauth",emailMemberDTO);
 
-        return checkAuth;
+        return sqlSession.selectOne("member.checkauth",emailMemberDTO);
     }
 
     public List<String> getMemFavor(String member) { return sqlSession.selectList("member.getMemFavor",member); }

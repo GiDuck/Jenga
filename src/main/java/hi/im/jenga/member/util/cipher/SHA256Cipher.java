@@ -1,5 +1,6 @@
 package hi.im.jenga.member.util.cipher;
 
+
 import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;

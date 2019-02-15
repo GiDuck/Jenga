@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<!-- SELECT sm_id FROM tbl_SMember WHERE sm_id = #{aes_sid}-->
-	<select id="isSMExist" resultType="hi.im.jenga.member.dto.MemberDTO">
+	<select id="getExistMember" resultType="hi.im.jenga.member.dto.MemberDTO">
 	SELECT
 		*
 	FROM
@@ -184,16 +184,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE em_id = #{em_id}
 	</select>
 
-	<!--<select id="modMemberInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
-	SELECT
-		mem_nick, mem_profile
-	FROM
-		tbl_MemInfo
-	WHERE
-		mem_iuid = #{aes_id}
-	</select>-->
 
-	<!-- aes_iuid 대신 s_iuid가 되어있노 일단 aes_iuid로 바꿈-->
 	<insert id="addMemberFavor">
 	INSERT INTO
 		tbl_mFavor

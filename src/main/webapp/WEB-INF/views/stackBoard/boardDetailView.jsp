@@ -169,6 +169,8 @@
 
         let hasSession = '${sessionScope.Member}';
 
+        console.log("hasSession..");
+        console.log(hasSession);
         if(hasSession){
 
         // 글 Follow 여부 확인...
@@ -408,7 +410,7 @@
             },error: {}
         });
 
-        setNavType("blue");
+        navbarObj.setType("bg-info");
         setData();
 
         $likeBtn.on("click", function(e){

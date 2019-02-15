@@ -68,8 +68,6 @@ Form-data parameter
 
                         </div>
 
-
-
                     <div class="col-12 text-center" style="padding-bottom : 40px"><h3 style="font-weight : bold">당신의
                         취향을 선택해 주세요!</h3></div>
 
@@ -123,10 +121,6 @@ Form-data parameter
                             </div>
                         </div>
                     </div>
-
-
-
-
 
                         <br><br>
                         <div class="row text-center" style="padding : 8px">
@@ -194,14 +188,16 @@ Form-data parameter
 
                    console.log("받아온 날짜...");
                    console.log(response);
-                   console.log(response["chrome_timestamp"]);
-
-               let syncDate = new Date(parseInt(response["chrome_timestamp"]));
-               console.log(syncDate);
 
 
-               let syncComDateStr = syncDate.getFullYear() + "/" + (syncDate.getMonth()+1)+"/" + syncDate.getDate()
-                   + " " + (syncDate.getHours() > 10 ? syncDate.getHours() : "0" + syncDate.getHours()) +":"+ (syncDate.getMinutes() > 10 ? syncDate.getMinutes() : "0" + syncDate.getMinutes());
+               let syncComDateStr = "미등록";
+
+               if(response){
+                   syncComDateStr = new DateTimeFormatter().getFullDateTime(response);
+
+               }
+
+
                $syncDateField.html(syncComDateStr);
 
 

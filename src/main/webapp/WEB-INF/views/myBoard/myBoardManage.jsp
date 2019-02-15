@@ -5,6 +5,14 @@
         cursor : pointer;
     }
 
+
+    .controlBtn{}
+
+    .controlBtn:hover{
+
+    color : #c82333;
+    }
+
 </style>
 
 <div class="wrapper">
@@ -29,7 +37,7 @@
                                              alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                         <div class="text">
                                             <span class="name"></span>
-                                            <div class="meta"><i class="fas fa-heart" name="likeIcon"></i>0</div>
+                                            <div class="meta"><i class="fa fa-heart" name="likeIcon" style="color : red"></i>0</div>
                                         </div>
 
                                     </div>
@@ -37,8 +45,8 @@
                                 <br>
                                 <div class="card-footer">
                                     <div class="row">
-                                        <div class="col-6 text-center"><i class="fa fa-pencil"></i>&nbsp수정하기</div>
-                                        <div class="col-6 text-center"><i class="fa fa-trash"></i>&nbsp삭제하기</div>
+                                        <div class="col-6 text-center controlBtn"><i class="fa fa-pencil"></i>&nbsp수정하기</div>
+                                        <div class="col-6 text-center controlBtn"><i class="fa fa-trash"></i>&nbsp삭제하기</div>
                                     </div>
                                 </div>
                             </div>

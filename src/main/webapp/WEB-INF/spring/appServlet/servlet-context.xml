@@ -2,20 +2,18 @@
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			 xmlns:beans="http://www.springframework.org/schema/beans"
-			 xmlns:context="http://www.springframework.org/schema/context"
 			 xmlns:aop="http://www.springframework.org/schema/aop"
 			 xsi:schemaLocation="http://www.springframework.org/schema/mvc
       http://www.springframework.org/schema/mvc/spring-mvc.xsd
       http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans.xsd
-      http://www.springframework.org/schema/context
-      http://www.springframework.org/schema/context/spring-context.xsd
       http://www.springframework.org/schema/aop
       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	<!-- Enables the Spring MVC @Controller programming model -->
 
+	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -51,11 +49,6 @@
 		</beans:property>
 	</beans:bean>
 
-	<!-- 스프링 빈을 태그로 등록하지 않고 자동으로 검색 (auto scan) -->
-	<!-- 스프링에서 관리하는 bean의 기본 디렉토리 -->
-	<context:annotation-config/>
-	<context:component-scan base-package="hi.im.jenga" />
-	<annotation-driven />
 	<!-- aop의 설정으로 Proxy 객체를 자동으로 생성 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
@@ -94,14 +87,4 @@
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 	</interceptors>
-
-	
-	
-	<!--&lt;!&ndash; 파일업로드를 위한 디렉토리 설정 &ndash;&gt;
-    &lt;!&ndash; String uploadPath = new String("업로드 경로") &ndash;&gt;
-    <beans:bean id="uploadPath" class="java.lang.String">
-       &lt;!&ndash; 파일업로드 디렉토리&ndash;&gt;
-       <beans:constructor-arg value="해당디렉토리"/>
-    </beans:bean>-->
-
 </beans:beans>

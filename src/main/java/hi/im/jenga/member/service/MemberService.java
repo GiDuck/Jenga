@@ -22,13 +22,13 @@ public interface MemberService {
 
     void addSMember(SocialMemberDTO socialMemberDTO, String sMem_iuid);
 
-    MemberDTO isSMExist(String aes_sid);
+    MemberDTO getExistMember(String aes_sid);
 
     String isEMExist(String em_id) throws Exception;
 
-    int findEPwd(String find_pwd) throws Exception;
+    int findEPwd(String find_pwd);
 
-    String checkEmail(EmailMemberDTO emailMemberDTO) throws Exception; //이메일, 패스워드 체크
+    String checkEmail(EmailMemberDTO emailMemberDTO); //이메일, 패스워드 체크
 
     MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
 

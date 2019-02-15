@@ -1,6 +1,4 @@
 
-//$.busyLoadSetup({ animation: "slide", background: "rgba(255, 152, 0, 0.86)" });
-
 //배열에 마지막을 알아보는 last함수를 prototype으로 선언하여 사용
 if (!Array.prototype.last){
     Array.prototype.last = function(){
@@ -39,8 +37,6 @@ function checkImageFile(e){
     let fileName = file.name;
     let extend = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
 
-    console.log("확장자");
-    console.log(extend);
 
     if(extend != "jpg" && extend != "jpeg" && extend != "png" && extend != "gif"){
 
@@ -141,5 +137,21 @@ function PreLoader(){
         $preLoader.find("#preLoader_innerText").text(str);
 
     }
+
+}
+
+
+function DateTimeFormatter(){
+
+    this.getFullDateTime = function(longDate){
+
+        let dateObj = new Date(parseInt(longDate));
+        let dateStr = dateObj.getFullYear() + "/" + (dateObj.getMonth()+1)+"/" + dateObj.getDate()
+        + " " + (dateObj.getHours() > 9 ? dateObj.getHours() : "0" + dateObj.getHours()) +":"+ (dateObj.getMinutes() > 9 ? dateObj.getMinutes() : "0" + dateObj.getMinutes());
+
+        return dateStr;
+
+    }
+
 
 }

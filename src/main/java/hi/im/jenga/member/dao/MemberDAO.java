@@ -16,7 +16,7 @@ public interface MemberDAO {
 
     void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
 
-    MemberDTO isSMExist(String aes_sid);
+    MemberDTO getExistMember(String aes_sid);
 
     String isEMExist(String aes_eid) throws Exception;
 

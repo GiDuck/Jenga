@@ -100,14 +100,7 @@
                     <br><br>
 
 
-                    <div class="w-100 text-center" id="loaderContainer" style="visibility: hidden;">
-                        <div class="preloader">
-                            <div class='uil-reload-css' style=''>
-                                <div></div>
-                            </div>
-                            <h5>Loading More </h5>
-                        </div>
-                    </div>
+                    <div id="preLoaderContainer"></div>
 
                     <div class="col-md-3 col-sm-4" id="bkCard" style="display : none">
                         <div class="card card-blog text-center">
@@ -150,34 +143,14 @@
     let key;
     let keyword;
     let isEndPage = false;
-
-
-    function PreLoader(){
-
-        this.preloader = $("#loaderContainer");
-
-
-    }
-
-    PreLoader.prototype.show = function(){
-
-        this.preloader.css("visibility", "visible");
-
-    };
-
-    PreLoader.prototype.hide = function(){
-
-        this.preloader.css("visibility", "hidden");
-
-    }
-
     let preLoader = new PreLoader();
 
     $(document).ready(function () {
 
         let timeChecker = new TimeChecker();
-        navbarObj.addHeadBlock();
+        navbarObj.addHeadBlock("gray");
         navbarObj.setType("bg-info");
+        preLoader.init();
         selectDropdown();
         $("button[name='bs_searchBtn']").on("click", function(e){
 

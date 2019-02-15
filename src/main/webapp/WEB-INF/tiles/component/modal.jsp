@@ -689,10 +689,61 @@
 
         return ModalFactory("simple", header, body);
 
-
-
-
     }
+
+
+    function makeModifyMyProfileModal(){
+
+
+    	let $img = $("<img>").attr("src", "").attr("onerror", "this.src='${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg'").addClass("w-100");
+		let $inputTitle = $("<input>").attr("name", "title").attr("placeholder", "제목을 입력하세요..").addClass("form-control border-input");
+		let $inputGroup = $("<input>").attr("name", "group").attr("placeholder", "지역 혹은 소속된 그룹을 입력하세요..").addClass("form-control border-input");
+		let $inputLink = $("<input>").attr("name", "link").attr("placeholder", "연결할 링크를 입력하세요.").addClass("form-control border-input");
+		let $inputFile = $("<input>").attr("type", "file").attr("name", "imageFIle").addClass("form-control border-input");
+
+		$inputFile.on("change", function(e){
+			checkImageFile(e);
+			$img.css("display","none");
+			let files =  $(e.target).prop("files");
+			let file = files[0];
+			let imagePath =URL.createObjectURL(file);
+			$img.attr("src", imagePath);
+			$img.fadeIn("slow");
+
+
+		});
+
+let header = $("<h3>").addClass("modal-title text-center").html("내 프로필 페이지 수정하기")
+				.append($("<br>"));
+
+		let body = $("<div>").addClass("form-group")
+				.append($("<label>").html("Title"))
+				.append($inputTitle)
+				.append($("<br>"))
+				.append($("<label>").html("Group"))
+				.append($inputGroup)
+				.append($("<br>"))
+				.append($("<label>").html("Web Link"))
+				.append($inputLink)
+				.append($("<br>"))
+				.append($("<label>").html("Background Image"))
+				.append($img)
+				.append($inputFile)
+				.append($("<br>"));
+
+		let footer = $("<div>").addClass("w-100 ml-auto mr-auto")
+				.append($("<div>").append($("<button>").addClass("btn btn-success w-75").html("수정하기").on("click", function(e){
+
+					e.preventDefault();
+					alert("수정하기 클릭!");
+
+				})));
+
+
+		return ModalFactory("triple",  header, body, footer);
+
+
+	}
 
 
 

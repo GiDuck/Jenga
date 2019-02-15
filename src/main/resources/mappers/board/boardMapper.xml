@@ -124,9 +124,9 @@
 	</insert>
 
     <!-- 좋아요 체크 -->
-    <select id="likeCheck" resultType="String">
+    <select id="likeCheck" resultType="Integer">
 		SELECT
-			blk_writer
+			count(*)
 		from
 			tbl_blocklikes
 		where

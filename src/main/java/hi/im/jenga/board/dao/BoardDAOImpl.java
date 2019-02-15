@@ -6,6 +6,7 @@ import hi.im.jenga.member.dto.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -17,9 +18,9 @@ public class BoardDAOImpl implements BoardDAO {
 
     private static final Logger logger = LoggerFactory.getLogger(BoardDAOImpl.class);
 
-    private final SqlSession sqlSession;
+    private SqlSession sqlSession;
 
-
+    @Autowired
     public BoardDAOImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
     }
@@ -54,12 +55,21 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-    public String likeCheck(String bl_iuid, String session_mem_iuid) {
+    public Boolean likeCheck(String bl_iuid, String session_mem_iuid) {
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
-        String result = sqlSession.selectOne("board.likeCheck", map);
-        return result;
+
+        System.out.println("like check");
+        System.out.println(map);
+
+        Integer result = sqlSession.selectOne("board.likeCheck", map);
+
+        if(result > 0 ){
+
+            return true;
+        }
+        return false;
     }
 
     public void addLike(String bl_iuid, String session_mem_iuid) {

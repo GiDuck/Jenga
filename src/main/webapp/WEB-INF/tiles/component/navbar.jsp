@@ -57,7 +57,7 @@
                     <i class="fa fa-user"></i> 팔로잉
                 </a>
 
-              <a class="dropdown-item" data-scroll="true" data-id="#features" href="#">
+              <a class="dropdown-item" data-scroll="true" data-id="#features" href="/board/getNoticeBoard">
                 <i class="nc-icon nc-alert-circle-i"></i> 공지사항
               </a>
 
@@ -212,7 +212,6 @@
               });
 
               window.location.href= dest;
-              <%--window.location.href= "${map.dest}";--%>
 
           }
 		  

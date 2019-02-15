@@ -12,13 +12,14 @@
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+	<context:component-scan base-package="hi.im.jenga" />
+
+	<util:properties id="props" location="file:/C:/Users/gdtbg/IdeaProjects/Jenga/src/main/resources/test/emailFormSource.properties" />
 	<util:properties id="data" location="file:/D:/tests.properties" />
 
 
 	<!-- 스프링 빈을 태그로 등록하지 않고 자동으로 검색 (auto scan) -->
 	<!-- 스프링에서 관리하는 bean의 기본 디렉토리 -->
-	<context:annotation-config/>
-	<context:component-scan base-package="hi.im.jenga" />
 
 	<!-- DataSource는 JDBC의 커넥션을 처리하는 기능을 가지고 있기 때문에 데이터베이스와 연동 작업에 반드시 필요하다. -->
 	<!-- oracle -->

@@ -33,7 +33,7 @@ public interface BoardDAO {
 
     int likeCount(String bl_iuid);
 
-    String likeCheck(String bl_iuid, String session_mem_iuid);
+    Boolean likeCheck(String bl_iuid, String session_mem_iuid);
 
     Map<String, List<String>> getCategoryName();
 

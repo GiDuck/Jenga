@@ -1,6 +1,6 @@
 package hi.im.jenga.member.util.cipher;
 
-import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -8,43 +8,21 @@ import javax.annotation.PostConstruct;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.inject.Singleton;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-
-@SuppressWarnings("restriction")
 @Component
-@Singleton
+@SuppressWarnings("restriction")
 public class AES256Cipher {
     
     //private static volatile AES256Cipher INSTANCE;
     
     @Value("#{data['aes.secretkey']}")
      private String secretKey; //32bit
-     private String IV                = ""; //16bit
+     private String IV = ""; //16bit
     
-    
-    /*public void setValue(String key){
-        secretKey = key;
-    }
-    
-    public String getValue() {
-        return secretKey;
-    }*/
-    
- /*   public static AES256Cipher getInstance(){
-        if(INSTANCE==null){
-            synchronized(AES256Cipher.class){
-                if(INSTANCE==null)
-                    INSTANCE=new AES256Cipher();
-            }
-        }
-        return INSTANCE;
-    } 
-    */
-     
+
      //디폴트생성자
     public AES256Cipher() {
     }

@@ -6,7 +6,6 @@
 		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd">
 
 
-	<!--<mongo:mongo-client id="jenga"  host="localhost" port="27017">-->
 	<mongo:mongo-client id="jenga" host="#{data['mongo.host']}" port="#{data['mongo.port']}" credentials="#{data['mongo.username']}:#{data['mongo.pwd']}@#{data['mongo.dbname']}">
 
 		<mongo:client-options
@@ -25,6 +24,10 @@
 		<constructor-arg ref="jenga"/>
 		<constructor-arg name="databaseName" value="#{data['mongo.dbname']}"/>
 	</bean>
+
+
+
+
 
 
 </beans>

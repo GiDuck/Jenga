@@ -135,7 +135,7 @@
                                     <!-- end media -->
                                     <br />
                                     <div class="text-center">
-                                        <button class="btn btn-outline-info btn-round">Load more tweets</button>
+                                        <button class="btn btn-outline-info btn-round">Load more articles</button>
                                     </div>
                                 </div>
                             </div>
@@ -274,11 +274,18 @@
 <script>
 
     function renderProfile(){
-
         //TODO ajax로 데이터 로드
         //TODO follower uid 확인 후 만약 session에 있는 uid와 동일하면 페이지 수정 버튼 활성화 (현재 보고있는 사람 == 팔로워 페이지 주인)
-        if(false){
-            $("button[name='profileBtn']").removeClass("btn-info").addClass("bg-danger").find("i").removeClass().addClass("nc-icon nc-ruler-pencil");
+        if(true){
+            let $profileBtn = $("button[name='profileBtn']");
+            $profileBtn.removeClass("btn-info").addClass("bg-danger").find("i").removeClass().addClass("nc-icon nc-ruler-pencil");
+            $profileBtn.attr("title", "내 페이지 수정");
+            $profileBtn.on("click", function(e){
+
+                makeModifyMyProfileModal();
+
+            });
+
         }
 
 
@@ -287,12 +294,7 @@
     $(document).ready(function(){
 
        navbarObj.setType("bg-danger");
-
-
-
-
-
-
+        renderProfile();
 
     });
 
