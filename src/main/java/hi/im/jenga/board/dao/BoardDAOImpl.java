@@ -2,6 +2,7 @@ package hi.im.jenga.board.dao;
 
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.board.util.BlockCompType;
 import hi.im.jenga.member.dto.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -45,7 +46,6 @@ public class BoardDAOImpl implements BoardDAO {
 
     public void writeViewTag(String bl_uid, String[] bt_name) {
         Map<String, String> map = new HashMap();
-
         map.put("bl_uid", bl_uid);
 
         for (String tag : bt_name) {
@@ -55,27 +55,16 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
 
-    public Boolean likeCheck(String bl_iuid, String session_mem_iuid) {
+    public int likeCheck(String bl_iuid, String session_mem_iuid) {
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
 
-        System.out.println("like check");
-        System.out.println(map);
+        return sqlSession.selectOne("board.likeCheck", map);
 
-        Integer result = sqlSession.selectOne("board.likeCheck", map);
-
-        if(result > 0 ){
-
-            return true;
-        }
-        return false;
     }
 
     public void addLike(String bl_iuid, String session_mem_iuid) {
-        logger.info("like추가");
-        logger.info("아유아디    "+bl_iuid);
-        logger.info("session     "+session_mem_iuid);
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
@@ -83,7 +72,6 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     public void cancelLike(String bl_iuid, String session_mem_iuid) {
-        logger.info("like삭제");
         Map<String, String> map = new HashMap();
         map.put("bl_iuid", bl_iuid);
         map.put("session_mem_iuid", session_mem_iuid);
@@ -139,23 +127,25 @@ public class BoardDAOImpl implements BoardDAO {
 
     }
 
-    public String transCtgUID(String bl_smCtg, String flag) {
-        String trans;
-        if (flag.equals("s")) {
+    public String transCtgUID(String bl_smCtg, BlockCompType flag) {
+
+        if (BlockCompType.CATEGORY_SAMLL.equals(flag)) {
+
             return sqlSession.selectOne("board.sctgUID", bl_smCtg);
+
         }
         return sqlSession.selectOne("board.mctgUID", bl_smCtg);
     }
 
-    public List<BoardDTO> searchName(String search, int startrow, int endrow) {
+    public List<BoardDTO> searchName(String search, double startRow, double endRow) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("search", search);
-        map.put("startrow",startrow);
-        map.put("endrow", endrow);
+        map.put("startrow", startRow);
+        map.put("endrow", endRow);
         return sqlSession.selectList("board.searchName", map);
     }
 
-    public List<BoardDTO> searchTag(String search, int startrow, int endrow) {
+    public List<BoardDTO> searchTag(String search, double startrow, double endrow) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("search", search);
         map.put("startrow",startrow);
@@ -163,11 +153,11 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectList("board.searchTag", map);
     }
 
-    public List<BoardDTO> searchContents(List<String> search, int startrow, int endrow) {
+    public List<BoardDTO> searchContents(List<String> search, double startRow, double endRow) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("search", search);
-        map.put("startrow",startrow);
-        map.put("endrow", endrow);
+        map.put("startrow", startRow);
+        map.put("endrow", endRow);
         return sqlSession.selectList("board.searchTitle", map);
     }
 
@@ -179,8 +169,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     public void follow(String bl_writer, String session_iuid) {
-        System.out.println(bl_writer);
-        System.out.println(session_iuid);
+
         Map<String, String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
         map.put("session_iuid", session_iuid);
@@ -194,14 +183,14 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectOne("board.followCheck", map) == null ? "success" : "error";
     }
 
-    public void unFollow(String bl_writer, String session_iuid) {
+    public int unFollow(String bl_writer, String session_iuid) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("bl_writer", bl_writer);
         map.put("session_iuid",session_iuid);
-        sqlSession.delete("board.unFollow",map);
+        return sqlSession.delete("board.unFollow",map);
     }
 
-    public List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid) { //follower한 사람 글
+    public List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("my_iuid", my_iuid);
         map.put("follow_iuid", follow_iuid);
@@ -252,13 +241,12 @@ public class BoardDAOImpl implements BoardDAO {
 
 
     public String getUploadName(String bl_uid) {
-        return sqlSession.selectOne("board.getUploadName", bl_uid);
+        return sqlSession.selectOne("board.getUploadedFilePath", bl_uid);
     }
 
 
-    public String checkBmksPath(String session_iuid) {
-        String result = sqlSession.selectOne("board.checkBmksPath", session_iuid);
-        return result == null ? "X" : "O";
+    public int checkBmksPath(String session_iuid) {
+        return sqlSession.selectOne("board.checkBmksPath", session_iuid);
     }
 
     public void insertBmksPath(String session_iuid, BlockPathDTO blockPathDTO) {

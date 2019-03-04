@@ -1,19 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!--
-본 페이지는 사용자가 가입 후에 개인 정보를 수정할 수 있는 페이지임.
-Form-data parameter
-닉네임 - nickname
-이메일 - email
-프로필 사진 - userProfile
-사용자 환경 설정 (배열) - configure
-사용자 취향 설정 (String 배열) - favor
--->
 
-<script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>
-<jsp:include page="./mem_components.jsp"/>
 
+<script src="${pageContext.request.contextPath}/resources/js/member.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/modal/bookmarkModal.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/modal/memberModal.js"></script>
+
+<jsp:include page="memComponent.jsp"/>
+
+<style>
+
+    #em_pwd:hover{
+        background-color: #9A9A9A;
+    }
+
+</style>
 <div class="wrapper">
     <div class="profile-content section">
         <form class="settings-form" onsubmit="return false;">
@@ -24,7 +26,7 @@ Form-data parameter
                 <div class="profile-picture">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new img-no-padding">
-                            <img src="${DTO.mem_profile}" name="profile" id="profile" src="" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
+                            <img src="${DTO.mem_profile}" name="profile" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
                         </div>
                         <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                         <div>
@@ -55,7 +57,7 @@ Form-data parameter
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" id = "em_pwd" name="em_pwd" class="form-control border-input" placeholder="Password" value="" disabled>
+                                <div id = "em_pwd" name="em_pwd" style="cursor : pointer" class="form-control border-input">비밀번호 수정</div>
                             </div>
                         </div>
 
@@ -160,9 +162,7 @@ Form-data parameter
 
 <script>
 
-
-
-
+    let authStatusCode = JSON.parse('${authStatusCode}');
     /* ------------ 뷰 초기화 작업 ------------ */
     $(document).ready(function () {
         navbarObj.setType("bg-info");
@@ -171,42 +171,29 @@ Form-data parameter
 
         //썸네일 이미지가 업로드 될때마다 유효성 검사 실시 (1MB 이하만 업로드 가능, jpg, jpeg, png, gif 외 확장자 사용 불가)
         $("input[name='profile']").on('change', function(e){
-
             checkImageFile(e);
+        });
+
+
+        $("#em_pwd").on("click", function(e){
+
+            makeModifyPWModal(authStatusCode);
 
         });
 
+
+
+        let syncComDateStr = "미등록";
         $.ajax({
 
            type : "GET",
            data : null,
-           url : "/getBmksUploadDate",
-           success : function(response){
-
-               let $syncDateField;
-                   $syncDateField = $("#chromeSyncDate");
-
-                   console.log("받아온 날짜...");
-                   console.log(response);
-
-
-               let syncComDateStr = "미등록";
-
-               if(response){
+           url : "/getBookmarkUploadDate",
+           success : function(response){;
+               if(response.replace(REGEX_TRIM_VOID, "").length > 0){
                    syncComDateStr = new DateTimeFormatter().getFullDateTime(response);
-
+                   renderBookmarkDateField(syncComDateStr, "chrome");
                }
-
-
-               $syncDateField.html(syncComDateStr);
-
-
-
-           },
-           error : function(xhs, status, error){
-
-               console.log("동기화 날짜 받기 실패... " + status);
-
            }
 
         });
@@ -289,54 +276,68 @@ Form-data parameter
     });
 
 
-    // ---------- Submit시에 Hidden 값을 넣어주는 함수 -----------
+    function renderBookmarkDateField(syncComDateStr, type){
 
+        let $syncDateField;
+        if(type === 'chrome'){
+            $syncDateField = $("#chromeSyncDate");
+        }else if(type ==='explore'){
+            $syncDateField = $("#exploreSyncDate");
+        }
+        $syncDateField.html(syncComDateStr);
+
+    }
+
+    // ---------- Submit시에 Hidden 값을 넣어주는 함수 -----------
     function onFormReq() {
 
         //사용자가 선택한 취향 카드 목록을 들고온다.
         let selectCard = getSelectedCard();
 
-        let nickname = $("input[name='mem_nick']").val(); // 냥
+        let nickname = $("input[name='mem_nick']").val();
         let introduce = $("textarea[name='mem_introduce']").val();
         let profile = $("#mem_profile").prop("files");
-
 
         let params = new FormData();
         params.append("mem_nick", nickname);
         params.append("mem_profile", profile[0]);
         params.append("mem_introduce", introduce);
         params.append("favor", selectCard);
-
         $.ajax({
 
             url : "/modMemInfo",
-            method : "POST",
+            type : "POST",
+            enctype: "multipart/form-data",
+            data : params,
             contentType: false,
             cache: false,
             processData:false,
-            data : params,
-            type : "POST",
             success : function(response){
 
-                swal({
+                let statusCodeArr = JSON.parse('${authStatusCode}');
+                let statusCode = parseInt(response);
+                console.log(response);
+                if(equalToCodeNum(statusCodeArr, "MOD_SUCCESS", statusCode)){
+                    swal({
+                        text : "회원정보 수정 성공하였습니다.",
+                        type : "success"
 
-                    text : "회원정보 수정 성공하였습니다.",
-                    type : "success"
+                    }).then(function(){
 
-                }).then(function(){
+                        window.location.replace("/modMemInfo");
+                    });
+                }else if(equalToCodeNum(statusCodeArr, "MOD_FAIL", statusCode)){
 
-                    window.location.replace("/");
-                });
+                    swal("수정 실패", "회원 정보 수정 실패 하였습니다.", "error");
+
+
+                }
+
 
             },
             error : function(error){
 
-                swal({
-
-                    text : "회원정보 수정 실패하였습니다.",
-                    type : "error"
-
-                });
+                swal("수정 실패", "회원 정보 수정 중 에러가 발생 하였습니다.", "error");
 
             }
 
@@ -347,27 +348,18 @@ Form-data parameter
 
     }
 
-
-    //선택된 카드를 가져오는 함수
     function getSelectedCard() {
 
-        //카드 목록을 가져와서 -
         let $cards = $("#selectFavorField").find(".card");
         let selCards = new Array();
 
         $cards.each(function (index, item) {
             let temp = $(item).css('opacity');
-            // alert("temp..." + temp);
-            //만약 투명도가 1이 아니면 (카드 선택 시 투명도가 1 미만으로 설정되어있음)
             if (temp < 1) {
-
-                //html값을 가져와서 배열에 넣어준다.
                 selCards.push($(item).find("h3").html());
 
             }
         });
-
-        //배열을 리턴
         return selCards;
 
 
@@ -377,52 +369,36 @@ Form-data parameter
     //취향 카드 리스트 초기화
     let initFavorForm = function () {
 
-        //Ajax로 DB에서 카테고리 리스트를 받아옴
         $.ajax({
 
-            "type": "get",
-            "url": "/getCategory",
-            "data": null,
-            "success": function (response) {
+            type: "get",
+            url: "/getCategory",
+            data: null,
+            success: function (response) {
 
-                //div 필드를 초기화
                 let $selectFavorField = $("#selectFavorField");
-
-
-               //Request Scope로 넘긴 배열 리스트들을
                 let index;
                 for (let i = 0; i < response.length; ++i) {
                     index = response[i];
                     let $cardItem = $("#cardItem").clone();
 
-                    //display : none 처리 되어있는 카드를 show 해준다.
                     $cardItem.css('display', 'block');
                     $cardItem.find(".card").css("background-image", "url('/categoryimg/" + index.MCTG_IMG + "')");
                     $cardItem.find("h3").html(index.MCTG_NAME);
 
                     if (userFavor.includes(index.MCTG_NAME)) {
-
                         $cardItem.find(".card").css('opacity', '0.2');
-
                     }
 
                     $cardItem.on('click', function (e) {
-
-                        //사용자가 클릭 시 투명도를 변경하여 눈에 띄게 처리한다.
                         e.preventDefault();
                         let opacity = $cardItem.find(".card").css('opacity');
 
-                        //만약 선택된 카드가 선택되지 않았다면
                         if (opacity == 1) {
-
-                            //투명도를 낮춰준다.
                             $cardItem.find(".card").css('opacity', '0.2');
                         } else {
-
-                            //만약 카드가 선택되었다면 투명도를 높여준다.
                             $cardItem.find(".card").css('opacity', '1');
                         }
-
                     });
 
                     //지정된 태그에 자식으로 추가
@@ -433,7 +409,7 @@ Form-data parameter
 
             },
 
-            "error": function (xhs, request, error) {
+            error: function (xhs, request, error) {
 
 
                 console.log("error code.. " + request.status + " message : " + request.responseText + "error : " + error);

@@ -1,6 +1,5 @@
 package hi.im.jenga.member.dto;
 
-import org.springframework.lang.Nullable;
 
 public class EmailMemberDTO {
     private String em_id;
@@ -47,5 +46,16 @@ public class EmailMemberDTO {
 
     public void setEm_acheck(String em_acheck) {
         this.em_acheck = em_acheck;
+    }
+
+    @Override
+    public String toString() {
+        return "EmailMemberDTO{" +
+                "em_id='" + em_id + '\'' +
+                ", em_ref='" + em_ref + '\'' +
+                ", em_pwd='" + em_pwd + '\'' +
+                ", em_akey='" + em_akey + '\'' +
+                ", em_acheck='" + em_acheck + '\'' +
+                '}';
     }
 }

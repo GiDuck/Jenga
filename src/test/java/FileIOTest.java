@@ -1,11 +1,16 @@
 
 import hi.im.jenga.board.util.FileIOUtil;
-import hi.im.jenga.board.util.FileType;
+import hi.im.jenga.util.FileType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,6 +20,9 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml", "file:../../main/webapp/WEB-INF/spring/mongo-config.xml"})
+@WebAppConfiguration
 public class FileIOTest {
 
     private static MultipartFile imageFile;
@@ -27,6 +35,17 @@ public class FileIOTest {
 
     public static final String BOOKMARK_NAME = "bookmarks.html";
     public static final String BOOKMARK_PATH = TEST_PATH+ "/ "+ BOOKMARK_NAME;
+
+
+    @Value("#{data['image.profile_path']}")
+    private String profile_path;
+
+    @Value("#{data['image.profile_absolute_path']}")
+    private String profile_absolute_path;
+
+    @Value("#{data['image.absolute_path']}")
+    private String image_absolute_path;
+
 
     public String nameParser(final String oldName){
 
@@ -110,5 +129,35 @@ public class FileIOTest {
 
 
     }
+
+
+
+    @Ignore
+    @Test
+    public void testImageUpload(){
+
+        System.out.println("가져온 경로.....");
+        System.out.println(getUploadName(imageFile, profile_absolute_path, image_absolute_path));
+
+
+    }
+    private String getUploadName(MultipartFile uploadFile, String path, String replceToken){
+
+        System.out.println("원본 경로 " + path);
+        System.out.println("대체될 경로 " + replceToken);
+        String uploadName;
+        if (uploadFile != null) {
+            uploadName = new FileIOUtil(FileType.IMAGE).fileUpload(uploadFile, path);
+            uploadName = uploadName.replace("\\", "/");
+            uploadName = uploadName.replace(replceToken.substring(0, replceToken.length()-1), "");
+        } else {
+            uploadName = "";
+        }
+
+        return uploadName;
+
+    }
+
+
 
 }

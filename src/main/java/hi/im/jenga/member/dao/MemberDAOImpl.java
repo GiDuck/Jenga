@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.*;
 
 @Repository
@@ -25,193 +27,163 @@ public class MemberDAOImpl implements MemberDAO{
         this.sqlSession = sqlSession;
         this.aes256Cipher = aes256Cipher;
     }
-
-    public int addEMemberInfo(MemberDTO memberDTO) {
-        return sqlSession.update("member.addEMemberInfo", memberDTO);
+    @Override
+    public int addEmailMemInfo(MemberDTO memberDTO) {
+        return sqlSession.update("member.addEmailMemInfo", memberDTO);
     }
-
-    public void addSMemberInfo(MemberDTO memberDTO) {
-        sqlSession.insert("member.addSMemberInfo", memberDTO);
+    @Override
+    public void addSocialMemInfo(MemberDTO memberDTO) {
+        sqlSession.insert("member.addSocialMemInfo", memberDTO);
     }
-
-    public MemberDTO getUserInfo(String mem_iuid) { return sqlSession.selectOne("member.getUserInfo", mem_iuid); }
-
-    public String getBmksUploadDate(String session_iuid) {
-        Date date = sqlSession.selectOne("member.getBmksUploadDate", session_iuid);
-        return String.valueOf(date.getTime());
+    @Override
+    public String getBookmarkUploadDate(String memUid) {
+        Date uploadedDate = sqlSession.selectOne("member.getBookmarkUploadDate", memUid);
+        if(uploadedDate != null){
+            return String.valueOf(uploadedDate.getTime());
+        }
+        return null;
     }
-
-    public void changePwd(String mem_iuid, String aes_pwd) {
+    @Override
+    @Transactional
+    public int changePwd(String memUid, String encodedAesPwd) {
         Map<String, String> map = new HashMap();
-        map.put("mem_iuid", mem_iuid);
-        map.put("aes_pwd", aes_pwd);
-        sqlSession.update("member.changePwd", map);
+        map.put("memUid", memUid);
+        map.put("memPwd", encodedAesPwd);
+
+        System.out.println(map);
+       return sqlSession.update("member.changePwd", map);
     }
-
-    public void addEMember(String aes_iuid) { sqlSession.update("member.addEMember",aes_iuid); }
-
-    public void addSMember(SocialMemberDTO socialMemberDTO, String iuid) {
+    @Override
+    public void addEMember(String encodedAesUid) { sqlSession.update("member.addEmailMember", encodedAesUid); }
+    @Override
+    public void addSocialMember(SocialMemberDTO socialMemberDTO, String memberUid) {
         HashMap<String, Object> map = new HashMap();
         map.put("socialMemberDTO", socialMemberDTO);
-        map.put("iuid", iuid);
+        map.put("memberUid", memberUid);
 
-        sqlSession.insert("member.addSMember", map);
+        sqlSession.insert("member.addSocialMember", map);
     }
-
-    public MemberDTO getExistMember(String aes_sid) {
-        return sqlSession.selectOne("member.getExistMember", aes_sid);
+    @Override
+    public MemberDTO getExistMember(String memUid) {
+        return sqlSession.selectOne("member.getExistMember", memUid);
     }
-
-    public String isEMExist(String aes_eid) throws Exception {
-        String result= sqlSession.selectOne("member.isEMExist", aes_eid);
-        return result != null ? (result.equals("Y") ? "Y" : "N") : "notexist";
+    @Override
+    public String isEmailMemberExists(String encodedAesUid) {
+        return sqlSession.selectOne("member.isEMExist", encodedAesUid);
     }
-
-    public void findEPwd(String aes_find_pwd, String sha_key) {
-        logger.info(": : : findEPwd 들어옴 ");
-        HashMap <String, String> map = new HashMap();
-        map.put("aes_find_pwd", aes_find_pwd);
-        map.put("sha_key", sha_key);
-
-        int n = sqlSession.update("member.findEPwd",map);
+    @Override
+    public void findEmailPwd(String encodedAesPwd, String shaKey) throws SQLException {
+        Map <String, String> map = new HashMap<>();
+        map.put("aes_find_pwd", encodedAesPwd);
+        map.put("sha_key", shaKey);
+        int updatedRow = sqlSession.update("member.findEPwd",map);
+        if(updatedRow > 1){
+            throw new SQLException();
+        }
     }
+    @Override
+    public void tempIns(String memUid) {
 
-    public void tempIns(String iuid) {
-
-        sqlSession.insert("member.tempIns", iuid);
+        sqlSession.insert("member.tempIns", memUid);
     }
+    @Override
+    public int authCheck(EmailMemberDTO emailMemberDTO) {
+        return sqlSession.update("member.authTokenUpdate", emailMemberDTO);
 
-    public boolean authCheck(EmailMemberDTO emailMemberDTO) {
-        String result = sqlSession.selectOne("member.authCheck", emailMemberDTO);
-        return result == null? false : true;
     }
-
-    public String findIuid(EmailMemberDTO emailMemberDTO) {
-        logger.info("findIuid IN DaoImpl");
-        return sqlSession.selectOne("member.findIuid", emailMemberDTO);
+    @Override
+    public String findMemUidByEmail(String email) {
+        return sqlSession.selectOne("member.findMemUidByEmail", email);
     }
+    @Override
+    public void delMemInfo(String memUid) {
+        sqlSession.delete("member.delMemInfo", memUid);
 
-    public void delMemInfo(String session_mem_iuid) {
-        logger.info("DaoImpl  |  delMemInfo 에 들어옴");
-        sqlSession.delete("member.delMemInfo", session_mem_iuid);
-        logger.info("나가라");
-        logger.info("나가라 했다");
-//        logger.info("n은 "+n);
     }
-
-    public void updMemInfo(MemberDTO memberDTO) {
-        sqlSession.update("member.updMemInfo", memberDTO);
-    }
-
-//    public MemberDTO modMemberInfo(String aes_iuid) { return sqlSession.selectOne("member.modMemberInfo", aes_iuid); }
-    public void addMemberFavor(String aes_iuid, String fav) {
+    @Override
+    public void addMemberFavor(String encodedAesUid, String favor) {
         Map<String,String> map = new HashMap<String, String>();
-        map.put("aes_iuid",aes_iuid);
-        map.put("fav",fav);
+        map.put("memUid", encodedAesUid);
+        map.put("favor", favor);
         sqlSession.insert("member.addMemberFavor", map);
     }
 
-    public void sendKey(EmailMemberDTO emailMemberDTO) throws Exception {
+    @Transactional
+    public void sendKey(EmailMemberDTO emailMemberDTO) {
 
-        logger.info(": : : sendKey 1 :");
-//        logger.info(": : : "+list.get(0).getEm_acheck()+"입니다.");
+           sqlSession.insert("member.setTempMemInfo", emailMemberDTO);
+           sqlSession.insert("member.sendKey", emailMemberDTO);
 
-        // INSERT 아예 없을 경우
-        if(emailMemberDTO.getEm_acheck() == null){
-            logger.info("null임 if문 들어옴");
-            String aes_iuid  = aes256Cipher.AES_Encode(UUID.randomUUID().toString());     // Memberinfo에 넣어줄 iuid. 나머지는 0으로 지정
-            logger.info("aes_iuid는 "+aes_iuid);
-            sqlSession.insert("member.tempIns", aes_iuid);                      // 임시로 memInfo 에 iuid, nick, profile, joindate 넣음
-            emailMemberDTO.setEm_ref(aes_iuid);                                             // tbl_memInfo 의 iuid(PK)를 ref에 넣어줌
-            logger.info(": : : sendKey 2 :");
-            sqlSession.insert("member.sendKeyInsert", emailMemberDTO);
-            return;
-        }
-        // 인증여부가 N 일때
-        logger.info(": : : sendKey 3 :");
-        logger.info("새로 뽑아서 넣어야지 / 후"+ emailMemberDTO.getEm_akey());
-        sqlSession.update("member.sendKeyUpdate", emailMemberDTO);
-
-        logger.info(": : : sendKey 4 :");
     }
 
-    public String checkEmail(EmailMemberDTO emailMemberDTO) {
-        return sqlSession.selectOne("member.checkid",emailMemberDTO);
+    @Override
+    public int checkEmail(String userUid) {
+        return sqlSession.selectOne("member.checkid", userUid);
     }
-
-    public String checkPwd(EmailMemberDTO emailMemberDTO){
+    @Override
+    public int checkPwd(EmailMemberDTO emailMemberDTO){
         return sqlSession.selectOne("member.checkpass",emailMemberDTO);
     }
-
-    public String checkAuth(EmailMemberDTO emailMemberDTO) {
+    @Override
+    public String getAuthToken(EmailMemberDTO emailMemberDTO) {
 
         return sqlSession.selectOne("member.checkauth",emailMemberDTO);
     }
+    @Override
+    public List<String> getMemFavor(String memberUid) { return sqlSession.selectList("member.getMemFavor", memberUid); }
+    @Override
+    public MemberDTO modMemberInfoGET(String encodedAesUid) {  return sqlSession.selectOne("member.modMemberInfoGET", encodedAesUid); }
 
-    public List<String> getMemFavor(String member) { return sqlSession.selectList("member.getMemFavor",member); }
-
-    public MemberDTO modMemberInfoGET(String aes_iuid) {  return sqlSession.selectOne("member.modMemberInfoGET", aes_iuid); }
-
-    public MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor){
+    @Transactional
+    public MemberDTO modMemberInfoPOST(String memUid, MemberDTO memberDTO, String[] favor){
         Map<String, Object> map = new HashMap();
-
+        memberDTO.setMem_iuid(memUid);
         map.put("memberDTO", memberDTO);
-        map.put("s_iuid", s_iuid);
+        map.put("memUid", memUid);
 
         sqlSession.update("member.modMemberInfoPOST_MemInfo", map);
+        sqlSession.delete("member.delMemberFavor", memUid);
 
-       /* 비번 처리
-       logger.info("비번 공백이면 뒤에 음따 "+aes_em_pwd+"음제");
-        if(!aes_em_pwd.equals("")) {
-            map.put("aes_em_pwd", aes_em_pwd);
-            sqlSession.update("member.modMemberInfoPOST_EMember", map);
-        }*/
-
-//        sqlSession.delete("member.delMemberFavor", s_iuid);
-        sqlSession.delete("member.delMemberFavor", s_iuid);
-        logger.info("delete이다");
-        for(String fav : favor) {
-            map.put("fav",fav);
-            try {
-
-                sqlSession.insert("member.addMemberFavor", map);
-                logger.info("태그넣는ㄷ이다");
-            }catch (Exception e){
-                // 무결성 제약 조건에 위배됩니다.
-            }
+        for(String item : favor) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("memUid", memUid);
+            param.put("favor",item);
+                sqlSession.insert("member.addMemberFavor", param);
         }
 
-//        세션에 있는 아이디로 memInfo를 뽑아오기 위해
-        return sqlSession.selectOne("member.getMemInfoSession",s_iuid);
+        return sqlSession.selectOne("member.getMemInfoSession", memUid);
 
     }
 
-    // 프사를 그대로 할 시 다시 뽑아오기
-    public String getMemProfile(String s_iuid) {
-        return sqlSession.selectOne("member.getMemProfile",s_iuid);
+    @Override
+    public String getMemProfile(String memUid) {
+        return sqlSession.selectOne("member.getMemProfile", memUid);
     }
 
-    public MemberDTO testParam() {
-        return null;
-    }
-
-
-
-    /***카테고리 뽑는중***/
+    @Override
     public List<Map<String,String>> getCategory() {
-        /*System.out.println(sqlSession.selectList("member.getCategory"));*/
-        List<Map<String,String>> list  = sqlSession.selectList("member.getCategory");
-       /* for(HashMap<String,String> map :  list){
-            System.out.println(map.get("MCTG_NAME"));
-            System.out.println(map.get("MCTG_IMG"));
-        }*/
-       return list;
+       return sqlSession.selectList("member.getCategory");
     }
 
-
-
-    public MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO) {
-        return sqlSession.selectOne("member.getMemInfo",emailMemberDTO);
+    @Override
+    public MemberDTO getUserInfo(String userUid) {
+        return sqlSession.selectOne("member.getUserInfo", userUid);
     }
 
+    @Override
+    public void insertWhetherRegInfo(String memUid) {
+
+        sqlSession.insert("member.insertWhetherRegInfo", memUid);
+
+    }
+
+    @Override
+    public int deleteWhetherRegInfo(String memUid) {
+        return sqlSession.delete("member.deleteWhetherRegInfo", memUid);
+    }
+    @Override
+    public int selectWhetherRegInfo(String memUid){
+
+        return sqlSession.selectOne("member.getWhetherRegInfo", memUid);
+    }
 }

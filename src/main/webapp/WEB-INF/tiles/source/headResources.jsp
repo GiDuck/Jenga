@@ -21,7 +21,18 @@
 
   <link href="${pageContext.request.contextPath}/resources/twitterHeart/style.css" rel="stylesheet">
   <script src="${pageContext.request.contextPath}/resources/twitterHeart/heart.js"></script>
-  <script src="${pageContext.request.contextPath}/resources/assets/js/regexManager.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/regexManager.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/htmlParser.js"></script>
 
-
+  <script>
+      exceptionHandler(function(){
+          window.authStatusCode = parseStatusArrToObj(JSON.parse('${authStatusCode}'));
+      });
+      exceptionHandler(function(){
+          window.fileStatusCode = parseStatusArrToObj(JSON.parse('${fileStatusCode}'));
+      });
+      exceptionHandler(function(){
+          window.blockStatusCode = parseStatusArrToObj(JSON.parse('${blockStatusCode}'));
+      });
+  </script>

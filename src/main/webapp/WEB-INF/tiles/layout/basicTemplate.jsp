@@ -12,8 +12,7 @@
 
 <title>Jenga! 지식을 쌓고 빼고 즐기세요.</title>
 
-<tiles:insertAttribute name="cssFiles"/>
-<tiles:insertAttribute name="components"/>
+<tiles:insertAttribute name="headResources"/>
 
 </head>
 <body>
@@ -23,7 +22,6 @@
 
 </body>
 
-<tiles:insertAttribute name="jsFiles"/>
-
+<tiles:insertAttribute name="footResources"/>
 
 </html>

@@ -5,64 +5,62 @@ import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
 
-import java.util.HashMap;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public interface MemberDAO {
-    int addEMemberInfo(MemberDTO memberDTO);
+    int addEmailMemInfo(MemberDTO memberDTO);
 
-    void addEMember(String aes_iuid);
+    void addEMember(String encodedAesUid);
 
-    void addSMember(SocialMemberDTO socialMemberDTO, String iuid);
+    void addSocialMember(SocialMemberDTO socialMemberDTO, String memberUid);
 
-    MemberDTO getExistMember(String aes_sid);
+    MemberDTO getExistMember(String memUid);
 
-    String isEMExist(String aes_eid) throws Exception;
+    String isEmailMemberExists(String encodedAesUid);
 
-    void findEPwd(String aes_find_pwd, String sha_key);
+    void findEmailPwd(String encodedAesPwd, String shaKey) throws SQLException;
 
-    String checkEmail(EmailMemberDTO emailMemberDTO);
+    int checkEmail(String userUid);
 
-    String checkPwd(EmailMemberDTO emailMemberDTO);
+    int checkPwd(EmailMemberDTO emailMemberDTO);
 
-    MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO);
+    MemberDTO getUserInfo(String userUid);
 
     void sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
 
-    void tempIns(String iuid);
+    void tempIns(String memUid);
 
-    boolean authCheck(EmailMemberDTO emailMemberDTO);
+    int authCheck(EmailMemberDTO emailMemberDTO);
 
-    String findIuid(EmailMemberDTO emailMemberDTO);
+    String findMemUidByEmail(String email);
 
-    void delMemInfo(String aes_iuid);
+    void delMemInfo(String memUid);
 
-    void updMemInfo(MemberDTO memberDTO);
+    void addMemberFavor(String encodedAesUid, String favor);
 
-//    MemberDTO modMemberInfo(String aes_iuid);
+    String getAuthToken(EmailMemberDTO emailMemberDTO);
 
-    void addMemberFavor(String aes_iuid, String fav);
+    List<String> getMemFavor(String memberUid);
 
-    String checkAuth(EmailMemberDTO emailMemberDTO);
+    MemberDTO modMemberInfoGET(String encodedAesUid);
 
-    List<String> getMemFavor(String member);
+    MemberDTO modMemberInfoPOST(String memUid, MemberDTO memberDTO, String[] favor) throws Exception;
 
-    MemberDTO modMemberInfoGET(String aes_iuid);
-
-    MemberDTO modMemberInfoPOST(String s_iuid, MemberDTO memberDTO, String[] favor) throws Exception;
-
-    String getMemProfile(String s_iuid);
-
-    MemberDTO testParam();
+    String getMemProfile(String memUid);
 
     List<Map<String,String>> getCategory();
 
-    void addSMemberInfo(MemberDTO memberDTO);
+    void addSocialMemInfo(MemberDTO memberDTO);
 
-    MemberDTO getUserInfo(String mem_iuid);
+    String getBookmarkUploadDate(String memUid);
 
-    String getBmksUploadDate(String session_iuid);
+    int changePwd(String memUid, String encodedAesPwd);
 
-    void changePwd(String mem_iuid, String aes_pwd);
+    void insertWhetherRegInfo(String memUid);
+
+    int deleteWhetherRegInfo(String memUid);
+
+    public int selectWhetherRegInfo(String memUid);
 }

@@ -1,23 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 
-<jsp:include page="./mem_components.jsp"/>
-<script src="${pageContext.request.contextPath}/resources/js/mem_js.js"></script>
-
-<!--
-
-본 페이지는 사용자가 가입 후에 개인 정보를 설정할 수 있는 페이지임
-
-Form-data parameter
-
-닉네임 - nickname
-이메일 - email
-프로필 사진 - userProfile
-사용자 환경 설정 (배열) - configure
-사용자 취향 설정 (String 배열) - favor
-
-
--->
+<jsp:include page="memComponent.jsp"/>
+<script src="${pageContext.request.contextPath}/resources/js/member.js"></script>
 
 <div class="wrapper">
     <div class="profile-content section">
@@ -104,11 +89,13 @@ Form-data parameter
 
 <script>
 
+let statusCodeArr = JSON.parse('${authStatusCode}');
 
     /* ------------ 뷰 초기화 작업 ------------ */
     $(document).ready( function() {
-        //네비바 색상 초기화
-        setNavType("blue");
+        navbarObj.setType("bg-info");
+        navbarObj.addHeadBlock();
+        busyLoadHide();
         initFavorForm();
 
 
@@ -121,19 +108,14 @@ Form-data parameter
 
     });
 
-
-    // ---------- Submit시에 Hidden 값을 넣어주는 함수 -----------
-
     function onFormReq(){
-
 
         //사용자가 선택한 취향 카드 목록을 들고온다.
         let selectCard = getSelectedCard();
 
-
 	  //Hidden 태그를 만들어 value를 사용자가 선택한 카테고리 이름으로 초기화 시킨다. 그리고 form 태그 안에 추가시킴.
-      if(selectCard.length==0){
-          alert("카드를 하나이상 선택해 주세요!")
+      if(selectCard.length < 2){
+          swal("입력 실패", "카드를 두 개 이상 선택해 주세요!", "info");
           return false;
       }
 
@@ -146,10 +128,20 @@ Form-data parameter
               formData.append("mem_introduce", introduce);
               formData.append("mem_profile", profile);
               formData.append("favor", selectCard);
-              formData.append("em_id", "${emailMemberDTO.em_id}");
-              formData.append("em_pwd", "${emailMemberDTO.em_pwd}");
-              formData.append("sm_id", "${socialMemberDTO.sm_id}");
-              formData.append("sm_type", "${socialMemberDTO.sm_type}");
+              formData.append("em_id", "${email.em_id}");
+              formData.append("em_pwd", "${email.em_pwd}");
+              formData.append("sm_id", "${social.sm_id}");
+              formData.append("sm_type", "${social.sm_type}");
+
+              if("${socialMemberDTO.sm_id}".length > 0){
+
+                  formData.append("loginType", 21);
+
+              }else{
+                  formData.append("loginType", 20);
+
+              }
+
 
         $.ajax({
 
@@ -161,24 +153,40 @@ Form-data parameter
           cache: false,
           processData:false,
           success : function(response){
-              swal({
-                 text : "추가 정보를 성공적으로 등록하였습니다.",
-                 type : "success"
 
-              }).then(function(){
-                  location.replace("/");
-              });
+              let statusCode = parseInt(response);
+              if(authStatusCode.REG_SUCCESS === statusCode || authStatusCode.REG_ALREADY_EXISTS === statusCode){
+
+
+                  if(authStatusCode.REG_ALREADY_EXISTS === statusCode){
+                      swal("알림", "등록이 제대로 완료되지 않았습니다. 문제 발생시 관리자에게 문의하십시오.", "warn");
+                  }
+
+                  swal({
+                     text : "추가 정보를 성공적으로 등록하였습니다.",
+                     type : "success"
+
+                  }).then(function(){
+                      location.replace("/");
+                      busyLoadHide();
+
+                  });
+
+              }else{
+
+                  swal("등록 실패", "추가 정보를 등록하는데 실패하였습니다. 문제가 지속되면 관리자에게 문의하십시오.", "error");
+                  busyLoadHide();
+
+              }
           },error : function(xhs, status, error) {
-                swal({
-                    text: "추가 정보 등록 중 에러가 발생하였습니다. 문제가 지속되면 관리자에게 문의하십시오.",
-                    type: "error"
 
-                });
+                swal("등록 실패", "추가 정보를 등록하는데 실패하였습니다. 문제가 지속되면 관리자에게 문의하십시오.", "error");
+                busyLoadHide();
 
-                return;
 
             }
-      });
+
+    });
 
 
         return false;
@@ -205,10 +213,6 @@ Form-data parameter
                 for(let i=0; i<response.length; ++i){
 
                     index = response[i];
-
-                    // console.log(index);
-                    console.log(index["MCTG_NAME"]);
-                    console.log(index.MCTG_NAME);
                     let $cardItem = $("#cardItem").clone();
                     let imgUrl = "/categoryimg/" + index.MCTG_IMG;
 
@@ -237,7 +241,6 @@ Form-data parameter
                     });
 
                     //지정된 태그에 자식으로 추가
-
                     $selectFavorField.append($cardItem);
 
 

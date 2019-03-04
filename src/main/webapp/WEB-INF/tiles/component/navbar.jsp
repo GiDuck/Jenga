@@ -39,7 +39,7 @@
             <div class="dropdown-menu dropdown-menu-right dropdown-warning">
               <a class="dropdown-item"  href="/board/search"><i class="nc-icon nc-zoom-split"></i>블록 찾기</a>
               <a class="dropdown-item"  href="/board/getFavoriteBlock" ><i class="nc-icon nc-bulb-63"></i>인기 블록</a>
-              <a class="dropdown-item loginService" href="/board/stackBlock?status=stack"><i class="nc-icon nc-app"></i>블록 쌓기</a>
+              <a class="dropdown-item loginService" href="/board/stackBlock"><i class="nc-icon nc-app"></i>블록 쌓기</a>
               <a class="dropdown-item loginService" href="/board/getMyFavorBlock"><i class="nc-icon nc-diamond"></i>내가 찜한 블록</a>
               <a class="dropdown-item loginService" href="/board/getMyBlockManage"><i class="nc-icon nc-bag-16"></i>내 블록 관리</a>
             </div>
@@ -135,15 +135,19 @@
 
    let navbarObj = new NavbarObj();
 
+
    
    
   $(document).ready(function(){
+
+
 
       $(window).on('unload', function(){
 
           $.busyLoadFull("hide", {});
 
       });
+
 
 
 

@@ -32,14 +32,19 @@ public class SessionValidate {
     }
 
     //유효한 세션을 꺼내오는 함수.
-    public static Object getValidSessionObj(HttpSession session, String key) throws IllegalArgumentException{
+    public static Object getValidSessionObj(HttpSession session, String key){
 
+
+        logger.info("session is null ? ");
         if (!isSessionEmpty(session, key)) {
 
             return session.getAttribute(key);
+
+        }else{
+            throw new RuntimeException("적합하지 않은 세션입니다.");
+
         }
 
-        throw new IllegalArgumentException("적합하지 않은 세션입니다.");
 
     }
 

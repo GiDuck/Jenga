@@ -2,6 +2,7 @@ package hi.im.jenga.board.dao;
 
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.board.util.BlockCompType;
 import hi.im.jenga.member.dto.MemberDTO;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface BoardDAO {
 
     String getUploadName(String bl_uid);
 
-    String checkBmksPath(String session_iuid);
+    int checkBmksPath(String session_iuid);
 
     void insertBmksPath(String session_iuid, BlockPathDTO blockPathDTO);
 
@@ -33,7 +34,7 @@ public interface BoardDAO {
 
     int likeCount(String bl_iuid);
 
-    Boolean likeCheck(String bl_iuid, String session_mem_iuid);
+    int likeCheck(String bl_iuid, String session_mem_iuid);
 
     Map<String, List<String>> getCategoryName();
 
@@ -43,13 +44,13 @@ public interface BoardDAO {
 
     void modifyViewTag(BoardDTO boardDTO);
 
-    String transCtgUID(String bl_smCtg, String flag);
+    String transCtgUID(String bl_smCtg, BlockCompType flag);
 
-    List<BoardDTO> searchName(String search, int startrow, int endrow);
+    List<BoardDTO> searchName(String search, double startRow, double endRow);
 
-    List<BoardDTO> searchTag(String search, int startrow, int endrow);
+    List<BoardDTO> searchTag(String search, double startrow, double endrow);
 
-    List<BoardDTO> searchContents(List<String> search, int startrow, int endrow);
+    List<BoardDTO> searchContents(List<String> search, double startRow, double endRow);
 
     void setSearchKeyword(String search, String session_iuid);
 
@@ -63,7 +64,7 @@ public interface BoardDAO {
 
     String followCheck(String bl_writer, String session_iuid);
 
-    void unFollow(String bl_writer, String session_iuid);
+    int unFollow(String bl_writer, String session_iuid);
 
     List<BoardDTO> getFollowerBoard(String follow_iuid,String my_iuid);
 

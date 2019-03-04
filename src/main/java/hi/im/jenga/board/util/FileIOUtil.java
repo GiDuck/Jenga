@@ -1,5 +1,6 @@
 package hi.im.jenga.board.util;
 
+import hi.im.jenga.util.FileType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,20 +9,12 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * 파일 읽어오기
- * <p>
- * FileReader reader = new FileReader([파일경로]) : [파일 경로]에 있는 파일의 내용을 읽어온다.			/ 파일 문자 입력 라이브러리
- * BufferedReader buffer = new BUfferedReader(reader) : [파일 경로]에 있는 파일의 내용을 읽어온다.		/ 버퍼를 이용한 입력 라이브러리
- * buffer.readLine() : BufferedReader에 저장된 내용을 String형으로 한 줄씩 읽어온다. "\n", "\r"을 만날때 까지 읽어온다.
- * - readLine() 메소드를 사용하면서 문자 읽기를 더 효율적으로 할 수 있게 됐다.
- * - 기존의 read() 메소드로 한 문자씩 읽어오는 것보다 한줄씩 읽어서 처리하기에 더 간편하다.
- */
 
 
 public class FileIOUtil {
     private BufferedOutputStream bos;
-    private BufferedInputStream ios;
+    private BufferedReader bir;
+    private BufferedInputStream bis;
     private FileIO fileIO;
     private FileType fileType;
 
@@ -92,15 +85,42 @@ public class FileIOUtil {
         try {
 
             File file = getFile(fileName, filePath);
-            ios = new BufferedInputStream(new FileInputStream(file));
-            buf = new byte[(int)file.length()];
-            ios.read(buf);
+            bis = new BufferedInputStream(new FileInputStream(file));
+            buf = new byte[1024];
+            while(bis.read(buf) != -1){
+                bis.read(buf);
+            }
 
         }catch (IOException e){
             e.printStackTrace();
         }
 
         return buf;
+
+    }
+
+
+    public String getFileToChar(final String fileName, final String filePath){
+
+        StringBuffer strBuf = new StringBuffer();
+        try {
+
+            File file = getFile(fileName, filePath);
+            bir = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
+            String str = null;
+            while((str = bir.readLine()) != null){
+
+                strBuf.append(str);
+
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return strBuf.toString();
+
+
 
     }
 
@@ -127,7 +147,7 @@ public class FileIOUtil {
             return new File(path, fileName);
         }
 
-        file = new File(folder.getPath(), fileName);
+        file = new File(folder.getAbsolutePath(), fileName);
 
 
         return file;
@@ -150,5 +170,21 @@ public class FileIOUtil {
         return str.replace("-", File.separator);
     }
 
+
+    public static String getUploadedFilePath(MultipartFile uploadFile, String path, String replceToken, FileType fileType){
+
+        String uploadFilePath;
+        if (uploadFile != null) {
+            uploadFilePath = new FileIOUtil(fileType).fileUpload(uploadFile, path);
+            if(uploadFilePath!= null && uploadFilePath.contains("\\")){
+                uploadFilePath = uploadFilePath.replace("\\", "/");
+                uploadFilePath = uploadFilePath.replace(replceToken, "");
+            }
+        } else {
+            uploadFilePath = "";
+        }
+        return uploadFilePath;
+
+    }
 
 }

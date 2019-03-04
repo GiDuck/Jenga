@@ -4,60 +4,55 @@ package hi.im.jenga.member.service;
 import hi.im.jenga.member.dto.EmailMemberDTO;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.dto.SocialMemberDTO;
+import hi.im.jenga.util.status_code.AuthStatusCode;
+import hi.im.jenga.member.util.LoginType;
+import hi.im.jenga.member.util.UserInfoType;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
 public interface MemberService {
-    void addMemberInfo(SocialMemberDTO socialMemberDTO, EmailMemberDTO emailMemberDTO, MemberDTO memberDTO, String uploadName, String key) throws Exception;
+    void addMemberInfo(String authId, MemberDTO memberDTO, String uploadName, LoginType key);
 
-    void addEMember(String aes_iuid);
+    void addEmailMember(String aes_iuid);
 
-    void addSMember(SocialMemberDTO socialMemberDTO, String sMem_iuid);
+    void addSocialMember(SocialMemberDTO socialMemberDTO, String sMem_iuid);
 
     MemberDTO getExistMember(String aes_sid);
 
-    String isEMExist(String em_id) throws Exception;
+    AuthStatusCode isEmailMemberExists(String emailMemUid);
 
-    int findEPwd(String find_pwd);
+    AuthStatusCode findEmailPwd(String findPwd);
 
-    String checkEmail(EmailMemberDTO emailMemberDTO); //이메일, 패스워드 체크
+    AuthStatusCode loginCheck(EmailMemberDTO emailMemberDTO);
 
-    MemberDTO getMemInfo(EmailMemberDTO emailMemberDTO); //체크 후 그 아이디 토큰 얻어옴(iuid) 이메일 회원가입용
+    MemberDTO getUserInfo(String userUid);
 
-    String sendKey(EmailMemberDTO emailMemberDTO) throws Exception;
+    AuthStatusCode sendKey(EmailMemberDTO emailMemberDTO);
 
-    boolean authCheck(EmailMemberDTO emailMemberDTO) throws Exception;
+    AuthStatusCode authCheck(EmailMemberDTO emailMemberDTO);
 
-    String findIuid(EmailMemberDTO emailMemberDTO) throws Exception;
+    String findMemUidByEmail(String userEmail) ;
 
-    void delMemInfo(String session_mem_iuid) throws Exception;
+    void delMemInfo(String memUid);
 
-    MemberDTO modMemberInfoGET(MemberDTO memberDTO) throws Exception;
+    MemberDTO modMemberInfoGET(MemberDTO memberDTO);
 
-    MemberDTO modMemberInfoPOST(String s_iuid, String mem_nick, String uploadName, String em_pwd, String[] favor) throws Exception;
+    MemberDTO modMemberInfoPOST(String memUid, String memNick, String uploadFilePath, String memPwd, String[] favor) throws Exception;
 
-    void updMemInfo(MemberDTO memberDTO);
-
-    void addMemberFavor(String aes_iuid, String[] favor);
+    void addMemberFavor(String encodedAesUid, String[] favor);
 
     List<String> getMemFavor(String member);
 
-    MemberDTO testParam();
-
     List<Map<String,String>> getCategory();
 
-    Map<String, String> getUserInfo(String mem_iuid, String check_profile, String check_nick, String check_introduce) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+    Map<String, String> getUserInfo(String mem_iuid, List<UserInfoType> typeList);
 
-    String getBmksUploadDate(String session_iuid);
+    String getBookmarkUploadDate(String memUid);
 
-    void changePwd(String mem_iuid, String pwd) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException;
+    AuthStatusCode changePwd(String memUid, String pwd);
+
+    int deleteWhetherRegInfo(String memUid);
+
 }
 

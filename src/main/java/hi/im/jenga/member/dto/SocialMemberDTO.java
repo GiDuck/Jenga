@@ -28,4 +28,13 @@ public class SocialMemberDTO {
     public void setSm_type(String sm_type) {
         this.sm_type = sm_type;
     }
+
+    @Override
+    public String toString() {
+        return "SocialMemberDTO{" +
+                "sm_id='" + sm_id + '\'' +
+                ", sm_ref='" + sm_ref + '\'' +
+                ", sm_type='" + sm_type + '\'' +
+                '}';
+    }
 }

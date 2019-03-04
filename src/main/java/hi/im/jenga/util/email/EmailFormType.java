@@ -2,6 +2,6 @@ package hi.im.jenga.util.email;
 
 public enum EmailFormType {
 
-    TEMP_PASSWORD_EMAIL
+    TEMP_PASSWORD_EMAIL, AUTH_EMAIL
 
 }

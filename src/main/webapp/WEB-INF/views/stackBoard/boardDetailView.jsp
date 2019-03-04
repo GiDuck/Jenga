@@ -112,19 +112,15 @@
 
 <script>
 
-    let blockObj = undefined;
-    let blockJson = undefined;
+    let blockObj;
+    let blockJson;
     let $followBtn = $("a[name='following']");
-    let isFollowing = undefined;
+    let isFollowing;
 
 
 
     function setData(){
 
-        console.log("글쓴이 uid...");
-        console.log('${map.bl_writer}');
-        console.log('${map.bl_mainCtg}');
-        console.log('${map.bl_smCtg}');
 
         //json으로 넘어온 map object를 js에서 사용할 수 있는 object 형식으로 파싱
         blockJson = ${map.bookmarks};
@@ -135,11 +131,11 @@
         //작성자 소개
         $("#writer_description").html('${map.mem_introduce}');
         //작성자 이미지
-        $("#writer_image").attr("src", "/profileimg/${map.mem_profile}");
+        $("#writer_image").attr("src", '${map.mem_profile}');
         //선택한 태그들
         $("#tags_inputField").val(${map.tag});
         //블록 썸네일 이미지
-        $("#thumbnail_image").attr("src", '/blockimg/${map.bti_url}');
+        $("#thumbnail_image").attr("src", '${map.bti_url}');
         //블록 제목
         $("#bd_title").html('${map.bl_title}');
         //블록 소개
@@ -167,11 +163,9 @@
 
         }());
 
-        let hasSession = '${sessionScope.Member}';
+        let hasSession = ${empty sessionScope.Member};
 
-        console.log("hasSession..");
-        console.log(hasSession);
-        if(hasSession){
+        if(!hasSession){
 
         // 글 Follow 여부 확인...
         $.ajax({
@@ -401,7 +395,7 @@
     $(document).ready(function(){
 
         $.ajax({
-            url: "/board/isLikeExist/${map.bl_uid}",
+            url: "/board/isLikeExist/${bl_uid}",
             type:"GET",
             success: function (responseData) {
                 if(responseData.indexOf("exist") != -1) {
@@ -411,14 +405,13 @@
         });
 
         navbarObj.setType("bg-info");
+        navbarObj.addHeadBlock();
         setData();
 
         $likeBtn.on("click", function(e){
 
             //세션체크
             let session = "${sessionScope.Member}";
-            let dest = $(e.target).attr("href");
-
             if(!session){
 
                 swal({
@@ -428,20 +421,18 @@
                     confirmButtonText: "이동"
                 }).then(function(result){
 
-                    if(result.dismiss == 'cancel'){
-                        return;
-                    }
+                    if(result.dismiss == 'cancel') return;
                     else{
-                        ${applicationScope.tempURLcontainer = window.location.href};
-                        alert(${applicationScope.tempURLcontainer});
                         window.location.href="/login";
                     }
                 });
 
 
             }else{
+
+                alert('${bl_uid}');
                 $.ajax({
-                    url: "/board/like/${map.bl_uid}",
+                    url: "/board/like/${bl_uid}",
                     type: "GET",
                     success : function (responseCount) {
                         alert(responseCount);
@@ -489,10 +480,7 @@
 
                         return;
                     }
-
                         timer = new Date().getTime();
-
-
 
                    let bookmarkHTML = parseJsonToHTML(blockObj, '${map.bl_title}', '${map.bl_introduce}');
                    let temp = $("<a>").append(bookmarkHTML);
@@ -503,7 +491,6 @@
                    let htmlRawResource = declearStr + (temp.html()).replace(/<\/p>|<\/dt>|/gi, '');
 
                    let tagRegex =/(<html>|<title>|<h1>|<h3|<dl>|<dt>|<a|<\/html>|<\/a|href\="|add_date\="|icon\="|last_modified\=")/gi;
-
                    let newLineRegex = /(<p>|<\/title>|<\/h1>|<\/dl>|<\/h3>|<\/a>)/gi;
 
                    let htmlResource = htmlRawResource.replace(tagRegex, function(x){
@@ -514,7 +501,7 @@
 
                    htmlResource = htmlResource.replace(newLineRegex, function(x){
 
-                       return x.toUpperCase() + "\n";
+                   return x.toUpperCase() + "\n";
 
                    });
 
@@ -544,9 +531,6 @@
                         type : "warning"
 
                     });
-
-                    return;
-
                 }
 
 

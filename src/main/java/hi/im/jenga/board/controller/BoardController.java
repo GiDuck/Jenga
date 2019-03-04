@@ -1,50 +1,33 @@
 package hi.im.jenga.board.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
-import hi.im.jenga.board.dto.MongoDTO;
 import hi.im.jenga.board.service.BoardService;
+import hi.im.jenga.board.util.BlockCompType;
 import hi.im.jenga.board.util.FileIOUtil;
-import hi.im.jenga.board.util.FileType;
+import hi.im.jenga.board.util.PageAccumluator;
+import hi.im.jenga.board.util.Paging;
+import hi.im.jenga.util.AuthUser;
+import hi.im.jenga.util.JsonParseManager;
+import hi.im.jenga.util.status_code.BlockStatusCode;
+import hi.im.jenga.util.status_code.FileStatusCode;
+import hi.im.jenga.util.FileType;
 import hi.im.jenga.member.dto.MemberDTO;
+import hi.im.jenga.util.session.MemberSession;
 import hi.im.jenga.util.session.SessionValidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-// TODO  검색      (테스트) / 회원정보수정 / 댓글 / 팔로우
 
-/**
- * 글 조회 GET / 글 수정 GET (/stackBlock?stack=stack, modify)
- * 글 작성 GET / POST
- * POST (PATCH)
- * 글 삭제 DELETE
- * <p>
- * 검색
- * <p>
- * 북마크 파일 업로드 POST  (모달 GET ? )
- */
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -56,241 +39,115 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    private ObjectMapper mapper;
     private FileIOUtil fileIOUtil;
 
     @Value("#{data['image.block_path']}")
     private String imagePath;
     @Value("#{data['image.block_absolute_path']}")
     private String imageAbsolutePath;
-    @Value("#{data['bookmark.path']}")
+
+    @Value("#{data['bookmark.root_path']}")
     private String bookmarkPath;
     @Value("#{data['bookmark.absolute_path']}")
     private String bookmarkAbsolutePath;
 
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String SearchGET(String search, String search_check, HttpSession session) throws Exception {
+    @GetMapping(value = "/search")
+    public String SearchGET() {
         return "stackBoard/boardSearch";
     }
 
 
-    @RequestMapping(value = "/searchAction", method = RequestMethod.GET)
-    @ResponseBody
-    public List<BoardDTO> SearchPOST(@RequestParam("search") String search, @RequestParam("search_check") String search_check, @RequestParam("pageNum") int page, HttpSession session) throws Exception {
+    @GetMapping(value = "/searchAction")
+    public @ResponseBody List<BoardDTO> SearchPOST(@RequestParam("search") String keyword, @RequestParam("search_check") String checkType,
+                                                   @RequestParam("pageNum") int page, @AuthUser MemberDTO authUser) {
 
-        String session_iuid = null;
-        int limit = 20;
-        int nowpage = page;
-        int listcount = 0;
-        int startrow = (page - 1) * 10 + 1;
-        int endrow = startrow + limit - 1;
-
-
-        if (search == null && search.replaceAll(" ", "").equals("")) {
-            //return "error"; 에러 보내야함...
-        }
-        listcount = boardService.countSearch(search, search_check);
-
-
-        int maxpage = (int) ((double) listcount / limit + 0.95);
-        int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
-        int endpage = maxpage;
-
-        if (endpage > startpage + 10 - 1)
-            endpage = startpage + 10 - 1;
-
-
-        try {
-
-            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid(); //이것도 로그인페이지로?
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        List<BoardDTO> container = null;
-        try {
-
-            container = boardService.search(search, search_check, session_iuid, startrow, endrow);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return container;
+       Paging pageInfo = PageAccumluator.getPageInfo(page, boardService.countSearch(keyword, checkType));
+       return boardService.search(keyword, checkType, authUser.getMem_iuid(), pageInfo.getStartPage(), pageInfo.getEndPage());
     }
 
     @GetMapping(value = "/boardView")
-    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model, MongoDTO mongoDTO) throws Exception {
-
-        Map<String, Object> map = boardService.getView(bl_uid);
-        model.addAttribute("map", map);
-
-
+    public String getBoardDetail(@RequestParam("bl_uid") String bl_uid, Model model) {
+        model.addAttribute("bl_uid", bl_uid);
+        model.addAttribute("map", boardService.getView(bl_uid));
         return "stackBoard/boardDetailView";
     }
 
 
-    // 글쓰는 페이지 GET, 글 수정 페이지 GET
-    @RequestMapping(value = "/stackBlock", method = RequestMethod.GET)
-    public String getWriteView(HttpSession session, Model model, String status, @RequestParam(value = "bl_uid", required = false) String bl_uid) throws JsonProcessingException {
-        if (status == null) return "redirect:/";
-        if (status.equals("stack")) {
-            String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-            String resultHTML = null;
-            Map<String, List<String>> category = null;
+    @GetMapping(value = "/stackBlock")
+    public String getWriteView(Model model, @AuthUser MemberDTO authUser) {
 
-            try {
-                category = boardService.getCategoryName();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            mapper = new ObjectMapper();
-            String categoryJSON = mapper.writeValueAsString(category);
-            try {
-                resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            model.addAttribute("category", categoryJSON);
-
-            if (resultHTML != null && !"notExist".equals(resultHTML)) {
-                model.addAttribute("resultHTML", resultHTML);
-            }
-
-            return "editor/stackBoard/stackBlock";
-
-        } else if (status.equals("modify")) {         //  service 나누기
-            String session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-            String resultHTML = null;
-            Map<String, Object> map = boardService.getModifyBlock(bl_uid);
-
-            logger.info("컨트롤러 맵은 " + map);
-
-            Map<String, List<String>> category = null;
-            try {
-                category = boardService.getCategoryName();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            ObjectMapper mapper = new ObjectMapper();
-            String categoryJSON = mapper.writeValueAsString(category);
-
-            try {
-                resultHTML = boardService.getBookMarkFromHTML(session_iuid);         // 세션체크
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (!resultHTML.equals("notExist")) {
-                model.addAttribute("resultHTML", resultHTML);
-            }
-            model.addAttribute("category", categoryJSON);
-            model.addAttribute("map", map);
-
-            return "editor/stackBoard/stackBlock";
-
-        }
-
-        return null;
-
+          model.addAttribute("category", JsonParseManager.parseToString(boardService.getCategoryName()));
+          String resultHTML = boardService.getBookMarkFromHTML(authUser.getMem_iuid());
+          if (resultHTML != null) {  model.addAttribute("resultHTML", resultHTML);  }
+          model.addAttribute("statusToken", "stack");
+          return "stackBoard/stackBlock";
     }
 
 
-    // 글쓰는페이지 POST / 작성
-    @RequestMapping(value = "/uploadBlock", method = RequestMethod.POST, produces = "multipart/form-data; charset=utf-8")
-    public @ResponseBody
-    String WriteViewPOST(BoardDTO boardDTO, HttpSession session, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
-                         @RequestParam("bl_bookmarks") String bl_bookmarks) throws Exception {
+    @GetMapping(value = "/modifyBlock")
+    public String getBlockModifyView(Model model,@RequestParam(value = "bl_uid", required = false) String bl_uid, @AuthUser MemberDTO authUser) {
 
-        logger.info("session에서 뽑아온 iuid는 " + ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid());
-        boardDTO.setBl_uid(UUID.randomUUID().toString());
-        boardDTO.setBl_writer(((MemberDTO) session.getAttribute("Member")).getMem_iuid());
-        String uploadName;
-
-        if (uploadFile == null) {
-            logger.info("null!");
+        String resultHTML = boardService.getBookMarkFromHTML(authUser.getMem_iuid());
+        if (resultHTML!=null) {
+            model.addAttribute("resultHTML", resultHTML);
         }
+        model.addAttribute("map", boardService.getModifyBlock(bl_uid));
+        model.addAttribute("category", JsonParseManager.parseToString(boardService.getCategoryName()));
+        model.addAttribute("statusToken", "modify");
+
+        return "stackBoard/stackBlock";
+
+
+    }
+
+    @PostMapping(value = "/uploadBlock", produces = "multipart/form-data; charset=utf-8")
+    public @ResponseBody String WriteViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile,
+                         @RequestParam("bl_bookmarks") String bl_bookmarks, @AuthUser MemberDTO authUser) {
+
+        boardDTO.setBl_uid(UUID.randomUUID().toString());
+        boardDTO.setBl_writer(authUser.getMem_iuid());
+        String uploadPath = null;
+        logger.info("들어온 img...");
+        System.out.println(uploadFile);
 
         if (uploadFile != null) {
             fileIOUtil = new FileIOUtil(FileType.IMAGE);
-            uploadName = fileIOUtil.fileUpload(uploadFile, imageAbsolutePath);
-            logger.info("이미지 파일이 있네 이름은 ?" + uploadName);
-        } else {
-            uploadName = "";
+            uploadPath = fileIOUtil.fileUpload(uploadFile, imageAbsolutePath);
+            logger.info("upload Path... " + uploadPath);
         }
 
-        logger.info("이미지 파일은 ?" + uploadName);
+        boardDTO.setBl_smCtg(boardService.transCtgUID(boardDTO.getBl_smCtg(), BlockCompType.CATEGORY_SAMLL));
+        boardDTO.setBl_mainCtg(boardService.transCtgUID(boardDTO.getBl_mainCtg(), BlockCompType.CATEGORY_MAIN));
+        boardService.writeViewBlock(boardDTO, uploadPath, bl_bookmarks);
 
-//        service에서 디폴트이미지 처리
-
-        String flag = "s";
-        boardDTO.setBl_smCtg(boardService.transCtgUID(boardDTO.getBl_smCtg(), flag));
-        flag = "m";
-        boardDTO.setBl_mainCtg(boardService.transCtgUID(boardDTO.getBl_mainCtg(), flag));
-
-        logger.info("DTO" + boardDTO.getBl_uid() + "/스몰/" + boardDTO.getBl_smCtg() + "/메인/" + boardDTO.getBl_mainCtg());
-
-        boardService.writeViewBlock(boardDTO, uploadName, bl_bookmarks);
-
-        logger.info("글작성 성공");
 
         return boardDTO.getBl_uid();
     }
 
 
-    // TODO  like 상태값으로 비교   이거먼저하자
-    // block iuid를 조건으로 insert mem_iuid(session에 있는)
-    @RequestMapping(value = "/like/{bl_iuid}")
-    public @ResponseBody
-    int like(@PathVariable String bl_iuid, HttpSession session) {
+    @GetMapping(value = "/like/{bl_iuid}")
+    public @ResponseBody int like(@PathVariable String bl_iuid, @AuthUser MemberDTO authUser) {
+        boardService.likeCheck(bl_iuid, authUser.getMem_iuid());
+        return boardService.likeCount(bl_iuid);
 
-        logger.info("비엘아유아디" + bl_iuid);
-        logger.info("like 들어옴");
-        String session_mem_iuid = ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid();
-        boardService.likeCheck(bl_iuid, session_mem_iuid);
-        int likeCount = boardService.likeCount(bl_iuid);
-
-        return likeCount;
     }
 
-    @RequestMapping(value = "/isLikeExist/{bl_uid}", method = RequestMethod.GET)
-    public @ResponseBody
-    String isLikeExist(HttpSession session, @PathVariable("bl_uid") String bl_iuid) {
+    @GetMapping(value = "/isLikeExist/{bl_uid}")
+    public @ResponseBody BlockStatusCode isLikeExist(@PathVariable("bl_uid") String bl_iuid, @AuthUser MemberDTO authUser) {
 
-        String memberId = null;
-
-        if (!SessionValidate.isSessionEmpty(session, "Member")) {
-            memberId = ((MemberDTO) (session.getAttribute("Member"))).getMem_iuid();
-
-        }
-        String check = boardService.isLikeExist(bl_iuid, memberId);
-        logger.info(check);
-        String result = check != null ? "exist" : "notExist";
-        logger.info(result);
-        return result;
+        return boardService.isLikeExist(bl_iuid, authUser.getMem_iuid());
     }
 
 
-    //  TODO 테스트 mongo update도 함
-//    수정페이지 POST    /modView  PATCH or PUT          json받아야함
-    @RequestMapping(value = "/modView", method = RequestMethod.PATCH)
+    @PatchMapping(value = "/modView")
     public String modifyViewPOST(BoardDTO boardDTO, @RequestPart(value = "bti_url", required = false) MultipartFile uploadFile, @RequestParam("bl_bookmarks") String bl_bookmarks) {
 
-        String uploadName;
-        // 수정을 안하면 원래 이미지를 줘야함
-        // 여기서 nullpointException 뜨면 여기서 boardService.getUploadName() 해야하고
-//         넘어가면 서비스impl에서 처리
+        String uploadName = null;
+
         if (uploadFile != null) {
             fileIOUtil = new FileIOUtil(FileType.BOOKMARK);
             uploadName = fileIOUtil.fileUpload(uploadFile, bookmarkAbsolutePath);
-        } else {
-            uploadName = "";
         }
 
         boardService.modifyViewPOST(boardDTO, uploadName, bl_bookmarks);
@@ -298,173 +155,85 @@ public class BoardController {
         return "/board/boardView?bl_uid=" + boardDTO.getBl_uid();
     }
 
-    //    TODO 테스트하기  mongo도 지움 / HttpMethod 사용한것 테스트
-//    View에서 받는거 테스트해야함
-//    삭제페이지 POST
-    @RequestMapping(value = "/delBlock", method = RequestMethod.GET)
-    public ResponseEntity deleteBlock(@RequestParam String bl_uid) {
 
-        int result = boardService.deleteBlock(bl_uid);
-
-        if (result == 0) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity(HttpStatus.OK);
-
+    @GetMapping(value = "/delBlock")
+    public BlockStatusCode deleteBlock(@RequestParam String bl_uid) {
+        return boardService.deleteBlock(bl_uid);
     }
 
 
-    // 북마크 파일업로드  /  완료
-    @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity fileUpload(@RequestParam String bp_browstype, @RequestParam String bp_booktype, @RequestParam("file") MultipartFile uploadFile, HttpSession session) {
-        String session_iuid = null;
-        if (!SessionValidate.isSessionEmpty(session, "Member")) {
-            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-        }
-        ResponseEntity<String> result;
+    @PostMapping(value = "/fileUpload")
+    public @ResponseBody int fileUpload(@RequestParam("bp_browstype") String bp_browstype, @RequestParam("bp_booktype") String bp_booktype,
+                                        @RequestParam("file") MultipartFile uploadFile, HttpSession session) {
+
+        MemberDTO memberSession = (MemberDTO)SessionValidate.getValidSessionObj(session, MemberSession.MEMBER_SESSION_KEY);
         BlockPathDTO blockPathDTO = new BlockPathDTO();
-        logger.info("북마크 타입은 " + bp_booktype);
-        logger.info("브라우저 타입은 " + bp_browstype);
 
         try {
-            logger.info("업로드 된 파일");
-            logger.info("파일 이름은 " + uploadFile.getOriginalFilename());
-            logger.info("파일 사이즈 " + uploadFile.getSize());
-            logger.info("머고이건 " + uploadFile.getBytes().toString());
-            fileIOUtil = new FileIOUtil(FileType.BOOKMARK);
-            String uploadPath = fileIOUtil.fileUpload(uploadFile, bookmarkAbsolutePath);
 
-            logger.info(uploadPath);
+            String uploadPath =  FileIOUtil.getUploadedFilePath(uploadFile, bookmarkAbsolutePath, bookmarkPath, FileType.BOOKMARK);
             blockPathDTO.setBp_booktype(bp_booktype);
             blockPathDTO.setBp_browstype(bp_browstype);
             blockPathDTO.setBp_path(uploadPath);
 
-            logger.info(blockPathDTO.getBp_booktype());
-            logger.info(blockPathDTO.getBp_browstype());
-            logger.info(blockPathDTO.getBp_path());
+            boardService.addBookmarkPath(memberSession.getMem_iuid(), blockPathDTO);
 
-            boardService.addBmksPath(session_iuid, blockPathDTO);
-
-
-            result = new ResponseEntity(HttpStatus.OK);
+            return FileStatusCode.FILE_UPLOAD_SUCCESS.getCode();
 
         } catch (Exception e) {
-
             e.printStackTrace();
-
-            result = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-
         }
 
-        return result;
+        return FileStatusCode.FILE_UPLOAD_FAIL.getCode();
 
     }
 
 
-    @RequestMapping(value = "/follow", method = RequestMethod.GET)
-    @ResponseBody
-    public String follower(@RequestParam("bl_writer") String bl_writer, HttpSession session, HttpServletResponse response) throws Exception {
+    @GetMapping(value = "/follow")
+    public @ResponseBody BlockStatusCode follower(@RequestParam("bl_writer") String bl_writer, @AuthUser MemberDTO authUser) {
 
-        String session_iuid = null;
-        if (SessionValidate.isSessionEmpty(session, "Member")) {
-            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-            boardService.follow(bl_writer, session_iuid);
-            return "error";
-        }
-        return "follow";
+      return boardService.follow(bl_writer, authUser.getMem_iuid());
 
     }
 
-    @RequestMapping(value = "/unFollow", method = RequestMethod.GET)
-    @ResponseBody
-    public String unfollower(@RequestParam("bl_writer") String bl_writer, HttpSession session, HttpServletResponse response) throws Exception {
-        String session_iuid = null;
-
-        try {
-            session_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-            boardService.unFollow(bl_writer, session_iuid);
-            return "unFollow";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    //TODO 일단 팔로워한 사람 글 뽑느거 했는데 필요하면 쓰셈
-    @RequestMapping(value = "/followerBoard")   //팔로워 한 사람 글 뽑아오기.  필요하면 받아쓰셈 ㅋ
-    public String followerboard(HttpSession session) {
-        String My_iuid = ((MemberDTO) session.getAttribute("member")).getMem_iuid();
-        return ""; //임시 리턴
+    @GetMapping(value = "/unFollow")
+    public @ResponseBody BlockStatusCode unFollow(@RequestParam("bl_writer") String bl_writer, @AuthUser MemberDTO authUser) {
+       return boardService.unFollow(bl_writer, authUser.getMem_iuid());
     }
 
 
     //팔로워한 사람 리스트
-    @RequestMapping(value = "/followlist")
-    public List<MemberDTO> myFollower(HttpSession session) throws NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-        logger.info("내 세션아유아디" + my_iuid);
-        List<MemberDTO> list = boardService.getMyFollower(my_iuid);
-
-
-        logger.info("리스트" + list);
-
-        return list;
+    @GetMapping(value = "/followlist")
+    public List<MemberDTO> myFollower(@AuthUser MemberDTO authUser) {
+        return boardService.getMyFollower(authUser.getMem_iuid());
     }
 
 
-    // 팔로워한사람 블럭
-    @RequestMapping(value = "follwerBlock")
-    public String followerBlock(HttpSession session, String follow_iuid) {
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-        List<BoardDTO> board = boardService.getFollowerBoard(follow_iuid, my_iuid);
-        return "";
+    @GetMapping(value = "follwerBlock")
+    public @ResponseBody List<BoardDTO> followerBlock(String follow_iuid, @AuthUser MemberDTO authUser) {
+        return boardService.getFollowerBoard(follow_iuid, authUser.getMem_iuid());
     }
 
-
-    //새로 추가한 부분 (View 가져오는 컨트롤러)
-
-    //인기 블록
-    @RequestMapping(value = "/getFavoriteBlock")
-    public String getFavoriteBlock(Model model) {
-
+    @GetMapping(value = "/getFavoriteBlock")
+    public String getFavoriteBlock() {
         return "favoriteBoard/favoriteBoard";
     }
 
-    //내 블록 관리 페이지
-    @RequestMapping(value = "/getMyBlockManage")
-    public String getMyBlockManage(Model model, HttpSession session) {
-
-        String my_iuid = ((MemberDTO) session.getAttribute("Member")).getMem_iuid();
-        List<BoardDTO> mylist = boardService.getMyBlock(my_iuid);
-        String jsonStr = "";
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            jsonStr = mapper.writeValueAsString(mylist);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        model.addAttribute("boards", jsonStr);
-
+    @GetMapping(value = "/getMyBlockManage")
+    public String getMyBlockManage(Model model, @AuthUser MemberDTO authUser) {
+        model.addAttribute("boards", JsonParseManager.parseToString(boardService.getMyBlock(authUser.getMem_iuid())));
         return "myBoard/myBoardManage";
     }
 
-    //내가 찜한 블록
-    @RequestMapping(value = "/getMyFavorBlock")
-    public String getMyFavorBlock(Model model) {
-
+    @GetMapping(value = "/getMyFavorBlock")
+    public String getMyFavorBlock() {
         return "myBoard/myFavorBlock";
     }
 
-    @RequestMapping(value = "/getNoticeBoard")
-    public String getNoticeBoard(Model model) {
-
-
+    @GetMapping(value = "/getNoticeBoard")
+    public String getNoticeBoard() {
         return "noticeBoard/noticeBoard";
 
     }
-
 
 }

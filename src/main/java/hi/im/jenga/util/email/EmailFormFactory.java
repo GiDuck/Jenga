@@ -13,6 +13,11 @@ public class EmailFormFactory implements AbstractEmailFormFactory{
     @Qualifier("tempPasswordEmailForm")
     private EmailForm tempPasswordEmailForm;
 
+    @Autowired
+    @Qualifier("authEmailEmailForm")
+    private EmailForm authKeyEmailForm;
+
+
     @Override
     public String publish(EmailFormType type, Map<String ,Object> paramContainer) {
 
@@ -21,6 +26,10 @@ public class EmailFormFactory implements AbstractEmailFormFactory{
         if(EmailFormType.TEMP_PASSWORD_EMAIL.equals(type)){
 
             emailForm = tempPasswordEmailForm;
+
+        }else if(EmailFormType.AUTH_EMAIL.equals(type)){
+
+            emailForm = authKeyEmailForm;
 
         }
 

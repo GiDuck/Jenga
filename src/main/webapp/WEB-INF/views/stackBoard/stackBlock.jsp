@@ -2,17 +2,6 @@
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-
-<!--
-
-IE 11이 ES6을 미지원 하므로 사용 불가.
-Chrome, Firefox 사용 가능
-(swal 기능 관련)
-
--->
-
-
-
 <style>
 
     .bookMarkField{
@@ -41,19 +30,12 @@ Chrome, Firefox 사용 가능
 
     }
 
-    .selectedElementLeft{
+    .selectedElementLeft{}
 
 
-    }
+    .selectedElementRight{}
 
-
-    .selectedElementRight{
-
-    }
-
-    .contextMenu{
-
-    }
+    .contextMenu{}
 
 </style>
 
@@ -252,17 +234,17 @@ Chrome, Firefox 사용 가능
     let prevNodeLeft = new Array();
     let prevNodeRight = new Array();
 
-    let outBoundCheck = false;
-
+    const COLOR_SELECTED = "#fa6362";
+    const COLOR_CARD_DEFAULT = "#999999";
 
     //만약 필드에 다른 선택된 요소가 있으면 선택 취소 해 주는 클래스.
     function removeOtherClass(type){
 
-        if(type === "right"){
+        if(type == "right"){
 
             $("#editBookMark").find(".selectedElementLeft").removeClass("selectedElementLeft");
 
-        }else if(type === "left"){
+        }else if(type == "left"){
 
             $("#getMyBookMark").find(".selectedElementRight").removeClass("selectedElementRight");
 
@@ -275,11 +257,11 @@ Chrome, Firefox 사용 가능
     // .. 필드별로 다르게 설정함.
     function setDraggable($element, token) {
 
-        if(token === 'left' ){
+        if(token == 'left' ){
 
             $element.draggable({
 
-                cursor : "move",
+                cursor : "pointer",
                 opacity : 0.8,
                 revert : "invaild",
                 helper : "clone"
@@ -287,11 +269,11 @@ Chrome, Firefox 사용 가능
 
             });
 
-        }else if(token === "right" ){
+        }else if(token == "right" ){
 
             $element.draggable({
                 classes : {"ui-draggable" : "highlight"},
-                cursor : "move",
+                cursor : "pointer",
                 opacity : 0.8,
                 revert : true,
                 helper : "clone",
@@ -310,19 +292,20 @@ Chrome, Firefox 사용 가능
 
         if(panelType == "right"){
 
-            $contextMenu = $("<div>").addClass("dropdown-menu contextMenu text-right").attr("data-toggle", "dropdown").css("background-color", "#999999")
+            $contextMenu = $("<div>").addClass("dropdown-menu contextMenu text-right").attr("data-toggle", "dropdown").css("background-color", COLOR_CARD_DEFAULT)
                 .append($("<a>").addClass("card-item dropdown-item").html("수정").on("click", function(e){
                     e.preventDefault();
                     e.stopPropagation();
 
-                    let successFunc = function(){
+                    let successAction = function(){
 
                         let bookmarks = popChild("right");
                         refreshBookMark(bookmarks, "right");
 
+
                     }
 
-                    makeAddOrModifyElementModal($element, false, successFunc, this);
+                    makeAddOrModifyElementModal($element, false, successAction, this);
                     $(document).find(".contextMenu").removeClass("show").hide();
 
                 }))
@@ -373,33 +356,11 @@ Chrome, Firefox 사용 가능
     }
 
 
-
-    //주어진 배열에서 해당 노드를 찾아 반환하는 함수
-    function findElement(array, id){
-
-
-        for(let i = 0; i<array.length; ++i){
-
-            if(array[i].add_date == id){
-
-                return array[i];
-
-            }
-
-        }
-
-
-
-
-    }
-
-
-
     //clickListener
     // .. 클릭 시 요소가 선택되게 하여 사용자가 추가적인 작업을 가능케 한다.
     function setOnClickListener($element, panelType) {
 
-        let $selected = undefined;
+        let $selected;
 
         $element.on('click', function(e) {
             e.preventDefault();
@@ -407,18 +368,18 @@ Chrome, Firefox 사용 가능
 
 
             //오른쪽 노드가 선택되면, 다른 선택된 요소의 클래스를 모두 지우고 해당 요소에게만 '선택 클래스(selectedElementRight)'를 적용한다.
-            if(panelType === "right"){
+            if(panelType == "right"){
 
                 removeOtherClass("right");
                 $selected = $("#editBookMark").find(".selectedElementRight");
                 $selected.removeClass("selectedElementRight");
                 $selected.css("background-color", "");
                 $element.addClass("selectedElementRight");
-                $element.css("background-color", "#fa6362");
+                $element.css("background-color", COLOR_SELECTED);
 
 
                 //왼쪽 노드가 선택되면, 다른 선택된 요소의 클래스를 모두 지우고 해당 요소에게만 '선택 클래스(selectedElementLeft)'를 적용한다.
-            }else if(panelType === "left"){
+            }else if(panelType == "left"){
 
                 removeOtherClass("left");
                 $selected = $("#getMyBookMark").find(".selectedElementLeft");
@@ -427,12 +388,8 @@ Chrome, Firefox 사용 가능
                 $element.addClass("selectedElementLeft");
 
             }
-
-
         });
-
     }
-
 
     //요소에 Drag한 것을 Drop 시킬 수 있게 설정하는 함수.
     function setDroppable($element){
@@ -453,8 +410,6 @@ Chrome, Firefox 사용 가능
                 //만약 왼쪽 필드에 있던 요소가 드래그 되어져서 오른쪽 필드에 떨어졌다면
                 //해당 요소의 속성을 오른쪽 필드에 적합하도록 바꾼 후에, 오른쪽 필드에 추가한다.
 
-
-
                 if(!dragNode.hasClass("bookMarkItem")){
 
                     let dragNodeId = dragNode.find("input[name='timeStamp']").val();
@@ -470,14 +425,13 @@ Chrome, Firefox 사용 가능
                         dragNode.insertAfter($element);
                     }
 
-                    //let bookmarks = popChild("left");
                     let top = popChild("left");
 
                     //extend는 Jquery에서 지원하는 deepCopy 메소드
                     //.. 왼쪽 패널에서 찾은 객체를 복사하여 오른쪽 배열에 넣는다.
                     //let copyedChild = $.extend(true, {}, selectedChild);
 
-
+                    let child;
                     for(let i = 0; i<top.length; ++i){
 
                         if(top[i].add_date == dragNodeId){
@@ -532,104 +486,6 @@ Chrome, Firefox 사용 가능
     }
 
 
-    //키보드 리스너 부착
-    function setKeyListener(){
-
-
-        $(document).on("keydown", function(e){
-
-            let $item = undefined;
-            let timeStamp = undefined;
-
-            // 방향키 위로
-            if(e.keyCode == 38){
-
-                let $selected = findCheckElement("right");
-
-                if($selected.html()){
-                    let $prev = $selected.prev();
-                    if($prev){
-                        $($selected).insertBefore($($prev));
-                    }
-
-                    timeStamp = $selected.find("input[name='timeStamp']").val();
-                    swapElement("up", timeStamp);
-
-                    console.log("up");
-                    console.log(popChild("right"));
-                }
-
-            //방향키 아래로
-            }else if(e.keyCode == 40){
-
-                let $selected = findCheckElement("right");
-
-                if($selected.html()){
-                    let $next = $selected.next();
-                    if($next){
-                        $($selected).insertAfter($($next));
-                    }
-                    timeStamp = $selected.find("input[name='timeStamp']").val();
-                    swapElement("down", timeStamp);
-
-                    console.log("down");
-                    console.log(popChild("right"));
-                }
-
-            }
-
-
-
-        });
-
-
-
-    }
-
-
-    function swapElement(direction, id){
-
-        let children = popChild("right");
-        let temp;
-
-        for(let i=0; i < children.length; ++i){
-            if((children[i] instanceof BookMark || children[i] instanceof Folder) && children[i].add_date == id){
-
-            if(direction == "up"){
-
-
-                    if(children[i] == 0){
-                        return;
-
-                    }
-
-                    temp = children[i-1];
-                    children[i-1] = children[i];
-                    children[i] = temp;
-                    return;
-
-
-                }else if(direction == "down"){
-
-                if(children[i] == children.length - 1){
-                    return;
-
-                }
-
-                temp = children[i+1];
-                children[i+1] = children[i];
-                children[i+1] = temp;
-
-            }
-
-        }
-
-        }
-    }
-
-
-
-
 
     //왼쪽 필드에 적용된 속성을 오른쪽 필드에 적합하도록 변환시켜 주는 함수
     // ..왼쪽 필드에 있던 요소가 드랍되어 오른쪽으로 이동할 떄, 속성이 오른쪽 필드에 적합하도록 변환되어야 한다.
@@ -676,58 +532,50 @@ Chrome, Firefox 사용 가능
         //현재 선택된 노드 가져오기
         this.$selElement = $("#editBookMark").find(".selectedElementRight");
 
-        function afterFunction(newElement, parent, selElement){
+        function afterAction(newElement, parent, selElement){
 
             setDraggable(newElement, "right");
             setDroppable(newElement, "right");
             setOnClickListener(newElement, "right");
             setOnContextMenu(newElement, "right");
 
-
             if(selElement){
                 newElement.insertAfter(selElement);
             }else{
-
                 parent.append(newElement);
-
             }
-
-
         }
 
-        if(type === "folder"){
+        if(type == "folder"){
 
-            $newElement = $("<div>").addClass("col-12 w-100 bookMarkItem border-input card").css("padding-bottom", "20px").css("padding-top", "20px").css("padding-left", "20px").attr("name", "elementParent").css("background-color", " #f2f2f2")
+            this.$newElement = $("<div>").addClass("col-12 w-100 bookMarkItem border-input card").css("cursor", "pointer").css("padding-bottom", "20px").css("padding-top", "20px").css("padding-left", "20px").attr("name", "elementParent").css("background-color", " #f2f2f2")
                 .append($("<div>").addClass("w-100").append($("<i>").addClass("nc-icon nc-bag-16").css("padding-left", "5px"))
                 .append($("<input>").addClass("w-100 form-control border-input").attr("title", "text").attr("placeHolder", "폴더 이름 입력..").attr("disabled", true)))
                 .append($("<input>").attr("type", "hidden").attr("name", "timeStamp").val(timeStamp))
                 .append($("<input>").attr("type", "hidden").attr("name", "isFolder").val(true));
 
 
-                let successFunc = function(top, title){
+                let successAction = function(top, title){
                     setDoubleClick($newElement, "right");
-                    afterFunction($newElement, $parent);
+                    afterAction($newElement, $parent);
 
-                    this.$newElement.find("input[name='title']").val(title);
+                    $newElement.find("input[name='title']").val(title);
 
                     let folderObj = new Folder(title, new Array(), timeStamp, timeStamp);
                     top.push(folderObj);
+
                     let bookmarks = popChild("right");
+
                     refreshBookMark(bookmarks, "right");
 
-                    console.log("success");
-
-
                 };
-                makeAddOrModifyElementModal($newElement, true, successFunc, this);
+                makeAddOrModifyElementModal(this.$newElement, true, successAction, this);
 
 
 
+        }else if(type == "element"){
 
-
-        }else if(type === "element"){
-
-            $newElement = ($("<div>").addClass("col-12 w-100 bookMarkItem border-input card").attr("name", "elementParent").css("background-color", " #f2f2f2")
+            $newElement = ($("<div>").addClass("col-12 w-100 bookMarkItem border-input card").attr("name", "elementParent").css("cursor", "pointer").css("background-color", " #f2f2f2")
                 .append($("<div>").addClass("w-100").append($("<i>").addClass("nc-icon nc-book-bookmark text-left").html("Bookmark")))
                 .append($("<div>").addClass("w-100").attr("name", "section")
                     .append($("<input>").attr("type", "text").attr("name", "title").attr("disabled", true).attr("placeHolder", "제목 입력..").addClass("w-100 border-input form-control"))
@@ -738,17 +586,17 @@ Chrome, Firefox 사용 가능
                     )).append($("<br>"));
 
 
-            let successFunc = function(top, title, url){
+            let successAction = function(top, title, url){
 
-                afterFunction(this.$newElement, this.$parent);
+                afterAction(this.$newElement, this.$parent);
                 let bookmarkObj = new BookMark(title, url, timeStamp, null);
                 top.push(bookmarkObj);
                 let bookmarks = popChild("right");
                 refreshBookMark(bookmarks, "right");
 
-            }
+            };
 
-                makeAddOrModifyElementModal($newElement,true,successFunc, this);
+                makeAddOrModifyElementModal($newElement,true,successAction, this);
 
 
         }
@@ -787,8 +635,8 @@ Chrome, Firefox 사용 가능
     //선택된 요소를 찾는 함수
     function findCheckElement(panelType){
 
-        let $parent = undefined;
-        let $item = undefined;
+        let $parent;
+        let $item;
 
         if(panelType == "left"){
 
@@ -803,10 +651,7 @@ Chrome, Firefox 사용 가능
 
 
         }else{
-
-            swal('', '에러가 발생하였습니다. 관리자에게 문의하십시오.', '');
             return false;
-
         }
 
 
@@ -814,13 +659,8 @@ Chrome, Firefox 사용 가능
 
             return $parent;
 
-        }else{
-
-            return $item;
-
         }
-
-
+            return $item;
     }
 
 
@@ -866,25 +706,19 @@ Chrome, Firefox 사용 가능
         $("#moveToLowerRight").on('click', function(e){
 
             let $checkedItem = findCheckElement("right");
-
             moveToLower($checkedItem, "right");
 
         });
 
         //오른쪽패널, 요소 추가
         $("#addElementRight").on('click', function(e){
-
             add("right", "element");
-
 
         });
 
         //오른쪽패널, 폴더 추가
         $("#addFolderRight").on('click', function(e){
-
-
             add("right", "folder");
-
         });
 
         //오른쪽패널, 요소 제거
@@ -918,9 +752,9 @@ Chrome, Firefox 사용 가능
     function uploadBlock(){
 
         let valid = boardValidate();
-        let dest = undefined;
-        let statusToken = "${param.status}";
-        let token = undefined;
+        let dest;
+        let statusToken = "${statusToken}";
+        let token;
 
         if(statusToken == "stack"){
 
@@ -969,13 +803,12 @@ Chrome, Firefox 사용 가능
                         formData.append("bl_description", content);                                 // dto
                         formData.append("bt_name", tagsContainer);                                  // dto
                         formData.append("bl_date", time);                                           // dto
-                        console.log(formData);
 
 
                         //AJAX request
                         $.ajax({
 
-                            url : "/board/uploadBlock",
+                            url : dest,
                             enctype: "multipart/form-data",
                             contentType: false,
                             cache: false,
@@ -1028,7 +861,7 @@ Chrome, Firefox 사용 가능
 
         let type = $($checkedItem).find("input[name='isFolder']").val();
 
-        if(type=="false"){
+        if(type == "false"){
 
             swal('하위요소 이동', '폴더만 하위 요소로 이동이 가능합니다.', '');
             return;
@@ -1036,7 +869,12 @@ Chrome, Firefox 사용 가능
         }
 
         let id = $($checkedItem).find("input[name='timeStamp']").val();
-        let bookmarks = undefined;
+        let bookmarks;
+
+
+        if(!id){
+            return;
+        }
 
         if(panelType == "left"){
 
@@ -1046,37 +884,30 @@ Chrome, Firefox 사용 가능
 
             bookmarks = popChild("right");
 
-
         }
+
 
 
         bookmarks = findChildElement(bookmarks, id);
 
-        console.log("bookmarks");
-        console.log(bookmarks);
-
-        if(!bookmarks){
-
-            swal('하위요소 이동', '폴더가 비었습니다.', '');
-            return;
-
-        }
 
         bookmarks = getChildren(bookmarks);
 
 
-        if(panelType === "left"){
-
-            prevNodeLeft.push(id);
-            refreshBookMark(bookmarks, "left");
+        if(panelType == "left"){
 
 
-        }else if (panelType === "right"){
+                prevNodeLeft.push(id);
 
-            prevNodeRight.push(id);
-            refreshBookMark(bookmarks, "right");
+
+        }else if (panelType == "right"){
+
+                prevNodeRight.push(id);
+
 
         }
+        refreshBookMark(bookmarks, panelType);
+
 
     }
 
@@ -1088,10 +919,12 @@ Chrome, Firefox 사용 가능
     // ..적용할 필드를 파라미터로 받음 (왼쪽 필드 : left, 오른쪽 필드 : right)
     function moveToUpper(panelType){
 
-        let bookmarks = undefined;
-        let prevNode = undefined;
+        let bookmarks;
+        let prevNode;
 
-        if(panelType === "left"){
+
+        if(panelType == "left"){
+
 
             prevNode = prevNodeLeft.pop();
             bookmarks = popChild("left");
@@ -1110,13 +943,13 @@ Chrome, Firefox 사용 가능
             }
 
             bookmarks = getChildren(bookmarks);
+
             refreshBookMark(bookmarks, "left");
 
-        }else if (panelType === "right"){
+        }else if (panelType == "right"){
 
             prevNode = prevNodeRight.pop();
             bookmarks = popChild("right");
-
             bookmarks = getChildren(bookmarks);
 
             if(!prevNode){
@@ -1137,15 +970,14 @@ Chrome, Firefox 사용 가능
     //현재 전개된 북마크 목록을 가져오는 함수
     function popChild(type){
 
-        let bookmarks = undefined;
-        let path = undefined;
+        let bookmarks;
+        let path;
 
-        if(type === "right"){
+        if(type == "right"){
             path = prevNodeRight;
             bookmarks = editedBKElements;
 
-
-        }else if(type === "left"){
+        }else if(type == "left"){
 
             path = prevNodeLeft;
             bookmarks = bookmarkElements;
@@ -1154,27 +986,24 @@ Chrome, Firefox 사용 가능
 
         if(!path){
             return null;
-
         }
-
 
         for(let i = 0; i<path.length; ++i){
 
-            let prevId = path[i];
-
             for(let j = 0 ; j<bookmarks.length; ++j){
 
-                if(bookmarks[j].add_date == prevId){
+                if(bookmarks[j].add_date == parseInt(path[i])){
 
                     bookmarks = bookmarks[j].children;
-                    break;
 
+                    break;
 
                 }
 
             }
 
         }
+
 
         return bookmarks;
 
@@ -1188,16 +1017,10 @@ Chrome, Firefox 사용 가능
     //id 값 맞는 하위자식 요소 찾기
     function findChildElement(bookmarks, id){
 
-
         bookmarks = getChildren(bookmarks);
-
         for(let i = 0; i<bookmarks.length; ++i){
-
-
-            if(bookmarks[i].add_date == id){
-
+            if(bookmarks[i].add_date == parseInt(id)){
                 return getChildren(bookmarks[i]);
-
             }
 
         }
@@ -1206,41 +1029,17 @@ Chrome, Firefox 사용 가능
     }
 
 
-    function getChildren($bookmark){
+    function getChildren(bookmark){
 
-        let typeIsFolder = isFolder($bookmark);
 
+        let typeIsFolder = bookmark instanceof Folder;
         if(typeIsFolder){
-
-            return $bookmark.children;
-
+            return bookmark.getChildren();
         }else{
 
-            return $bookmark;
+            return bookmark;
 
         }
-
-
-    }
-
-
-    //타입이 폴더인지 아닌지 확인하는 함수
-    function isFolder($bookmark){
-
-
-        let typeIsFolder = undefined;
-
-        if($bookmark instanceof BookMark){
-
-            typeIsFolder = false;
-
-        }else if($bookmark instanceof Folder){
-
-            typeIsFolder = true;
-
-        }
-
-        return typeIsFolder;
 
 
     }
@@ -1250,8 +1049,9 @@ Chrome, Firefox 사용 가능
     function refreshBookMark(bookmarkElements, panelType){
 
 
-        let $itemParent = undefined;
-        let classType = undefined;
+
+        let $itemParent;
+        let classType;
 
         //패널 타입에 따라 부모 노드를 초기화 시킨다.
         if(panelType == "left"){
@@ -1269,19 +1069,21 @@ Chrome, Firefox 사용 가능
 
         $itemParent.empty();
 
+        if(!bookmarkElements) return;
+
 
         //루프를 돌면서 전달받은 JSON 객체를 DOM에 넣어 생성한다.
         for(let i=0; i<bookmarkElements.length; ++i){
 
             $bookmark = bookmarkElements[i];
-            let typeIsFolder = isFolder($bookmark);
+            let typeIsFolder = $bookmark instanceof Folder;
 
             //추가할 DOM 요소를 생성한다.
             //.. innerHTML은 폴더와 북마크 모두 공통으로 들어가는 부분이다.
             //.. 만약 폴더면 URL이 존재하지 않으므로 당연히 NULL이 들어간다.
             //.. id값으로 사용하는 것은 유닉스타임으로 지정된 timeStamp이다.
 
-            let $item = $("<div>").addClass("card row").addClass(classType).attr("name", "elementParent").css("padding-top", "20px").css("padding-bottom", "20px").css("margin", "10px").css("background-color",  "#f2f2f2");
+            let $item = $("<div>").addClass("card row").addClass(classType).attr("name", "elementParent").css("padding-top", "20px").css("padding-bottom", "20px").css("margin", "10px").css("background-color",  "#f2f2f2").css("cursor", "pointer");
             let $innerItem = $("<div>").addClass("col-10 w-100");
 
                 if(!$.trim($bookmark.title)){
@@ -1295,7 +1097,6 @@ Chrome, Firefox 사용 가능
 
             if(!$.trim($bookmark.url) && !typeIsFolder){
                 $innerItem.append($("<input>").attr("name", "url").val("https://").attr("disabled", true).css("user-select", "none").addClass("w-100 form-control border-input"));
-
 
             }else if(!typeIsFolder){
                 $innerItem.append($("<input>").attr("name", "url").val($bookmark.url).attr("disabled", true).css("user-select", "none").addClass("w-100 form-control border-input"));
@@ -1509,12 +1310,10 @@ Chrome, Firefox 사용 가능
                 if(removedBlank.length < 1){
                     swal("태그 추가 실패", "추가한 태그가 공백입니다.", "error");
                     $(e.target).tagsinput("remove", tags[i]);
-                    return;
                 }else if(!regexResult){
 
                     swal("태그 추가 실패", "태그는 한글, 영문, 숫자의 조합만 가능합니다.", "error");
                     $(e.target).tagsinput("remove", tags[i]);
-                    return;
 
                 }
 
@@ -1541,7 +1340,6 @@ Chrome, Firefox 사용 가능
         navbarObj.setType("bg-info");
 
         $.busyLoadFull("show", {
-
             spinner : "circle-line",
             text : "페이지를 초기화 하고 있습니다..."
 
@@ -1594,7 +1392,6 @@ Chrome, Firefox 사용 가능
         setComponentEventListener();
 
         let statusToken = '${param.status}';
-        console.log(statusToken);
 
         //사용자가 업로드 했던 북마크 목록을 가져온다
         let parsedHTMLVar =  parseHTML('${resultHTML}');
@@ -1627,7 +1424,6 @@ Chrome, Firefox 사용 가능
         //Drop을 가능하도록 설정, 오른쪽 패널
         setDroppable($("#editBookMark"), "right");
         //키를 감지하도록 설정
-        setKeyListener();
 
         $.busyLoadFull("hide", {});
 
@@ -1635,3 +1431,5 @@ Chrome, Firefox 사용 가능
     });
 
 </script>
+
+

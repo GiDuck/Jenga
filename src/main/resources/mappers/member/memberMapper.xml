@@ -3,12 +3,10 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		<!-- MyBatis의 경우 작성된 XML Mapper는 상단의 파일에서 사용하는 태그들에 대한 정보가 기록된 DTD를 추가 -->
 
-<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="member">
 
-	<!-- 2차 페이지에서 입력 후 임시로 저장한 정보들을 새로 UPDATE하는 -->
-	<!-- 개인정보 (주) -->
-	<update id="addEMemberInfo">
+
+	<update id="addEmailMemInfo">
 	UPDATE
 		tbl_MemInfo
 	SET
@@ -17,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		mem_iuid = #{mem_iuid}
 	</update>
 
-	<insert id="addSMemberInfo">
+	<insert id="addSocialMemInfo">
 	INSERT INTO
 		tbl_MemInfo
 		(mem_iuid, mem_nick, mem_profile, mem_joinDate, mem_introduce)
@@ -25,9 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(#{mem_iuid}, #{mem_nick}, #{mem_profile}, sysdate, #{mem_introduce})
 	</insert>
 
-	<!-- 2차 페이지에서 입력 후 인증 여부를 ‘Y’로 바꾸고 날짜로 그날 날짜로 바꾸고 완전 회원가입 완료 -->
-	<!-- 이메일 가입 (부) -->
-	<insert id="addEMember">
+	<insert id="addEmailMember">
 	UPDATE
 		tbl_EMember
 	SET
@@ -35,16 +31,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE em_ref = #{aes_iuid}
 	</insert>
 
-	<!-- 소셜로그인 가입 (부) -->
-	<insert id="addSMember">
+	<insert id="addSocialMember">
 	INSERT INTO
 		tbl_SMember
 		(sm_id, sm_ref, sm_type)
-	VALUES (#{socialMemberDTO.sm_id}, #{iuid}, #{socialMemberDTO.sm_type})
+	VALUES (#{socialMemberDTO.sm_id}, #{memberUid}, #{socialMemberDTO.sm_type})
 	</insert>
 
 	<!-- SELECT sm_id FROM tbl_SMember WHERE sm_id = #{aes_sid}-->
-	<select id="getExistMember" resultType="hi.im.jenga.member.dto.MemberDTO">
+	<select id="getExistMember" resultType="MemberDTO">
 	SELECT
 		*
 	FROM
@@ -79,42 +74,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		tbl_AMember
 	SET
 		am_pwd = #{tempPwdKey}
-	WHERE am_id = <![CDATA[#{find_pwd}]]>
+	WHERE am_id = #{find_pwd}
 	</update>
 
 	<!-- 이메일 회원가입할 때 인증키 보낼 때 tbl_memInfo에 임시로 넣어주는 메서드 -->
-	<insert id="tempIns">
+	<insert id="setTempMemInfo">
 	INSERT INTO
 		tbl_MemInfo
 	(mem_iuid, mem_nick, mem_profile,  mem_joindate, mem_introduce)
-	VALUES (#{iuid},'temp', 'temp', sysdate, 'temp')
+	VALUES (#{em_ref},'temp', 'temp', sysdate, 'temp')
 	</insert>
 
-	<!-- 처음 정보들을 INSERT했지만 끄고 다시 들어올때 UPDATE로 -->
-	<update id="sendKeyUpdate">
-	UPDATE
-		tbl_EMember
-	SET
-		em_pwd = #{em_pwd}, em_akey = #{em_akey}
-	WHERE em_id = #{em_id}
-	</update>
 
-	<!-- 이메일로 회원가입할 때 이메일, 비밀번호, iuid, (이메일로 보내는)인증키, 이메일 인증전이라 'N' 넣음 -->
-	<insert id="sendKeyInsert">
-	INSERT INTO
-		tbl_EMember
-	(em_id, em_pwd, em_ref, em_akey)
-	VALUES (#{em_id}, #{em_pwd}, #{em_ref}, #{em_akey})
+	<insert id="sendKey">
+
+	<![CDATA[
+	merge into tbl_emember a
+	using dual
+	on (em_id = #{em_id})
+	when matched then update set em_akey= #{em_akey}
+	when not matched then insert values (#{em_id}, #{em_ref}, #{em_pwd}, #{em_akey}, 'N', sysdate)
+	]]>
 	</insert>
 
 	<!-- 해당 이메일에 보낸 인증키가 일치하는지 확인하는지 -->
-	<select id="authCheck" resultType="String">
-	SELECT
-		em_id
-	FROM
-		tbl_EMember
-	WHERE em_id = #{em_id} AND em_akey = #{em_akey}
-	</select>
+	<update id="authTokenUpdate">
+	update
+	tbl_emember
+	set
+	em_acheck = 'Y'
+	where em_id = #{em_id} and em_akey = #{em_akey}
+	</update>
 
 	<!-- 멤버 지움 -->
 	<delete id="delMemInfo">
@@ -132,18 +122,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		mem_iuid = #{mem_iuid};
 	</update>
 
-	<select id="checkid" resultType="String">
+	<select id="checkid" resultType="java.lang.Integer">
 	SELECT
-		EM_ID
+		count(*)
 	FROM
 	    tbl_EMember
 	where
 	    EM_ID = #{em_id}
 	</select>
 
-	<select id="checkpass" resultType="String">
+	<select id="checkpass" resultType="java.lang.Integer">
 	SELECT
-		*
+		count(*)
 	FROM
 	    tbl_EMember
 	WHERE
@@ -159,7 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    em_id = #{em_id} and em_pwd = #{em_pwd}
 	</select>
 
-	<select id="getMemInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
+	<select id="getMemInfo" resultType="MemberDTO">
 	SELECT
 		  *
 	FROM
@@ -176,7 +166,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 이메일을 이용해서 임시로 넣은 iuid를 찾기위한 메서드 -->
-	<select id="findIuid" resultType="String">
+	<select id="findMemUidByEmail" resultType="String">
 	SELECT
 		em_ref
 	FROM
@@ -189,12 +179,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	INSERT INTO
 		tbl_mFavor
 	VALUES
-		(#{s_iuid}, (SELECT
+		(#{memUid}, (SELECT
 		               		mctg_uid
 		          	 	FROM
                     		tbl_mCategory
                   	 	WHERE
-                     		mctg_name = #{fav})
+                     		mctg_name = #{favor})
 						)
 	</insert>
 
@@ -203,7 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	DELETE FROM
 		tbl_mFavor
 	WHERE
-		mf_ref = #{s_iuid}
+		mf_ref = #{socialMemUid}
 	</delete>
 
 	<select id = "getMemFavor" resultType="String">
@@ -222,13 +212,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </select>
 
 
-	<select id = "modMemberInfoGET" resultType="hi.im.jenga.member.dto.MemberDTO">
+	<select id = "modMemberInfoGET" resultType="MemberDTO">
 	SELECT
 		mem_nick AS "mem_nick", mem_profile AS "mem_profile", mem_introduce AS "mem_introduce"
 	FROM
 		tbl_MemInfo
 	WHERE
-		mem_iuid = #{aes_iuid}
+		mem_iuid = #{encodedAesUid}
 	</select>
 
 	<update id="modMemberInfoPOST_MemInfo">
@@ -237,25 +227,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SET
 		mem_nick = #{memberDTO.mem_nick}, mem_profile = #{memberDTO.mem_profile}, mem_introduce = #{memberDTO.mem_introduce}
 	WHERE
-		mem_iuid = #{s_iuid}
+		mem_iuid = #{memUid}
 	</update>
 
-	<update id="modMemberInfoPOST_EMember">
+	<update id="modPwdForEmailUser">
 	UPDATE
 		tbl_EMember
 	SET
-		em_pwd = #{aes_em_pwd}
+		em_pwd = #{encodedPwd}
 	WHERE
-		em_ref = #{s_iuid}
+		em_ref = #{encodedUid}
 	</update>
 
-	<select id="getMemInfoSession" resultType="hi.im.jenga.member.dto.MemberDTO">
+	<select id="getMemInfoSession" resultType="MemberDTO">
 	SELECT
 		*
 	FROM
 		tbl_MemInfo
 	WHERE
-	 	mem_iuid = #{s_iuid}
+	 	mem_iuid = #{socialMemUid}
 	</select>
 
 	<select id="getMemProfile" resultType="String">
@@ -264,16 +254,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM
 		tbl_MemInfo
 	WHERE
-		mem_iuid = #{s_iuid}
+		mem_iuid = #{memUid}
 	</select>
 
-	<select id="getUserInfo" resultType="hi.im.jenga.member.dto.MemberDTO">
+	<select id="getUserInfo" resultType="MemberDTO">
   	SELECT
   		mem_nick, mem_profile, mem_introduce
 	FROM
 		tbl_meminfo
 	WHERE
-		mem_iuid = #{mem_iuid}
+		mem_iuid = #{memUid}
 	</select>
 
 	<select id="getCategory" resultType="java.util.Map">
@@ -283,23 +273,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		tbl_mcategory
 	</select>
 
-	<select id="getBmksUploadDate" resultType="Date">
+	<select id="getBookmarkUploadDate" resultType="java.util.Date">
 	SELECT
 		bp_date
 	FROM
 		tbl_blpath
 	WHERE
-		bp_iuid = #{session_iuid}
+		bp_iuid = #{memUid}
 	</select>
 
 	<update id="changePwd">
 	UPDATE
 		tbl_EMember
 	SET
-		em_pwd = #{aes_pwd}
+		em_pwd = #{memPwd}
 	WHERE
-		em_iuid = #{mem_iuid}
+		em_ref = #{memUid}
 	</update>
+
+    <insert id="insertWhetherRegInfo">
+
+        insert into tbl_regtoken values (#{memUid}, sysdate)
+
+    </insert>
+
+    <delete id="deleteWhetherRegInfo">
+
+        delete from tbl_regtoken where rt_ref = #{memUid}
+
+    </delete>
+
+
+    <select id="getWhetherRegInfo" resultType="java.lang.Integer">
+
+        select count(*) from tbl_regtoken where rt_ref = #{memUid}
+
+    </select>
 </mapper>
 
 

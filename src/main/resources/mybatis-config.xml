@@ -15,7 +15,9 @@
 	</settings>
 	
   <typeAliases>
-    <package name="main"/>
+	  <package name="hi.im.jenga.board.dto"/>
+	  <package name="hi.im.jenga.member.dto"/>
+
   </typeAliases>
 
 	<typeHandlers>

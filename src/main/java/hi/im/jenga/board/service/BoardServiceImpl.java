@@ -1,14 +1,17 @@
 package hi.im.jenga.board.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hi.im.jenga.board.dao.BoardDAO;
 import hi.im.jenga.board.dto.BlockPathDTO;
 import hi.im.jenga.board.dto.BoardDTO;
+import hi.im.jenga.board.util.BlockCompType;
 import hi.im.jenga.board.util.FileIOUtil;
-import hi.im.jenga.board.util.FileType;
+import hi.im.jenga.util.EncryptManager;
+import hi.im.jenga.util.FileType;
 import hi.im.jenga.member.dto.MemberDTO;
 import hi.im.jenga.member.util.cipher.AES256Cipher;
+import hi.im.jenga.util.JsonParseManager;
+import hi.im.jenga.util.status_code.BlockStatusCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +19,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {
+
 
     private static final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
 
@@ -37,10 +35,9 @@ public class BoardServiceImpl implements BoardService {
     private AES256Cipher aes256Cipher;
 
 
-
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Value("#{data['bookmark.absolute_path']}")
+    @Value("#{data['bookmark.root_path']}")
     private String bookmark_absolute_path;
 
     @Autowired
@@ -52,220 +49,221 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Transactional
-    public void writeViewBlock(BoardDTO boardDTO, String uploadName, String bl_bookmarks) {
+    public void writeViewBlock(BoardDTO boardDTO, String uploadPath, String bookmark) {
 
-        mongoService.writeViewBmks(boardDTO.getBl_uid(), bl_bookmarks);        // bl_objId가 있어야지 block에 값을 넣을 수 있다.
+        mongoService.writeViewBmks(boardDTO.getBl_uid(), bookmark);
         boardDTO.setBl_objId(mongoService.getObjId("_refBoardId", boardDTO.getBl_uid()));
-
 
         dao.writeViewBlock(boardDTO);
         dao.writeViewReadCount(boardDTO.getBl_uid());
-
-
-        // 사진을 직접 안넣을 시 디폴트 이미지로 설정
-        if (uploadName.equals("")) {
-            // 디폴트 이미지를 넣어준다
-            uploadName = "jenga_profile_default.jpg";
+        if(uploadPath != null){
+            dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadPath);
         }
-        dao.writeViewThumbImg(boardDTO.getBl_uid(), uploadName);
         dao.writeViewTag(boardDTO.getBl_uid(), boardDTO.getBt_name());
 
 
     }
 
-    @Transactional
-    public Map<String, Object> getModifyBlock(String bl_uid) throws JsonProcessingException {
+    public Map<String, Object> getModifyBlock(String blockUid) {
 
-        Map<String, Object> map = dao.getModifyBlock(bl_uid);
-
-        List<String> list = dao.getBoardDetailTags(bl_uid);
-        String tagJSON = mapper.writeValueAsString(list);
-
-        map.put("tag", tagJSON);
-
-        String bookmarks = mongoService.getView("_refBoardId", bl_uid);
-        map.put("bookmarks", bookmarks);
-
-        map.put("bti_url", dao.getUploadName(bl_uid));
-
+        Map<String, Object> map = dao.getModifyBlock(blockUid);
+        map.put("tag", JsonParseManager.parseToString(dao.getBoardDetailTags(blockUid)));
+        map.put("bookmarks", mongoService.getView("_refBoardId", blockUid));
+        map.put("bti_url", dao.getUploadName(blockUid));
         return map;
     }
 
     @Transactional
-    public void modifyViewPOST(BoardDTO boardDTO, String uploadName, String bl_bookmarks) {
+    public void modifyViewPOST(BoardDTO boardDTO, String uploadFileName, String bookmark) {
 
         dao.modifyViewBoard(boardDTO);
 
-        if (uploadName.equals("")) {
-            uploadName = dao.getUploadName(boardDTO.getBl_uid());
+        if (uploadFileName == null) {
+            uploadFileName = dao.getUploadName(boardDTO.getBl_uid());
         }
 
-        dao.modifyViewThumbImg(boardDTO, uploadName);
+        dao.modifyViewThumbImg(boardDTO, uploadFileName);
         dao.modifyViewTag(boardDTO);
-        mongoService.modifyViewPOST("_refBoardId", boardDTO.getBl_uid(), bl_bookmarks);
+        mongoService.modifyViewPOST("_refBoardId", boardDTO.getBl_uid(), bookmark);
     }
 
-    public void addBmksPath(String session_iuid, BlockPathDTO blockPathDTO) {
-        String check = dao.checkBmksPath(session_iuid);
-        if (check.equals("X")) {
-            dao.insertBmksPath(session_iuid, blockPathDTO);
-        } else if (check.equals("O")) {
-            dao.updateBmksPath(session_iuid, blockPathDTO);
+    public void addBookmarkPath(String memUid, BlockPathDTO blockPathDTO) {
+
+        if (dao.checkBmksPath(memUid) < 1) {
+            dao.insertBmksPath(memUid, blockPathDTO);
+        } else {
+            dao.updateBmksPath(memUid, blockPathDTO);
         }
     }
 
     @Transactional
-    public int deleteBlock(String bl_uid) {
-        mongoService.deleteBlock("_refBoardId", bl_uid);
-        return dao.deleteBlock(bl_uid);
+    public BlockStatusCode deleteBlock(String blockUid) {
+        mongoService.deleteBlock("_refBoardId", blockUid);
+        if (dao.deleteBlock(blockUid) > 0) return BlockStatusCode.BLOCK_DEL_SUCCESS;
+        return BlockStatusCode.BLOCK_DEL_FAIL;
     }
 
 
     @Transactional
-    public Map<String, Object> getView(String bl_uid) throws Exception {
-        dao.getAddReadCount(bl_uid);    // 조회수 + 1
-        Map<String, Object> map = dao.getBoardDetailBlock(bl_uid);
+    public Map<String, Object> getView(String boardUid) {
 
-        map.put("mem_nick", aes256Cipher.AES_Decode(String.valueOf(map.get("mem_nick"))));
-        map.put("mem_introduce", aes256Cipher.AES_Decode(String.valueOf(map.get("mem_introduce"))));
-        map.put("mem_profile", aes256Cipher.AES_Decode(String.valueOf(map.get("mem_profile"))));
+        dao.getAddReadCount(boardUid);
+        Map<String, Object> map = dao.getBoardDetailBlock(boardUid);
 
-        System.out.println(map.get("bl_date"));
-        System.out.println(map.get("blrc_count"));
+        System.out.println(map);
 
-        List<String> list = dao.getBoardDetailTags(bl_uid);
-        String tagJSON = mapper.writeValueAsString(list);
-        map.put("tag", tagJSON);
+        String nick = String.valueOf(map.get("mem_nick"));
+        String introduce = String.valueOf(map.get("mem_introduce"));
+        String profile = String.valueOf(map.get("mem_profile"));
 
-        map.put("likes", dao.likeCount(bl_uid));
+        map.put("mem_nick", EncryptManager.aesDecode(aes256Cipher, nick));
+        map.put("mem_introduce", EncryptManager.aesDecode(aes256Cipher, introduce));
+        map.put("mem_profile", EncryptManager.aesDecode(aes256Cipher, profile));
 
-        String bookmarks = mongoService.getView("_refBoardId", bl_uid);
-        map.put("bookmarks", bookmarks);
+
+        map.put("tag", JsonParseManager.parseToString(dao.getBoardDetailTags(boardUid)));
+        map.put("likes", dao.likeCount(boardUid));
+        map.put("bookmarks", mongoService.getView("_refBoardId", boardUid));
 
 
         return map;
     }
 
 
-    public String isLikeExist(String bl_iuid, String session_mem_iuid) {
-        Boolean result = dao.likeCheck(bl_iuid, session_mem_iuid);
-        if (result) {
-            return bl_iuid;
+    public BlockStatusCode isLikeExist(String blockUid, String memUid) {
+
+        if (dao.likeCheck(blockUid, memUid) > 0) {
+
+            return BlockStatusCode.LIKE_EXISTS;
         }
-        return null;
+
+        return BlockStatusCode.LIKE_NOT_EXISTS;
     }
 
-    public List<MemberDTO> getMyFollower(String my_iuid) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        List<MemberDTO> list = dao.getMyFollower(my_iuid);
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).setMem_nick(aes256Cipher.AES_Decode(list.get(i).getMem_nick()));
-        }
+    public List<MemberDTO> getMyFollower(String memUid) {
+        List<MemberDTO> list = dao.getMyFollower(memUid);
+        for (MemberDTO member : list) member.setMem_nick(EncryptManager.aesDecode(aes256Cipher, member.getMem_nick()));
         return list;
     }
 
-    public void likeCheck(String bl_iuid, String memUid) {
-        Boolean result = dao.likeCheck(bl_iuid, memUid);
-        if (!result) {
-            dao.addLike(bl_iuid, memUid);
-            return;
+    public BlockStatusCode likeCheck(String blockUid, String memUid) {
+
+        if (dao.likeCheck(blockUid, memUid) < 1) {
+            dao.addLike(blockUid, memUid);
+            return BlockStatusCode.FOLLOW;
         }
-        dao.cancelLike(bl_iuid, memUid);
+        dao.cancelLike(blockUid, memUid);
+        return BlockStatusCode.NOT_FOLLOW;
     }
 
     public int likeCount(String blUid) {
         return dao.likeCount(blUid);
     }
 
-    public String getBookMarkFromHTML(String session_iuid) {
-        String fileFullName = dao.getBookMarkFromHTML(session_iuid);
+    public String getBookMarkFromHTML(String memUid) {
+        String fileFullName = dao.getBookMarkFromHTML(memUid);
+        String result = null;
         if (fileFullName != null) {
-            logger.info("로컬에 있는 북마크 경로는 " + bookmark_absolute_path + fileFullName);
             FileIOUtil fileIOUtil = new FileIOUtil(FileType.BOOKMARK);
-            String result = new String(fileIOUtil.getFileToBynary(fileFullName , bookmark_absolute_path));
-            return result;
+            result = fileIOUtil.getFileToChar(fileFullName, bookmark_absolute_path);
         }
-        return "notExist";
+
+        return result;
+
     }
 
     public Map<String, List<String>> getCategoryName() {
         return dao.getCategoryName();
     }
 
-    public String transCtgUID(String bl_smCtg, String flag) {
-        return dao.transCtgUID(bl_smCtg, flag);
+    public String transCtgUID(String smallCategory, BlockCompType compType) {
+        return dao.transCtgUID(smallCategory, compType);
     }
 
-    public List<BoardDTO> search(String search, String search_check, String session_iuid, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        if (session_iuid != null) {
-            dao.setSearchKeyword(search, session_iuid); //검색 워드 저장
+    public List<BoardDTO> search(String keyword, String searchOption, String memUid, double startRow, double endRow) {
+        if (memUid != null) {
+            dao.setSearchKeyword(keyword, memUid);
         }
-        if (search_check.equals("name")) {
-            search = aes256Cipher.AES_Encode(search);
-            return dao.searchName(search, startrow, endrow);
-        } else if (search_check.equals("tag")) {
-            return dao.searchTag(search, startrow, endrow);
-        } else {
-            String[] splitsearch = search.split(" ");
 
-            List<String> list = new ArrayList<String>();
-            for (int i = 0; i < splitsearch.length; i++) {
-                list.add(splitsearch[i]);
-            }
-            return dao.searchContents(list, startrow, endrow);
+        if (checkComponentType(BlockCompType.NAME, searchOption)) {
+            keyword = EncryptManager.aesEnocde(aes256Cipher, keyword);
+            return dao.searchName(keyword, startRow, endRow);
+
+        } else if (checkComponentType(BlockCompType.TAG, searchOption)) {
+            return dao.searchTag(keyword, startRow, endRow);
         }
+
+        return dao.searchContents(stringTokenizer(keyword), startRow, endRow);
+
     }
 
-    public void follow(String bl_writer, String session_iuid) {
-        dao.follow(bl_writer, session_iuid);
-    }
+    public BlockStatusCode follow(String writerUid, String memUid) {
 
-    public String followCheck(String bl_writer, String session_iuid) {
-        return dao.followCheck(bl_writer, session_iuid);
-    }
-
-    public void unFollow(String bl_writer, String session_iuid) {
-        dao.unFollow(bl_writer, session_iuid);
-    }
-
-    public List<BoardDTO> getFollowerBoard(String follow_iuid, String my_iuid) {
-        return dao.getFollowerBoard(follow_iuid, my_iuid);
-    }
-
-
-    public List<BoardDTO> getMyBlock(String my_iuid) {
-        return dao.getMyBlock(my_iuid);
-    }
-
-    public List<String> searchImg(String search, String search_check, int startrow, int endrow) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        if (search_check.equals("name")) {
-            search = aes256Cipher.AES_Encode(search);
-            return dao.searchImgName(search, startrow, endrow);
-        } else if (search_check.equals("tag")) {
-            return dao.searchImgTag(search, startrow, endrow);
-        } else {
-            String[] splitsearch = search.split(" ");
-            List<String> list = new ArrayList<String>();
-            for (int i = 0; i < splitsearch.length; i++) {
-                list.add(splitsearch[i]);
-            }
-            return dao.searchImgContents(list, startrow, endrow);
+        try {
+            dao.follow(writerUid, memUid);
+            return BlockStatusCode.FOLLOW_SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return BlockStatusCode.FOLLOW_FAIL;
+
     }
 
-    public int countSearch(String search, String search_check) throws NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        if (search_check.equals("name")) {
-            search = aes256Cipher.AES_Encode(search);
-            return dao.countSearchName(search);
-        } else if (search_check.equals("tag")) {
-            return dao.countSearchTag(search);
-        } else {
-            String[] splitsearch = search.split(" ");
-            List<String> list = new ArrayList<String>();
-            for (int i = 0; i < splitsearch.length; i++) {
-                list.add(splitsearch[i]);
-            }
-            return dao.countSearchContents(list);
+    public String followCheck(String writerUid, String memUid) {
+        return dao.followCheck(writerUid, memUid);
+    }
+
+    public BlockStatusCode unFollow(String writerUid, String memUid) {
+        if (dao.unFollow(writerUid, memUid) > 0) return BlockStatusCode.NOT_FOLLOW;
+        return BlockStatusCode.FOLLOW;
+    }
+
+    public List<BoardDTO> getFollowerBoard(String followUid, String memUid) {
+        return dao.getFollowerBoard(followUid, memUid);
+    }
+
+
+    public List<BoardDTO> getMyBlock(String memUid) {
+        return dao.getMyBlock(memUid);
+    }
+
+    public List<String> searchImg(String keyword, String searchOption, int startRow, int endRow) {
+        if (checkComponentType(BlockCompType.NAME, searchOption)) {
+            keyword = EncryptManager.aesEnocde(aes256Cipher, keyword);
+            return dao.searchImgName(keyword, startRow, endRow);
+        } else if (checkComponentType(BlockCompType.TAG, searchOption)) {
+            return dao.searchImgTag(keyword, startRow, endRow);
         }
+        return dao.searchImgContents(stringTokenizer(keyword), startRow, endRow);
+    }
+
+    public int countSearch(String keyword, String searchOption) {
+        if (checkComponentType(BlockCompType.NAME, searchOption)) {
+            keyword = EncryptManager.aesEnocde(aes256Cipher, keyword);
+            return dao.countSearchName(keyword);
+
+        } else if (checkComponentType(BlockCompType.TAG, searchOption)) {
+            return dao.countSearchTag(keyword);
+        }
+
+        return dao.countSearchContents(stringTokenizer(keyword));
+
+    }
+
+    private boolean checkComponentType(BlockCompType compType, String keyword) {
+
+        if (compType.name().equals(keyword.toUpperCase())) return true;
+        else return false;
+
+
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private List<String> stringTokenizer(String str) {
+
+        String[] strArr = str.split(" ");
+        return new ArrayList(Arrays.asList(strArr));
 
     }
 

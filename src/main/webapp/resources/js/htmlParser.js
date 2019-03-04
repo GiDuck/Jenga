@@ -86,25 +86,20 @@ Folder.prototype.getLastDate = function(){
 //DOM을 생성하는 함수
 function parseHTML(rawHTML){
 
-//제이쿼리에 의해 전처리된 html 직속 배열들
-    let $html = $.parseHTML(rawHTML);
+    let $html = new DOMParser().parseFromString(rawHTML, "text/html");
+
+    let $obj = new Folder("root", new Array(), 0, 0);
 
 
-//제일 최상단 루트를 생성한다.
-    var $obj = new Folder("root", new Array(), 0, 0);
-
-
-//시작시간 기록을 위한 변수
     let startT = new Date().getTime();
-    console.log("parse stared..." + startT);
 
 
-    //직속 자식 DOM elements들을 가져온다. 그리고 for문을 통해 재귀함수를 호출하여 자식노드를 모두 순회한다.
-    for(let i=0; i<$html.length; ++i){
 
-        let $item = $html[i];
-        searchElement($item, $obj);
+    let children = $html.body.childNodes;
 
+    for(let i=0; i<children.length; ++i){
+
+        searchElement(children[i], $obj);
 
     }
 
@@ -113,7 +108,6 @@ function parseHTML(rawHTML){
 
     console.log("parse ended..." + startE);
 
-    //파싱에 걸린 시간을 나타내줌
     console.log("시간차..." + parseInt(startE-startT));
     return $obj;
 
@@ -126,46 +120,37 @@ function parseHTML(rawHTML){
 //재귀함수를 사용하여 HTML 태그를 파싱하는 함수
 function searchElement($parentNode, $Obj){
 
+     if($parentNode.querySelectorAll("dl").length > 0){
 
-    //자식없는 태그 (즉, 쓸모없는 태그들)
-    if($($parentNode).children().length < 1){
-        return;
-
-        //폴더 타입, 직속 하위자식 중에 dl태그가 존재한다.
-    }else if($($parentNode).children("dl").length > 0){
-
-
-        let title = $($parentNode).children("h3").html();
+        let title = $parentNode.querySelector("h3").innerHTML;
         let children = new Array();
-        let addDate = $($parentNode).children("h3").attr("add_date");
-        let modDate = $($parentNode).children("h3").attr("last_modified");
+        let addDate = $parentNode.querySelector("h3").getAttribute("add_date");
+        let modDate = $parentNode.querySelector("h3").getAttribute("last_modified");
 
-        let $children = $($($parentNode).children("dl")).children("dt");
+        let $children = $parentNode.querySelector("dl");
         let folderObj = new Folder(title, children, addDate, modDate);
         $Obj.getChildren().push(folderObj);
 
 
-        for(let i=0; i<$children.length; ++i){
-
-            searchElement($children[i], folderObj);
+        let childrenArr = $children.children;
+        for(let i=0; i<childrenArr.length; ++i){
+            searchElement(childrenArr[i], folderObj);
         }
 
         //일반 북마크 타입, 직속 하위자식 중에 a태그가 존재한다.
-    }else if($($parentNode).children("a").length > 0){
+    }else if($parentNode.querySelectorAll("a").length > 0){
 
-        let title = $($parentNode).children("a").html();
-        let url = $($parentNode).children("a").attr("href");
-        let addDate = $($parentNode).children("a").attr("add_date");
-        let modDate = $($parentNode).children("a").attr("icon");
+        let title = $parentNode.querySelector("a").innerHTML;
+        let url = $parentNode.querySelector("a").getAttribute("href");
+        let addDate = $parentNode.querySelector("a").getAttribute("add_date");
+        let icon;
+        try{
+        icon = $parentNode.querySelector("a").getAttribute("icon");
+        }catch(Exception){
 
-        let bookMarkObj = new BookMark(title, url, addDate, modDate);
-        $Obj.children.push(bookMarkObj);
-
-        return;
-
-    }else{
-
-        return;
+        }
+        let bookMarkObj = new BookMark(title, url, addDate, icon);
+        $Obj.getChildren().push(bookMarkObj);
 
 
     }
@@ -176,23 +161,22 @@ function searchElement($parentNode, $Obj){
 function parseJsonToHTML(bookmarks, title, introduce){
 
     let $rootDOMElementNode = $("<HTML>").append($("<META>").attr("HTTP-EQUIV", "Content-Type").attr("CONTENT", "text/html; charset=UTF-8"));
-        $rootDOMElementNode.append($("<TITLE>").html(title));
-        $rootDOMElementNode.append($("<H1>").html(introduce));
-        let $bodyNode = $("<DL>").append($("<p>"));
-        $rootDOMElementNode.append($("<p>"));
-
+    $rootDOMElementNode.append($("<TITLE>").html(title));
+    $rootDOMElementNode.append($("<H1>").html(introduce));
+    let $bodyNode = $("<DL>").append($("<p>"));
+    $rootDOMElementNode.append($("<p>"));
 
 
     $rootDOMElementNode.append($bodyNode);
 
-        for(let i=0; i<bookmarks.length; ++i){
+    for(let i=0; i<bookmarks.length; ++i){
 
-            let item = bookmarks[i];
-            reculsiveJsonParser($bodyNode, item);
+        let item = bookmarks[i];
+        reculsiveJsonParser($bodyNode, item);
 
-        }
+    }
 
-        return $rootDOMElementNode;
+    return $rootDOMElementNode;
 }
 
 function reculsiveJsonParser($nowNode, item){
@@ -213,13 +197,9 @@ function reculsiveJsonParser($nowNode, item){
 
         }
 
-
     }else{
-
         let $element = $("<A>").attr("href", item.url).attr("add_date", item.add_date).attr("icon", item.icon).attr("last_modified", item.last_modified).html(item.title);
         $nowNode.append($("<DT>").append($element));
-        return;
-
 
     }
 
