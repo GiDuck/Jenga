@@ -80,8 +80,8 @@
                                 <div class="pull-right">
                                     <div id="writerPanel">
                                         <div id="thisBlockWriterPanel"  style="display : none">
-                                        <a href="#" class="btn btn-info btn-round "> <i class="nc-icon nc-ruler-pencil"></i>&nbsp Modify</a>&nbsp
-                                        <a href="#" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</a>&nbsp
+                                        <a id="modifyBtn" href= "/board/modifyBlock?bl_uid=${bl_uid}" class="btn btn-info btn-round "> <i class="nc-icon nc-ruler-pencil"></i>&nbsp Modify</a>&nbsp
+                                        <div id="removeBtn" class="btn btn-danger btn-round "> <i class="nc-icon nc-simple-remove"></i>&nbsp Remove</div>&nbsp
                                         </div>
                                         <a name="following" href="#" class="btn btn-success btn-round "> <i class="fa fa-reply"></i>&nbsp Follow</a>
                                     </div>
@@ -116,6 +116,8 @@
     let blockJson;
     let $followBtn = $("a[name='following']");
     let isFollowing;
+    let isEmptySession = ${empty sessionScope.Member};
+
 
 
 
@@ -126,6 +128,7 @@
         blockJson = ${map.bookmarks};
         blockObj = JSON.parse(blockJson['_value']);
 
+
         //작성자 이름
         $("#writer_name").html('${map.mem_nick}');
         //작성자 소개
@@ -134,7 +137,6 @@
         $("#writer_image").attr("src", '${map.mem_profile}');
         //선택한 태그들
         $("#tags_inputField").val(${map.tag});
-        //블록 썸네일 이미지
         $("#thumbnail_image").attr("src", '${map.bti_url}');
         //블록 제목
         $("#bd_title").html('${map.bl_title}');
@@ -163,33 +165,75 @@
 
         }());
 
-        let hasSession = ${empty sessionScope.Member};
 
-        if(!hasSession){
+        $("#removeBtn").on("click", function(e){
 
-        // 글 Follow 여부 확인...
-        $.ajax({
+            e.stopPropagation();
+            e.preventDefault();
+
+            swal({
+               title : "게시글 삭제",
+               text : "게시글을 삭제 합니다. 삭제된 게시글은 복구할 수 없습니다. 정말 진행하시겠습니까?",
+               type : "warning",
+               showCancelButton : true,
+               confirmButtonText : "삭제하기",
+               cancelButtonText : "취소하기",
+               reverseButtons : true
+
+            }).then(function(result){
+                if(!result.value) return;
+                $.ajax({
+
+                    url : "/board/delBlock",
+                    type : "get",
+                    data : {bl_uid : '${bl_uid}'},
+                    success : function(statusCode){
+                        if(blockStatusCode.BLOCK_DEL_SUCCESS == statusCode){
+                            swal("삭제 성공", "게시글이 성공적으로 삭제되었습니다.", "success").then(function(){
+                                window.location.replace("/");
+                            });
+                            return;
+                        }
+
+                        swal("삭제 실패", "게시글이 삭제되지 않았습니다.", "error");
+
+
+                    },
+                    error : function(xhs){
+                        swal("삭제 실패", "게시글 삭제 중 오류가 발생하였습니다", "error");
+                        console.log(xhs.error);
+                    }
+
+                })
+
+            });
+
+        });
+
+
+        if(!isEmptySession){
+
+            if(${map.bl_writer eq sessionScope.Member.mem_iuid}){
+                $("#thisBlockWriterPanel").css("display", "inline");
+            }
+            $.ajax({
 
            url : "/board/followCheck",
            type : "GET",
            data : {bl_writer : encodeURI('${map.bl_writer}')},
            success : function(response){
-               console.log("follow check");
-               console.log(response);
-               isFollowing = response;
 
-               if(isFollowing){
+               if(blockStatusCode.FOLLOW == response){
+                   isFollowing = true;
                    convertToUnFollow();
-
                }else{
-
+                   isFollowing = false;
                    convertToFollow();
-
                }
 
 
            },
-            error : function(xhs, status, error){
+            error : function(xhs){
 
                console.log("following check error...");
                console.log("status code... " + status);
@@ -204,33 +248,16 @@
         $followBtn.on("click", function(e){
 
             e.stopPropagation();
-
-            if(!hasSession){
-
-                swal({
-
-                    text : "로그인이 필요한 서비스 입니다. 먼저 로그인 해 주세요.",
-                    type : "warning"
-
-                });
-
+            if(isEmptySession){
+                swal("팔로우 실패", "로그인이 필요한 서비스 입니다. 먼저 로그인 해 주세요.", "warning");
                 return;
-
             }
-
-            let endPoint = undefined;
-
+            let endPoint;
             if(isFollowing){
-
                 endPoint = "/board/unFollow";
-
             }else{
-
                 endPoint = "/board/follow";
-
             }
-
-
 
             $.ajax({
 
@@ -238,61 +265,25 @@
                data : { bl_writer : encodeURI('${map.bl_writer}')},
                url : endPoint,
                success : function(response){
-
-
-                   if(response == "follow"){
-
-                           swal({
-
-                               text : "이제부터 " + '${map.mem_nick}' + " 님의 소식을 받아 보실 수 있습니다.",
-                               type : "success"
-
-                           });
-
+                   if(response == blockStatusCode.FOLLOW_SUCCESS){
+                      swal("팔로우 성공","이제부터 " + '${map.mem_nick}' + " 님의 소식을 받아 보실 수 있습니다.", "success");
                        convertToUnFollow();
                        isFollowing = true;
 
-                   }else if(response == "unFollow"){
-
-                           swal({
-
-                               text : "이제 부터 " + '${map.mem_nick}' + " 님의 소식을 받아 보실 수 없습니다.",
-                               type : "warning"
-
-                           });
-
+                   }else if(response == blockStatusCode.UNFOLLOW_SUCCESS){
+                       swal("팔로우 취소", "이제 부터 " + '${map.mem_nick}' + " 님의 소식을 받아 보실 수 없습니다.","warning");
                        convertToFollow();
                        isFollowing = false;
-
+                   }else if(response == blockStatusCode.FOLLOW_SAME_AUTH){
+                       swal("팔로잉 실패", "내 글은 팔로우 할 수가 없습니다.","warning");
                    }else{
-
-
-                       swal({
-
-                           text : "팔로잉 도중에 에러가 발생 하였습니다.",
-                           type : "error"
-
-                       });
-
-                       console.log("server's error message ... " + response);
-                       return;
-
+                       swal("팔로잉 실패", "팔로잉 도중에 에러가 발생 하였습니다.","error");
                    }
-
-
-
                },
                 error : function(xhs, status, error){
 
-                   swal({
-
-                      text : "팔로잉 요청 중에 에러가 발생하였습니다..",
-                      type : "error"
-
-                   });
-
+                   swal("팔로잉 실패", "팔로잉 요청 중에 에러가 발생하였습니다..","error");
                    console.log("팔로잉 요청 에러..." + status);
-
                 }
 
             });
@@ -397,8 +388,8 @@
         $.ajax({
             url: "/board/isLikeExist/${bl_uid}",
             type:"GET",
-            success: function (responseData) {
-                if(responseData.indexOf("exist") != -1) {
+            success: function (response) {
+                if(response == blockStatusCode.LIKE_EXISTS) {
                     liker.toggle();
                 }
             },error: {}
@@ -430,12 +421,10 @@
 
             }else{
 
-                alert('${bl_uid}');
                 $.ajax({
                     url: "/board/like/${bl_uid}",
                     type: "GET",
                     success : function (responseCount) {
-                        alert(responseCount);
                         $("#likeCount").html(responseCount);
                     },
                 });

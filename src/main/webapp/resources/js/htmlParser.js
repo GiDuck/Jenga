@@ -85,16 +85,11 @@ Folder.prototype.getLastDate = function(){
 
 //DOM을 생성하는 함수
 function parseHTML(rawHTML){
+    if(!rawHTML) return;
 
     let $html = new DOMParser().parseFromString(rawHTML, "text/html");
-
     let $obj = new Folder("root", new Array(), 0, 0);
-
-
     let startT = new Date().getTime();
-
-
-
     let children = $html.body.childNodes;
 
     for(let i=0; i<children.length; ++i){
@@ -203,5 +198,32 @@ function reculsiveJsonParser($nowNode, item){
 
     }
 
+
+}
+
+function parseBookmarkObjType(origin, result){
+
+    if(origin.children){
+
+        let folder = new Folder();
+        folder.title = origin.title;
+        folder.add_date = origin.add_date;
+        folder.last_modified = origin.last_modified;
+        let children = new Array();
+        for(let i = 0 ; i <origin.children.length; ++i){
+            parseBookmarkObjType(origin.children[i], children);
+        }
+        folder.children = children;
+        result.push(folder);
+
+    }else{
+
+        let bookmark = new BookMark();
+        bookmark.title = origin.title;
+        bookmark.url = origin.url;
+        bookmark.icon = origin.icon;
+        bookmark.add_date = origin.add_date;
+        result.push(bookmark);
+    }
 
 }

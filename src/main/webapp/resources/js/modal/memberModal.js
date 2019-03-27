@@ -375,7 +375,7 @@ function makeModifyPWModal(authCodeArr){
                       success : function(statusCode){
 
 
-                          if(statusCode === authStatusCode.MOD_SUCCESS){
+                          if(statusCode == authStatusCode.MOD_SUCCESS){
                             swal("수정 성공", "비밀번호 수정이 성공하였습니다.", "success");
                             $(document).find(".modal").modal("hide");
                         }else{

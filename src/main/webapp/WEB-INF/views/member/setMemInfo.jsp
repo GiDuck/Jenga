@@ -89,8 +89,6 @@
 
 <script>
 
-let statusCodeArr = JSON.parse('${authStatusCode}');
-
     /* ------------ 뷰 초기화 작업 ------------ */
     $(document).ready( function() {
         navbarObj.setType("bg-info");

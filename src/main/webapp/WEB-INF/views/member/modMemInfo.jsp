@@ -162,7 +162,6 @@
 
 <script>
 
-    let authStatusCode = JSON.parse('${authStatusCode}');
     /* ------------ 뷰 초기화 작업 ------------ */
     $(document).ready(function () {
         navbarObj.setType("bg-info");
@@ -314,10 +313,10 @@
             processData:false,
             success : function(response){
 
-                let statusCodeArr = JSON.parse('${authStatusCode}');
                 let statusCode = parseInt(response);
                 console.log(response);
-                if(equalToCodeNum(statusCodeArr, "MOD_SUCCESS", statusCode)){
+                console.log(authStatusCode.MOD_SUCCESS);
+                if(authStatusCode.MOD_SUCCESS == statusCode){
                     swal({
                         text : "회원정보 수정 성공하였습니다.",
                         type : "success"
@@ -326,7 +325,7 @@
 
                         window.location.replace("/modMemInfo");
                     });
-                }else if(equalToCodeNum(statusCodeArr, "MOD_FAIL", statusCode)){
+                }else if(authStatusCode.MOD_FAIL == statusCode){
 
                     swal("수정 실패", "회원 정보 수정 실패 하였습니다.", "error");
 

@@ -219,7 +219,7 @@
 
     //서버로 부터 전해받은 북마크 원본 파일.
     let bookmarks;
-
+    let timeFormat = new DateTimeFormatter();
     //북마크 원본 파일에서 실질적인 북마크 JSON 파일을 뽑아낸 것.
     let bookmarkElements;
 
@@ -301,7 +301,6 @@
 
                         let bookmarks = popChild("right");
                         refreshBookMark(bookmarks, "right");
-
 
                     }
 
@@ -763,9 +762,8 @@
 
         }else if(statusToken == "modify"){
 
-            dest = "/board/modView";
+            dest = "/board/updateBlock";
             token = "수정";
-
         }
 
         if(!valid) return;
@@ -803,7 +801,9 @@
                         formData.append("bl_description", content);                                 // dto
                         formData.append("bt_name", tagsContainer);                                  // dto
                         formData.append("bl_date", time);                                           // dto
-
+                        if(statusToken == "modify") {
+                        formData.append("bl_uid", '${bl_uid}');
+                        }
 
                         //AJAX request
                         $.ajax({
@@ -822,7 +822,13 @@
                                     text : "블록이 성공적으로 "+token+" 되었습니다.",
                                     type : "success"
                                 }).then(function(){
-                                    location.replace("/board/boardView?bl_uid="+response);
+
+                                    if(statusToken == "modify"){
+                                        location.replace("/board/boardView?bl_uid=${bl_uid}");
+
+                                    }else{
+                                        location.replace("/board/boardView?bl_uid="+response);
+                                    }
 
                                 });
 
@@ -993,9 +999,7 @@
             for(let j = 0 ; j<bookmarks.length; ++j){
 
                 if(bookmarks[j].add_date == parseInt(path[i])){
-
                     bookmarks = bookmarks[j].children;
-
                     break;
 
                 }
@@ -1004,13 +1008,7 @@
 
         }
 
-
         return bookmarks;
-
-
-
-
-
     }
 
 
@@ -1047,8 +1045,6 @@
 
     //북마크 목록을 새로 고침하여 rendering 시켜주는 함수
     function refreshBookMark(bookmarkElements, panelType){
-
-
 
         let $itemParent;
         let classType;
@@ -1150,8 +1146,6 @@
     //카테고리를 설정하는 함수
     function setCategory(categoryObj){
 
-
-
         let $mainField = $("#mainCategoryItem");
         let mainCategory = Object.keys(categoryObj);
 
@@ -1171,7 +1165,6 @@
                 //메인 카테고리 선택시 드롭다운 메뉴가 선택한 카테고리로 초기화
                 $("#mainCategory").html(selected);
                 let subCategory = categoryObj[selected];
-
 
                 $subField.empty();
                 $("#subCategory").html(subCategory[0]);
@@ -1248,24 +1241,23 @@
 
     //수정 페이지로 초기화
     function setModifyPage(){
-
-        //EL로 받아온 값 push
         $("#file_image").attr("src", '${map.bti_url}');
         $("input[name='input_title']").val('${map.bl_title}');
         $("textarea[name='input_introduce']").val('${map.bl_introduce}');
-        $("#editor").contents().find("#summernote").val('${map.bl_description}');
+
+        document.getElementById("editor").contentWindow.setText('${map.bl_description}');
         $("#mainCategory").html('${map.bl_mainCtg}');
         $("#subCategory").html('${map.bl_smCtg}');
-        $("#today").val('${map.bl_date}');
         $("#tagsinput").val(${map.tag});
+        $("#today").val(timeFormat.getFullDateTime('${map.bl_date}'));
 
 
         //사용자가 업로드 했던 북마크 목록을 가져온다
-        let parsedUploadedHTMLVar =  parseHTML('${map.bl_bookmarks}');
-        editedBKElements = parsedUploadedHTMLVar.getChildren();
-
-        //북마크 목록 화면에 나타낸다
-        refreshBookMark(editedBKElements, "right");
+        let bookmarks = ${map.bookmarks};
+        let parsedBookmark = JSON.parse(bookmarks["_value"]);
+        let bookmarkObjs = new Array();
+        parseBookmarkObjType(parsedBookmark[0], bookmarkObjs);
+        refreshBookMark(bookmarkObjs, "right");
 
 
     }
@@ -1275,8 +1267,7 @@
 
         //오늘 날짜를 input 필드에 넣음
         let today = new Date();
-        let todayStr = " " + today.getFullYear()+"년 "+(today.getMonth() + 1)+"월 "+today.getDate()+"일";
-        $("#today").val(todayStr);
+        $("#today").val(timeFormat.getFullDateTime(today.getTime()));
 
 
     }
@@ -1327,9 +1318,7 @@
     function closeContextMenu(){
 
         if($(document).find(".contextMenu").hasClass("show")) {
-
             $(document).find(".contextMenu").removeClass("show").hide();
-
         }
 
     }
@@ -1387,12 +1376,10 @@
 
         attachBtnEvent();
         let category = '${category}';
-        category = JSON.parse(category);
-        setCategory(category);
+        setCategory(JSON.parse(category));
         setComponentEventListener();
 
-        let statusToken = '${param.status}';
-
+        let statusToken = '${statusToken}';
         //사용자가 업로드 했던 북마크 목록을 가져온다
         let parsedHTMLVar =  parseHTML('${resultHTML}');
         bookmarkElements = parsedHTMLVar.getChildren();
@@ -1402,6 +1389,7 @@
         refreshBookMark(bookmarkElements, "left");
 
 
+        console.log(statusToken);
         if(statusToken == "stack"){
             if(bookmarkElements.length == 0){
 

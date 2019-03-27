@@ -63,7 +63,7 @@
                                             <span name="user_nick" class="name w-100"></span>
                                                 </div>
                                                 <div class="col-4 w-100">
-                                            <div class="meta w-100"><i class="fa fa-heart" name="likeIcon" style="color: red"></i>0</div>
+                                                    <div class="meta w-100"><i class="fa fa-heart" name="likeIcon" style="color: red"></i><p name="likeCount"></p></div>
                                                 </div>
                                                 </div>
                                             </div>
@@ -94,7 +94,7 @@
 
         let timeChecker = new TimeChecker();
             navbarObj.setType("bg-info");
-            navbarObj.addHeadBlock();
+            navbarObj.addHeadBlock("gray");
         selectDropdown();
         setAutomaticResizeWindow($(".section"));
         $("button[name='bs_searchBtn']").on("click", function(e){
@@ -112,11 +112,9 @@
 
            if(e.keyCode == 13){
 
-
                if(Swal.isVisible()){
 
                    Swal.close();
-
                }else{
 
                    searchAction(true);
@@ -129,11 +127,13 @@
 
         }).on("scroll", function(){
 
-            let isTouched = parseInt($(window).scrollTop()) == $(document).height() - $(window).height();
+            let isTouched = parseInt($(window).scrollTop()) <=  (parseInt($(document).height()) - parseInt($(window).height()) + 1);
+
 
             if(isTouched){
 
                 let flag = timeChecker.validateOverInterval();
+                console.log("flag" + flag);
                 if(flag){
                     searchAction(false);
                 }
@@ -172,12 +172,11 @@
     function searchAction(isFirstRequest) {
 
         if(isEndPage) return;
-
         preLoader.show();
 
+
         if(isFirstRequest){
-
-
+        pageNum = 0;
              key = $("input[name='bs_dropdownSelected']").attr("value");
              keyword = $("input[name='bs_keyword']").val();
 
@@ -199,9 +198,11 @@
         }
 
 
+        pageNum++;
+
         $.ajax({
 
-            type: "GET",
+            type: "get",
             url: "/board/searchAction",
             data: {
 
@@ -211,32 +212,16 @@
 
             },
             success: function (response) {
-
-                if(!response["board"] || response["board"].length == 0 ){
-
+                if(!response){
                     preLoader.hide(2000);
                     return;
-
                 }
-
                 (function(){
 
-                    renderItems(response["board"], isFirstRequest);
-
-                    if(response["count"]/(pageNum*10) > 1){
-                        pageNum++;
-                        isEndPage = false;
-
-                    }else{
-                        isEndPage = true;
-                    }
-
+                    renderItems(response, isFirstRequest);
 
                     return (function(){
-
                         preLoader.hide(2000);
-
-
                     })()
 
                 })();
@@ -244,11 +229,8 @@
 
 
             },
-            error: function (xhs, status, error) {
-
+            error: function (xhs) {
                 preLoader.hide(2000);
-                return;
-
             }
 
         });
@@ -266,7 +248,6 @@
         if(removeField){
             $field.empty();
         }
-
         for (let i = 0; i < items.length; ++i) {
 
             let block = items[i];
@@ -276,25 +257,23 @@
             $dummy.css("display", "block");
             $dummy.css("cursor", "pointer");
             $dummy.find("p[name='bk_title']").html(block.bl_title);
-
-
-
-
+            $dummy.find("p[name='likeCount']").html(block.bl_count);
+            console.log(block);
+            if(block.hasOwnProperty("bl_img"))
+            $dummy.find("img[name='bk_image']").attr("src", block.bl_img);
             $.ajax({
 
                url : "/getUserInfo",
-               data : {profile : null, nick : null, introduce : null, uid : block.bl_writer},
-                type: "GET",
-                success : function(response){
+               data : {profile : true, nick : true, introduce : null, uid : block.bl_writer},
+               type: "get",
+               success : function(response){
 
-                   console.log(JSON.stringify(response));
                     $dummy.find(".author").find(".text").find("span[name='user_nick']").html(response.nick);
                     $dummy.find(".author").find("img[name='user_profile']").attr("src", response.profile);
 
                 },
                 error : function(xhs, status, error){
-
-
+                   console.log(error);
                 }
 
 
